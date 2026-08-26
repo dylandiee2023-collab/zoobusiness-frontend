@@ -1,0 +1,51 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: var(--zb-spacing-2);
+
+  border: none;
+  border-radius: var(--zb-radius-md);
+
+  padding:
+    var(--zb-spacing-3)
+    var(--zb-spacing-4);
+
+  font-weight: var(--zb-typography-fontWeight-semibold);
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.primary {
+  background: var(--zb-colors-primary);
+  color: var(--zb-colors-text);
+}
+
+.secondary {
+  background: var(--zb-colors-surface);
+  color: var(--zb-colors-text);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--zb-colors-primary);
+}
+
+.sm {
+  padding: var(--zb-spacing-2) var(--zb-spacing-3);
+}
+
+.md {
+  padding: var(--zb-spacing-3) var(--zb-spacing-4);
+}
+
+.lg {
+  padding: var(--zb-spacing-4) var(--zb-spacing-5);
+}
+
+.fullWidth {
+  width: 100%;
+}

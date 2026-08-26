@@ -1,0 +1,8 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  background: var(--zb-colors-background);
+  color: var(--zb-colors-text);
+}

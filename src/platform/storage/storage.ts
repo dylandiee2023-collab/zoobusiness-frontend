@@ -1,0 +1,48 @@
+import type {
+  StorageContract,
+} from "@/platform/contracts";
+
+import {
+  StorageEngine,
+} from "./storage-engine";
+
+export class Storage
+  implements StorageContract
+{
+  private readonly engine =
+    new StorageEngine();
+
+  has(
+    key: string,
+  ): boolean {
+    return this.engine.has(key);
+  }
+
+  get<T>(
+    key: string,
+  ): T | null {
+    return this.engine.get<T>(
+      key,
+    );
+  }
+
+  set<T>(
+    key: string,
+    value: T,
+  ): void {
+    this.engine.set(
+      key,
+      value,
+    );
+  }
+
+  remove(
+    key: string,
+  ): void {
+    this.engine.remove(key);
+  }
+
+  clear(): void {
+    this.engine.clear();
+  }
+}

@@ -1,22 +1,12 @@
-import type {
-  DashboardContext,
-} from "./types";
+import type { DashboardContext } from "./types";
 
-export function createContext<T>(
-  initialState: T,
-): DashboardContext<T> {
+export function createContext<T>(initialState: T): DashboardContext<T> {
   let state = initialState;
 
-  const listeners =
-    new Set<
-      (state: T) => void
-    >();
+  const listeners = new Set<(state: T) => void>();
 
   function notify() {
-    listeners.forEach(
-      listener =>
-        listener(state),
-    );
+    listeners.forEach((listener) => listener(state));
   }
 
   return {
@@ -24,34 +14,22 @@ export function createContext<T>(
       return state;
     },
 
-    set(
-      value,
-    ) {
+    set(value) {
       state = value;
       notify();
     },
 
-    update(
-      updater,
-    ) {
-      state = updater(
-        state,
-      );
+    update(updater) {
+      state = updater(state);
 
       notify();
     },
 
-    subscribe(
-      listener,
-    ) {
-      listeners.add(
-        listener,
-      );
+    subscribe(listener) {
+      listeners.add(listener);
 
       return () => {
-        listeners.delete(
-          listener,
-        );
+        listeners.delete(listener);
       };
     },
   };

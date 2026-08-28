@@ -1,14 +1,8 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
-import {
-  contextMenuRecipe,
-} from "./ContextMenu.recipe";
+import { contextMenuRecipe } from "./ContextMenu.recipe";
 
-import type {
-  ContextMenuProps,
-} from "./ContextMenu.types";
+import type { ContextMenuProps } from "./ContextMenu.types";
 
 export function ContextMenu({
   open,
@@ -20,20 +14,15 @@ export function ContextMenu({
   className = "",
   ...props
 }: ContextMenuProps): JSX.Element | null {
-
   if (!open) {
     return null;
   }
 
-  const styles =
-    contextMenuRecipe();
+  const styles = contextMenuRecipe();
 
   return (
     <>
-      <div
-        className={styles.overlay}
-        onClick={onClose}
-      />
+      <div className={styles.overlay} onClick={onClose} />
 
       <div
         className={`${styles.menu} ${className}`}
@@ -43,50 +32,28 @@ export function ContextMenu({
         }}
         {...props}
       >
-        {items.map(
-          (item) => (
-            <button
-              key={item.id}
-              type="button"
-              disabled={
-                item.disabled
-              }
-              className={[
-                styles.item,
-                item.danger
-                  ? styles.danger
-                  : "",
-                item.disabled
-                  ? styles.disabled
-                  : "",
-              ].join(" ")}
-              onClick={() =>
-                onValueChange?.(
-                  item.id,
-                )
-              }
-            >
-              <span
-                className={
-                  styles.left
-                }
-              >
-                {item.icon}
-                {item.label}
-              </span>
+        {items.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            disabled={item.disabled}
+            className={[
+              styles.item,
+              item.danger ? styles.danger : "",
+              item.disabled ? styles.disabled : "",
+            ].join(" ")}
+            onClick={() => onValueChange?.(item.id)}
+          >
+            <span className={styles.left}>
+              {item.icon}
+              {item.label}
+            </span>
 
-              {item.shortcut && (
-                <kbd
-                  className={
-                    styles.shortcut
-                  }
-                >
-                  {item.shortcut}
-                </kbd>
-              )}
-            </button>
-          ),
-        )}
+            {item.shortcut && (
+              <kbd className={styles.shortcut}>{item.shortcut}</kbd>
+            )}
+          </button>
+        ))}
       </div>
     </>
   );

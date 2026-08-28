@@ -1,7 +1,6 @@
 export function ratingRecipe() {
   return {
-    root:
-      "flex items-center gap-1",
+    root: "flex items-center gap-1",
 
     button: [
       "flex",
@@ -13,13 +12,10 @@ export function ratingRecipe() {
       "outline-none",
     ].join(" "),
 
-    active:
-      "text-yellow-400",
+    active: "text-yellow-400",
 
-    inactive:
-      "text-gray-300",
+    inactive: "text-gray-300",
 
-    disabled:
-      "cursor-not-allowed opacity-50",
+    disabled: "cursor-not-allowed opacity-50",
   };
 }

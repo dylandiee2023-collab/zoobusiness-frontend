@@ -1,30 +1,17 @@
 import { BaseRegistry } from "../foundation/registry";
 
-import type {
-  FormInstance,
-} from "./Form.types";
+import type { FormInstance } from "./Form.types";
 
-export class FormRegistry
-  extends BaseRegistry<
-    string,
-    FormInstance
-  >
-{
-  register(
-    form: FormInstance,
-  ): void {
+export class FormRegistry extends BaseRegistry<string, FormInstance> {
+  register(form: FormInstance): void {
     this.set(form.id, form);
   }
 
-  unregister(
-    id: string,
-  ): void {
+  unregister(id: string): void {
     this.delete(id);
   }
 
-  get(
-    id: string,
-  ): FormInstance | undefined {
+  get(id: string): FormInstance | undefined {
     return this.getValue(id);
   }
 
@@ -32,9 +19,7 @@ export class FormRegistry
     return [...this.values()];
   }
 
-  has(
-    id: string,
-  ): boolean {
+  has(id: string): boolean {
     return this.hasValue(id);
   }
 }

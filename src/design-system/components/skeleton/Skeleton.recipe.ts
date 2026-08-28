@@ -10,9 +10,7 @@ export function skeletonRecipe(
     full: "rounded-full",
   };
 
-  return [
-    "bg-gray-200",
-    animated ? "animate-pulse" : "",
-    radius[rounded],
-  ].join(" ");
+  return ["bg-gray-200", animated ? "animate-pulse" : "", radius[rounded]].join(
+    " ",
+  );
 }

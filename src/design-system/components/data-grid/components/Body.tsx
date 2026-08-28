@@ -1,58 +1,31 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
-import {
-  dataGridRecipe,
-} from "../DataGrid.recipe";
+import { dataGridRecipe } from "../DataGrid.recipe";
 
-import type {
-  DataGridColumn,
-} from "../DataGrid.types";
+import type { DataGridColumn } from "../DataGrid.types";
 
-import {
-  Row,
-} from "./Row";
+import { Row } from "./Row";
 
-interface Props<
-  T extends Record<
-    string,
-    unknown
-  >,
-> {
-  columns:
-    DataGridColumn<T>[];
+interface Props<T extends Record<string, unknown>> {
+  columns: DataGridColumn<T>[];
 
   data: T[];
 
   loading: boolean;
 }
 
-export function Body<
-  T extends Record<
-    string,
-    unknown
-  >,
->({
+export function Body<T extends Record<string, unknown>>({
   columns,
   data,
   loading,
 }: Props<T>): JSX.Element {
-  const styles =
-    dataGridRecipe();
+  const styles = dataGridRecipe();
 
   if (loading) {
     return (
       <tbody>
         <tr>
-          <td
-            colSpan={
-              columns.length
-            }
-            className={
-              styles.loading
-            }
-          >
+          <td colSpan={columns.length} className={styles.loading}>
             Loading...
           </td>
         </tr>
@@ -60,20 +33,11 @@ export function Body<
     );
   }
 
-  if (
-    data.length === 0
-  ) {
+  if (data.length === 0) {
     return (
       <tbody>
         <tr>
-          <td
-            colSpan={
-              columns.length
-            }
-            className={
-              styles.empty
-            }
-          >
+          <td colSpan={columns.length} className={styles.empty}>
             No data
           </td>
         </tr>
@@ -82,25 +46,10 @@ export function Body<
   }
 
   return (
-    <tbody
-      className={
-        styles.body
-      }
-    >
-      {data.map(
-        (
-          row,
-          index,
-        ) => (
-          <Row
-            key={index}
-            row={row}
-            columns={
-              columns
-            }
-          />
-        ),
-      )}
+    <tbody className={styles.body}>
+      {data.map((row, index) => (
+        <Row key={index} row={row} columns={columns} />
+      ))}
     </tbody>
   );
 }

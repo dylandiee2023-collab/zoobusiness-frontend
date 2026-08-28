@@ -5,21 +5,8 @@ import { useTheme } from "@/theme/hooks";
 
 import type { AvatarProps } from "./Avatar.types";
 
-export const Avatar = forwardRef<
-  HTMLDivElement,
-  AvatarProps
->(function Avatar(
-  {
-    src,
-    alt,
-    name,
-    icon,
-    size,
-    rounded,
-    className,
-    style,
-    ...props
-  },
+export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
+  { src, alt, name, icon, size, rounded, className, style, ...props },
   ref,
 ) {
   const { theme } = useTheme();

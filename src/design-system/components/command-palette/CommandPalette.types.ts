@@ -1,6 +1,4 @@
-import type {
-  HTMLAttributes,
-} from "react";
+import type { HTMLAttributes } from "react";
 
 export interface CommandItem {
   id: string;
@@ -14,11 +12,10 @@ export interface CommandItem {
   disabled?: boolean;
 }
 
-export interface CommandPaletteProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "onChange"
-  > {
+export interface CommandPaletteProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "onChange"
+> {
   open: boolean;
 
   commands: CommandItem[];
@@ -27,13 +24,9 @@ export interface CommandPaletteProps
 
   placeholder?: string;
 
-  onQueryChange?: (
-    value: string,
-  ) => void;
+  onQueryChange?: (value: string) => void;
 
-  onCommandSelect?: (
-    id: string,
-  ) => void;
+  onCommandSelect?: (id: string) => void;
 
   onClose?: () => void;
 }

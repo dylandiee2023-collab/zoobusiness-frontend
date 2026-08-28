@@ -8,10 +8,7 @@ export function createCssVariables(
 ): Record<string, string> {
   const variables: Record<string, string> = {};
 
-  const walk = (
-    obj: ThemeNode,
-    path: string[] = [],
-  ): void => {
+  const walk = (obj: ThemeNode, path: string[] = []): void => {
     for (const [key, value] of Object.entries(obj)) {
       const currentPath = [...path, key];
 
@@ -22,14 +19,11 @@ export function createCssVariables(
       ) {
         walk(value as ThemeNode, currentPath);
       } else {
-        variables[
-          `${prefix}-${currentPath.join("-")}`
-        ] = String(value);
+        variables[`${prefix}-${currentPath.join("-")}`] = String(value);
       }
     }
   };
 
-  
   walk(theme as unknown as ThemeNode);
 
   return variables;

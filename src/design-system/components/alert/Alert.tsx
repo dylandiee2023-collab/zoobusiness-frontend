@@ -1,14 +1,8 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
-import {
-  alertRecipe,
-} from "./Alert.recipe";
+import { alertRecipe } from "./Alert.recipe";
 
-import type {
-  AlertProps,
-} from "./Alert.types";
+import type { AlertProps } from "./Alert.types";
 
 export function Alert({
   variant = "info",
@@ -20,22 +14,12 @@ export function Alert({
   return (
     <div
       role="alert"
-      className={`${alertRecipe(
-        variant,
-      )} ${className}`}
+      className={`${alertRecipe(variant)} ${className}`}
       {...props}
     >
-      {title && (
-        <div className="mb-2 font-semibold">
-          {title}
-        </div>
-      )}
+      {title && <div className="mb-2 font-semibold">{title}</div>}
 
-      {children && (
-        <div>
-          {children}
-        </div>
-      )}
+      {children && <div>{children}</div>}
     </div>
   );
 }

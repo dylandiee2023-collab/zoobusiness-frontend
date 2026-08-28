@@ -2,8 +2,7 @@ import type { CSSProperties } from "react";
 
 import type { BoxProps } from "../box";
 
-export interface GridProps
-  extends BoxProps {
+export interface GridProps extends BoxProps {
   columns?: CSSProperties["gridTemplateColumns"];
   rows?: CSSProperties["gridTemplateRows"];
   areas?: CSSProperties["gridTemplateAreas"];

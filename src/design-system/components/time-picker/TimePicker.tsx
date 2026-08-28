@@ -1,15 +1,8 @@
-import {
-  useState,
-  type JSX,
-} from "react";
+import { useState, type JSX } from "react";
 
-import {
-  timePickerRecipe,
-} from "./TimePicker.recipe";
+import { timePickerRecipe } from "./TimePicker.recipe";
 
-import type {
-  TimePickerProps,
-} from "./TimePicker.types";
+import type { TimePickerProps } from "./TimePicker.types";
 
 export function TimePicker({
   value,
@@ -19,44 +12,27 @@ export function TimePicker({
   className = "",
   ...props
 }: TimePickerProps): JSX.Element {
+  const styles = timePickerRecipe();
 
-  const styles =
-    timePickerRecipe();
+  const [open, setOpen] = useState(false);
 
-  const [open, setOpen] =
-    useState(false);
+  const hour = value?.hour ?? 0;
 
-  const hour =
-    value?.hour ?? 0;
+  const minute = value?.minute ?? 0;
 
-  const minute =
-    value?.minute ?? 0;
-
-  const display =
-    `${hour.toString().padStart(2, "0")}:${minute
-      .toString()
-      .padStart(2, "0")}`;
+  const display = `${hour.toString().padStart(2, "0")}:${minute
+    .toString()
+    .padStart(2, "0")}`;
 
   return (
-    <div
-      className={`${styles.root} ${className}`}
-      {...props}
-    >
+    <div className={`${styles.root} ${className}`} {...props}>
       <input
         readOnly
         disabled={disabled}
-        value={
-          value
-            ? display
-            : ""
-        }
+        value={value ? display : ""}
         placeholder={placeholder}
         className={styles.input}
-        onClick={() =>
-          setOpen(
-            (state) => !state,
-          )
-        }
+        onClick={() => setOpen((state) => !state)}
       />
 
       {open && (
@@ -66,9 +42,7 @@ export function TimePicker({
             value={hour}
             onChange={(event) =>
               onValueChange?.({
-                hour: Number(
-                  event.target.value,
-                ),
+                hour: Number(event.target.value),
                 minute,
               })
             }
@@ -78,13 +52,8 @@ export function TimePicker({
                 length: 24,
               },
               (_, index) => (
-                <option
-                  key={index}
-                  value={index}
-                >
-                  {index
-                    .toString()
-                    .padStart(2, "0")}
+                <option key={index} value={index}>
+                  {index.toString().padStart(2, "0")}
                 </option>
               ),
             )}
@@ -96,9 +65,7 @@ export function TimePicker({
             onChange={(event) =>
               onValueChange?.({
                 hour,
-                minute: Number(
-                  event.target.value,
-                ),
+                minute: Number(event.target.value),
               })
             }
           >
@@ -107,13 +74,8 @@ export function TimePicker({
                 length: 60,
               },
               (_, index) => (
-                <option
-                  key={index}
-                  value={index}
-                >
-                  {index
-                    .toString()
-                    .padStart(2, "0")}
+                <option key={index} value={index}>
+                  {index.toString().padStart(2, "0")}
                 </option>
               ),
             )}

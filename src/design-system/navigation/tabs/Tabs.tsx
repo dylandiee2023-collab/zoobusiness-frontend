@@ -1,29 +1,13 @@
-import {
-  forwardRef,
-  type KeyboardEvent,
-} from "react";
+import { forwardRef, type KeyboardEvent } from "react";
 
 import { useTheme } from "@/theme/hooks";
 
 import { tabsRecipe } from "./Tabs.recipe";
 
-import type {
-  TabItem,
-  TabsProps,
-} from "./Tabs.types";
+import type { TabItem, TabsProps } from "./Tabs.types";
 
-export const Tabs = forwardRef<
-  HTMLDivElement,
-  TabsProps
->(function Tabs(
-  {
-    value,
-    items,
-    onChange,
-    className,
-    style,
-    ...props
-  },
+export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
+  { value, items, onChange, className, style, ...props },
   ref,
 ) {
   const { theme } = useTheme();
@@ -39,18 +23,12 @@ export const Tabs = forwardRef<
     }),
   });
 
-  const activeIndex = items.findIndex(
-    (item) => item.value === value,
-  );
+  const activeIndex = items.findIndex((item) => item.value === value);
 
   const changeTab = (index: number) => {
     const item = items[index];
 
-    if (
-      item &&
-      !item.disabled &&
-      onChange
-    ) {
+    if (item && !item.disabled && onChange) {
       onChange(item.value);
     }
   };
@@ -62,19 +40,12 @@ export const Tabs = forwardRef<
     switch (event.key) {
       case "ArrowRight":
         event.preventDefault();
-        changeTab(
-          Math.min(
-            index + 1,
-            items.length - 1,
-          ),
-        );
+        changeTab(Math.min(index + 1, items.length - 1));
         break;
 
       case "ArrowLeft":
         event.preventDefault();
-        changeTab(
-          Math.max(index - 1, 0),
-        );
+        changeTab(Math.max(index - 1, 0));
         break;
 
       case "Home":
@@ -84,9 +55,7 @@ export const Tabs = forwardRef<
 
       case "End":
         event.preventDefault();
-        changeTab(
-          items.length - 1,
-        );
+        changeTab(items.length - 1);
         break;
     }
   };
@@ -110,91 +79,59 @@ export const Tabs = forwardRef<
           borderBottom: `1px solid ${theme.colors.border}`,
         }}
       >
-        {items.map(
-          (
-            item: TabItem,
-            index,
-          ) => {
-            const active =
-              item.value === value;
+        {items.map((item: TabItem, index) => {
+          const active = item.value === value;
 
-            return (
-              <button
-                key={item.value}
-                id={`tab-${item.value}`}
-                type="button"
-                role="tab"
-                aria-selected={active}
-                aria-controls={`panel-${item.value}`}
-                tabIndex={
-                  active ? 0 : -1
-                }
-                disabled={
-                  item.disabled
-                }
-                onKeyDown={(
-                  event,
-                ) =>
-                  handleKeyDown(
-                    event,
-                    index,
-                  )
-                }
-                onClick={() =>
-                  changeTab(index)
-                }
-                style={{
-                  display: "flex",
+          return (
+            <button
+              key={item.value}
+              id={`tab-${item.value}`}
+              type="button"
+              role="tab"
+              aria-selected={active}
+              aria-controls={`panel-${item.value}`}
+              tabIndex={active ? 0 : -1}
+              disabled={item.disabled}
+              onKeyDown={(event) => handleKeyDown(event, index)}
+              onClick={() => changeTab(index)}
+              style={{
+                display: "flex",
 
-                  alignItems: "center",
+                alignItems: "center",
 
-                  gap: "8px",
+                gap: "8px",
 
-                  padding:
-                    "10px 16px",
+                padding: "10px 16px",
 
-                  border: "none",
+                border: "none",
 
-                  borderBottom:
-                    active
-                      ? `2px solid ${theme.colors.primary}`
-                      : "2px solid transparent",
+                borderBottom: active
+                  ? `2px solid ${theme.colors.primary}`
+                  : "2px solid transparent",
 
-                  background:
-                    "transparent",
+                background: "transparent",
 
-                  color: active
-                    ? theme.colors.primary
-                    : theme.colors.textSecondary,
+                color: active
+                  ? theme.colors.primary
+                  : theme.colors.textSecondary,
 
-                  cursor:
-                    item.disabled
-                      ? "not-allowed"
-                      : "pointer",
+                cursor: item.disabled ? "not-allowed" : "pointer",
 
-                  opacity:
-                    item.disabled
-                      ? 0.5
-                      : 1,
+                opacity: item.disabled ? 0.5 : 1,
 
-                  fontWeight:
-                    active
-                      ? 600
-                      : 500,
+                fontWeight: active ? 600 : 500,
 
-                  transition:
-                    "all .2s ease",
+                transition: "all .2s ease",
 
-                  outline: "none",
-                }}
-              >
-                {item.icon}
+                outline: "none",
+              }}
+            >
+              {item.icon}
 
-                {item.label}
-              </button>
-            );
-          },
-        )}
+              {item.label}
+            </button>
+          );
+        })}
       </div>
 
       <div

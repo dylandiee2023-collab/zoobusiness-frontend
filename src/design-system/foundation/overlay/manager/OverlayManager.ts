@@ -1,65 +1,43 @@
-import type {
-  OverlayInstance,
-} from "../contracts";
+import type { OverlayInstance } from "../contracts";
 
-import {
-  OverlayRegistry,
-} from "../registry";
+import { OverlayRegistry } from "../registry";
 
 export class OverlayManager {
   private readonly registry: OverlayRegistry;
 
-  constructor(
-    registry: OverlayRegistry,
-  ) {
+  constructor(registry: OverlayRegistry) {
     this.registry = registry;
   }
 
-  register(
-    overlay: OverlayInstance,
-  ): void {
+  register(overlay: OverlayInstance): void {
     this.registry.register(overlay);
   }
 
-  unregister(
-    id: string,
-  ): void {
+  unregister(id: string): void {
     this.registry.unregister(id);
   }
 
-  open(
-    id: string,
-  ): boolean {
+  open(id: string): boolean {
     return this.registry.open(id);
   }
 
-  close(
-    id: string,
-  ): boolean {
+  close(id: string): boolean {
     return this.registry.close(id);
   }
 
-  toggle(
-    id: string,
-  ): boolean {
+  toggle(id: string): boolean {
     return this.registry.toggle(id);
   }
 
-  isOpen(
-    id: string,
-  ): boolean {
+  isOpen(id: string): boolean {
     return this.registry.isOpen(id);
   }
 
-  exists(
-    id: string,
-  ): boolean {
+  exists(id: string): boolean {
     return this.registry.exists(id);
   }
 
-  get(
-    id: string,
-  ): OverlayInstance | undefined {
+  get(id: string): OverlayInstance | undefined {
     return this.registry.get(id);
   }
 

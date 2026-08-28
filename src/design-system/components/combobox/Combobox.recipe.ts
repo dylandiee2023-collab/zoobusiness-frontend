@@ -1,7 +1,6 @@
 export function comboboxRecipe() {
   return {
-    root:
-      "relative w-full",
+    root: "relative w-full",
 
     input: [
       "w-full",
@@ -33,13 +32,10 @@ export function comboboxRecipe() {
       "shadow-lg",
     ].join(" "),
 
-    item:
-      "cursor-pointer px-4 py-2 hover:bg-blue-50",
+    item: "cursor-pointer px-4 py-2 hover:bg-blue-50",
 
-    selected:
-      "bg-blue-600 text-white",
+    selected: "bg-blue-600 text-white",
 
-    disabled:
-      "cursor-not-allowed opacity-50",
+    disabled: "cursor-not-allowed opacity-50",
   };
 }

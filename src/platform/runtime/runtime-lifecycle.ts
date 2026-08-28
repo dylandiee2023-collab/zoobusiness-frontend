@@ -12,10 +12,7 @@ export class RuntimeLifecycle {
   }
 
   canStart(): boolean {
-    return (
-      this.state.is("initialized") ||
-      this.state.is("stopped")
-    );
+    return this.state.is("initialized") || this.state.is("stopped");
   }
 
   canStop(): boolean {

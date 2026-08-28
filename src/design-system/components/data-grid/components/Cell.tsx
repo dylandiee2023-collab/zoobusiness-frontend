@@ -1,59 +1,26 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
-import {
-  dataGridRecipe,
-} from "../DataGrid.recipe";
+import { dataGridRecipe } from "../DataGrid.recipe";
 
-import type {
-  DataGridColumn,
-} from "../DataGrid.types";
+import type { DataGridColumn } from "../DataGrid.types";
 
-interface Props<
-  T extends Record<
-    string,
-    unknown
-  >,
-> {
+interface Props<T extends Record<string, unknown>> {
   row: T;
 
-  column:
-    DataGridColumn<T>;
+  column: DataGridColumn<T>;
 }
 
-export function Cell<
-  T extends Record<
-    string,
-    unknown
-  >,
->({
+export function Cell<T extends Record<string, unknown>>({
   row,
   column,
 }: Props<T>): JSX.Element {
-  const styles =
-    dataGridRecipe();
+  const styles = dataGridRecipe();
 
-  const value =
-    row[
-      column.field
-    ];
+  const value = row[column.field];
 
   return (
-    <td
-      className={
-        styles.cell
-      }
-    >
-      {column.render
-        ? column.render(
-            value,
-            row,
-          )
-        : String(
-            value ??
-              "",
-          )}
+    <td className={styles.cell}>
+      {column.render ? column.render(value, row) : String(value ?? "")}
     </td>
   );
 }

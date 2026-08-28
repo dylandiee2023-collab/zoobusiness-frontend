@@ -1,10 +1,6 @@
-import type {
-  DashboardProvider,
-} from "./types";
+import type { DashboardProvider } from "./types";
 
-export function createProvider<T>(
-  initialValue: T,
-): DashboardProvider<T> {
+export function createProvider<T>(initialValue: T): DashboardProvider<T> {
   let state = initialValue;
 
   return {
@@ -12,18 +8,12 @@ export function createProvider<T>(
       return state;
     },
 
-    set(
-      value,
-    ) {
+    set(value) {
       state = value;
     },
 
-    update(
-      updater,
-    ) {
-      state = updater(
-        state,
-      );
+    update(updater) {
+      state = updater(state);
     },
 
     reset() {

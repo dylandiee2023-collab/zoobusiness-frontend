@@ -1,12 +1,9 @@
-import type {
-  HTMLAttributes,
-} from "react";
+import type { HTMLAttributes } from "react";
 
-export interface OtpInputProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "onChange"
-  > {
+export interface OtpInputProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "onChange"
+> {
   length?: number | undefined;
 
   value?: string | undefined;
@@ -17,7 +14,5 @@ export interface OtpInputProps
 
   mask?: boolean | undefined;
 
-  onValueChange?: (
-    value: string,
-  ) => void;
+  onValueChange?: (value: string) => void;
 }

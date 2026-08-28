@@ -1,14 +1,7 @@
-import type {
-  SlotMap,
-  SlotStyle,
-} from "./types";
+import type { SlotMap, SlotStyle } from "./types";
 
-export function createSlots(
-  slots: SlotMap,
-) {
-  return (
-    slot: keyof typeof slots,
-  ): SlotStyle => {
+export function createSlots(slots: SlotMap) {
+  return (slot: keyof typeof slots): SlotStyle => {
     return slots[slot] ?? {};
   };
 }

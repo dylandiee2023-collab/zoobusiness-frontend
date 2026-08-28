@@ -16,10 +16,7 @@ export class BootstrapLifecycle {
   }
 
   canStart(): boolean {
-    return (
-      this.state.is("bootstrapped") ||
-      this.state.is("stopped")
-    );
+    return this.state.is("bootstrapped") || this.state.is("stopped");
   }
 
   canStop(): boolean {

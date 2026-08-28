@@ -7,23 +7,13 @@ import { inlineRecipe } from "./Inline.recipe";
 
 import type { InlineProps } from "./Inline.types";
 
-export const Inline = forwardRef<
-  HTMLDivElement,
-  InlineProps
->(function Inline(
-  {
-    style,
-    children,
-    ...props
-  },
+export const Inline = forwardRef<HTMLDivElement, InlineProps>(function Inline(
+  { style, children, ...props },
   ref,
 ) {
   const { theme } = useTheme();
 
-  const recipe = inlineRecipe(
-    theme,
-    props,
-  );
+  const recipe = inlineRecipe(theme, props);
 
   return (
     <Box

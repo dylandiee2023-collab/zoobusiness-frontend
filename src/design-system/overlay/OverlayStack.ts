@@ -8,9 +8,7 @@ export class OverlayStack {
   }
 
   remove(id: string): void {
-    const index = this.items.findIndex(
-      (overlay) => overlay.id === id,
-    );
+    const index = this.items.findIndex((overlay) => overlay.id === id);
 
     if (index === -1) {
       return;

@@ -1,6 +1,4 @@
-export function avatarRecipe(
-  size: "sm" | "md" | "lg" | "xl" = "md",
-): string {
+export function avatarRecipe(size: "sm" | "md" | "lg" | "xl" = "md"): string {
   const sizes = {
     sm: "w-8 h-8 text-xs",
 

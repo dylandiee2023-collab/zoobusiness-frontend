@@ -5,5 +5,4 @@ export interface TypographyScale {
   lineHeight: number;
 }
 
-export type ResponsiveTypography =
-  Record<Breakpoint, TypographyScale>;
+export type ResponsiveTypography = Record<Breakpoint, TypographyScale>;

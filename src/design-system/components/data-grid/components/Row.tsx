@@ -1,71 +1,30 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
-import {
-  dataGridRecipe,
-} from "../DataGrid.recipe";
+import { dataGridRecipe } from "../DataGrid.recipe";
 
-import type {
-  DataGridColumn,
-} from "../DataGrid.types";
+import type { DataGridColumn } from "../DataGrid.types";
 
-import {
-  Cell,
-} from "./Cell";
+import { Cell } from "./Cell";
 
-interface Props<
-  T extends Record<
-    string,
-    unknown
-  >,
-> {
+interface Props<T extends Record<string, unknown>> {
   row: T;
 
-  columns:
-    DataGridColumn<T>[];
+  columns: DataGridColumn<T>[];
 }
 
-export function Row<
-  T extends Record<
-    string,
-    unknown
-  >,
->({
+export function Row<T extends Record<string, unknown>>({
   row,
   columns,
 }: Props<T>): JSX.Element {
-  const styles =
-    dataGridRecipe();
+  const styles = dataGridRecipe();
 
   return (
-    <tr
-      className={
-        styles.row
-      }
-    >
+    <tr className={styles.row}>
       {columns
-        .filter(
-          (
-            column,
-          ) =>
-            !column.hidden,
-        )
-        .map(
-          (
-            column,
-          ) => (
-            <Cell
-              key={
-                column.id
-              }
-              row={row}
-              column={
-                column
-              }
-            />
-          ),
-        )}
+        .filter((column) => !column.hidden)
+        .map((column) => (
+          <Cell key={column.id} row={row} column={column} />
+        ))}
     </tr>
   );
 }

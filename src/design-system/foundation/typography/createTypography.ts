@@ -1,9 +1,6 @@
 import type { Theme } from "@/theme/types";
 
-import type {
-  TypographyOptions,
-  TypographyVariant,
-} from "./types";
+import type { TypographyOptions, TypographyVariant } from "./types";
 
 export interface TypographyState {
   variant: TypographyVariant;
@@ -27,20 +24,16 @@ export function createTypography(
   theme: Theme,
   options: TypographyOptions = {},
 ): TypographyState {
-  const variant =
-    options.variant ?? "body";
+  const variant = options.variant ?? "body";
 
-  const token =
-    theme.typography[variant];
+  const token = theme.typography[variant];
 
   return {
     variant,
 
-    truncate:
-      options.truncate ?? false,
+    truncate: options.truncate ?? false,
 
-    noWrap:
-      options.noWrap ?? false,
+    noWrap: options.noWrap ?? false,
 
     fontFamily: token.fontFamily,
 

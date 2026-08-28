@@ -5,15 +5,11 @@ import { OverlayContext } from "../context";
 import { OverlayRegistry } from "../registry";
 import { OverlayManager } from "../manager";
 
-export function OverlayProvider({
-  children,
-}: PropsWithChildren) {
+export function OverlayProvider({ children }: PropsWithChildren) {
   const value = useMemo(() => {
     const registry = new OverlayRegistry();
 
-    const manager = new OverlayManager(
-      registry,
-    );
+    const manager = new OverlayManager(registry);
 
     return {
       manager,
@@ -21,10 +17,6 @@ export function OverlayProvider({
   }, []);
 
   return (
-    <OverlayContext.Provider
-      value={value}
-    >
-      {children}
-    </OverlayContext.Provider>
+    <OverlayContext.Provider value={value}>{children}</OverlayContext.Provider>
   );
 }

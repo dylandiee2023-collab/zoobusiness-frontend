@@ -6,18 +6,8 @@ import { cardRecipe } from "./Card.recipe";
 
 import type { CardProps } from "./Card.types";
 
-export const Card = forwardRef<
-  HTMLDivElement,
-  CardProps
->(function Card(
-  {
-    variant,
-    fullWidth,
-    className,
-    style,
-    children,
-    ...props
-  },
+export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
+  { variant, fullWidth, className, style, children, ...props },
   ref,
 ) {
   const { theme } = useTheme();

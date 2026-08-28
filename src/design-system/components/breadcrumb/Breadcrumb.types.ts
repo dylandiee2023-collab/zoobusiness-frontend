@@ -1,7 +1,4 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
 export interface BreadcrumbItem {
   label: ReactNode;
@@ -11,11 +8,10 @@ export interface BreadcrumbItem {
   active?: boolean;
 }
 
-export interface BreadcrumbProps
-  extends Omit<
-    HTMLAttributes<HTMLElement>,
-    "children"
-  > {
+export interface BreadcrumbProps extends Omit<
+  HTMLAttributes<HTMLElement>,
+  "children"
+> {
   items: BreadcrumbItem[];
 
   separator?: ReactNode;

@@ -13,19 +13,11 @@ export class StorageEngine {
     return JSON.parse(value) as T;
   }
 
-  set<T>(
-    key: string,
-    value: T,
-  ): void {
-    localStorage.setItem(
-      key,
-      JSON.stringify(value),
-    );
+  set<T>(key: string, value: T): void {
+    localStorage.setItem(key, JSON.stringify(value));
   }
 
-  remove(
-    key: string,
-  ): void {
+  remove(key: string): void {
     localStorage.removeItem(key);
   }
 

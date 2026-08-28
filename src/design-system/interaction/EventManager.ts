@@ -5,10 +5,7 @@ import type {
   InteractionManager,
 } from "./Interaction.types";
 
-export class EventManager
-  extends BaseManager
-  implements InteractionManager
-{
+export class EventManager extends BaseManager implements InteractionManager {
   dispatch<TEvent extends Event>(
     event: TEvent,
     handler: InteractionHandler<TEvent>,

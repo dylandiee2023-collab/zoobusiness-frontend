@@ -1,46 +1,20 @@
-import {
-  createElement,
-  forwardRef,
-} from "react";
+import { createElement, forwardRef } from "react";
 
-import {
-  Box,
-} from "@/design-system/layout/box";
+import { Box } from "@/design-system/layout/box";
 
-import {
-  useTheme,
-} from "@/theme/hooks";
+import { useTheme } from "@/theme/hooks";
 
-import {
-  labelRecipe,
-} from "./Label.recipe";
+import { labelRecipe } from "./Label.recipe";
 
-import type {
-  LabelProps,
-} from "./Label.types";
+import type { LabelProps } from "./Label.types";
 
-export const Label = forwardRef<
-  HTMLDivElement,
-  LabelProps
->(function Label(
-  {
-    as = "label",
-    required = false,
-    style,
-    children,
-    ...props
-  },
+export const Label = forwardRef<HTMLDivElement, LabelProps>(function Label(
+  { as = "label", required = false, style, children, ...props },
   ref,
 ) {
+  const { theme } = useTheme();
 
-  const { theme } =
-    useTheme();
-
-  const recipe =
-    labelRecipe(
-      theme,
-      props,
-    );
+  const recipe = labelRecipe(theme, props);
 
   return (
     <Box

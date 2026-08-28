@@ -1,12 +1,9 @@
-import type {
-  HTMLAttributes,
-} from "react";
+import type { HTMLAttributes } from "react";
 
-export interface DatePickerProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "onChange"
-  > {
+export interface DatePickerProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "onChange"
+> {
   value?: Date;
 
   placeholder?: string;
@@ -17,7 +14,5 @@ export interface DatePickerProps
 
   maxDate?: Date;
 
-  onValueChange?: (
-    date: Date,
-  ) => void;
+  onValueChange?: (date: Date) => void;
 }

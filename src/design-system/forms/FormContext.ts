@@ -1,12 +1,5 @@
-import {
-  createContext,
-} from "react";
+import { createContext } from "react";
 
-import type {
-  FormFieldContextValue,
-} from "./Form.types";
+import type { FormFieldContextValue } from "./Form.types";
 
-export const FormContext =
-  createContext<FormFieldContextValue | null>(
-    null,
-  );
+export const FormContext = createContext<FormFieldContextValue | null>(null);

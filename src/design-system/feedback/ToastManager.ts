@@ -1,9 +1,5 @@
 import { BaseManager } from "../foundation/managers";
 
-import type {
-  FeedbackManager,
-} from "./Feedback.types";
+import type { FeedbackManager } from "./Feedback.types";
 
-export class ToastManager
-  extends BaseManager
-  implements FeedbackManager {}
+export class ToastManager extends BaseManager implements FeedbackManager {}

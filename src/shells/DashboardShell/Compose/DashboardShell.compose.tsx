@@ -4,7 +4,7 @@ import { DASHBOARD_SHELL_COMPOSE_STYLE } from "./DashboardShell.compose.styles";
 export function DashboardShellCompose({
   topbar,
   sidebar,
- content,
+  content,
   footer,
 }: DashboardShellComposeProps) {
   return (

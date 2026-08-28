@@ -5,19 +5,8 @@ import { useTheme } from "@/theme/hooks";
 
 import type { BadgeProps } from "./Badge.types";
 
-export const Badge = forwardRef<
-  HTMLSpanElement,
-  BadgeProps
->(function Badge(
-  {
-    variant,
-    size,
-    rounded,
-    className,
-    style,
-    children,
-    ...props
-  },
+export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
+  { variant, size, rounded, className, style, children, ...props },
   ref,
 ) {
   const { theme } = useTheme();

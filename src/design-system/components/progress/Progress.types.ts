@@ -1,12 +1,9 @@
-import type {
-  HTMLAttributes,
-} from "react";
+import type { HTMLAttributes } from "react";
 
-export interface ProgressProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "children"
-  > {
+export interface ProgressProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "children"
+> {
   value: number;
 
   max?: number;

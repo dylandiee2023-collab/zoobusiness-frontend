@@ -1,6 +1,1 @@
-export type Variant =
-  | "solid"
-  | "outline"
-  | "ghost"
-  | "soft"
-  | "link";
+export type Variant = "solid" | "outline" | "ghost" | "soft" | "link";

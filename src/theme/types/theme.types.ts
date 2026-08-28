@@ -16,19 +16,15 @@ import type {
   semanticZIndex,
 } from "@/theme/tokens/semantic";
 
-export type ThemeMode =
-  | "system"
-  | "light"
-  | "dark"
-  | "glass"
-  | "high-contrast";
+export type ThemeMode = "system" | "light" | "dark" | "glass" | "high-contrast";
 
 export type ThemeProviderProps = PropsWithChildren;
 
 /**
  * Shared semantic token types
  */
-export type SemanticColors = typeof semanticColors.light | typeof semanticColors.dark;
+export type SemanticColors =
+  typeof semanticColors.light | typeof semanticColors.dark;
 export type SemanticSpacing = typeof semanticSpacing;
 export type SemanticRadius = typeof semanticRadius;
 export type SemanticTypography = typeof semanticTypography;

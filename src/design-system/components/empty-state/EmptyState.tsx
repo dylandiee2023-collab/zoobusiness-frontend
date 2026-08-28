@@ -17,34 +17,16 @@ export function EmptyState({
   const styles = emptyStateRecipe();
 
   return (
-    <div
-      className={`${styles.root} ${className}`}
-      {...props}
-    >
-      {icon && (
-        <div className={styles.icon}>
-          {icon}
-        </div>
-      )}
+    <div className={`${styles.root} ${className}`} {...props}>
+      {icon && <div className={styles.icon}>{icon}</div>}
 
-      <Heading
-        as="h3"
-        className={styles.heading}
-      >
+      <Heading as="h3" className={styles.heading}>
         {heading}
       </Heading>
 
-      {description && (
-        <p className={styles.description}>
-          {description}
-        </p>
-      )}
+      {description && <p className={styles.description}>{description}</p>}
 
-      {action && (
-        <div className={styles.action}>
-          {action}
-        </div>
-      )}
+      {action && <div className={styles.action}>{action}</div>}
     </div>
   );
 }

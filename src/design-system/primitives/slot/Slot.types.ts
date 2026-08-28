@@ -1,9 +1,5 @@
-import type {
-  HTMLAttributes,
-  ReactElement,
-} from "react";
+import type { HTMLAttributes, ReactElement } from "react";
 
-export interface SlotProps
-  extends HTMLAttributes<HTMLElement> {
+export interface SlotProps extends HTMLAttributes<HTMLElement> {
   children: ReactElement;
 }

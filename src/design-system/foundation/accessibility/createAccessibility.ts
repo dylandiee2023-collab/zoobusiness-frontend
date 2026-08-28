@@ -23,14 +23,11 @@ export function createAccessibility(
   return {
     aria: createAria(options),
 
-
     focusRing:
       options.focusOffset === undefined
         ? createFocusRing(theme)
         : createFocusRing(theme, {
             offset: options.focusOffset,
           }),
-
-    
   };
 }

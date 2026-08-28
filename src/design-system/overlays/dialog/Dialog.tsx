@@ -4,33 +4,19 @@ import { useTheme } from "@/theme/hooks";
 
 import { dialogRecipe } from "./Dialog.recipe";
 
-import type {
-  DialogProps,
-} from "./Dialog.types";
+import type { DialogProps } from "./Dialog.types";
 
-export const Dialog = forwardRef<
-  HTMLDivElement,
-  DialogProps
->(function Dialog(
-  {
-    open,
-    className,
-    style,
-    children,
-    ...props
-  },
+export const Dialog = forwardRef<HTMLDivElement, DialogProps>(function Dialog(
+  { open, className, style, children, ...props },
   ref,
 ) {
   const { theme } = useTheme();
 
-  const recipe = dialogRecipe(
-    theme,
-    {
-      open,
-      children,
-      ...props,
-    },
-  );
+  const recipe = dialogRecipe(theme, {
+    open,
+    children,
+    ...props,
+  });
 
   return (
     <div
@@ -49,5 +35,4 @@ export const Dialog = forwardRef<
   );
 });
 
-Dialog.displayName =
-  "Dialog";
+Dialog.displayName = "Dialog";

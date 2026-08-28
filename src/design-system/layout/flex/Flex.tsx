@@ -8,23 +8,13 @@ import { useTheme } from "@/theme/hooks";
 
 import type { FlexProps } from "./Flex.types";
 
-export const Flex = forwardRef<
-  HTMLDivElement,
-  FlexProps
->(function Flex(
-  {
-    style,
-    children,
-    ...props
-  },
+export const Flex = forwardRef<HTMLDivElement, FlexProps>(function Flex(
+  { style, children, ...props },
   ref,
 ) {
   const { theme } = useTheme();
 
-  const recipe = flexRecipe(
-    theme,
-    props,
-  );
+  const recipe = flexRecipe(theme, props);
 
   return (
     <Box

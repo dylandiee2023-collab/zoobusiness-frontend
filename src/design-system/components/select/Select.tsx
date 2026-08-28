@@ -1,14 +1,8 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
-import {
-  selectRecipe,
-} from "./Select.recipe";
+import { selectRecipe } from "./Select.recipe";
 
-import type {
-  SelectProps,
-} from "./Select.types";
+import type { SelectProps } from "./Select.types";
 
 export function Select({
   options,
@@ -18,13 +12,7 @@ export function Select({
   ...props
 }: SelectProps): JSX.Element {
   return (
-    <select
-      className={`${selectRecipe(
-        size,
-        error,
-      )} ${className}`}
-      {...props}
-    >
+    <select className={`${selectRecipe(size, error)} ${className}`} {...props}>
       {options.map((option) => (
         <option
           key={option.value}

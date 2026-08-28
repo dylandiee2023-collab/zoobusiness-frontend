@@ -1,6 +1,4 @@
-export interface InteractionHandler<
-  TEvent extends Event = Event,
-> {
+export interface InteractionHandler<TEvent extends Event = Event> {
   (event: TEvent): void;
 }
 

@@ -12,13 +12,9 @@ export const textRecipe = createRecipe<TextProps>({
       style: {
         ...base.style,
 
-        fontSize:
-          props.size ??
-          theme.typography.body.fontSize,
+        fontSize: props.size ?? theme.typography.body.fontSize,
 
-        fontWeight:
-          props.weight ??
-          theme.typography.body.fontWeight,
+        fontWeight: props.weight ?? theme.typography.body.fontWeight,
       },
     };
   },

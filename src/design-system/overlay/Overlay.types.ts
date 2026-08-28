@@ -1,9 +1,4 @@
-export type OverlayType =
-  | "dialog"
-  | "drawer"
-  | "popover"
-  | "tooltip"
-  | "toast";
+export type OverlayType = "dialog" | "drawer" | "popover" | "tooltip" | "toast";
 
 export interface OverlayItem {
   id: string;

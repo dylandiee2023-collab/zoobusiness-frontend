@@ -6,9 +6,7 @@ export class DownloadError extends Error {
   }
 }
 
-export class DownloadFailedError
-  extends DownloadError
-{
+export class DownloadFailedError extends DownloadError {
   constructor() {
     super("Download failed.");
   }

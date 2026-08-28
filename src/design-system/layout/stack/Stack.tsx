@@ -7,23 +7,13 @@ import { stackRecipe } from "./Stack.recipe";
 
 import type { StackProps } from "./Stack.types";
 
-export const Stack = forwardRef<
-  HTMLDivElement,
-  StackProps
->(function Stack(
-  {
-    style,
-    children,
-    ...props
-  },
+export const Stack = forwardRef<HTMLDivElement, StackProps>(function Stack(
+  { style, children, ...props },
   ref,
 ) {
   const { theme } = useTheme();
 
-  const recipe = stackRecipe(
-    theme,
-    props,
-  );
+  const recipe = stackRecipe(theme, props);
 
   return (
     <Box

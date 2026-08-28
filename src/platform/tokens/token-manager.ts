@@ -1,33 +1,19 @@
-import type {
-  TokenManagerContract,
-} from "@/platform/contracts";
+import type { TokenManagerContract } from "@/platform/contracts";
 
 import { TokenStorage } from "./token-storage";
 
-export class TokenManager
-  implements TokenManagerContract
-{
-  private readonly storage =
-    new TokenStorage();
+export class TokenManager implements TokenManagerContract {
+  private readonly storage = new TokenStorage();
 
   getAccessToken(): string | null {
-    return (
-      this.storage.get()
-        ?.accessToken ?? null
-    );
+    return this.storage.get()?.accessToken ?? null;
   }
 
   getRefreshToken(): string | null {
-    return (
-      this.storage.get()
-        ?.refreshToken ?? null
-    );
+    return this.storage.get()?.refreshToken ?? null;
   }
 
-  setTokens(
-    accessToken: string,
-    refreshToken: string,
-  ): void {
+  setTokens(accessToken: string, refreshToken: string): void {
     this.storage.set({
       accessToken,
       refreshToken,

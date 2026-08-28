@@ -1,6 +1,4 @@
-import type {
-  Breakpoint,
-} from "./types";
+import type { Breakpoint } from "./types";
 
 export const breakpointOrder = [
   "mobile",

@@ -1,6 +1,4 @@
-import type {
-  ContainerMap,
-} from "./types";
+import type { ContainerMap } from "./types";
 
 export const containers: ContainerMap = {
   mobile: {

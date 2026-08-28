@@ -1,39 +1,23 @@
-import type {
-  DownloadContract,
-} from "@/platform/contracts";
+import type { DownloadContract } from "@/platform/contracts";
 
-export class Download
-  implements DownloadContract
-{
-  async download(
-    url: string,
-    filename?: string,
-  ): Promise<void> {
-
-    const link =
-      document.createElement("a");
+export class Download implements DownloadContract {
+  async download(url: string, filename?: string): Promise<void> {
+    const link = document.createElement("a");
 
     link.href = url;
 
     if (filename !== undefined) {
-      link.download =
-        filename;
+      link.download = filename;
     }
 
-    document.body.appendChild(
-      link,
-    );
+    document.body.appendChild(link);
 
     link.click();
 
-    document.body.removeChild(
-      link,
-    );
+    document.body.removeChild(link);
   }
 
-  cancel(
-    id: string,
-  ): void {
+  cancel(id: string): void {
     void id;
 
     // TODO:

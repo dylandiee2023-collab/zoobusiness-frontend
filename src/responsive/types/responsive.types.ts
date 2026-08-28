@@ -1,9 +1,4 @@
-export type DeviceType =
-  | "mobile"
-  | "tablet"
-  | "laptop"
-  | "desktop"
-  | "wide";
+export type DeviceType = "mobile" | "tablet" | "laptop" | "desktop" | "wide";
 
 export type Orientation = "portrait" | "landscape";
 

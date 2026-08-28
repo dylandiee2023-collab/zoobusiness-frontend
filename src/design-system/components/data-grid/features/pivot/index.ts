@@ -5,12 +5,9 @@ export interface PivotField {
 }
 
 export interface PivotConfig {
-  rows:
-    PivotField[];
+  rows: PivotField[];
 
-  columns:
-    PivotField[];
+  columns: PivotField[];
 
-  values:
-    PivotField[];
+  values: PivotField[];
 }

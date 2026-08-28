@@ -1,6 +1,4 @@
-import type {
-  Recipe,
-} from "@/design-system/foundation/contracts";
+import type { Recipe } from "@/design-system/foundation/contracts";
 
 export const boxRecipe: Recipe = () => ({
   style: {

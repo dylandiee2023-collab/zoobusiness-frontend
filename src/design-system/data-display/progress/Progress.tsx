@@ -6,100 +6,93 @@ import { progressRecipe } from "./Progress.recipe";
 
 import type { ProgressProps } from "./Progress.types";
 
-export const Progress = forwardRef<
-  HTMLDivElement,
-  ProgressProps
->(function Progress(
-  {
-    value,
-    max,
-    size,
-    rounded,
-    striped,
-    animated,
-    color,
-    className,
-    style,
-    ...props
-  },
-  ref,
-) {
-  const { theme } = useTheme();
-
-  const recipe = progressRecipe(theme, {
-    value,
-
-    ...props,
-
-    ...(max !== undefined && {
+export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
+  function Progress(
+    {
+      value,
       max,
-    }),
-
-    ...(size !== undefined && {
       size,
-    }),
-
-    ...(rounded !== undefined && {
       rounded,
-    }),
-
-    ...(striped !== undefined && {
       striped,
-    }),
-
-    ...(animated !== undefined && {
       animated,
-    }),
-
-    ...(color !== undefined && {
       color,
-    }),
-  });
+      className,
+      style,
+      ...props
+    },
+    ref,
+  ) {
+    const { theme } = useTheme();
 
-  return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-  ...recipe.style,
-  ...style,
-}}
-     
-      {...props}
-    >
+    const recipe = progressRecipe(theme, {
+      value,
+
+      ...props,
+
+      ...(max !== undefined && {
+        max,
+      }),
+
+      ...(size !== undefined && {
+        size,
+      }),
+
+      ...(rounded !== undefined && {
+        rounded,
+      }),
+
+      ...(striped !== undefined && {
+        striped,
+      }),
+
+      ...(animated !== undefined && {
+        animated,
+      }),
+
+      ...(color !== undefined && {
+        color,
+      }),
+    });
+
+    return (
       <div
-  style={{
-    height: "100%",
+        ref={ref}
+        className={className}
+        style={{
+          ...recipe.style,
+          ...style,
+        }}
 
-    width: `${Math.min(
-      100,
-      Math.max(
-        0,
-        (value / (max ?? 100)) * 100,
-      ),
-    )}%`,
+        {...props}
+      >
+        <div
+          style={{
+            height: "100%",
 
-    background:
-      color ?? theme.colors.primary,
+            width: `${Math.min(
+              100,
+              Math.max(0, (value / (max ?? 100)) * 100),
+            )}%`,
 
-    transition: "width 200ms ease",
+            background: color ?? theme.colors.primary,
 
-    ...(striped && {
-      backgroundImage:
-        "linear-gradient(45deg, rgba(255,255,255,.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.15) 75%, transparent 75%, transparent)",
+            transition: "width 200ms ease",
 
-      backgroundSize: "1rem 1rem",
-    }),
+            ...(striped && {
+              backgroundImage:
+                "linear-gradient(45deg, rgba(255,255,255,.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.15) 75%, transparent 75%, transparent)",
 
-    ...(animated && {
-      animation:
-        "progress-stripes 1s linear infinite",
-    }),
-  }}
-/>
-    </div>
-  );
-});
+              backgroundSize: "1rem 1rem",
+            }),
 
-Progress.displayName =
-  "Progress";
+            ...(animated && {
+              animation: "progress-stripes 1s linear infinite",
+            }),
+          }}
+        />
+      </div>
+    );
+  },
+);
+
+Progress.displayName = "Progress";

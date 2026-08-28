@@ -1,15 +1,8 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
-export type StatTrend =
-  | "up"
-  | "down"
-  | "neutral";
+export type StatTrend = "up" | "down" | "neutral";
 
-export interface StatProps
-  extends HTMLAttributes<HTMLDivElement> {
+export interface StatProps extends HTMLAttributes<HTMLDivElement> {
   label: ReactNode;
 
   value: ReactNode;

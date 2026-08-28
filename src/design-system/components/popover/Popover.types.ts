@@ -1,22 +1,14 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
-export interface PopoverProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "content"
-  > {
+export interface PopoverProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "content"
+> {
   trigger: ReactNode;
 
   content: ReactNode;
 
   open?: boolean;
 
-  placement?:
-    | "top"
-    | "bottom"
-    | "left"
-    | "right";
+  placement?: "top" | "bottom" | "left" | "right";
 }

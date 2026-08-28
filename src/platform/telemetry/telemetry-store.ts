@@ -1,14 +1,9 @@
-import type {
-  TelemetryEvent,
-} from "./telemetry-event";
+import type { TelemetryEvent } from "./telemetry-event";
 
 export class TelemetryStore {
-  private readonly events: TelemetryEvent[] =
-    [];
+  private readonly events: TelemetryEvent[] = [];
 
-  add(
-    event: TelemetryEvent,
-  ): void {
+  add(event: TelemetryEvent): void {
     this.events.push(event);
   }
 

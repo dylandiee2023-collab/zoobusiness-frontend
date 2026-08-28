@@ -3,9 +3,7 @@ export interface RowMenuItem {
 
   label: string;
 
-  danger?:
-    | boolean
-    | undefined;
+  danger?: boolean | undefined;
 }
 
 export function createRowMenu(): RowMenuItem[] {
@@ -20,8 +18,7 @@ export function createRowMenu(): RowMenuItem[] {
     },
     {
       id: "duplicate",
-      label:
-        "Duplicate",
+      label: "Duplicate",
     },
     {
       id: "delete",

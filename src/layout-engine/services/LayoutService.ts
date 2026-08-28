@@ -15,13 +15,9 @@ export class LayoutService {
 
       hasSidebar: layout === "dashboard" || layout === "marketplace",
 
-      hasTopbar:
-        layout !== "blank" &&
-        layout !== "error",
+      hasTopbar: layout !== "blank" && layout !== "error",
 
-      hasFooter:
-        layout === "public" ||
-        layout === "auth",
+      hasFooter: layout === "public" || layout === "auth",
 
       fullScreen: layout === "pos",
 
@@ -29,9 +25,7 @@ export class LayoutService {
     };
   }
 
-  private static resolveDimensions(
-    layout: LayoutType
-  ): LayoutDimensions {
+  private static resolveDimensions(layout: LayoutType): LayoutDimensions {
     switch (layout) {
       case "pos":
         return {

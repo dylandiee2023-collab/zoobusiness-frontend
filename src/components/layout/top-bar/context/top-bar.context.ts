@@ -1,12 +1,5 @@
-import {
-  createContext,
-} from "react";
+import { createContext } from "react";
 
-import type {
-  TopBarContract,
-} from "../contracts";
+import type { TopBarContract } from "../contracts";
 
-export const TopBarContext =
-  createContext<
-    TopBarContract | null
-  >(null);
+export const TopBarContext = createContext<TopBarContract | null>(null);

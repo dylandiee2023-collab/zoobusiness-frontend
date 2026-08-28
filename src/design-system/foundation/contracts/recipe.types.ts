@@ -7,9 +7,7 @@ export interface RecipeResult {
   style: StyleObject;
 }
 
-export type Recipe<
-  Props extends object = Record<string, never>
-> = (
+export type Recipe<Props extends object = Record<string, never>> = (
   theme: Theme,
   props: Props,
 ) => RecipeResult;

@@ -1,6 +1,4 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
 import { buttonRecipe } from "./Button.recipe";
 import type { ButtonProps } from "./Button.types";
@@ -16,10 +14,7 @@ export function Button({
 }: ButtonProps): JSX.Element {
   return (
     <button
-      className={`${buttonRecipe(
-        variant,
-        size,
-      )} ${className}`}
+      className={`${buttonRecipe(variant, size)} ${className}`}
       disabled={disabled || loading}
       {...props}
     >

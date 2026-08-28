@@ -6,12 +6,9 @@ export interface InfiniteState {
   loading: boolean;
 }
 
-export function nextPage(
-  state: InfiniteState,
-): InfiniteState {
+export function nextPage(state: InfiniteState): InfiniteState {
   return {
     ...state,
-    page:
-      state.page + 1,
+    page: state.page + 1,
   };
 }

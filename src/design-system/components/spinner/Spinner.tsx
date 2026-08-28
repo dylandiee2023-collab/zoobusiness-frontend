@@ -1,14 +1,8 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
-import {
-  spinnerRecipe,
-} from "./Spinner.recipe";
+import { spinnerRecipe } from "./Spinner.recipe";
 
-import type {
-  SpinnerProps,
-} from "./Spinner.types";
+import type { SpinnerProps } from "./Spinner.types";
 
 export function Spinner({
   size = "md",
@@ -20,10 +14,7 @@ export function Spinner({
     <div
       role="status"
       aria-label="Loading"
-      className={`${spinnerRecipe(
-        size,
-        thickness,
-      )} ${className}`}
+      className={`${spinnerRecipe(size, thickness)} ${className}`}
       {...props}
     />
   );

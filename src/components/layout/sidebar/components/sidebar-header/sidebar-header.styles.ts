@@ -1,6 +1,4 @@
-import {
-  sidebarHeaderRecipe,
-} from "./sidebar-header.recipe";
+import { sidebarHeaderRecipe } from "./sidebar-header.recipe";
 
 export const sidebarHeaderStyles = {
   recipe: sidebarHeaderRecipe,

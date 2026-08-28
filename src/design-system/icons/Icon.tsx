@@ -1,16 +1,10 @@
-import type {
-  CSSProperties,
-  ReactElement,
-  ReactNode,
-} from "react";
+import type { CSSProperties, ReactElement, ReactNode } from "react";
 
 import { createIcon } from "@/design-system/foundation/icons";
 
 import type { Theme } from "@/theme/types";
 
-import type {
-  IconProps as FoundationIconProps,
-} from "@/design-system/foundation/icons";
+import type { IconProps as FoundationIconProps } from "@/design-system/foundation/icons";
 
 export interface IconProps extends FoundationIconProps {
   theme: Theme;
@@ -26,10 +20,7 @@ export function Icon({
   style,
   ...props
 }: IconProps): ReactElement {
-  const icon = createIcon(
-    theme,
-    props,
-  );
+  const icon = createIcon(theme, props);
 
   return (
     <span

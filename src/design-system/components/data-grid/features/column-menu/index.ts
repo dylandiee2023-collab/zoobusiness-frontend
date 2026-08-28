@@ -5,37 +5,30 @@ export interface ColumnMenuItem {
 
   icon?: string;
 
-  disabled?:
-    | boolean
-    | undefined;
+  disabled?: boolean | undefined;
 }
 
 export function createColumnMenu() {
   return [
     {
       id: "sort-asc",
-      label:
-        "Sort Ascending",
+      label: "Sort Ascending",
     },
     {
       id: "sort-desc",
-      label:
-        "Sort Descending",
+      label: "Sort Descending",
     },
     {
       id: "hide",
-      label:
-        "Hide Column",
+      label: "Hide Column",
     },
     {
       id: "pin-left",
-      label:
-        "Pin Left",
+      label: "Pin Left",
     },
     {
       id: "pin-right",
-      label:
-        "Pin Right",
+      label: "Pin Right",
     },
   ] satisfies ColumnMenuItem[];
 }

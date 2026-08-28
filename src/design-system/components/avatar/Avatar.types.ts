@@ -1,9 +1,6 @@
-import type {
-  HTMLAttributes,
-} from "react";
+import type { HTMLAttributes } from "react";
 
-export interface AvatarProps
-  extends HTMLAttributes<HTMLDivElement> {
+export interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
   src?: string;
 
   alt?: string;

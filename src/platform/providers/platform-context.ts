@@ -1,12 +1,5 @@
-import {
-  createContext,
-} from "react";
+import { createContext } from "react";
 
-import type {
-  PlatformContract,
-} from "@/platform/contracts";
+import type { PlatformContract } from "@/platform/contracts";
 
-export const PlatformContext =
-  createContext<
-    PlatformContract | null
-  >(null);
+export const PlatformContext = createContext<PlatformContract | null>(null);

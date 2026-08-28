@@ -7,11 +7,7 @@ import type {
 } from "@/platform/types";
 
 export interface KernelContract
-  extends Initializable,
-    Startable,
-    Stoppable,
-    Disposable {
-
+  extends Initializable, Startable, Stoppable, Disposable {
   readonly state: LifecycleState;
 
   readonly version: string;

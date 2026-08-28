@@ -1,2 +1,1 @@
-export type BrandTaglineProps =
-  Record<never, never>;
+export type BrandTaglineProps = Record<never, never>;

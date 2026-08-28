@@ -3,8 +3,5 @@ export interface TelemetryEvent {
 
   readonly timestamp: number;
 
-  readonly properties?: Record<
-    string,
-    unknown
-  >;
+  readonly properties?: Record<string, unknown>;
 }

@@ -1,16 +1,8 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
-export type DataGridAlign =
-  | "left"
-  | "center"
-  | "right";
+export type DataGridAlign = "left" | "center" | "right";
 
-export interface DataGridColumn<
-  T = Record<string, unknown>,
-> {
+export interface DataGridColumn<T = Record<string, unknown>> {
   id: string;
 
   field: keyof T & string;
@@ -23,73 +15,40 @@ export interface DataGridColumn<
 
   maxWidth?: number | undefined;
 
-  align?:
-    | DataGridAlign
-    | undefined;
+  align?: DataGridAlign | undefined;
 
-  sortable?:
-    | boolean
-    | undefined;
+  sortable?: boolean | undefined;
 
-  filterable?:
-    | boolean
-    | undefined;
+  filterable?: boolean | undefined;
 
-  resizable?:
-    | boolean
-    | undefined;
+  resizable?: boolean | undefined;
 
-  hidden?:
-    | boolean
-    | undefined;
+  hidden?: boolean | undefined;
 
-  render?: (
-    value: T[keyof T],
-    row: T,
-  ) => ReactNode;
+  render?: (value: T[keyof T], row: T) => ReactNode;
 }
 
-export interface DataGridProps<
-  T = Record<string, unknown>,
->
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "children"
-  > {
-  columns:
-    DataGridColumn<T>[];
+export interface DataGridProps<T = Record<string, unknown>> extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "children"
+> {
+  columns: DataGridColumn<T>[];
 
   data: T[];
 
-  loading?:
-    | boolean
-    | undefined;
+  loading?: boolean | undefined;
 
-  rowKey?:
-    | keyof T
-    | undefined;
+  rowKey?: keyof T | undefined;
 
-  striped?:
-    | boolean
-    | undefined;
+  striped?: boolean | undefined;
 
-  bordered?:
-    | boolean
-    | undefined;
+  bordered?: boolean | undefined;
 
-  hoverable?:
-    | boolean
-    | undefined;
+  hoverable?: boolean | undefined;
 
-  selectable?:
-    | boolean
-    | undefined;
+  selectable?: boolean | undefined;
 
-  stickyHeader?:
-    | boolean
-    | undefined;
+  stickyHeader?: boolean | undefined;
 
-  onRowClick?: (
-    row: T,
-  ) => void;
+  onRowClick?: (row: T) => void;
 }

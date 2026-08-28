@@ -1,7 +1,4 @@
-import type {
-  SelectHTMLAttributes,
-  ReactNode,
-} from "react";
+import type { SelectHTMLAttributes, ReactNode } from "react";
 
 export interface SelectOption {
   label: ReactNode;
@@ -11,11 +8,10 @@ export interface SelectOption {
   disabled?: boolean;
 }
 
-export interface SelectProps
-  extends Omit<
-    SelectHTMLAttributes<HTMLSelectElement>,
-    "size"
-  > {
+export interface SelectProps extends Omit<
+  SelectHTMLAttributes<HTMLSelectElement>,
+  "size"
+> {
   options: SelectOption[];
 
   size?: "sm" | "md" | "lg";

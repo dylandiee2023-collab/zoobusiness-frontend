@@ -2,7 +2,6 @@ export class NavigationError extends Error {
   constructor(message: string) {
     super(message);
 
-    this.name =
-      "NavigationError";
+    this.name = "NavigationError";
   }
 }

@@ -1,6 +1,4 @@
-import {
-  menuButtonRecipe,
-} from "./menu-button.recipe";
+import { menuButtonRecipe } from "./menu-button.recipe";
 
 export const menuButtonStyles = {
   recipe: menuButtonRecipe,

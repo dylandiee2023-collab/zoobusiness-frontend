@@ -1,7 +1,6 @@
 export function otpInputRecipe() {
   return {
-    root:
-      "flex items-center gap-3",
+    root: "flex items-center gap-3",
 
     input: [
       "h-12",
@@ -20,7 +19,6 @@ export function otpInputRecipe() {
       "focus:ring-blue-200",
     ].join(" "),
 
-    disabled:
-      "cursor-not-allowed opacity-50",
+    disabled: "cursor-not-allowed opacity-50",
   };
 }

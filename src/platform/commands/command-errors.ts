@@ -1,12 +1,7 @@
-export class CommandEngineError
-  extends Error
-{
-  constructor(
-    message: string,
-  ) {
+export class CommandEngineError extends Error {
+  constructor(message: string) {
     super(message);
 
-    this.name =
-      "CommandEngineError";
+    this.name = "CommandEngineError";
   }
 }

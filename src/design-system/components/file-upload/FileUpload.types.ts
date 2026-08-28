@@ -1,13 +1,9 @@
-import type {
-  ChangeEvent,
-  HTMLAttributes,
-} from "react";
+import type { ChangeEvent, HTMLAttributes } from "react";
 
-export interface FileUploadProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "onChange"
-  > {
+export interface FileUploadProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "onChange"
+> {
   accept?: string | undefined;
 
   multiple?: boolean | undefined;

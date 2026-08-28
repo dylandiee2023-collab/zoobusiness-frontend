@@ -1,7 +1,4 @@
-export type TopBarSidebarMode =
-  | "expanded"
-  | "collapsed"
-  | "hidden";
+export type TopBarSidebarMode = "expanded" | "collapsed" | "hidden";
 
 export interface TopBarState {
   readonly sidebarMode: TopBarSidebarMode;

@@ -1,8 +1,4 @@
-export type NotificationType =
-  | "success"
-  | "info"
-  | "warning"
-  | "error";
+export type NotificationType = "success" | "info" | "warning" | "error";
 
 export interface NotificationOptions {
   title?: string;
@@ -15,9 +11,7 @@ export interface NotificationOptions {
 }
 
 export interface NotificationEngineContract {
-  notify(
-    options: NotificationOptions,
-  ): void;
+  notify(options: NotificationOptions): void;
 
   clear(): void;
 }

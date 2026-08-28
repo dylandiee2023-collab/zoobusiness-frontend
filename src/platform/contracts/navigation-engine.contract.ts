@@ -1,15 +1,11 @@
 export interface NavigationEngineContract {
-  navigate(
-    path: string,
-  ): Promise<void>;
+  navigate(path: string): Promise<void>;
 
   back(): void;
 
   forward(): void;
 
-  replace(
-    path: string,
-  ): Promise<void>;
+  replace(path: string): Promise<void>;
 
   current(): string;
 }

@@ -11,7 +11,5 @@ export function FeatureGuard({
   fallback,
   children,
 }: FeatureGuardProps) {
-  return enabled
-    ? <>{children}</>
-    : <>{fallback}</>;
+  return enabled ? <>{children}</> : <>{fallback}</>;
 }

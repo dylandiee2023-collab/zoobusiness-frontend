@@ -1,11 +1,6 @@
-import type {
-  Widget,
-  WidgetType,
-} from "@/dashboard/foundation";
+import type { Widget, WidgetType } from "@/dashboard/foundation";
 
-import {
-  getWidget,
-} from "@/dashboard/foundation";
+import { getWidget } from "@/dashboard/foundation";
 
 export interface WidgetEngine {
   current: WidgetType;
@@ -14,14 +9,10 @@ export interface WidgetEngine {
 
   resolve(): Widget;
 
-  is(
-    widget: WidgetType,
-  ): boolean;
+  is(widget: WidgetType): boolean;
 }
 
-export function createWidgetEngine(
-  widget: WidgetType,
-): WidgetEngine {
+export function createWidgetEngine(widget: WidgetType): WidgetEngine {
   return {
     current: widget,
 
@@ -33,9 +24,7 @@ export function createWidgetEngine(
       return getWidget(widget);
     },
 
-    is(
-      target: WidgetType,
-    ): boolean {
+    is(target: WidgetType): boolean {
       return widget === target;
     },
   };

@@ -1,7 +1,6 @@
 export function timePickerRecipe() {
   return {
-    root:
-      "relative w-full",
+    root: "relative w-full",
 
     input: [
       "w-full",

@@ -1,4 +1,1 @@
-export type {
-  StyleObject,
-  StyleInput,
-} from "../contracts";
+export type { StyleObject, StyleInput } from "../contracts";

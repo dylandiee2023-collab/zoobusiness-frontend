@@ -3,23 +3,22 @@ import { createRecipe } from "@/design-system/foundation/recipes";
 
 import type { PaginationProps } from "./Pagination.types";
 
-export const paginationRecipe =
-  createRecipe<PaginationProps>({
-    recipe(theme) {
-      return {
-        style: {
-          display: "flex",
+export const paginationRecipe = createRecipe<PaginationProps>({
+  recipe(theme) {
+    return {
+      style: {
+        display: "flex",
 
-          alignItems: "center",
+        alignItems: "center",
 
-          gap: "8px",
+        gap: "8px",
 
-          width: "100%",
+        width: "100%",
 
-          color: theme.colors.text,
+        color: theme.colors.text,
 
-          transition: createMotion(),
-        },
-      };
-    },
-  });
+        transition: createMotion(),
+      },
+    };
+  },
+});

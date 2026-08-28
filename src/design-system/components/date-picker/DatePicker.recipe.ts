@@ -1,7 +1,6 @@
 export function datePickerRecipe() {
   return {
-    root:
-      "relative w-full",
+    root: "relative w-full",
 
     input: [
       "w-full",
@@ -17,10 +16,8 @@ export function datePickerRecipe() {
       "focus:ring-blue-200",
     ].join(" "),
 
-    popup:
-      "absolute left-0 top-full z-50 mt-2",
+    popup: "absolute left-0 top-full z-50 mt-2",
 
-    icon:
-      "pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-500",
+    icon: "pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-500",
   };
 }

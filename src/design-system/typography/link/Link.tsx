@@ -1,23 +1,12 @@
-import {
-  forwardRef,
-} from "react";
+import { forwardRef } from "react";
 
-import {
-  useTheme,
-} from "@/theme/hooks";
+import { useTheme } from "@/theme/hooks";
 
-import {
-  linkRecipe,
-} from "./Link.recipe";
+import { linkRecipe } from "./Link.recipe";
 
-import type {
-  LinkProps,
-} from "./Link.types";
+import type { LinkProps } from "./Link.types";
 
-export const Link = forwardRef<
-  HTMLAnchorElement,
-  LinkProps
->(function Link(
+export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
   {
     style,
     children,
@@ -29,32 +18,18 @@ export const Link = forwardRef<
   },
   ref,
 ) {
+  const { theme } = useTheme();
 
-  const { theme } =
-    useTheme();
-
-  const recipe =
-    linkRecipe(
-      theme,
-      {
-        ...props,
-        underline,
-      },
-    );
+  const recipe = linkRecipe(theme, {
+    ...props,
+    underline,
+  });
 
   return (
     <a
       ref={ref}
-      target={
-        external
-          ? "_blank"
-          : target
-      }
-      rel={
-        external
-          ? "noopener noreferrer"
-          : rel
-      }
+      target={external ? "_blank" : target}
+      rel={external ? "noopener noreferrer" : rel}
       {...props}
       style={{
         ...recipe.style,
@@ -66,5 +41,4 @@ export const Link = forwardRef<
   );
 });
 
-Link.displayName =
-  "Link";
+Link.displayName = "Link";

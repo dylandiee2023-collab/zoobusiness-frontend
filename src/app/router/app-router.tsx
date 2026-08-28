@@ -1,11 +1,5 @@
-import {
-  DashboardLayout,
-} from "@/layouts/dashboard";
+import { DashboardLayout } from "@/layouts/dashboard";
 
 export function AppRouter() {
-  return (
-    <DashboardLayout>
-
-    </DashboardLayout>
-  );
+  return <DashboardLayout></DashboardLayout>;
 }

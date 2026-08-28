@@ -1,13 +1,10 @@
 export function sliderRecipe() {
   return {
-    root:
-      "flex w-full flex-col gap-3",
+    root: "flex w-full flex-col gap-3",
 
-    header:
-      "flex items-center justify-between",
+    header: "flex items-center justify-between",
 
-    value:
-      "text-sm font-medium text-gray-600",
+    value: "text-sm font-medium text-gray-600",
 
     input: [
       "h-2",
@@ -19,7 +16,6 @@ export function sliderRecipe() {
       "accent-blue-600",
     ].join(" "),
 
-    disabled:
-      "cursor-not-allowed opacity-50",
+    disabled: "cursor-not-allowed opacity-50",
   };
 }

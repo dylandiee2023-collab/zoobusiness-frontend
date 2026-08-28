@@ -1,7 +1,4 @@
-import type {
-  OverlayPlacement,
-  OverlayType,
-} from "./overlay.enums";
+import type { OverlayPlacement, OverlayType } from "./overlay.enums";
 
 export interface OverlayOptions {
   id: string;
@@ -25,8 +22,7 @@ export interface OverlayOptions {
   zIndex?: number;
 }
 
-export interface OverlayInstance
-  extends OverlayOptions {
+export interface OverlayInstance extends OverlayOptions {
   open: boolean;
 
   trigger: HTMLElement | null;

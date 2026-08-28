@@ -7,9 +7,7 @@ interface OverlayProviderProps {
   children: React.ReactNode;
 }
 
-export function OverlayProvider({
-  children,
-}: OverlayProviderProps) {
+export function OverlayProvider({ children }: OverlayProviderProps) {
   const [stack, setStack] = useState<OverlayItem[]>([]);
 
   const register = useCallback((overlay: OverlayItem) => {
@@ -17,9 +15,7 @@ export function OverlayProvider({
   }, []);
 
   const unregister = useCallback((id: string) => {
-    setStack((previous) =>
-      previous.filter((overlay) => overlay.id !== id),
-    );
+    setStack((previous) => previous.filter((overlay) => overlay.id !== id));
   }, []);
 
   const closeTop = useCallback(() => {
@@ -43,8 +39,6 @@ export function OverlayProvider({
   );
 
   return (
-    <OverlayContext.Provider value={value}>
-      {children}
-    </OverlayContext.Provider>
+    <OverlayContext.Provider value={value}>{children}</OverlayContext.Provider>
   );
 }

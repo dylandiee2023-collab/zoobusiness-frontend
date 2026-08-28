@@ -1,14 +1,8 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
-import {
-  skeletonRecipe,
-} from "./Skeleton.recipe";
+import { skeletonRecipe } from "./Skeleton.recipe";
 
-import type {
-  SkeletonProps,
-} from "./Skeleton.types";
+import type { SkeletonProps } from "./Skeleton.types";
 
 export function Skeleton({
   width = "100%",
@@ -21,10 +15,7 @@ export function Skeleton({
 }: SkeletonProps): JSX.Element {
   return (
     <div
-      className={`${skeletonRecipe(
-        rounded,
-        animated,
-      )} ${className}`}
+      className={`${skeletonRecipe(rounded, animated)} ${className}`}
       style={{
         width,
         height,

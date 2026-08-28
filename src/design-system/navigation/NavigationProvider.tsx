@@ -1,27 +1,14 @@
-import {
-  useState,
-  type PropsWithChildren,
-} from "react";
+import { useState, type PropsWithChildren } from "react";
 
-import {
-  NavigationContext,
-} from "./NavigationContext";
+import { NavigationContext } from "./NavigationContext";
 
-import {
-  NavigationController,
-} from "./NavigationController";
+import { NavigationController } from "./NavigationController";
 
-export function NavigationProvider({
-  children,
-}: PropsWithChildren) {
-  const [controller] = useState(
-    () => new NavigationController(),
-  );
+export function NavigationProvider({ children }: PropsWithChildren) {
+  const [controller] = useState(() => new NavigationController());
 
   return (
-    <NavigationContext.Provider
-      value={controller}
-    >
+    <NavigationContext.Provider value={controller}>
       {children}
     </NavigationContext.Provider>
   );

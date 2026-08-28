@@ -10,9 +10,7 @@ function getFocusableElements(container: HTMLElement): HTMLElement[] {
     "[tabindex]:not([tabindex='-1'])",
   ].join(",");
 
-  return Array.from(
-    container.querySelectorAll<HTMLElement>(selector),
-  );
+  return Array.from(container.querySelectorAll<HTMLElement>(selector));
 }
 
 export const focusManager: FocusManager = {

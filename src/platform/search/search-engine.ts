@@ -1,27 +1,10 @@
-import type {
-  SearchEngineContract,
-  SearchResult,
-} from "@/platform/contracts";
+import type { SearchEngineContract, SearchResult } from "@/platform/contracts";
 
-export class SearchEngine
-  implements SearchEngineContract
-{
-  private readonly cache =
-    new Map<
-      string,
-      SearchResult
-    >();
+export class SearchEngine implements SearchEngineContract {
+  private readonly cache = new Map<string, SearchResult>();
 
-  async search<T = unknown>(
-    query: string,
-  ): Promise<SearchResult<T>> {
-
-    const cached =
-      this.cache.get(
-        query,
-      ) as
-        | SearchResult<T>
-        | undefined;
+  async search<T = unknown>(query: string): Promise<SearchResult<T>> {
+    const cached = this.cache.get(query) as SearchResult<T> | undefined;
 
     if (cached !== undefined) {
       return cached;
@@ -32,10 +15,7 @@ export class SearchEngine
       total: 0,
     };
 
-    this.cache.set(
-      query,
-      result,
-    );
+    this.cache.set(query, result);
 
     return result;
   }

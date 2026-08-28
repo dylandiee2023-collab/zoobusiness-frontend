@@ -9,8 +9,7 @@ export const OVERLAY_TYPE = {
   CONTEXT_MENU: "context-menu",
 } as const;
 
-export type OverlayType =
-  (typeof OVERLAY_TYPE)[keyof typeof OVERLAY_TYPE];
+export type OverlayType = (typeof OVERLAY_TYPE)[keyof typeof OVERLAY_TYPE];
 
 export const OVERLAY_PLACEMENT = {
   TOP: "top",

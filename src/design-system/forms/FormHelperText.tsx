@@ -1,12 +1,7 @@
-import {
-  useFormField,
-} from "./hooks/useFormField";
+import { useFormField } from "./hooks/useFormField";
 
 export function FormHelperText() {
-  const {
-    helperText,
-    error,
-  } = useFormField();
+  const { helperText, error } = useFormField();
 
   if (!helperText || error) {
     return null;

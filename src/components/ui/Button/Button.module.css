@@ -8,9 +8,7 @@
   border: none;
   border-radius: var(--zb-radius-md);
 
-  padding:
-    var(--zb-spacing-3)
-    var(--zb-spacing-4);
+  padding: var(--zb-spacing-3) var(--zb-spacing-4);
 
   font-weight: var(--zb-typography-fontWeight-semibold);
 

@@ -1,20 +1,11 @@
-export class OfflineQueue<
-  T = unknown,
-> {
-  private readonly queue:
-    T[] = [];
+export class OfflineQueue<T = unknown> {
+  private readonly queue: T[] = [];
 
-  enqueue(
-    item: T,
-  ): void {
-    this.queue.push(
-      item,
-    );
+  enqueue(item: T): void {
+    this.queue.push(item);
   }
 
-  dequeue():
-    | T
-    | undefined {
+  dequeue(): T | undefined {
     return this.queue.shift();
   }
 
@@ -23,8 +14,6 @@ export class OfflineQueue<
   }
 
   getAll(): T[] {
-    return [
-      ...this.queue,
-    ];
+    return [...this.queue];
   }
 }

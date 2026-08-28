@@ -1,6 +1,4 @@
-export function modalRecipe(
-  size: "sm" | "md" | "lg" | "xl" = "md",
-): string {
+export function modalRecipe(size: "sm" | "md" | "lg" | "xl" = "md"): string {
   const sizes = {
     sm: "max-w-sm",
     md: "max-w-lg",
@@ -8,8 +6,5 @@ export function modalRecipe(
     xl: "max-w-4xl",
   };
 
-  return [
-    "w-full rounded-xl bg-white shadow-xl",
-    sizes[size],
-  ].join(" ");
+  return ["w-full rounded-xl bg-white shadow-xl", sizes[size]].join(" ");
 }

@@ -1,14 +1,8 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
-import {
-  progressRecipe,
-} from "./Progress.recipe";
+import { progressRecipe } from "./Progress.recipe";
 
-import type {
-  ProgressProps,
-} from "./Progress.types";
+import type { ProgressProps } from "./Progress.types";
 
 export function Progress({
   value,
@@ -20,20 +14,9 @@ export function Progress({
   className = "",
   ...props
 }: ProgressProps): JSX.Element {
-  const styles = progressRecipe(
-    size,
-    rounded,
-    striped,
-    animated,
-  );
+  const styles = progressRecipe(size, rounded, striped, animated);
 
-  const percentage = Math.min(
-    100,
-    Math.max(
-      0,
-      (value / max) * 100,
-    ),
-  );
+  const percentage = Math.min(100, Math.max(0, (value / max) * 100));
 
   return (
     <div

@@ -1,12 +1,7 @@
-export class SearchEngineError
-  extends Error
-{
-  constructor(
-    message: string,
-  ) {
+export class SearchEngineError extends Error {
+  constructor(message: string) {
     super(message);
 
-    this.name =
-      "SearchEngineError";
+    this.name = "SearchEngineError";
   }
 }

@@ -1,36 +1,20 @@
 import type { EnvironmentContract } from "@/platform/contracts";
 
-import {
-  InvalidEnvironmentError,
-} from "./environment-errors";
+import { InvalidEnvironmentError } from "./environment-errors";
 
-import {
-  EnvironmentState,
-  type EnvironmentMode,
-} from "./environment-state";
+import { EnvironmentState, type EnvironmentMode } from "./environment-state";
 
-export class Environment
-  implements EnvironmentContract
-{
+export class Environment implements EnvironmentContract {
   private readonly state: EnvironmentState;
 
   constructor() {
-    const mode =
-      (import.meta.env.MODE ??
-        "development") as EnvironmentMode;
+    const mode = (import.meta.env.MODE ?? "development") as EnvironmentMode;
 
-    if (
-      mode !== "development" &&
-      mode !== "production" &&
-      mode !== "test"
-    ) {
-      throw new InvalidEnvironmentError(
-        mode,
-      );
+    if (mode !== "development" && mode !== "production" && mode !== "test") {
+      throw new InvalidEnvironmentError(mode);
     }
 
-    this.state =
-      new EnvironmentState(mode);
+    this.state = new EnvironmentState(mode);
   }
 
   get mode(): EnvironmentMode {

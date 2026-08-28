@@ -1,12 +1,7 @@
-export class LayoutEngineError
-  extends Error
-{
-  constructor(
-    message: string,
-  ) {
+export class LayoutEngineError extends Error {
+  constructor(message: string) {
     super(message);
 
-    this.name =
-      "LayoutEngineError";
+    this.name = "LayoutEngineError";
   }
 }

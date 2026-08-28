@@ -1,10 +1,6 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
-export interface EmptyStateProps
-  extends HTMLAttributes<HTMLDivElement> {
+export interface EmptyStateProps extends HTMLAttributes<HTMLDivElement> {
   icon?: ReactNode;
 
   heading: ReactNode;

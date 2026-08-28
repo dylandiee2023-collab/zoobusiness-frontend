@@ -1,27 +1,14 @@
-import type {
-  Registry,
-  RegistryItem,
-} from "./types";
+import type { Registry, RegistryItem } from "./types";
 
-export function createRegistry<
-  TKey extends string,
-  TValue,
->(): Registry<
+export function createRegistry<TKey extends string, TValue>(): Registry<
   TKey,
   TValue
 > {
-  const registry =
-    new Map<
-      TKey,
-      TValue
-    >();
+  const registry = new Map<TKey, TValue>();
 
   return {
     register(item) {
-      registry.set(
-        item.key,
-        item.value,
-      );
+      registry.set(item.key, item.value);
     },
 
     unregister(key) {
@@ -29,29 +16,18 @@ export function createRegistry<
     },
 
     has(key) {
-      return registry.has(
-        key,
-      );
+      return registry.has(key);
     },
 
     get(key) {
-      return registry.get(
-        key,
-      );
+      return registry.get(key);
     },
 
     getAll() {
-      return Array.from(
-        registry.entries(),
-      ).map(
-        ([key, value]) => ({
-          key,
-          value,
-        }),
-      ) satisfies RegistryItem<
-        TKey,
-        TValue
-      >[];
+      return Array.from(registry.entries()).map(([key, value]) => ({
+        key,
+        value,
+      })) satisfies RegistryItem<TKey, TValue>[];
     },
   };
 }

@@ -32,16 +32,12 @@ export class KernelDestroyedError extends KernelError {
 
 export class ServiceAlreadyRegisteredError extends KernelError {
   constructor(id: string) {
-    super(
-      `Service "${id}" is already registered.`,
-    );
+    super(`Service "${id}" is already registered.`);
   }
 }
 
 export class ServiceNotFoundError extends KernelError {
   constructor(id: string) {
-    super(
-      `Service "${id}" was not found.`,
-    );
+    super(`Service "${id}" was not found.`);
   }
 }

@@ -3,23 +3,22 @@ import { createRecipe } from "@/design-system/foundation/recipes";
 
 import type { StepperProps } from "./Stepper.types";
 
-export const stepperRecipe =
-  createRecipe<StepperProps>({
-    recipe(theme) {
-      return {
-        style: {
-          display: "flex",
+export const stepperRecipe = createRecipe<StepperProps>({
+  recipe(theme) {
+    return {
+      style: {
+        display: "flex",
 
-          alignItems: "center",
+        alignItems: "center",
 
-          width: "100%",
+        width: "100%",
 
-          gap: "16px",
+        gap: "16px",
 
-          color: theme.colors.text,
+        color: theme.colors.text,
 
-          transition: createMotion(),
-        },
-      };
-    },
-  });
+        transition: createMotion(),
+      },
+    };
+  },
+});

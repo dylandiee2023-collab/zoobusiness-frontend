@@ -33,9 +33,8 @@ export class ResponsiveService {
 
       pixelRatio: window.devicePixelRatio,
 
-      reducedMotion: window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches,
+      reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)")
+        .matches,
     };
   }
 }

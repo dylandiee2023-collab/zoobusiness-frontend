@@ -1,11 +1,6 @@
-import type {
-  Route,
-  RouteType,
-} from "@/dashboard/foundation";
+import type { Route, RouteType } from "@/dashboard/foundation";
 
-import {
-  getRoute,
-} from "@/dashboard/foundation";
+import { getRoute } from "@/dashboard/foundation";
 
 export interface RouteEngine {
   current: RouteType;
@@ -14,14 +9,10 @@ export interface RouteEngine {
 
   resolve(): Route;
 
-  is(
-    route: RouteType,
-  ): boolean;
+  is(route: RouteType): boolean;
 }
 
-export function createRouteEngine(
-  route: RouteType,
-): RouteEngine {
+export function createRouteEngine(route: RouteType): RouteEngine {
   return {
     current: route,
 
@@ -33,9 +24,7 @@ export function createRouteEngine(
       return getRoute(route);
     },
 
-    is(
-      target: RouteType,
-    ): boolean {
+    is(target: RouteType): boolean {
       return route === target;
     },
   };

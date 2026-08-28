@@ -1,15 +1,8 @@
-import type {
-  CSSProperties,
-  JSX,
-} from "react";
+import type { CSSProperties, JSX } from "react";
 
-import {
-  scrollAreaRecipe,
-} from "./ScrollArea.recipe";
+import { scrollAreaRecipe } from "./ScrollArea.recipe";
 
-import type {
-  ScrollAreaProps,
-} from "./ScrollArea.types";
+import type { ScrollAreaProps } from "./ScrollArea.types";
 
 export function ScrollArea({
   children,
@@ -21,16 +14,14 @@ export function ScrollArea({
   style,
   ...props
 }: ScrollAreaProps): JSX.Element {
-
-  const styles =
-    scrollAreaRecipe();
+  const styles = scrollAreaRecipe();
 
   const overflow =
     orientation === "horizontal"
       ? styles.horizontal
       : orientation === "both"
-      ? styles.both
-      : styles.vertical;
+        ? styles.both
+        : styles.vertical;
 
   const css: CSSProperties = {
     ...style,
@@ -39,23 +30,12 @@ export function ScrollArea({
   };
 
   return (
-    <div
-      className={[
-        styles.root,
-        className,
-      ].join(" ")}
-      style={css}
-      {...props}
-    >
+    <div className={[styles.root, className].join(" ")} style={css} {...props}>
       <div
         className={[
           styles.viewport,
-          scrollbar === "hidden"
-            ? styles.hidden
-            : overflow,
-          scrollbar !== "hidden"
-            ? styles.scrollbar
-            : "",
+          scrollbar === "hidden" ? styles.hidden : overflow,
+          scrollbar !== "hidden" ? styles.scrollbar : "",
         ].join(" ")}
       >
         {children}

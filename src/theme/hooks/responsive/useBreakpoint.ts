@@ -1,15 +1,8 @@
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
-import {
-  breakpoints,
-} from "@/theme/tokens/breakpoints";
+import { breakpoints } from "@/theme/tokens/breakpoints";
 
-import type {
-  Breakpoint,
-} from "@/theme/media";
+import type { Breakpoint } from "@/theme/media";
 
 const breakpointOrder: readonly Breakpoint[] = [
   "wide",
@@ -37,28 +30,17 @@ function getBreakpoint(): Breakpoint {
 }
 
 export function useBreakpoint(): Breakpoint {
-  const [breakpoint, setBreakpoint] =
-    useState<Breakpoint>(
-      getBreakpoint,
-    );
+  const [breakpoint, setBreakpoint] = useState<Breakpoint>(getBreakpoint);
 
   useEffect(() => {
     const handleResize = () => {
-      setBreakpoint(
-        getBreakpoint(),
-      );
+      setBreakpoint(getBreakpoint());
     };
 
-    window.addEventListener(
-      "resize",
-      handleResize,
-    );
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener(
-        "resize",
-        handleResize,
-      );
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 

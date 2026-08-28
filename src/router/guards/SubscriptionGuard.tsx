@@ -11,7 +11,5 @@ export function SubscriptionGuard({
   fallback,
   children,
 }: SubscriptionGuardProps) {
-  return active
-    ? <>{children}</>
-    : <>{fallback}</>;
+  return active ? <>{children}</> : <>{fallback}</>;
 }

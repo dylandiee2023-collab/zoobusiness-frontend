@@ -5,8 +5,4 @@ export interface GridConfig {
   gap: number;
 }
 
-export type GridMap =
-  Record<
-    Breakpoint,
-    GridConfig
-  >;
+export type GridMap = Record<Breakpoint, GridConfig>;

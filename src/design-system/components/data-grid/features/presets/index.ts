@@ -7,14 +7,9 @@ export interface DataGridPreset {
 
   pageSize: number;
 
-  density:
-    | "compact"
-    | "comfortable"
-    | "spacious";
+  density: "compact" | "comfortable" | "spacious";
 }
 
-export function createPreset(
-  preset: DataGridPreset,
-): DataGridPreset {
+export function createPreset(preset: DataGridPreset): DataGridPreset {
   return preset;
 }

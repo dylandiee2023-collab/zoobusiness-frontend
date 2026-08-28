@@ -8,14 +8,9 @@ export interface SkeletonState {
   animated: boolean;
 }
 
-import type {
-  SkeletonSize,
-  SkeletonVariant,
-} from "./types";
+import type { SkeletonSize, SkeletonVariant } from "./types";
 
-export function createSkeleton(
-  options: SkeletonOptions = {},
-): SkeletonState {
+export function createSkeleton(options: SkeletonOptions = {}): SkeletonState {
   return {
     variant: options.variant ?? "text",
 

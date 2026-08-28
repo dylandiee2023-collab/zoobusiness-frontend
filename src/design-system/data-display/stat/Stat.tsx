@@ -6,42 +6,30 @@ import { statRecipe } from "./Stat.recipe";
 
 import type { StatProps } from "./Stat.types";
 
-export const Stat = forwardRef<
-  HTMLDivElement,
-  StatProps
->(function Stat(
-  {
-    label,
-    value,
-    helper,
-    icon,
-    trend,
-    className,
-    style,
-    ...props
-  },
+export const Stat = forwardRef<HTMLDivElement, StatProps>(function Stat(
+  { label, value, helper, icon, trend, className, style, ...props },
   ref,
 ) {
   const { theme } = useTheme();
 
   const recipe = statRecipe(theme, {
-  label,
-  value,
+    label,
+    value,
 
-  ...props,
+    ...props,
 
-  ...(helper !== undefined && {
-    helper,
-  }),
+    ...(helper !== undefined && {
+      helper,
+    }),
 
-  ...(icon !== undefined && {
-    icon,
-  }),
+    ...(icon !== undefined && {
+      icon,
+    }),
 
-  ...(trend !== undefined && {
-    trend,
-  }),
-});
+    ...(trend !== undefined && {
+      trend,
+    }),
+  });
 
   const trendColor =
     trend === "up"
@@ -75,8 +63,7 @@ export const Stat = forwardRef<
       <div
         style={{
           fontSize: 14,
-          color:
-            theme.colors.textSecondary,
+          color: theme.colors.textSecondary,
         }}
       >
         {label}

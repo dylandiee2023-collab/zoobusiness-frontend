@@ -1,11 +1,7 @@
-import {
-  useFormField,
-} from "./hooks/useFormField";
+import { useFormField } from "./hooks/useFormField";
 
 export function FormError() {
-  const {
-    error,
-  } = useFormField();
+  const { error } = useFormField();
 
   if (!error) {
     return null;

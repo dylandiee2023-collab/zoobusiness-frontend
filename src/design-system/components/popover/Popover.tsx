@@ -1,14 +1,8 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
-import {
-  popoverRecipe,
-} from "./Popover.recipe";
+import { popoverRecipe } from "./Popover.recipe";
 
-import type {
-  PopoverProps,
-} from "./Popover.types";
+import type { PopoverProps } from "./Popover.types";
 
 export function Popover({
   trigger,
@@ -18,24 +12,14 @@ export function Popover({
   className = "",
   ...props
 }: PopoverProps): JSX.Element {
-
-  const styles =
-    popoverRecipe(
-      placement,
-    );
+  const styles = popoverRecipe(placement);
 
   return (
-    <div
-      className={`${styles.root} ${className}`}
-      {...props}
-    >
+    <div className={`${styles.root} ${className}`} {...props}>
       {trigger}
 
       {open && (
-        <div
-          className={styles.panel}
-          role="dialog"
-        >
+        <div className={styles.panel} role="dialog">
           {content}
         </div>
       )}

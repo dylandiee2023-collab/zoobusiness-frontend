@@ -1,16 +1,10 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
 import { OverlayPortal } from "@/design-system/foundation/overlay/portal";
 
-import {
-  dropdownRecipe,
-} from "./Dropdown.recipe";
+import { dropdownRecipe } from "./Dropdown.recipe";
 
-import type {
-  DropdownProps,
-} from "./Dropdown.types";
+import type { DropdownProps } from "./Dropdown.types";
 
 export function Dropdown({
   open,
@@ -25,10 +19,7 @@ export function Dropdown({
 
   return (
     <OverlayPortal>
-      <div
-        className={`${dropdownRecipe()} ${className}`}
-        {...props}
-      >
+      <div className={`${dropdownRecipe()} ${className}`} {...props}>
         {items.map((item) => (
           <button
             key={item.value}

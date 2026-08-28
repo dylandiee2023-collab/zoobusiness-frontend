@@ -1,37 +1,25 @@
-import {
-  createRecipe,
-} from "@/design-system/foundation/recipes";
+import { createRecipe } from "@/design-system/foundation/recipes";
 
-import type {
-  DialogProps,
-} from "./Dialog.types";
+import type { DialogProps } from "./Dialog.types";
 
-export const dialogRecipe =
-  createRecipe<DialogProps>({
-    recipe(
-      theme,
-      props,
-    ) {
-      return {
-        style: {
-          position: "fixed",
+export const dialogRecipe = createRecipe<DialogProps>({
+  recipe(theme, props) {
+    return {
+      style: {
+        position: "fixed",
 
-          inset: 0,
+        inset: 0,
 
-          display: props.open
-            ? "flex"
-            : "none",
+        display: props.open ? "flex" : "none",
 
-          alignItems: "center",
+        alignItems: "center",
 
-          justifyContent: "center",
+        justifyContent: "center",
 
-          background:
-            "rgba(0,0,0,.45)",
+        background: "rgba(0,0,0,.45)",
 
-          zIndex:
-            theme.zIndex.modal,
-        },
-      };
-    },
-  });
+        zIndex: theme.zIndex.modal,
+      },
+    };
+  },
+});

@@ -22,10 +22,8 @@ export function menuRecipe() {
       "hover:bg-gray-100",
     ].join(" "),
 
-    danger:
-      "text-red-600",
+    danger: "text-red-600",
 
-    disabled:
-      "cursor-not-allowed opacity-50",
+    disabled: "cursor-not-allowed opacity-50",
   };
 }

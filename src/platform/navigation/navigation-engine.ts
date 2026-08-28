@@ -1,26 +1,16 @@
-import type {
-  NavigationEngineContract,
-} from "@/platform/contracts";
+import type { NavigationEngineContract } from "@/platform/contracts";
 
-export class NavigationEngine
-  implements NavigationEngineContract
-{
-  private readonly history: string[] =
-    [];
+export class NavigationEngine implements NavigationEngineContract {
+  private readonly history: string[] = [];
 
   private index = -1;
 
-  async navigate(
-    path: string,
-  ): Promise<void> {
-    this.history.splice(
-      this.index + 1,
-    );
+  async navigate(path: string): Promise<void> {
+    this.history.splice(this.index + 1);
 
     this.history.push(path);
 
-    this.index =
-      this.history.length - 1;
+    this.index = this.history.length - 1;
   }
 
   back(): void {
@@ -30,17 +20,12 @@ export class NavigationEngine
   }
 
   forward(): void {
-    if (
-      this.index <
-      this.history.length - 1
-    ) {
+    if (this.index < this.history.length - 1) {
       this.index++;
     }
   }
 
-  async replace(
-    path: string,
-  ): Promise<void> {
+  async replace(path: string): Promise<void> {
     if (this.index < 0) {
       this.history.push(path);
       this.index = 0;
@@ -48,14 +33,10 @@ export class NavigationEngine
       return;
     }
 
-    this.history[this.index] =
-      path;
+    this.history[this.index] = path;
   }
 
   current(): string {
-    return (
-      this.history[this.index] ??
-      "/"
-    );
+    return this.history[this.index] ?? "/";
   }
 }

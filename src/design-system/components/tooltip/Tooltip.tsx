@@ -1,14 +1,8 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
-import {
-  tooltipRecipe,
-} from "./Tooltip.recipe";
+import { tooltipRecipe } from "./Tooltip.recipe";
 
-import type {
-  TooltipProps,
-} from "./Tooltip.types";
+import type { TooltipProps } from "./Tooltip.types";
 
 export function Tooltip({
   children,
@@ -18,24 +12,14 @@ export function Tooltip({
   className = "",
   ...props
 }: TooltipProps): JSX.Element {
-
-  const styles =
-    tooltipRecipe(
-      placement,
-    );
+  const styles = tooltipRecipe(placement);
 
   return (
-    <div
-      className={`${styles.root} ${className}`}
-      {...props}
-    >
+    <div className={`${styles.root} ${className}`} {...props}>
       {children}
 
       {open && (
-        <div
-          role="tooltip"
-          className={styles.tooltip}
-        >
+        <div role="tooltip" className={styles.tooltip}>
           {content}
         </div>
       )}

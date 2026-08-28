@@ -14,9 +14,7 @@ export function isTabKey(key: string): boolean {
   return key === "Tab";
 }
 
-export function preventKeyboardScroll(
-  event: React.KeyboardEvent,
-): void {
+export function preventKeyboardScroll(event: React.KeyboardEvent): void {
   if (event.key === " ") {
     event.preventDefault();
   }

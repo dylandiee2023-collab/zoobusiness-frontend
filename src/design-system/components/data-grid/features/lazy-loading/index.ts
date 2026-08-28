@@ -4,10 +4,5 @@ export function shouldLoadMore(
   scrollHeight: number,
   threshold = 200,
 ): boolean {
-  return (
-    scrollTop +
-      clientHeight >=
-    scrollHeight -
-      threshold
-  );
+  return scrollTop + clientHeight >= scrollHeight - threshold;
 }

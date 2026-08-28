@@ -3,50 +3,47 @@ import { createMotion } from "@/design-system/foundation/motion";
 
 import type { ProgressProps } from "./Progress.types";
 
-export const progressRecipe =
-  createRecipe<ProgressProps>({
-    recipe(theme, props) {
-      const size = props.size ?? "md";
+export const progressRecipe = createRecipe<ProgressProps>({
+  recipe(theme, props) {
+    const size = props.size ?? "md";
 
-      const sizes: Record<
-        NonNullable<ProgressProps["size"]>,
-        {
-          height: string;
-        }
-      > = {
-        sm: {
-          height: "4px",
-        },
+    const sizes: Record<
+      NonNullable<ProgressProps["size"]>,
+      {
+        height: string;
+      }
+    > = {
+      sm: {
+        height: "4px",
+      },
 
-        md: {
-          height: "8px",
-        },
+      md: {
+        height: "8px",
+      },
 
-        lg: {
-          height: "12px",
-        },
-      };
+      lg: {
+        height: "12px",
+      },
+    };
 
-      return {
-        style: {
-          display: "block",
+    return {
+      style: {
+        display: "block",
 
-          width: "100%",
+        width: "100%",
 
-          overflow: "hidden",
+        overflow: "hidden",
 
-          height: sizes[size].height,
+        height: sizes[size].height,
 
-          background: theme.colors.surface,
+        background: theme.colors.surface,
 
-          border: `1px solid ${theme.colors.border}`,
+        border: `1px solid ${theme.colors.border}`,
 
-          borderRadius: props.rounded
-            ? "9999px"
-            : "8px",
+        borderRadius: props.rounded ? "9999px" : "8px",
 
-          transition: createMotion(),
-        },
-      };
-    },
-  });
+        transition: createMotion(),
+      },
+    };
+  },
+});

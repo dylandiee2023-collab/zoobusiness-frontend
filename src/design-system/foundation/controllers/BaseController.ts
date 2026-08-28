@@ -5,9 +5,7 @@ export abstract class BaseController<
 > {
   protected readonly registry: TRegistry;
 
-  protected constructor(
-    registry: TRegistry,
-  ) {
+  protected constructor(registry: TRegistry) {
     this.registry = registry;
   }
 

@@ -1,6 +1,4 @@
-import type {
-  ResponsiveTypography,
-} from "./types";
+import type { ResponsiveTypography } from "./types";
 
 export const typography: ResponsiveTypography = {
   mobile: {

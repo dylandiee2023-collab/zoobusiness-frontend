@@ -1,14 +1,8 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
-import {
-  badgeRecipe,
-} from "./Badge.recipe";
+import { badgeRecipe } from "./Badge.recipe";
 
-import type {
-  BadgeProps,
-} from "./Badge.types";
+import type { BadgeProps } from "./Badge.types";
 
 export function Badge({
   variant = "primary",
@@ -18,13 +12,7 @@ export function Badge({
   ...props
 }: BadgeProps): JSX.Element {
   return (
-    <span
-      className={`${badgeRecipe(
-        variant,
-        size,
-      )} ${className}`}
-      {...props}
-    >
+    <span className={`${badgeRecipe(variant, size)} ${className}`} {...props}>
       {children}
     </span>
   );

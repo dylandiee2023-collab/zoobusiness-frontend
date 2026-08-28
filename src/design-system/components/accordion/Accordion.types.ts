@@ -1,7 +1,4 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
 export interface AccordionItem {
   id: string;
@@ -13,16 +10,13 @@ export interface AccordionItem {
   disabled?: boolean;
 }
 
-export interface AccordionProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "onChange"
-  > {
+export interface AccordionProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "onChange"
+> {
   items: AccordionItem[];
 
   expanded?: string;
 
-  onValueChange?: (
-    id: string,
-  ) => void;
+  onValueChange?: (id: string) => void;
 }

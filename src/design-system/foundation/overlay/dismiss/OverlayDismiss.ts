@@ -7,35 +7,23 @@ export interface OverlayDismissOptions {
 export class OverlayDismiss {
   private readonly options: OverlayDismissOptions;
 
-  constructor(
-    options: OverlayDismissOptions = {},
-  ) {
+  constructor(options: OverlayDismissOptions = {}) {
     this.options = options;
   }
 
-  shouldDismissOnEscape(
-    event: KeyboardEvent,
-  ): boolean {
-    return (
-      this.options.escapeKey !== false &&
-      event.key === "Escape"
-    );
+  shouldDismissOnEscape(event: KeyboardEvent): boolean {
+    return this.options.escapeKey !== false && event.key === "Escape";
   }
 
   shouldDismissOnOutsideClick(
     event: MouseEvent,
     content: HTMLElement | null,
   ): boolean {
-    if (
-      !this.options.outsideClick ||
-      !content
-    ) {
+    if (!this.options.outsideClick || !content) {
       return false;
     }
 
-    return !content.contains(
-      event.target as Node,
-    );
+    return !content.contains(event.target as Node);
   }
 
   shouldDismissOnBlur(): boolean {

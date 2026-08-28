@@ -1,56 +1,29 @@
-import {
-  createRecipe,
-} from "@/design-system/foundation/recipes";
+import { createRecipe } from "@/design-system/foundation/recipes";
 
-import {
-  typographyRecipe,
-} from "@/design-system/typography/base";
+import { typographyRecipe } from "@/design-system/typography/base";
 
-import {
-  typography,
-} from "@/theme/tokens";
+import { typography } from "@/theme/tokens";
 
-import type {
-  LinkProps,
-} from "./Link.types";
+import type { LinkProps } from "./Link.types";
 
-export const linkRecipe =
-  createRecipe<LinkProps>({
-    recipe(
-      theme,
-      props,
-    ) {
+export const linkRecipe = createRecipe<LinkProps>({
+  recipe(theme, props) {
+    const base = typographyRecipe(theme, props);
 
-      const base =
-        typographyRecipe(
-          theme,
-          props,
-        );
+    return {
+      style: {
+        ...base.style,
 
-      return {
-        style: {
+        color: props.color ?? theme.colors.primary,
 
-          ...base.style,
+        fontWeight: props.weight ?? typography.fontWeight.medium,
 
-          color:
-            props.color ??
-            theme.colors.primary,
+        textDecoration: props.underline ? "underline" : "none",
 
-          fontWeight:
-            props.weight ??
-            typography.fontWeight.medium,
+        cursor: "pointer",
 
-          textDecoration:
-            props.underline
-              ? "underline"
-              : "none",
-
-          cursor: "pointer",
-
-          transition:
-            "color 150ms ease",
-
-        },
-      };
-    },
-  });
+        transition: "color 150ms ease",
+      },
+    };
+  },
+});

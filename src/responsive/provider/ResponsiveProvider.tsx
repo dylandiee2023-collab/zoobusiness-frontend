@@ -1,9 +1,4 @@
-import {
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { ResponsiveContext } from "../context/ResponsiveContext";
 import { ResponsiveService } from "../services/ResponsiveService";
@@ -13,9 +8,7 @@ interface Props {
 }
 
 export function ResponsiveProvider({ children }: Props) {
-  const [state, setState] = useState(() =>
-    ResponsiveService.getState()
-  );
+  const [state, setState] = useState(() => ResponsiveService.getState());
 
   useEffect(() => {
     const handleResize = () => {

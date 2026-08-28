@@ -2,18 +2,10 @@ import type { CSSProperties } from "react";
 
 import type { BoxProps } from "../box/Box.types";
 
-export type FlexDirection =
-  | "row"
-  | "column"
-  | "row-reverse"
-  | "column-reverse";
+export type FlexDirection = "row" | "column" | "row-reverse" | "column-reverse";
 
 export type FlexAlign =
-  | "stretch"
-  | "flex-start"
-  | "center"
-  | "flex-end"
-  | "baseline";
+  "stretch" | "flex-start" | "center" | "flex-end" | "baseline";
 
 export type FlexJustify =
   | "flex-start"
@@ -23,8 +15,7 @@ export type FlexJustify =
   | "space-around"
   | "space-evenly";
 
-export interface FlexProps
-  extends BoxProps {
+export interface FlexProps extends BoxProps {
   direction?: FlexDirection;
   align?: FlexAlign;
   justify?: FlexJustify;

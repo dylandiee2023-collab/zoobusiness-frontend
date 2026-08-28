@@ -1,20 +1,10 @@
-import {
-  useState,
-  type JSX,
-} from "react";
+import { useState, type JSX } from "react";
 
-import {
-  Calendar,
-} from "../calendar";
+import { Calendar } from "../calendar";
 
-import {
-  dateRangePickerRecipe,
-} from "./DateRangePicker.recipe";
+import { dateRangePickerRecipe } from "./DateRangePicker.recipe";
 
-import type {
-  DateRange,
-  DateRangePickerProps,
-} from "./DateRangePicker.types";
+import type { DateRange, DateRangePickerProps } from "./DateRangePicker.types";
 
 export function DateRangePicker({
   value,
@@ -24,16 +14,11 @@ export function DateRangePicker({
   className = "",
   ...props
 }: DateRangePickerProps): JSX.Element {
+  const styles = dateRangePickerRecipe();
 
-  const styles =
-    dateRangePickerRecipe();
+  const [open, setOpen] = useState(false);
 
-  const [open, setOpen] =
-    useState(false);
-
-  const handleStartChange = (
-    date: Date,
-  ) => {
+  const handleStartChange = (date: Date) => {
     const next: DateRange = {
       start: date,
       end: value?.end,
@@ -42,9 +27,7 @@ export function DateRangePicker({
     onValueChange?.(next);
   };
 
-  const handleEndChange = (
-    date: Date,
-  ) => {
+  const handleEndChange = (date: Date) => {
     const next: DateRange = {
       start: value?.start,
       end: date,
@@ -61,45 +44,24 @@ export function DateRangePicker({
       : "";
 
   return (
-    <div
-      className={`${styles.root} ${className}`}
-      {...props}
-    >
+    <div className={`${styles.root} ${className}`} {...props}>
       <input
         readOnly
         disabled={disabled}
         placeholder={placeholder}
         value={displayValue}
         className={styles.input}
-        onClick={() =>
-          setOpen(
-            (state) => !state,
-          )
-        }
+        onClick={() => setOpen((state) => !state)}
       />
 
       {open && (
         <div className={styles.popup}>
           <div className={styles.calendar}>
-            <Calendar
-              value={value?.start}
-              onValueChange={
-                handleStartChange
-              }
-            />
+            <Calendar value={value?.start} onValueChange={handleStartChange} />
 
-            <div
-              className={
-                styles.divider
-              }
-            />
+            <div className={styles.divider} />
 
-            <Calendar
-              value={value?.end}
-              onValueChange={
-                handleEndChange
-              }
-            />
+            <Calendar value={value?.end} onValueChange={handleEndChange} />
           </div>
         </div>
       )}

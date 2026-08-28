@@ -1,10 +1,6 @@
-import type {
-  RouteContract,
-} from "../contracts/Route.contract";
+import type { RouteContract } from "../contracts/Route.contract";
 
-import type {
-  RouteDefinition,
-} from "../types";
+import type { RouteDefinition } from "../types";
 
 export class RouteRegistry implements RouteContract {
   private readonly routes = new Map<string, RouteDefinition>();
@@ -18,9 +14,7 @@ export class RouteRegistry implements RouteContract {
   }
 
   find(path: string): RouteDefinition | undefined {
-    return [...this.routes.values()].find(
-      (route) => route.path === path,
-    );
+    return [...this.routes.values()].find((route) => route.path === path);
   }
 
   getAll(): RouteDefinition[] {

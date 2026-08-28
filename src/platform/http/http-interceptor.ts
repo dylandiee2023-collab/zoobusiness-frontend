@@ -1,9 +1,5 @@
 export interface HttpInterceptor {
-  onRequest?(
-    request: RequestInit,
-  ): Promise<RequestInit> | RequestInit;
+  onRequest?(request: RequestInit): Promise<RequestInit> | RequestInit;
 
-  onResponse?(
-    response: Response,
-  ): Promise<Response> | Response;
+  onResponse?(response: Response): Promise<Response> | Response;
 }

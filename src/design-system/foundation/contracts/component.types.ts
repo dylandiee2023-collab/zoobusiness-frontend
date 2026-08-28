@@ -1,24 +1,15 @@
-import type {
-  ComponentPropsWithoutRef,
-  ElementType,
-} from "react";
+import type { ComponentPropsWithoutRef, ElementType } from "react";
 
-import type {
-  Theme,
-} from "@/theme/types";
+import type { Theme } from "@/theme/types";
 
-import type {
-  StyleObject,
-} from "./style.types";
+import type { StyleObject } from "./style.types";
 
 export interface ComponentRecipeResult {
   className?: string;
   style: StyleObject;
 }
 
-export type ComponentRecipe<
-  Props extends object = Record<string, never>
-> = (
+export type ComponentRecipe<Props extends object = Record<string, never>> = (
   theme: Theme,
   props: Props,
 ) => ComponentRecipeResult;
@@ -30,12 +21,7 @@ export interface BaseComponentProps {
 
 export type ComponentProps<
   T extends ElementType,
-  Props extends object = Record<string, never>
-> =
-  Props &
+  Props extends object = Record<string, never>,
+> = Props &
   BaseComponentProps &
-  Omit<
-    ComponentPropsWithoutRef<T>,
-    keyof Props |
-    keyof BaseComponentProps
-  >;
+  Omit<ComponentPropsWithoutRef<T>, keyof Props | keyof BaseComponentProps>;

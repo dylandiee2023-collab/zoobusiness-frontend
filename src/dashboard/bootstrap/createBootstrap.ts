@@ -1,6 +1,4 @@
-import type {
-  DashboardBootstrap,
-} from "./types";
+import type { DashboardBootstrap } from "./types";
 
 export function createBootstrap(): DashboardBootstrap {
   let initialized = false;

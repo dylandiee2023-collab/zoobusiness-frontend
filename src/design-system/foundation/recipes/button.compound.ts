@@ -1,49 +1,48 @@
 import { createCompoundVariants } from "../compound-variants";
 
-export const buttonCompoundVariants =
-  createCompoundVariants([
-    {
-      when: {
-        variant: "solid",
-        disabled: true,
-      },
-
-      styles: {
-        filter: "grayscale(100%)",
-      },
+export const buttonCompoundVariants = createCompoundVariants([
+  {
+    when: {
+      variant: "solid",
+      disabled: true,
     },
 
-    {
-      when: {
-        variant: "outline",
-        disabled: true,
-      },
+    styles: {
+      filter: "grayscale(100%)",
+    },
+  },
 
-      styles: {
-        borderStyle: "dashed",
-      },
+  {
+    when: {
+      variant: "outline",
+      disabled: true,
     },
 
-    {
-      when: {
-        variant: "ghost",
-        loading: true,
-      },
+    styles: {
+      borderStyle: "dashed",
+    },
+  },
 
-      styles: {
-        cursor: "wait",
-      },
+  {
+    when: {
+      variant: "ghost",
+      loading: true,
     },
 
-    {
-      when: {
-        variant: "solid",
-        loading: true,
-      },
-
-      styles: {
-        cursor: "wait",
-        opacity: 0.8,
-      },
+    styles: {
+      cursor: "wait",
     },
-  ]);
+  },
+
+  {
+    when: {
+      variant: "solid",
+      loading: true,
+    },
+
+    styles: {
+      cursor: "wait",
+      opacity: 0.8,
+    },
+  },
+]);

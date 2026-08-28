@@ -1,31 +1,23 @@
-import type {
-  ThemeEngineContract,
-} from "@/platform/contracts";
+import type { ThemeEngineContract } from "@/platform/contracts";
 
 import { ThemeStorage } from "./theme-storage";
 
 import type { ThemeMode } from "@/platform/contracts";
 
-export class ThemeEngine
-  implements ThemeEngineContract
-{
-  private readonly storage =
-    new ThemeStorage();
+export class ThemeEngine implements ThemeEngineContract {
+  private readonly storage = new ThemeStorage();
 
   private currentMode: ThemeMode;
 
   constructor() {
-    this.currentMode =
-      this.storage.load();
+    this.currentMode = this.storage.load();
   }
 
   get mode(): ThemeMode {
     return this.currentMode;
   }
 
-  setMode(
-    mode: ThemeMode,
-  ): void {
+  setMode(mode: ThemeMode): void {
     this.currentMode = mode;
 
     this.storage.save(mode);

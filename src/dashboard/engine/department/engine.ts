@@ -1,11 +1,6 @@
-import type {
-  Department,
-  DepartmentType,
-} from "@/dashboard/foundation";
+import type { Department, DepartmentType } from "@/dashboard/foundation";
 
-import {
-  getDepartment,
-} from "@/dashboard/foundation";
+import { getDepartment } from "@/dashboard/foundation";
 
 export interface DepartmentEngine {
   current: DepartmentType;
@@ -14,9 +9,7 @@ export interface DepartmentEngine {
 
   resolve(): Department;
 
-  is(
-    department: DepartmentType,
-  ): boolean;
+  is(department: DepartmentType): boolean;
 }
 
 export function createDepartmentEngine(
@@ -26,23 +19,15 @@ export function createDepartmentEngine(
     current: department,
 
     exists(): boolean {
-      return !!getDepartment(
-        department,
-      );
+      return !!getDepartment(department);
     },
 
     resolve(): Department {
-      return getDepartment(
-        department,
-      );
+      return getDepartment(department);
     },
 
-    is(
-      target: DepartmentType,
-    ): boolean {
-      return (
-        department === target
-      );
+    is(target: DepartmentType): boolean {
+      return department === target;
     },
   };
 }

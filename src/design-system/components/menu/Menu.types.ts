@@ -1,7 +1,4 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
 export interface MenuItem {
   id: string;
@@ -15,14 +12,11 @@ export interface MenuItem {
   danger?: boolean;
 }
 
-export interface MenuProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "onSelect"
-  > {
+export interface MenuProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "onSelect"
+> {
   items: MenuItem[];
 
-  onValueChange?: (
-    id: string,
-  ) => void;
+  onValueChange?: (id: string) => void;
 }

@@ -1,11 +1,5 @@
 export type LayoutType =
-  | "dashboard"
-  | "auth"
-  | "marketplace"
-  | "pos"
-  | "public"
-  | "blank"
-  | "error";
+  "dashboard" | "auth" | "marketplace" | "pos" | "public" | "blank" | "error";
 
 export interface LayoutDimensions {
   sidebarWidth: number;

@@ -1,9 +1,6 @@
 export function fileUploadRecipe() {
   return {
-    root: [
-      "relative",
-      "w-full",
-    ].join(" "),
+    root: ["relative", "w-full"].join(" "),
 
     label: [
       "flex",
@@ -22,16 +19,12 @@ export function fileUploadRecipe() {
       "hover:bg-blue-50",
     ].join(" "),
 
-    input:
-      "hidden",
+    input: "hidden",
 
-    title:
-      "mt-3 text-base font-semibold",
+    title: "mt-3 text-base font-semibold",
 
-    subtitle:
-      "mt-1 text-sm text-gray-500",
+    subtitle: "mt-1 text-sm text-gray-500",
 
-    disabled:
-      "pointer-events-none opacity-50",
+    disabled: "pointer-events-none opacity-50",
   };
 }

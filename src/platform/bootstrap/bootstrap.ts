@@ -1,7 +1,4 @@
-import type {
-  BootstrapContract,
-  KernelContract,
-} from "@/platform/contracts";
+import type { BootstrapContract, KernelContract } from "@/platform/contracts";
 
 import { BootstrapGuard } from "./bootstrap-guard";
 import { BootstrapLifecycle } from "./bootstrap-lifecycle";
@@ -25,52 +22,35 @@ export class Bootstrap implements BootstrapContract {
   constructor(kernel: KernelContract) {
     this.kernel = kernel;
 
-    this.state =
-      new BootstrapStateManager();
+    this.state = new BootstrapStateManager();
 
-    this.lifecycle =
-      new BootstrapLifecycle(
-        this.state,
-      );
+    this.lifecycle = new BootstrapLifecycle(this.state);
 
-    this.guard =
-      new BootstrapGuard(
-        this.lifecycle,
-      );
+    this.guard = new BootstrapGuard(this.lifecycle);
 
-    this.registry =
-      new BootstrapRegistry();
+    this.registry = new BootstrapRegistry();
 
-    this.pipeline =
-      new BootstrapPipeline();
+    this.pipeline = new BootstrapPipeline();
   }
 
   get bootstrapped(): boolean {
-    return this.state.is(
-      "bootstrapped",
-    );
+    return this.state.is("bootstrapped");
   }
 
   async initialize(): Promise<void> {
     this.guard.initialize();
 
-    this.state.transition(
-      "bootstrapping",
-    );
+    this.state.transition("bootstrapping");
 
     await this.kernel.initialize();
 
-    this.state.transition(
-      "bootstrapped",
-    );
+    this.state.transition("bootstrapped");
   }
 
   async bootstrap(): Promise<void> {
     await this.initialize();
 
-    await this.pipeline.execute(
-      this.registry.values(),
-    );
+    await this.pipeline.execute(this.registry.values());
   }
 
   async start(): Promise<void> {
@@ -78,29 +58,21 @@ export class Bootstrap implements BootstrapContract {
 
     await this.bootstrap();
 
-    this.state.transition(
-      "running",
-    );
+    this.state.transition("running");
 
     await this.kernel.start();
   }
 
   async stop(): Promise<void> {
-    if (
-      !this.lifecycle.canStop()
-    ) {
+    if (!this.lifecycle.canStop()) {
       return;
     }
 
-    this.state.transition(
-      "stopping",
-    );
+    this.state.transition("stopping");
 
     await this.kernel.stop();
 
-    this.state.transition(
-      "stopped",
-    );
+    this.state.transition("stopped");
   }
 
   async destroy(): Promise<void> {

@@ -6,12 +6,8 @@ export class MenuError extends Error {
   }
 }
 
-export class MenuItemNotFoundError
-  extends MenuError
-{
+export class MenuItemNotFoundError extends MenuError {
   constructor(id: string) {
-    super(
-      `Menu item "${id}" was not found.`,
-    );
+    super(`Menu item "${id}" was not found.`);
   }
 }

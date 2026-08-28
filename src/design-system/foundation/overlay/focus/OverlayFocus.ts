@@ -7,15 +7,11 @@ export interface OverlayFocusOptions {
 export class OverlayFocus {
   private readonly options: OverlayFocusOptions;
 
-  constructor(
-    options: OverlayFocusOptions = {},
-  ) {
+  constructor(options: OverlayFocusOptions = {}) {
     this.options = options;
   }
 
-  focus(
-    element: HTMLElement | null,
-  ): void {
+  focus(element: HTMLElement | null): void {
     if (!this.options.autoFocus) {
       return;
     }
@@ -23,9 +19,7 @@ export class OverlayFocus {
     element?.focus();
   }
 
-  restore(
-    element: HTMLElement | null,
-  ): void {
+  restore(element: HTMLElement | null): void {
     if (!this.options.restoreFocus) {
       return;
     }
@@ -38,28 +32,17 @@ export class OverlayFocus {
     first: HTMLElement | null,
     last: HTMLElement | null,
   ): void {
-    if (
-      !this.options.trapFocus ||
-      event.key !== "Tab" ||
-      !first ||
-      !last
-    ) {
+    if (!this.options.trapFocus || event.key !== "Tab" || !first || !last) {
       return;
     }
 
-    if (
-      event.shiftKey &&
-      document.activeElement === first
-    ) {
+    if (event.shiftKey && document.activeElement === first) {
       event.preventDefault();
       last.focus();
       return;
     }
 
-    if (
-      !event.shiftKey &&
-      document.activeElement === last
-    ) {
+    if (!event.shiftKey && document.activeElement === last) {
       event.preventDefault();
       first.focus();
     }

@@ -1,52 +1,31 @@
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
-export function useMediaQuery(
-  query: string,
-): boolean {
+export function useMediaQuery(query: string): boolean {
   const getMatches = (): boolean => {
     if (typeof window === "undefined") {
       return false;
     }
 
-    return window
-      .matchMedia(query)
-      .matches;
+    return window.matchMedia(query).matches;
   };
 
-  const [matches, setMatches] =
-    useState<boolean>(
-      getMatches,
-    );
+  const [matches, setMatches] = useState<boolean>(getMatches);
 
   useEffect(() => {
     if (typeof window === "undefined") {
       return;
     }
 
-    const mediaQuery =
-      window.matchMedia(query);
+    const mediaQuery = window.matchMedia(query);
 
-    const handleChange = (
-      event: MediaQueryListEvent,
-    ) => {
-      setMatches(
-        event.matches,
-      );
+    const handleChange = (event: MediaQueryListEvent) => {
+      setMatches(event.matches);
     };
 
-    mediaQuery.addEventListener(
-      "change",
-      handleChange,
-    );
+    mediaQuery.addEventListener("change", handleChange);
 
     return () => {
-      mediaQuery.removeEventListener(
-        "change",
-        handleChange,
-      );
+      mediaQuery.removeEventListener("change", handleChange);
     };
   }, [query]);
 

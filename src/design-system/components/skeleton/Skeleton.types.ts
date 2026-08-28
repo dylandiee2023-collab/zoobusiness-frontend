@@ -1,12 +1,9 @@
-import type {
-  HTMLAttributes,
-} from "react";
+import type { HTMLAttributes } from "react";
 
-export interface SkeletonProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "children"
-  > {
+export interface SkeletonProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "children"
+> {
   width?: string;
 
   height?: string;

@@ -1,6 +1,4 @@
-import type {
-  AppShell,
-} from "./types";
+import type { AppShell } from "./types";
 
 export function createAppShell(): AppShell {
   let collapsed = false;

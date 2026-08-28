@@ -1,4 +1,1 @@
-export type SidebarMode =
-  | "expanded"
-  | "collapsed"
-  | "hidden";
+export type SidebarMode = "expanded" | "collapsed" | "hidden";

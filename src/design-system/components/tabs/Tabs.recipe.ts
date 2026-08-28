@@ -13,10 +13,8 @@ export function tabsRecipe() {
       "hover:text-blue-600",
     ].join(" "),
 
-    active:
-      "border-blue-600 text-blue-600",
+    active: "border-blue-600 text-blue-600",
 
-    disabled:
-      "cursor-not-allowed opacity-50",
+    disabled: "cursor-not-allowed opacity-50",
   };
 }

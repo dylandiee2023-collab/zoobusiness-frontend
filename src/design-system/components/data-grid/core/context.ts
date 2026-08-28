@@ -1,12 +1,5 @@
-import {
-  createContext,
-} from "react";
+import { createContext } from "react";
 
-import type {
-  DataGridContextValue,
-} from "./types";
+import type { DataGridContextValue } from "./types";
 
-export const DataGridContext =
-  createContext<
-    DataGridContextValue | null
-  >(null);
+export const DataGridContext = createContext<DataGridContextValue | null>(null);

@@ -1,23 +1,11 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
 export type TagVariant =
-  | "primary"
-  | "secondary"
-  | "success"
-  | "warning"
-  | "danger"
-  | "info";
+  "primary" | "secondary" | "success" | "warning" | "danger" | "info";
 
-export type TagSize =
-  | "sm"
-  | "md"
-  | "lg";
+export type TagSize = "sm" | "md" | "lg";
 
-export interface TagProps
-  extends HTMLAttributes<HTMLSpanElement> {
+export interface TagProps extends HTMLAttributes<HTMLSpanElement> {
   variant?: TagVariant;
 
   size?: TagSize;

@@ -1,12 +1,5 @@
-import {
-  createContext,
-} from "react";
+import { createContext } from "react";
 
-import type {
-  FeedbackController,
-} from "./FeedbackController";
+import type { FeedbackController } from "./FeedbackController";
 
-export const FeedbackContext =
-  createContext<FeedbackController | null>(
-    null,
-  );
+export const FeedbackContext = createContext<FeedbackController | null>(null);

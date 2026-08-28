@@ -1,43 +1,20 @@
-import {
-  forwardRef,
-} from "react";
+import { forwardRef } from "react";
 
-import {
-  Box,
-} from "@/design-system/layout/box";
+import { Box } from "@/design-system/layout/box";
 
-import {
-  useTheme,
-} from "@/theme/hooks";
+import { useTheme } from "@/theme/hooks";
 
-import {
-  textRecipe,
-} from "./Text.recipe";
+import { textRecipe } from "./Text.recipe";
 
-import type {
-  TextProps,
-} from "./Text.types";
+import type { TextProps } from "./Text.types";
 
-export const Text = forwardRef<
-  HTMLDivElement,
-  TextProps
->(function Text(
-  {
-    as = "p",
-    style,
-    children,
-    ...props
-  },
+export const Text = forwardRef<HTMLDivElement, TextProps>(function Text(
+  { as = "p", style, children, ...props },
   ref,
 ) {
-  const { theme } =
-    useTheme();
+  const { theme } = useTheme();
 
-  const recipe =
-    textRecipe(
-      theme,
-      props,
-    );
+  const recipe = textRecipe(theme, props);
 
   return (
     <Box

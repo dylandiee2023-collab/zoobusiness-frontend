@@ -10,14 +10,8 @@ export interface IconResult {
   role: "img";
 }
 
-export function createIcon(
-  theme: Theme,
-  props: IconProps = {},
-): IconResult {
-  const size =
-    theme.iconSizes[
-      props.size ?? "button"
-    ];
+export function createIcon(theme: Theme, props: IconProps = {}): IconResult {
+  const size = theme.iconSizes[props.size ?? "button"];
 
   return {
     style: {

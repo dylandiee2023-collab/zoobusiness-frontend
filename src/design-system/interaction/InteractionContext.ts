@@ -1,10 +1,7 @@
 import { createContext } from "react";
 
-import type {
-  InteractionController,
-} from "./InteractionController";
+import type { InteractionController } from "./InteractionController";
 
-export const InteractionContext =
-  createContext<InteractionController | null>(
-    null,
-  );
+export const InteractionContext = createContext<InteractionController | null>(
+  null,
+);

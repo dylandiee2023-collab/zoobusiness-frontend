@@ -13,7 +13,5 @@ export function RoleGuard({
   fallback,
   children,
 }: RoleGuardProps) {
-  return allowedRoles.includes(currentRole)
-    ? <>{children}</>
-    : <>{fallback}</>;
+  return allowedRoles.includes(currentRole) ? <>{children}</> : <>{fallback}</>;
 }

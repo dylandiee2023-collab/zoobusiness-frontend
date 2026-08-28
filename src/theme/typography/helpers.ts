@@ -1,35 +1,18 @@
-import type {
-  CSSProperties,
-} from "react";
+import type { CSSProperties } from "react";
 
-import type {
-  Breakpoint,
-} from "@/theme/media";
+import type { Breakpoint } from "@/theme/media";
 
-import {
-  typography,
-} from "./primitives";
+import { typography } from "./primitives";
 
-export function getTypography(
-  breakpoint: Breakpoint,
-) {
-  return typography[
-    breakpoint
-  ];
+export function getTypography(breakpoint: Breakpoint) {
+  return typography[breakpoint];
 }
 
-export function getTypographyStyle(
-  breakpoint: Breakpoint,
-): CSSProperties {
-  const value =
-    getTypography(
-      breakpoint,
-    );
+export function getTypographyStyle(breakpoint: Breakpoint): CSSProperties {
+  const value = getTypography(breakpoint);
 
   return {
-    fontSize:
-      `${value.fontSize}px`,
-    lineHeight:
-      `${value.lineHeight}px`,
+    fontSize: `${value.fontSize}px`,
+    lineHeight: `${value.lineHeight}px`,
   };
 }

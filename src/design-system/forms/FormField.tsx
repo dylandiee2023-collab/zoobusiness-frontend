@@ -1,14 +1,8 @@
-import {
-  useId,
-} from "react";
+import { useId } from "react";
 
-import {
-  FormProvider,
-} from "./FormProvider";
+import { FormProvider } from "./FormProvider";
 
-import type {
-  FormFieldProps,
-} from "./Form.types";
+import type { FormFieldProps } from "./Form.types";
 
 export function FormField({
   id,

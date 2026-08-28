@@ -1,8 +1,6 @@
 import { BaseManager } from "../foundation/managers";
 
-import type {
-  FeedbackManager,
-} from "./Feedback.types";
+import type { FeedbackManager } from "./Feedback.types";
 
 export class NotificationManager
   extends BaseManager

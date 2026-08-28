@@ -7,23 +7,13 @@ import { centerRecipe } from "./Center.recipe";
 
 import type { CenterProps } from "./Center.types";
 
-export const Center = forwardRef<
-  HTMLDivElement,
-  CenterProps
->(function Center(
-  {
-    style,
-    children,
-    ...props
-  },
+export const Center = forwardRef<HTMLDivElement, CenterProps>(function Center(
+  { style, children, ...props },
   ref,
 ) {
   const { theme } = useTheme();
 
-  const recipe = centerRecipe(
-    theme,
-    props,
-  );
+  const recipe = centerRecipe(theme, props);
 
   return (
     <Box

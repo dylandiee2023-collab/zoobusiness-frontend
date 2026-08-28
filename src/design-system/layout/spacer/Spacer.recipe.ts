@@ -2,13 +2,13 @@ import { createRecipe } from "@/design-system/foundation/recipes";
 
 import type { SpacerProps } from "./Spacer.types";
 
-export const spacerRecipe =
-  createRecipe<SpacerProps>({
-    recipe(_, props) {
-      const size = props.size ?? "1rem";
+export const spacerRecipe = createRecipe<SpacerProps>({
+  recipe(_, props) {
+    const size = props.size ?? "1rem";
 
-      return {
-        style: props.direction === "vertical"
+    return {
+      style:
+        props.direction === "vertical"
           ? {
               width: "100%",
               height: size,
@@ -20,6 +20,6 @@ export const spacerRecipe =
               flexShrink: 0,
               display: "inline-block",
             },
-      };
-    },
-  });
+    };
+  },
+});

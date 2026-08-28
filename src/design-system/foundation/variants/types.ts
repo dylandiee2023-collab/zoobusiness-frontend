@@ -4,10 +4,7 @@ import type { StyleObject } from "../contracts";
 
 export type VariantStyle = StyleObject;
 
-export type VariantMap = Record<
-  string,
-  VariantStyle
->;
+export type VariantMap = Record<string, VariantStyle>;
 
 export interface VariantOptions {
   theme: Theme;

@@ -1,17 +1,8 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
-export type AvatarSize =
-  | "xs"
-  | "sm"
-  | "md"
-  | "lg"
-  | "xl";
+export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl";
 
-export interface AvatarProps
-  extends HTMLAttributes<HTMLDivElement> {
+export interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
   src?: string;
 
   alt?: string;

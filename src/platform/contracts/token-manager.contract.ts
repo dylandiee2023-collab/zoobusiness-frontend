@@ -3,10 +3,7 @@ export interface TokenManagerContract {
 
   getRefreshToken(): string | null;
 
-  setTokens(
-    accessToken: string,
-    refreshToken: string,
-  ): void;
+  setTokens(accessToken: string, refreshToken: string): void;
 
   clear(): void;
 }

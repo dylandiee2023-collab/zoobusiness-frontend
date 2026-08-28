@@ -1,10 +1,6 @@
-import type {
-  OrganizationType,
-} from "@/dashboard/foundation";
+import type { OrganizationType } from "@/dashboard/foundation";
 
-import {
-  getOrganizationType,
-} from "@/dashboard/foundation";
+import { getOrganizationType } from "@/dashboard/foundation";
 
 export interface OrganizationEngine {
   current: OrganizationType;
@@ -16,9 +12,7 @@ export interface OrganizationEngine {
     label: string;
   };
 
-  is(
-    organization: OrganizationType,
-  ): boolean;
+  is(organization: OrganizationType): boolean;
 }
 
 export function createOrganizationEngine(
@@ -28,20 +22,14 @@ export function createOrganizationEngine(
     current: organization,
 
     exists(): boolean {
-      return !!getOrganizationType(
-        organization,
-      );
+      return !!getOrganizationType(organization);
     },
 
     resolve() {
-      return getOrganizationType(
-        organization,
-      );
+      return getOrganizationType(organization);
     },
 
-    is(
-      target: OrganizationType,
-    ): boolean {
+    is(target: OrganizationType): boolean {
       return organization === target;
     },
   };

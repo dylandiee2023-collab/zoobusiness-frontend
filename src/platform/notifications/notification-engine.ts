@@ -3,18 +3,11 @@ import type {
   NotificationOptions,
 } from "@/platform/contracts";
 
-export class NotificationEngine
-  implements NotificationEngineContract
-{
-  private readonly notifications:
-    NotificationOptions[] = [];
+export class NotificationEngine implements NotificationEngineContract {
+  private readonly notifications: NotificationOptions[] = [];
 
-  notify(
-    options: NotificationOptions,
-  ): void {
-    this.notifications.push(
-      options,
-    );
+  notify(options: NotificationOptions): void {
+    this.notifications.push(options);
   }
 
   clear(): void {

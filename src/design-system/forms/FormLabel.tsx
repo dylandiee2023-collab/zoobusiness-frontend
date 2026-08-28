@@ -1,14 +1,7 @@
-import {
-  useFormField,
-} from "./hooks/useFormField";
+import { useFormField } from "./hooks/useFormField";
 
 export function FormLabel() {
-  const {
-    id,
-    label,
-    required,
-    disabled,
-  } = useFormField();
+  const { id, label, required, disabled } = useFormField();
 
   if (!label) {
     return null;

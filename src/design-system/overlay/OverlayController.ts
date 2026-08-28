@@ -31,11 +31,7 @@ export class OverlayController {
   isOpen(id: string): boolean {
     return this.stack
       .all()
-      .some(
-        (overlay) =>
-          overlay.id === id &&
-          overlay.open,
-      );
+      .some((overlay) => overlay.id === id && overlay.open);
   }
 
   getStack(): readonly OverlayItem[] {

@@ -3,8 +3,5 @@ export interface UploadFile {
 
   readonly path?: string;
 
-  readonly metadata?: Record<
-    string,
-    unknown
-  >;
+  readonly metadata?: Record<string, unknown>;
 }

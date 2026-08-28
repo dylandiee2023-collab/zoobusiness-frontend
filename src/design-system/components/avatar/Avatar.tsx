@@ -1,18 +1,10 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
-import {
-  avatarRecipe,
-} from "./Avatar.recipe";
+import { avatarRecipe } from "./Avatar.recipe";
 
-import type {
-  AvatarProps,
-} from "./Avatar.types";
+import type { AvatarProps } from "./Avatar.types";
 
-function getInitials(
-  name?: string,
-): string {
+function getInitials(name?: string): string {
   if (!name) {
     return "?";
   }
@@ -21,9 +13,7 @@ function getInitials(
     .trim()
     .split(" ")
     .slice(0, 2)
-    .map(
-      (part) => part[0]?.toUpperCase() ?? "",
-    )
+    .map((part) => part[0]?.toUpperCase() ?? "")
     .join("");
 }
 
@@ -36,18 +26,9 @@ export function Avatar({
   ...props
 }: AvatarProps): JSX.Element {
   return (
-    <div
-      className={`${avatarRecipe(
-        size,
-      )} ${className}`}
-      {...props}
-    >
+    <div className={`${avatarRecipe(size)} ${className}`} {...props}>
       {src ? (
-        <img
-          src={src}
-          alt={alt}
-          className="h-full w-full object-cover"
-        />
+        <img src={src} alt={alt} className="h-full w-full object-cover" />
       ) : (
         getInitials(name)
       )}

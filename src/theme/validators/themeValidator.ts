@@ -9,10 +9,7 @@ const VALID_THEMES: readonly ThemeMode[] = [
 ] as const;
 
 export function isValidTheme(value: unknown): value is ThemeMode {
-  return (
-    typeof value === "string" &&
-    VALID_THEMES.includes(value as ThemeMode)
-  );
+  return typeof value === "string" && VALID_THEMES.includes(value as ThemeMode);
 }
 
 export function validateTheme(

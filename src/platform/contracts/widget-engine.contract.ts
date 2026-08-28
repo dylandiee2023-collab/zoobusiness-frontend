@@ -9,9 +9,7 @@ export interface WidgetDefinition {
 export interface WidgetEngineContract {
   getWidgets(): readonly WidgetDefinition[];
 
-  register(
-    widget: WidgetDefinition,
-  ): void;
+  register(widget: WidgetDefinition): void;
 
   unregister(id: string): void;
 

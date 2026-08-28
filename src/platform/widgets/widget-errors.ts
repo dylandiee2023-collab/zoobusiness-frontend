@@ -1,12 +1,7 @@
-export class WidgetEngineError
-  extends Error
-{
-  constructor(
-    message: string,
-  ) {
+export class WidgetEngineError extends Error {
+  constructor(message: string) {
     super(message);
 
-    this.name =
-      "WidgetEngineError";
+    this.name = "WidgetEngineError";
   }
 }

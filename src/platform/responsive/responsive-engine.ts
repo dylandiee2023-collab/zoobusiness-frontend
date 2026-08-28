@@ -1,10 +1,6 @@
-import type {
-  ResponsiveEngineContract,
-} from "@/platform/contracts";
+import type { ResponsiveEngineContract } from "@/platform/contracts";
 
-export class ResponsiveEngine
-  implements ResponsiveEngineContract
-{
+export class ResponsiveEngine implements ResponsiveEngineContract {
   get width(): number {
     return window.innerWidth;
   }
@@ -18,17 +14,11 @@ export class ResponsiveEngine
   }
 
   get tablet(): boolean {
-    return (
-      this.width >= 768 &&
-      this.width < 1024
-    );
+    return this.width >= 768 && this.width < 1024;
   }
 
   get laptop(): boolean {
-    return (
-      this.width >= 1024 &&
-      this.width < 1440
-    );
+    return this.width >= 1024 && this.width < 1440;
   }
 
   get desktop(): boolean {

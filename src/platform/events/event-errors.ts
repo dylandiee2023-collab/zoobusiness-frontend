@@ -8,8 +8,6 @@ export class EventBusError extends Error {
 
 export class EventNotFoundError extends EventBusError {
   constructor(event: string) {
-    super(
-      `Event "${event}" does not exist.`,
-    );
+    super(`Event "${event}" does not exist.`);
   }
 }

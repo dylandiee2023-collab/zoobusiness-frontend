@@ -1,14 +1,6 @@
 export function drawerRecipe(
-  placement:
-    | "left"
-    | "right"
-    | "top"
-    | "bottom" = "right",
-  size:
-    | "sm"
-    | "md"
-    | "lg"
-    | "xl" = "md",
+  placement: "left" | "right" | "top" | "bottom" = "right",
+  size: "sm" | "md" | "lg" | "xl" = "md",
 ) {
   const sizes = {
     sm: "w-72",
@@ -25,8 +17,7 @@ export function drawerRecipe(
   };
 
   return {
-    overlay:
-      "fixed inset-0 z-40 bg-black/40",
+    overlay: "fixed inset-0 z-40 bg-black/40",
 
     panel: [
       "fixed",
@@ -35,19 +26,12 @@ export function drawerRecipe(
       "shadow-2xl",
       "flex",
       "flex-col",
-      placement === "left" ||
-      placement === "right"
-        ? sizes[size]
-        : "",
-      placementStyles[
-        placement
-      ],
+      placement === "left" || placement === "right" ? sizes[size] : "",
+      placementStyles[placement],
     ].join(" "),
 
-    header:
-      "flex items-center justify-between border-b px-6 py-4",
+    header: "flex items-center justify-between border-b px-6 py-4",
 
-    body:
-      "flex-1 overflow-auto p-6",
+    body: "flex-1 overflow-auto p-6",
   };
 }

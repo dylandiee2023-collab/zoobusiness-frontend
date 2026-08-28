@@ -1,4 +1,1 @@
-export type BrandNameProps = Record<
-  never,
-  never
->;
+export type BrandNameProps = Record<never, never>;

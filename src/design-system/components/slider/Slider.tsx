@@ -1,15 +1,8 @@
-import type {
-  ChangeEvent,
-  JSX,
-} from "react";
+import type { ChangeEvent, JSX } from "react";
 
-import {
-  sliderRecipe,
-} from "./Slider.recipe";
+import { sliderRecipe } from "./Slider.recipe";
 
-import type {
-  SliderProps,
-} from "./Slider.types";
+import type { SliderProps } from "./Slider.types";
 
 export function Slider({
   value = 0,
@@ -22,38 +15,24 @@ export function Slider({
   className = "",
   ...props
 }: SliderProps): JSX.Element {
+  const styles = sliderRecipe();
 
-  const styles =
-    sliderRecipe();
-
-  function handleChange(
-    event: ChangeEvent<HTMLInputElement>,
-  ) {
-    onValueChange?.(
-      Number(event.target.value),
-    );
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    onValueChange?.(Number(event.target.value));
   }
 
   return (
     <div
-      className={[
-        styles.root,
-        disabled
-          ? styles.disabled
-          : "",
-        className,
-      ].join(" ")}
+      className={[styles.root, disabled ? styles.disabled : "", className].join(
+        " ",
+      )}
       {...props}
     >
       {showValue && (
         <div className={styles.header}>
-          <span>
-            Value
-          </span>
+          <span>Value</span>
 
-          <span className={styles.value}>
-            {value}
-          </span>
+          <span className={styles.value}>{value}</span>
         </div>
       )}
 

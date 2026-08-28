@@ -8,23 +8,13 @@ import { gridRecipe } from "./Grid.recipe";
 
 import type { GridProps } from "./Grid.types";
 
-export const Grid = forwardRef<
-  HTMLDivElement,
-  GridProps
->(function Grid(
-  {
-    style,
-    children,
-    ...props
-  },
+export const Grid = forwardRef<HTMLDivElement, GridProps>(function Grid(
+  { style, children, ...props },
   ref,
 ) {
   const { theme } = useTheme();
 
-  const recipe = gridRecipe(
-    theme,
-    props,
-  );
+  const recipe = gridRecipe(theme, props);
 
   return (
     <Box

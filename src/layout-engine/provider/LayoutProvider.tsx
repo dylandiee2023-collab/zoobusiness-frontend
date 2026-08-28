@@ -1,7 +1,4 @@
-import {
-  useMemo,
-  type ReactNode,
-} from "react";
+import { useMemo, type ReactNode } from "react";
 
 import { LayoutContext } from "../context/LayoutContext";
 import { LayoutService } from "../services/LayoutService";
@@ -12,18 +9,10 @@ interface LayoutProviderProps {
   children: ReactNode;
 }
 
-export function LayoutProvider({
-  layout,
-  children,
-}: LayoutProviderProps) {
-  const value = useMemo(
-    () => LayoutService.create(layout),
-    [layout]
-  );
+export function LayoutProvider({ layout, children }: LayoutProviderProps) {
+  const value = useMemo(() => LayoutService.create(layout), [layout]);
 
   return (
-    <LayoutContext.Provider value={value}>
-      {children}
-    </LayoutContext.Provider>
+    <LayoutContext.Provider value={value}>{children}</LayoutContext.Provider>
   );
 }

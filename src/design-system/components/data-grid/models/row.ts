@@ -1,6 +1,4 @@
-export interface RowState<
-  T = Record<string, unknown>,
-> {
+export interface RowState<T = Record<string, unknown>> {
   id: string;
 
   original: T;

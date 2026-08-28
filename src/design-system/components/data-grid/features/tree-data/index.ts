@@ -1,38 +1,22 @@
-export interface TreeRow<
-  T = Record<string, unknown>,
-> {
+export interface TreeRow<T = Record<string, unknown>> {
   id: string;
 
   data: T;
 
-  children?:
-    | TreeRow<T>[]
-    | undefined;
+  children?: TreeRow<T>[] | undefined;
 }
 
-export function flattenTree<
-  T = Record<string, unknown>,
->(
+export function flattenTree<T = Record<string, unknown>>(
   nodes: TreeRow<T>[],
 ): TreeRow<T>[] {
-  const result:
-    TreeRow<T>[] = [];
+  const result: TreeRow<T>[] = [];
 
-  function walk(
-    items:
-      TreeRow<T>[],
-  ) {
+  function walk(items: TreeRow<T>[]) {
     for (const item of items) {
-      result.push(
-        item,
-      );
+      result.push(item);
 
-      if (
-        item.children
-      ) {
-        walk(
-          item.children,
-        );
+      if (item.children) {
+        walk(item.children);
       }
     }
   }

@@ -5,20 +5,8 @@ import { useTheme } from "@/theme/hooks";
 
 import type { AlertProps } from "./Alert.types";
 
-export const Alert = forwardRef<
-  HTMLDivElement,
-  AlertProps
->(function Alert(
-  {
-    heading,
-    children,
-    icon,
-    className,
-    style,
-    closable,
-    onClose,
-    ...props
-  },
+export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  { heading, children, icon, className, style, closable, onClose, ...props },
   ref,
 ) {
   const { theme } = useTheme();

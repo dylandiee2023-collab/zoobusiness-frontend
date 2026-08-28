@@ -1,10 +1,5 @@
 export type IconSize =
-  | "navigation"
-  | "toolbar"
-  | "button"
-  | "input"
-  | "card"
-  | "avatar";
+  "navigation" | "toolbar" | "button" | "input" | "card" | "avatar";
 
 export interface IconProps {
   size?: IconSize;

@@ -1,32 +1,14 @@
-import type {
-  Command,
-  CommandEngineContract,
-} from "@/platform/contracts";
+import type { Command, CommandEngineContract } from "@/platform/contracts";
 
-export class CommandEngine
-  implements CommandEngineContract
-{
-  private readonly commands =
-    new Map<
-      string,
-      Command
-    >();
+export class CommandEngine implements CommandEngineContract {
+  private readonly commands = new Map<string, Command>();
 
-  register(
-    command: Command,
-  ): void {
-    this.commands.set(
-      command.id,
-      command,
-    );
+  register(command: Command): void {
+    this.commands.set(command.id, command);
   }
 
-  async execute(
-    id: string,
-  ): Promise<void> {
-
-    const command =
-      this.commands.get(id);
+  async execute(id: string): Promise<void> {
+    const command = this.commands.get(id);
 
     if (!command) {
       return;
@@ -35,9 +17,7 @@ export class CommandEngine
     await command.execute();
   }
 
-  unregister(
-    id: string,
-  ): void {
+  unregister(id: string): void {
     this.commands.delete(id);
   }
 

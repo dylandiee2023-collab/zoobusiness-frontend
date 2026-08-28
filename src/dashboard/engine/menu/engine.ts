@@ -1,11 +1,6 @@
-import type {
-  Menu,
-  MenuType,
-} from "@/dashboard/foundation";
+import type { Menu, MenuType } from "@/dashboard/foundation";
 
-import {
-  getMenu,
-} from "@/dashboard/foundation";
+import { getMenu } from "@/dashboard/foundation";
 
 export interface MenuEngine {
   current: MenuType;
@@ -14,14 +9,10 @@ export interface MenuEngine {
 
   resolve(): Menu;
 
-  is(
-    menu: MenuType,
-  ): boolean;
+  is(menu: MenuType): boolean;
 }
 
-export function createMenuEngine(
-  menu: MenuType,
-): MenuEngine {
+export function createMenuEngine(menu: MenuType): MenuEngine {
   return {
     current: menu,
 
@@ -33,9 +24,7 @@ export function createMenuEngine(
       return getMenu(menu);
     },
 
-    is(
-      target: MenuType,
-    ): boolean {
+    is(target: MenuType): boolean {
       return menu === target;
     },
   };

@@ -1,14 +1,8 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
-import {
-  accordionRecipe,
-} from "./Accordion.recipe";
+import { accordionRecipe } from "./Accordion.recipe";
 
-import type {
-  AccordionProps,
-} from "./Accordion.types";
+import type { AccordionProps } from "./Accordion.types";
 
 export function Accordion({
   items,
@@ -17,60 +11,30 @@ export function Accordion({
   className = "",
   ...props
 }: AccordionProps): JSX.Element {
-  const styles =
-    accordionRecipe();
+  const styles = accordionRecipe();
 
   return (
-    <div
-      className={`${styles.root} ${className}`}
-      {...props}
-    >
-      {items.map(
-        (item) => (
-          <div
-            key={item.id}
-            className={styles.item}
+    <div className={`${styles.root} ${className}`} {...props}>
+      {items.map((item) => (
+        <div key={item.id} className={styles.item}>
+          <button
+            type="button"
+            disabled={item.disabled}
+            className={`${styles.trigger} ${
+              item.disabled ? styles.disabled : ""
+            }`}
+            onClick={() => !item.disabled && onValueChange?.(item.id)}
           >
-            <button
-              type="button"
-              disabled={item.disabled}
-              className={`${styles.trigger} ${
-                item.disabled
-                  ? styles.disabled
-                  : ""
-              }`}
-              onClick={() =>
-                !item.disabled &&
-                onValueChange?.(
-                  item.id,
-                )
-              }
-            >
-              <span>
-                {item.title}
-              </span>
+            <span>{item.title}</span>
 
-              <span>
-                {expanded ===
-                item.id
-                  ? "−"
-                  : "+"}
-              </span>
-            </button>
+            <span>{expanded === item.id ? "−" : "+"}</span>
+          </button>
 
-            {expanded ===
-              item.id && (
-              <div
-                className={
-                  styles.content
-                }
-              >
-                {item.content}
-              </div>
-            )}
-          </div>
-        ),
-      )}
+          {expanded === item.id && (
+            <div className={styles.content}>{item.content}</div>
+          )}
+        </div>
+      ))}
     </div>
   );
 }

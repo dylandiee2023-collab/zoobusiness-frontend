@@ -1,7 +1,4 @@
-import type {
-  LoadingOptions,
-  LoadingSize,
-} from "./types";
+import type { LoadingOptions, LoadingSize } from "./types";
 
 export interface LoadingState {
   isLoading: boolean;
@@ -13,9 +10,7 @@ export interface LoadingState {
   delay: number;
 }
 
-export function createLoading(
-  options: LoadingOptions = {},
-): LoadingState {
+export function createLoading(options: LoadingOptions = {}): LoadingState {
   return {
     isLoading: options.loading ?? false,
 

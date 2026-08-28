@@ -6,12 +6,8 @@ export class PermissionError extends Error {
   }
 }
 
-export class PermissionNotFoundError
-  extends PermissionError
-{
+export class PermissionNotFoundError extends PermissionError {
   constructor(id: string) {
-    super(
-      `Permission "${id}" was not found.`,
-    );
+    super(`Permission "${id}" was not found.`);
   }
 }

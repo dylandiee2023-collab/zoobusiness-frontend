@@ -1,9 +1,5 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
-export interface VisuallyHiddenProps
-  extends HTMLAttributes<HTMLSpanElement> {
+export interface VisuallyHiddenProps extends HTMLAttributes<HTMLSpanElement> {
   children?: ReactNode;
 }

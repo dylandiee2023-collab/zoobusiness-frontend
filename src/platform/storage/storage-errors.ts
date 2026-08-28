@@ -8,8 +8,6 @@ export class StorageError extends Error {
 
 export class StorageKeyNotFoundError extends StorageError {
   constructor(key: string) {
-    super(
-      `Storage key "${key}" was not found.`,
-    );
+    super(`Storage key "${key}" was not found.`);
   }
 }

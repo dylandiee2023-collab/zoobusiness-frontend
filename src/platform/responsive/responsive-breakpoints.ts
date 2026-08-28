@@ -6,5 +6,4 @@ export const Breakpoints = {
   wide: 1920,
 } as const;
 
-export type Breakpoint =
-  keyof typeof Breakpoints;
+export type Breakpoint = keyof typeof Breakpoints;

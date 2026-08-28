@@ -1,12 +1,9 @@
-import type {
-  HTMLAttributes,
-} from "react";
+import type { HTMLAttributes } from "react";
 
-export interface RatingProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "onChange"
-  > {
+export interface RatingProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "onChange"
+> {
   value?: number | undefined;
 
   max?: number | undefined;
@@ -19,7 +16,5 @@ export interface RatingProps
 
   icon?: React.ReactNode | undefined;
 
-  onValueChange?: (
-    value: number,
-  ) => void;
+  onValueChange?: (value: number) => void;
 }

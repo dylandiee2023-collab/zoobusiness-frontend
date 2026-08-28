@@ -1,13 +1,9 @@
-import {
-  HistoryStack,
-} from "../history";
+import { HistoryStack } from "../history";
 
 export class UndoRedoManager<T> {
-  readonly undo =
-    new HistoryStack<T>();
+  readonly undo = new HistoryStack<T>();
 
-  readonly redo =
-    new HistoryStack<T>();
+  readonly redo = new HistoryStack<T>();
 
   save(state: T): void {
     this.undo.push(state);
@@ -15,8 +11,7 @@ export class UndoRedoManager<T> {
   }
 
   undoState(): T | undefined {
-    const state =
-      this.undo.pop();
+    const state = this.undo.pop();
 
     if (state) {
       this.redo.push(state);
@@ -26,8 +21,7 @@ export class UndoRedoManager<T> {
   }
 
   redoState(): T | undefined {
-    const state =
-      this.redo.pop();
+    const state = this.redo.pop();
 
     if (state) {
       this.undo.push(state);

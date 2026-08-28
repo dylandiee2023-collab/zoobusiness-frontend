@@ -1,6 +1,4 @@
-import type {
-  GridMap,
-} from "./types";
+import type { GridMap } from "./types";
 
 export const grids: GridMap = {
   mobile: {

@@ -1,53 +1,26 @@
-import type {
-  Resolver,
-} from "./types";
+import type { Resolver } from "./types";
 
-export function createResolver<
-  TKey extends string,
-  TValue,
->(): Resolver<
+export function createResolver<TKey extends string, TValue>(): Resolver<
   TKey,
   TValue
 > {
-  const storage =
-    new Map<
-      TKey,
-      TValue
-    >();
+  const storage = new Map<TKey, TValue>();
 
   return {
-    register(
-      key,
-      value,
-    ) {
-      storage.set(
-        key,
-        value,
-      );
+    register(key, value) {
+      storage.set(key, value);
     },
 
-    unregister(
-      key,
-    ) {
-      storage.delete(
-        key,
-      );
+    unregister(key) {
+      storage.delete(key);
     },
 
-    resolve(
-      key,
-    ) {
-      return storage.get(
-        key,
-      );
+    resolve(key) {
+      return storage.get(key);
     },
 
-    has(
-      key,
-    ) {
-      return storage.has(
-        key,
-      );
+    has(key) {
+      return storage.has(key);
     },
 
     clear() {

@@ -1,62 +1,62 @@
 [
-    {
-        "Component":  "Button",
-        "Locations":  2,
-        "Imports":  10,
-        "Exports":  34
-    },
-    {
-        "Component":  "Input",
-        "Locations":  1,
-        "Imports":  2,
-        "Exports":  21
-    },
-    {
-        "Component":  "Card",
-        "Locations":  2,
-        "Imports":  3,
-        "Exports":  18
-    },
-    {
-        "Component":  "Avatar",
-        "Locations":  2,
-        "Imports":  3,
-        "Exports":  12
-    },
-    {
-        "Component":  "Badge",
-        "Locations":  2,
-        "Imports":  3,
-        "Exports":  13
-    },
-    {
-        "Component":  "Alert",
-        "Locations":  2,
-        "Imports":  3,
-        "Exports":  13
-    },
-    {
-        "Component":  "Spinner",
-        "Locations":  2,
-        "Imports":  3,
-        "Exports":  14
-    },
-    {
-        "Component":  "Pagination",
-        "Locations":  3,
-        "Imports":  2,
-        "Exports":  11
-    },
-    {
-        "Component":  "Tabs",
-        "Locations":  2,
-        "Imports":  2,
-        "Exports":  11
-    },
-    {
-        "Component":  "Overlay",
-        "Locations":  2,
-        "Imports":  17,
-        "Exports":  58
-    }
+  {
+    "Component": "Button",
+    "Locations": 2,
+    "Imports": 10,
+    "Exports": 34
+  },
+  {
+    "Component": "Input",
+    "Locations": 1,
+    "Imports": 2,
+    "Exports": 21
+  },
+  {
+    "Component": "Card",
+    "Locations": 2,
+    "Imports": 3,
+    "Exports": 18
+  },
+  {
+    "Component": "Avatar",
+    "Locations": 2,
+    "Imports": 3,
+    "Exports": 12
+  },
+  {
+    "Component": "Badge",
+    "Locations": 2,
+    "Imports": 3,
+    "Exports": 13
+  },
+  {
+    "Component": "Alert",
+    "Locations": 2,
+    "Imports": 3,
+    "Exports": 13
+  },
+  {
+    "Component": "Spinner",
+    "Locations": 2,
+    "Imports": 3,
+    "Exports": 14
+  },
+  {
+    "Component": "Pagination",
+    "Locations": 3,
+    "Imports": 2,
+    "Exports": 11
+  },
+  {
+    "Component": "Tabs",
+    "Locations": 2,
+    "Imports": 2,
+    "Exports": 11
+  },
+  {
+    "Component": "Overlay",
+    "Locations": 2,
+    "Imports": 17,
+    "Exports": 58
+  }
 ]

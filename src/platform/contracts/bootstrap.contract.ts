@@ -5,16 +5,10 @@ import type {
   Stoppable,
 } from "@/platform/types";
 
-import type {
-  KernelContract,
-} from "./kernel.contract";
+import type { KernelContract } from "./kernel.contract";
 
 export interface BootstrapContract
-  extends Initializable,
-    Startable,
-    Stoppable,
-    Disposable {
-
+  extends Initializable, Startable, Stoppable, Disposable {
   readonly kernel: KernelContract;
 
   readonly bootstrapped: boolean;

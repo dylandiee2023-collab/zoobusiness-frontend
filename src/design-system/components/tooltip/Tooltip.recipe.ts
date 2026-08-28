@@ -1,9 +1,5 @@
 export function tooltipRecipe(
-  placement:
-    | "top"
-    | "bottom"
-    | "left"
-    | "right" = "top",
+  placement: "top" | "bottom" | "left" | "right" = "top",
 ) {
   const positions = {
     top: "bottom-full left-1/2 -translate-x-1/2 mb-2",

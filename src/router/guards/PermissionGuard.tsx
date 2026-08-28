@@ -17,7 +17,5 @@ export function PermissionGuard({
     permissions.includes(permission),
   );
 
-  return allowed
-    ? <>{children}</>
-    : <>{fallback}</>;
+  return allowed ? <>{children}</> : <>{fallback}</>;
 }

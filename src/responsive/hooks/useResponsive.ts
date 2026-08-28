@@ -5,9 +5,7 @@ export function useResponsive() {
   const context = useContext(ResponsiveContext);
 
   if (!context) {
-    throw new Error(
-      "useResponsive must be used inside ResponsiveProvider."
-    );
+    throw new Error("useResponsive must be used inside ResponsiveProvider.");
   }
 
   return context;

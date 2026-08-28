@@ -6,9 +6,7 @@ export class UploadError extends Error {
   }
 }
 
-export class UploadFailedError
-  extends UploadError
-{
+export class UploadFailedError extends UploadError {
   constructor() {
     super("Upload failed.");
   }

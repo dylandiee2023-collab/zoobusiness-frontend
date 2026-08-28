@@ -6,21 +6,13 @@ export interface ToolkitComponent<Props = unknown> {
 }
 
 export interface Toolkit {
-  register<Props>(
-    component: ToolkitComponent<Props>,
-  ): void;
+  register<Props>(component: ToolkitComponent<Props>): void;
 
-  get<Props>(
-    name: string,
-  ): ToolkitComponent<Props> | undefined;
+  get<Props>(name: string): ToolkitComponent<Props> | undefined;
 
-  has(
-    name: string,
-  ): boolean;
+  has(name: string): boolean;
 
-  remove(
-    name: string,
-  ): void;
+  remove(name: string): void;
 
   clear(): void;
 }

@@ -1,6 +1,4 @@
-import type {
-  HTMLAttributes,
-} from "react";
+import type { HTMLAttributes } from "react";
 
 export interface ComboboxItem {
   value: string;
@@ -10,11 +8,10 @@ export interface ComboboxItem {
   disabled?: boolean;
 }
 
-export interface ComboboxProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "onChange"
-  > {
+export interface ComboboxProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "onChange"
+> {
   items: ComboboxItem[];
 
   value?: string;
@@ -25,7 +22,5 @@ export interface ComboboxProps
 
   searchable?: boolean;
 
-  onValueChange?: (
-    value: string,
-  ) => void;
+  onValueChange?: (value: string) => void;
 }

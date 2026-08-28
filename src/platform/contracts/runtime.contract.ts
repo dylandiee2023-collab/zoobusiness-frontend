@@ -7,10 +7,7 @@ import type {
 } from "@/platform/types";
 
 export interface RuntimeContract
-  extends Initializable,
-    Startable,
-    Stoppable,
-    Disposable {
+  extends Initializable, Startable, Stoppable, Disposable {
   readonly state: LifecycleState;
 
   readonly ready: boolean;

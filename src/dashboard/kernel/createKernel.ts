@@ -1,6 +1,4 @@
-import type {
-  DashboardKernel,
-} from "./types";
+import type { DashboardKernel } from "./types";
 
 export function createKernel(): DashboardKernel {
   let running = false;

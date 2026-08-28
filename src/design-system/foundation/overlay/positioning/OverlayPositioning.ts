@@ -1,6 +1,4 @@
-import type {
-  OverlayPlacement,
-} from "../contracts";
+import type { OverlayPlacement } from "../contracts";
 
 export interface Position {
   x: number;
@@ -21,61 +19,37 @@ export class OverlayPositioning {
     placement,
     offset = 8,
   }: PositioningOptions): Position {
-    const triggerRect =
-      trigger.getBoundingClientRect();
+    const triggerRect = trigger.getBoundingClientRect();
 
-    const contentRect =
-      content.getBoundingClientRect();
+    const contentRect = content.getBoundingClientRect();
 
     switch (placement) {
       case "top":
         return {
-          x:
-            triggerRect.left +
-            triggerRect.width / 2 -
-            contentRect.width / 2,
+          x: triggerRect.left + triggerRect.width / 2 - contentRect.width / 2,
 
-          y:
-            triggerRect.top -
-            contentRect.height -
-            offset,
+          y: triggerRect.top - contentRect.height - offset,
         };
 
       case "bottom":
         return {
-          x:
-            triggerRect.left +
-            triggerRect.width / 2 -
-            contentRect.width / 2,
+          x: triggerRect.left + triggerRect.width / 2 - contentRect.width / 2,
 
-          y:
-            triggerRect.bottom +
-            offset,
+          y: triggerRect.bottom + offset,
         };
 
       case "left":
         return {
-          x:
-            triggerRect.left -
-            contentRect.width -
-            offset,
+          x: triggerRect.left - contentRect.width - offset,
 
-          y:
-            triggerRect.top +
-            triggerRect.height / 2 -
-            contentRect.height / 2,
+          y: triggerRect.top + triggerRect.height / 2 - contentRect.height / 2,
         };
 
       case "right":
         return {
-          x:
-            triggerRect.right +
-            offset,
+          x: triggerRect.right + offset,
 
-          y:
-            triggerRect.top +
-            triggerRect.height / 2 -
-            contentRect.height / 2,
+          y: triggerRect.top + triggerRect.height / 2 - contentRect.height / 2,
         };
 
       default:

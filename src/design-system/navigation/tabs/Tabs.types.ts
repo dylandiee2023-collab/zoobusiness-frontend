@@ -1,7 +1,4 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
 export interface TabItem {
   value: string;
@@ -13,11 +10,10 @@ export interface TabItem {
   disabled?: boolean;
 }
 
-export interface TabsProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "onChange"
-  > {
+export interface TabsProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "onChange"
+> {
   value: string;
 
   items: TabItem[];

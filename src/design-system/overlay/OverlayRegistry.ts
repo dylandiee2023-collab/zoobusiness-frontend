@@ -1,39 +1,21 @@
 import { BaseRegistry } from "../foundation/registry";
 
-import type {
-  OverlayItem,
-} from "./Overlay.types";
+import type { OverlayItem } from "./Overlay.types";
 
-export class OverlayRegistry
-  extends BaseRegistry<
-    string,
-    OverlayItem
-  >
-{
-  register(
-    overlay: OverlayItem,
-  ): void {
-    this.set(
-      overlay.id,
-      overlay,
-    );
+export class OverlayRegistry extends BaseRegistry<string, OverlayItem> {
+  register(overlay: OverlayItem): void {
+    this.set(overlay.id, overlay);
   }
 
-  unregister(
-    id: string,
-  ): void {
+  unregister(id: string): void {
     this.delete(id);
   }
 
-  get(
-    id: string,
-  ): OverlayItem | undefined {
+  get(id: string): OverlayItem | undefined {
     return this.getValue(id);
   }
 
-  has(
-    id: string,
-  ): boolean {
+  has(id: string): boolean {
     return this.hasValue(id);
   }
 

@@ -1,6 +1,4 @@
-import type {
-  SidebarItem,
-} from "./sidebar-item";
+import type { SidebarItem } from "./sidebar-item";
 
 export interface SidebarGroup {
   readonly id: string;

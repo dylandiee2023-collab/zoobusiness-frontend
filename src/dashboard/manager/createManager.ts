@@ -1,6 +1,4 @@
-import type {
-  DashboardManager,
-} from "./types";
+import type { DashboardManager } from "./types";
 
 export function createManager(): DashboardManager {
   let active = false;

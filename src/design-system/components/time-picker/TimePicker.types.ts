@@ -1,6 +1,4 @@
-import type {
-  HTMLAttributes,
-} from "react";
+import type { HTMLAttributes } from "react";
 
 export interface TimeValue {
   hour: number;
@@ -8,11 +6,10 @@ export interface TimeValue {
   minute: number;
 }
 
-export interface TimePickerProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "onChange"
-  > {
+export interface TimePickerProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "onChange"
+> {
   value?: TimeValue | undefined;
 
   disabled?: boolean | undefined;
@@ -21,7 +18,5 @@ export interface TimePickerProps
 
   format?: "12h" | "24h" | undefined;
 
-  onValueChange?: (
-    value: TimeValue,
-  ) => void;
+  onValueChange?: (value: TimeValue) => void;
 }

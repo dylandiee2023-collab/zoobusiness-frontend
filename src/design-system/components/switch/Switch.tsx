@@ -1,14 +1,8 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
-import {
-  switchRecipe,
-} from "./Switch.recipe";
+import { switchRecipe } from "./Switch.recipe";
 
-import type {
-  SwitchProps,
-} from "./Switch.types";
+import type { SwitchProps } from "./Switch.types";
 
 export function Switch({
   size = "md",
@@ -16,8 +10,7 @@ export function Switch({
   className = "",
   ...props
 }: SwitchProps): JSX.Element {
-  const styles =
-    switchRecipe(size);
+  const styles = switchRecipe(size);
 
   return (
     <label className="inline-flex items-center gap-3 cursor-pointer">
@@ -33,9 +26,7 @@ export function Switch({
         <span className={styles.thumb} />
       </span>
 
-      {label && (
-        <span>{label}</span>
-      )}
+      {label && <span>{label}</span>}
     </label>
   );
 }

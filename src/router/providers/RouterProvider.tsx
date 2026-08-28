@@ -4,8 +4,6 @@ export interface RouterProviderProps {
   children: ReactNode;
 }
 
-export function RouterProvider({
-  children,
-}: RouterProviderProps) {
+export function RouterProvider({ children }: RouterProviderProps) {
   return <>{children}</>;
 }

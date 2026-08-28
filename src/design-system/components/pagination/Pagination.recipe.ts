@@ -16,10 +16,8 @@ export function paginationRecipe() {
       "hover:bg-blue-50",
     ].join(" "),
 
-    active:
-      "border-blue-600 bg-blue-600 text-white",
+    active: "border-blue-600 bg-blue-600 text-white",
 
-    disabled:
-      "cursor-not-allowed opacity-50",
+    disabled: "cursor-not-allowed opacity-50",
   };
 }

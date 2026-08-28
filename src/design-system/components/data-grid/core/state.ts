@@ -1,22 +1,16 @@
 export interface DataGridState {
   selectedRows: string[];
 
-  sortColumn?:
-    | string
-    | undefined;
+  sortColumn?: string | undefined;
 
-  sortDirection?:
-    | "asc"
-    | "desc"
-    | undefined;
+  sortDirection?: "asc" | "desc" | undefined;
 
   page: number;
 
   pageSize: number;
 }
 
-export const initialDataGridState: DataGridState =
-{
+export const initialDataGridState: DataGridState = {
   selectedRows: [],
 
   page: 1,

@@ -1,31 +1,13 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
-export interface ScrollAreaProps
-  extends HTMLAttributes<HTMLDivElement> {
+export interface ScrollAreaProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
 
-  orientation?:
-    | "vertical"
-    | "horizontal"
-    | "both"
-    | undefined;
+  orientation?: "vertical" | "horizontal" | "both" | undefined;
 
-  maxHeight?:
-    | number
-    | string
-    | undefined;
+  maxHeight?: number | string | undefined;
 
-  maxWidth?:
-    | number
-    | string
-    | undefined;
+  maxWidth?: number | string | undefined;
 
-  scrollbar?:
-    | "auto"
-    | "always"
-    | "hidden"
-    | undefined;
+  scrollbar?: "auto" | "always" | "hidden" | undefined;
 }

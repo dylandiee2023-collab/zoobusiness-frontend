@@ -1,12 +1,9 @@
-import type {
-  HTMLAttributes,
-} from "react";
+import type { HTMLAttributes } from "react";
 
-export interface CalendarProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "onChange"
-  > {
+export interface CalendarProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "onChange"
+> {
   value?: Date | undefined;
 
   month?: number | undefined;
@@ -17,7 +14,5 @@ export interface CalendarProps
 
   maxDate?: Date | undefined;
 
-  onValueChange?: (
-    date: Date,
-  ) => void;
+  onValueChange?: (date: Date) => void;
 }

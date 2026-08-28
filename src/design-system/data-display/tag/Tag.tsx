@@ -6,19 +6,8 @@ import { tagRecipe } from "./Tag.recipe";
 
 import type { TagProps } from "./Tag.types";
 
-export const Tag = forwardRef<
-  HTMLSpanElement,
-  TagProps
->(function Tag(
-  {
-    variant,
-    size,
-    rounded,
-    className,
-    style,
-    children,
-    ...props
-  },
+export const Tag = forwardRef<HTMLSpanElement, TagProps>(function Tag(
+  { variant, size, rounded, className, style, children, ...props },
   ref,
 ) {
   const { theme } = useTheme();

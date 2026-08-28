@@ -3,8 +3,5 @@ export interface IconEngineContract {
 
   resolve(name: string): unknown;
 
-  register(
-    name: string,
-    icon: unknown,
-  ): void;
+  register(name: string, icon: unknown): void;
 }

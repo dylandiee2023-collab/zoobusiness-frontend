@@ -1,7 +1,6 @@
 export function dateRangePickerRecipe() {
   return {
-    root:
-      "relative w-full",
+    root: "relative w-full",
 
     input: [
       "w-full",
@@ -17,13 +16,10 @@ export function dateRangePickerRecipe() {
       "focus:ring-blue-200",
     ].join(" "),
 
-    popup:
-      "absolute left-0 top-full z-50 mt-2",
+    popup: "absolute left-0 top-full z-50 mt-2",
 
-    calendar:
-      "space-y-4",
+    calendar: "space-y-4",
 
-    divider:
-      "border-t border-gray-200 my-2",
+    divider: "border-t border-gray-200 my-2",
   };
 }

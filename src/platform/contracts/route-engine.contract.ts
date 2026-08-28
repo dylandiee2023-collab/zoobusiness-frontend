@@ -9,9 +9,7 @@ export interface RouteDefinition {
 export interface RouteEngineContract {
   getRoutes(): readonly RouteDefinition[];
 
-  register(
-    route: RouteDefinition,
-  ): void;
+  register(route: RouteDefinition): void;
 
   unregister(path: string): void;
 

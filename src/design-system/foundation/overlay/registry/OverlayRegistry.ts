@@ -1,64 +1,38 @@
-import type {
-  OverlayInstance,
-} from "../contracts";
+import type { OverlayInstance } from "../contracts";
 
 export class OverlayRegistry {
-  private readonly overlays =
-    new Map<string, OverlayInstance>();
+  private readonly overlays = new Map<string, OverlayInstance>();
 
-  register(
-    overlay: OverlayInstance,
-  ): void {
-    this.overlays.set(
-      overlay.id,
-      overlay,
-    );
+  register(overlay: OverlayInstance): void {
+    this.overlays.set(overlay.id, overlay);
   }
 
-  unregister(
-    id: string,
-  ): void {
+  unregister(id: string): void {
     this.overlays.delete(id);
   }
 
-  exists(
-    id: string,
-  ): boolean {
+  exists(id: string): boolean {
     return this.overlays.has(id);
   }
 
-  get(
-    id: string,
-  ): OverlayInstance | undefined {
+  get(id: string): OverlayInstance | undefined {
     return this.overlays.get(id);
   }
 
   getAll(): OverlayInstance[] {
-    return [
-      ...this.overlays.values(),
-    ];
+    return [...this.overlays.values()];
   }
 
   getOpen(): OverlayInstance[] {
-    return this.getAll().filter(
-      overlay => overlay.open,
-    );
+    return this.getAll().filter((overlay) => overlay.open);
   }
 
-  isOpen(
-    id: string,
-  ): boolean {
-    return (
-      this.overlays.get(id)?.open ??
-      false
-    );
+  isOpen(id: string): boolean {
+    return this.overlays.get(id)?.open ?? false;
   }
 
-  open(
-    id: string,
-  ): boolean {
-    const overlay =
-      this.overlays.get(id);
+  open(id: string): boolean {
+    const overlay = this.overlays.get(id);
 
     if (!overlay) {
       return false;
@@ -69,11 +43,8 @@ export class OverlayRegistry {
     return true;
   }
 
-  close(
-    id: string,
-  ): boolean {
-    const overlay =
-      this.overlays.get(id);
+  close(id: string): boolean {
+    const overlay = this.overlays.get(id);
 
     if (!overlay) {
       return false;
@@ -84,18 +55,14 @@ export class OverlayRegistry {
     return true;
   }
 
-  toggle(
-    id: string,
-  ): boolean {
-    const overlay =
-      this.overlays.get(id);
+  toggle(id: string): boolean {
+    const overlay = this.overlays.get(id);
 
     if (!overlay) {
       return false;
     }
 
-    overlay.open =
-      !overlay.open;
+    overlay.open = !overlay.open;
 
     return true;
   }

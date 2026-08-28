@@ -1,13 +1,9 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
-export interface ModalProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "title"
-  > {
+export interface ModalProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "title"
+> {
   open: boolean;
 
   title?: ReactNode;

@@ -1,10 +1,6 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
-export interface PortalProps
-  extends HTMLAttributes<HTMLDivElement> {
+export interface PortalProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 
   container?: Element | DocumentFragment | null;

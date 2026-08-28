@@ -8,8 +8,6 @@ export class RouteError extends Error {
 
 export class RouteNotFoundError extends RouteError {
   constructor(path: string) {
-    super(
-      `Route "${path}" was not found.`,
-    );
+    super(`Route "${path}" was not found.`);
   }
 }

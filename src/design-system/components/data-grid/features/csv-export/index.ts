@@ -1,9 +1,4 @@
-export function exportToCsv<
-  T extends Record<
-    string,
-    unknown
-  >,
->(
+export function exportToCsv<T extends Record<string, unknown>>(
   rows: readonly T[],
 ): string {
   if (rows.length === 0) {
@@ -16,22 +11,11 @@ export function exportToCsv<
     return "";
   }
 
-  const headers =
-    Object.keys(first);
+  const headers = Object.keys(first);
 
-  const lines = rows.map(
-    (row) =>
-      headers
-        .map((header) =>
-          JSON.stringify(
-            row[header],
-          ),
-        )
-        .join(","),
+  const lines = rows.map((row) =>
+    headers.map((header) => JSON.stringify(row[header])).join(","),
   );
 
-  return [
-    headers.join(","),
-    ...lines,
-  ].join("\n");
+  return [headers.join(","), ...lines].join("\n");
 }

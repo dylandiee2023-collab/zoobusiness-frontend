@@ -1,19 +1,10 @@
-import {
-  useState,
-  type JSX,
-} from "react";
+import { useState, type JSX } from "react";
 
-import {
-  Calendar,
-} from "../calendar";
+import { Calendar } from "../calendar";
 
-import {
-  datePickerRecipe,
-} from "./DatePicker.recipe";
+import { datePickerRecipe } from "./DatePicker.recipe";
 
-import type {
-  DatePickerProps,
-} from "./DatePicker.types";
+import type { DatePickerProps } from "./DatePicker.types";
 
 export function DatePicker({
   value,
@@ -23,38 +14,22 @@ export function DatePicker({
   className = "",
   ...props
 }: DatePickerProps): JSX.Element {
+  const styles = datePickerRecipe();
 
-  const styles =
-    datePickerRecipe();
-
-  const [open, setOpen] =
-    useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
-    <div
-      className={`${styles.root} ${className}`}
-      {...props}
-    >
+    <div className={`${styles.root} ${className}`} {...props}>
       <input
         readOnly
         disabled={disabled}
-        value={
-          value
-            ? value.toLocaleDateString()
-            : ""
-        }
+        value={value ? value.toLocaleDateString() : ""}
         placeholder={placeholder}
         className={styles.input}
-        onClick={() =>
-          setOpen(
-            (state) => !state,
-          )
-        }
+        onClick={() => setOpen((state) => !state)}
       />
 
-      <span className={styles.icon}>
-        📅
-      </span>
+      <span className={styles.icon}>📅</span>
 
       {open && (
         <div className={styles.popup}>

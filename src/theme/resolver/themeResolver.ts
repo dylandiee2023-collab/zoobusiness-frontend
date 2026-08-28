@@ -23,9 +23,7 @@ export function resolveTheme(mode: ThemeMode): Theme {
       return lightTheme;
 
     case "system":
-      return getSystemTheme() === "dark"
-        ? darkTheme
-        : lightTheme;
+      return getSystemTheme() === "dark" ? darkTheme : lightTheme;
 
     case "glass":
       // TODO: Replace with glassTheme

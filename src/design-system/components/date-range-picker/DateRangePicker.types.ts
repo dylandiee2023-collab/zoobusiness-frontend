@@ -1,6 +1,4 @@
-import type {
-  HTMLAttributes,
-} from "react";
+import type { HTMLAttributes } from "react";
 
 export interface DateRange {
   start?: Date | undefined;
@@ -8,18 +6,15 @@ export interface DateRange {
   end?: Date | undefined;
 }
 
-export interface DateRangePickerProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "onChange"
-  > {
+export interface DateRangePickerProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "onChange"
+> {
   value?: DateRange | undefined;
 
   placeholder?: string | undefined;
 
   disabled?: boolean | undefined;
 
-  onValueChange?: (
-    value: DateRange,
-  ) => void;
+  onValueChange?: (value: DateRange) => void;
 }

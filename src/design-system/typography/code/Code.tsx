@@ -1,39 +1,18 @@
-import {
-  forwardRef,
-} from "react";
+import { forwardRef } from "react";
 
-import {
-  useTheme,
-} from "@/theme/hooks";
+import { useTheme } from "@/theme/hooks";
 
-import {
-  codeRecipe,
-} from "./Code.recipe";
+import { codeRecipe } from "./Code.recipe";
 
-import type {
-  CodeProps,
-} from "./Code.types";
+import type { CodeProps } from "./Code.types";
 
-export const Code = forwardRef<
-  HTMLElement,
-  CodeProps
->(function Code(
-  {
-    style,
-    children,
-    ...props
-  },
+export const Code = forwardRef<HTMLElement, CodeProps>(function Code(
+  { style, children, ...props },
   ref,
 ) {
+  const { theme } = useTheme();
 
-  const { theme } =
-    useTheme();
-
-  const recipe =
-    codeRecipe(
-      theme,
-      props,
-    );
+  const recipe = codeRecipe(theme, props);
 
   return (
     <code
@@ -49,5 +28,4 @@ export const Code = forwardRef<
   );
 });
 
-Code.displayName =
-  "Code";
+Code.displayName = "Code";

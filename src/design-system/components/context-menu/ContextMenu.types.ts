@@ -1,7 +1,4 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
 export interface ContextMenuItem {
   id: string;
@@ -17,11 +14,10 @@ export interface ContextMenuItem {
   disabled?: boolean;
 }
 
-export interface ContextMenuProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "onSelect"
-  > {
+export interface ContextMenuProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "onSelect"
+> {
   open: boolean;
 
   items: ContextMenuItem[];
@@ -30,9 +26,7 @@ export interface ContextMenuProps
 
   y: number;
 
-  onValueChange?: (
-    id: string,
-  ) => void;
+  onValueChange?: (id: string) => void;
 
   onClose?: () => void;
 }

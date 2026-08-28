@@ -1,7 +1,4 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
 export interface DropdownItem {
   label: ReactNode;
@@ -11,16 +8,13 @@ export interface DropdownItem {
   disabled?: boolean;
 }
 
-export interface DropdownProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "onChange" | "onSelect"
-  > {
+export interface DropdownProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "onChange" | "onSelect"
+> {
   open: boolean;
 
   items: DropdownItem[];
 
-  onValueChange?: (
-    value: string,
-  ) => void;
+  onValueChange?: (value: string) => void;
 }

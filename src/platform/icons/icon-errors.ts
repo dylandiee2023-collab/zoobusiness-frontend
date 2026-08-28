@@ -6,12 +6,8 @@ export class IconEngineError extends Error {
   }
 }
 
-export class IconNotFoundError
-  extends IconEngineError
-{
+export class IconNotFoundError extends IconEngineError {
   constructor(id: string) {
-    super(
-      `Icon "${id}" was not found.`,
-    );
+    super(`Icon "${id}" was not found.`);
   }
 }

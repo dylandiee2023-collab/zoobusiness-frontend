@@ -1,42 +1,23 @@
-import type {
-  CacheContract,
-} from "@/platform/contracts";
+import type { CacheContract } from "@/platform/contracts";
 
 import { CacheEngine } from "./cache-engine";
 
-export class Cache
-  implements CacheContract
-{
-  private readonly engine =
-    new CacheEngine();
+export class Cache implements CacheContract {
+  private readonly engine = new CacheEngine();
 
-  has(
-    key: string,
-  ): boolean {
+  has(key: string): boolean {
     return this.engine.has(key);
   }
 
-  get<T>(
-    key: string,
-  ): T | null {
-    return this.engine.get<T>(
-      key,
-    );
+  get<T>(key: string): T | null {
+    return this.engine.get<T>(key);
   }
 
-  set<T>(
-    key: string,
-    value: T,
-  ): void {
-    this.engine.set(
-      key,
-      value,
-    );
+  set<T>(key: string, value: T): void {
+    this.engine.set(key, value);
   }
 
-  remove(
-    key: string,
-  ): void {
+  remove(key: string): void {
     this.engine.remove(key);
   }
 

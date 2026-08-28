@@ -1,11 +1,6 @@
-import type {
-  Role,
-  RoleType,
-} from "@/dashboard/foundation";
+import type { Role, RoleType } from "@/dashboard/foundation";
 
-import {
-  getRole,
-} from "@/dashboard/foundation";
+import { getRole } from "@/dashboard/foundation";
 
 export interface RoleEngine {
   current: RoleType;
@@ -14,14 +9,10 @@ export interface RoleEngine {
 
   resolve(): Role;
 
-  is(
-    role: RoleType,
-  ): boolean;
+  is(role: RoleType): boolean;
 }
 
-export function createRoleEngine(
-  role: RoleType,
-): RoleEngine {
+export function createRoleEngine(role: RoleType): RoleEngine {
   return {
     current: role,
 
@@ -33,9 +24,7 @@ export function createRoleEngine(
       return getRole(role);
     },
 
-    is(
-      target: RoleType,
-    ): boolean {
+    is(target: RoleType): boolean {
       return role === target;
     },
   };

@@ -1,30 +1,18 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
-export interface DrawerProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "title"
-  > {
+export interface DrawerProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "title"
+> {
   open: boolean;
 
   heading?: ReactNode;
 
   children: ReactNode;
 
-  placement?:
-    | "left"
-    | "right"
-    | "top"
-    | "bottom";
+  placement?: "left" | "right" | "top" | "bottom";
 
-  size?:
-    | "sm"
-    | "md"
-    | "lg"
-    | "xl";
+  size?: "sm" | "md" | "lg" | "xl";
 
   onClose?: () => void;
 }

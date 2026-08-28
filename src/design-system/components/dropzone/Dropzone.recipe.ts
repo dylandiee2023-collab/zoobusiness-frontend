@@ -18,19 +18,14 @@ export function dropzoneRecipe() {
       "hover:bg-blue-50",
     ].join(" "),
 
-    active:
-      "border-blue-600 bg-blue-50",
+    active: "border-blue-600 bg-blue-50",
 
-    disabled:
-      "pointer-events-none opacity-50",
+    disabled: "pointer-events-none opacity-50",
 
-    icon:
-      "text-5xl",
+    icon: "text-5xl",
 
-    title:
-      "mt-4 text-lg font-semibold",
+    title: "mt-4 text-lg font-semibold",
 
-    subtitle:
-      "mt-2 text-sm text-gray-500",
+    subtitle: "mt-2 text-sm text-gray-500",
   };
 }

@@ -1,12 +1,7 @@
 export interface ApiRequest {
   url: string;
 
-  method:
-    | "GET"
-    | "POST"
-    | "PUT"
-    | "PATCH"
-    | "DELETE";
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
   body?: unknown;
 

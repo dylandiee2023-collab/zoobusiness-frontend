@@ -1,6 +1,4 @@
-export function switchRecipe(
-  size: "sm" | "md" | "lg" = "md",
-): {
+export function switchRecipe(size: "sm" | "md" | "lg" = "md"): {
   track: string;
   thumb: string;
 } {

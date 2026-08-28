@@ -8,8 +8,6 @@ export class PreferencesError extends Error {
 
 export class PreferenceNotFoundError extends PreferencesError {
   constructor(key: string) {
-    super(
-      `Preference "${key}" was not found.`,
-    );
+    super(`Preference "${key}" was not found.`);
   }
 }

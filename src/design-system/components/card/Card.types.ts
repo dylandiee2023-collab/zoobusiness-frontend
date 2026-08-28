@@ -1,10 +1,6 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
-export interface CardProps
-  extends HTMLAttributes<HTMLDivElement> {
+export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 
   padding?: "none" | "sm" | "md" | "lg";

@@ -32,16 +32,12 @@ export class RuntimeDestroyedError extends RuntimeError {
 
 export class RuntimeServiceAlreadyRegisteredError extends RuntimeError {
   constructor(id: string) {
-    super(
-      `Runtime service "${id}" is already registered.`,
-    );
+    super(`Runtime service "${id}" is already registered.`);
   }
 }
 
 export class RuntimeServiceNotFoundError extends RuntimeError {
   constructor(id: string) {
-    super(
-      `Runtime service "${id}" was not found.`,
-    );
+    super(`Runtime service "${id}" was not found.`);
   }
 }

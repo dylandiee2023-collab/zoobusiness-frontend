@@ -1,4 +1,5 @@
 import { SidebarHeader } from "./components/sidebar-header";
+import { SidebarContent } from "./components/sidebar-content";
 import { useSidebar } from "./context";
 
 export function Sidebar() {
@@ -12,7 +13,7 @@ export function Sidebar() {
     <aside>
       <SidebarHeader />
 
-      {/* SidebarContent */}
+      <SidebarContent />
 
       {/* SidebarFooter */}
     </aside>

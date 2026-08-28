@@ -18,9 +18,7 @@ export interface OverlayTriggerOptions {
 export class OverlayTrigger {
   private readonly options: OverlayTriggerOptions;
 
-  constructor(
-    options: OverlayTriggerOptions,
-  ) {
+  constructor(options: OverlayTriggerOptions) {
     this.options = options;
   }
 
@@ -36,9 +34,7 @@ export class OverlayTrigger {
     return this.options.delay ?? 0;
   }
 
-  is(
-    type: OverlayTriggerType,
-  ): boolean {
+  is(type: OverlayTriggerType): boolean {
     return this.options.type === type;
   }
 }

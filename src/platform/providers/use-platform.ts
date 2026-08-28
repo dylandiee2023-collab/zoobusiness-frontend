@@ -1,24 +1,12 @@
-import {
-  useContext,
-} from "react";
+import { useContext } from "react";
 
-import {
-  PlatformContext,
-} from "./platform-context";
+import { PlatformContext } from "./platform-context";
 
 export function usePlatform() {
+  const platform = useContext(PlatformContext);
 
-  const platform =
-    useContext(
-      PlatformContext,
-    );
-
-  if (
-    platform === null
-  ) {
-    throw new Error(
-      "PlatformProvider is missing.",
-    );
+  if (platform === null) {
+    throw new Error("PlatformProvider is missing.");
   }
 
   return platform;

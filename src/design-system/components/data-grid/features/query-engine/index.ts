@@ -7,51 +7,24 @@ export interface QueryState {
 
   sortBy?: string;
 
-  sortDirection?:
-    | "asc"
-    | "desc";
+  sortDirection?: "asc" | "desc";
 }
 
-export function createQuery(
-  state: QueryState,
-): URLSearchParams {
-  const query =
-    new URLSearchParams();
+export function createQuery(state: QueryState): URLSearchParams {
+  const query = new URLSearchParams();
 
-  query.set(
-    "page",
-    String(state.page),
-  );
+  query.set("page", String(state.page));
 
-  query.set(
-    "pageSize",
-    String(
-      state.pageSize,
-    ),
-  );
+  query.set("pageSize", String(state.pageSize));
 
-  if (
-    state.search
-  ) {
-    query.set(
-      "search",
-      state.search,
-    );
+  if (state.search) {
+    query.set("search", state.search);
   }
 
-  if (
-    state.sortBy
-  ) {
-    query.set(
-      "sortBy",
-      state.sortBy,
-    );
+  if (state.sortBy) {
+    query.set("sortBy", state.sortBy);
 
-    query.set(
-      "direction",
-      state.sortDirection ??
-        "asc",
-    );
+    query.set("direction", state.sortDirection ?? "asc");
   }
 
   return query;

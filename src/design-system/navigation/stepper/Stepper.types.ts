@@ -1,7 +1,4 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
 export interface StepperItem {
   id: string;
@@ -13,11 +10,10 @@ export interface StepperItem {
   disabled?: boolean;
 }
 
-export interface StepperProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "onChange"
-  > {
+export interface StepperProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "onChange"
+> {
   items: StepperItem[];
 
   activeStep: number;

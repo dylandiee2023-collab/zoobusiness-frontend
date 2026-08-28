@@ -13,9 +13,7 @@ export interface MenuItem {
 export interface MenuEngineContract {
   getMenu(): readonly MenuItem[];
 
-  register(
-    item: MenuItem,
-  ): void;
+  register(item: MenuItem): void;
 
   unregister(id: string): void;
 

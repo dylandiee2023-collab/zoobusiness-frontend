@@ -1,11 +1,6 @@
-import type {
-  Permission,
-  PermissionType,
-} from "@/dashboard/foundation";
+import type { Permission, PermissionType } from "@/dashboard/foundation";
 
-import {
-  getPermission,
-} from "@/dashboard/foundation";
+import { getPermission } from "@/dashboard/foundation";
 
 export interface PermissionEngine {
   current: PermissionType;
@@ -14,9 +9,7 @@ export interface PermissionEngine {
 
   resolve(): Permission;
 
-  is(
-    permission: PermissionType,
-  ): boolean;
+  is(permission: PermissionType): boolean;
 }
 
 export function createPermissionEngine(
@@ -26,20 +19,14 @@ export function createPermissionEngine(
     current: permission,
 
     exists(): boolean {
-      return !!getPermission(
-        permission,
-      );
+      return !!getPermission(permission);
     },
 
     resolve(): Permission {
-      return getPermission(
-        permission,
-      );
+      return getPermission(permission);
     },
 
-    is(
-      target: PermissionType,
-    ): boolean {
+    is(target: PermissionType): boolean {
       return permission === target;
     },
   };

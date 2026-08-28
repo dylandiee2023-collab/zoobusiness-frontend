@@ -1,8 +1,7 @@
 import type { CacheEntry } from "./cache-entry";
 
 export class CacheEngine {
-  private readonly cache =
-    new Map<string, CacheEntry>();
+  private readonly cache = new Map<string, CacheEntry>();
 
   has(key: string): boolean {
     const entry = this.cache.get(key);
@@ -11,10 +10,7 @@ export class CacheEngine {
       return false;
     }
 
-    if (
-      entry.expiresAt !== undefined &&
-      entry.expiresAt < Date.now()
-    ) {
+    if (entry.expiresAt !== undefined && entry.expiresAt < Date.now()) {
       this.cache.delete(key);
 
       return false;
@@ -28,31 +24,23 @@ export class CacheEngine {
       return null;
     }
 
-    return this.cache.get(key)!
-      .value as T;
+    return this.cache.get(key)!.value as T;
   }
 
-  set<T>(
-    key: string,
-    value: T,
-    ttl?: number,
-  ): void {
+  set<T>(key: string, value: T, ttl?: number): void {
     const entry: CacheEntry<T> = {
       value,
       createdAt: Date.now(),
     };
 
     if (ttl !== undefined) {
-      entry.expiresAt =
-        Date.now() + ttl;
+      entry.expiresAt = Date.now() + ttl;
     }
 
     this.cache.set(key, entry);
   }
 
-  remove(
-    key: string,
-  ): void {
+  remove(key: string): void {
     this.cache.delete(key);
   }
 

@@ -6,10 +6,6 @@ export interface GuestGuardProps {
   children: ReactNode;
 }
 
-export function GuestGuard({
-  isGuest,
-  fallback,
-  children,
-}: GuestGuardProps) {
+export function GuestGuard({ isGuest, fallback, children }: GuestGuardProps) {
   return isGuest ? <>{children}</> : <>{fallback}</>;
 }

@@ -19,13 +19,9 @@ export function Brand({
     <>
       {showLogo && <BrandLogo />}
 
-      {!collapsed && showName && (
-        <BrandName />
-      )}
+      {!collapsed && showName && <BrandName />}
 
-      {!collapsed && showTagline && (
-        <BrandTagline />
-      )}
+      {!collapsed && showTagline && <BrandTagline />}
     </>
   );
 }

@@ -1,77 +1,39 @@
-import {
-  createRecipe,
-} from "@/design-system/foundation/recipes";
+import { createRecipe } from "@/design-system/foundation/recipes";
 
-import {
-  typographyRecipe,
-} from "@/design-system/typography/base";
+import { typographyRecipe } from "@/design-system/typography/base";
 
-import {
-  typography,
-} from "@/theme/tokens";
+import { typography } from "@/theme/tokens";
 
-import type {
-  CodeProps,
-} from "./Code.types";
+import type { CodeProps } from "./Code.types";
 
-export const codeRecipe =
-  createRecipe<CodeProps>({
-    recipe(
-      theme,
-      props,
-    ) {
+export const codeRecipe = createRecipe<CodeProps>({
+  recipe(theme, props) {
+    const base = typographyRecipe(theme, props);
 
-      const base =
-        typographyRecipe(
-          theme,
-          props,
-        );
+    return {
+      style: {
+        ...base.style,
 
-      return {
-        style: {
+        fontFamily: typography.fontFamily.mono,
 
-          ...base.style,
+        fontSize: props.size ?? theme.typography.caption.fontSize,
 
-          fontFamily:
-            typography.fontFamily.mono,
+        fontWeight: props.weight ?? theme.typography.caption.fontWeight,
 
-          fontSize:
-            props.size ??
-            theme.typography.caption.fontSize,
+        backgroundColor: theme.colors.surfaceSecondary,
 
-          fontWeight:
-            props.weight ??
-            theme.typography.caption.fontWeight,
+        color: props.color ?? theme.colors.text,
 
-          backgroundColor:
-            theme.colors.surfaceSecondary,
+        padding: "2px 6px",
 
-          color:
-            props.color ??
-            theme.colors.text,
+        borderRadius: "4px",
 
-          padding:
-            "2px 6px",
+        whiteSpace: props.block ? "pre-wrap" : "nowrap",
 
-          borderRadius:
-            "4px",
+        display: props.block ? "block" : "inline-block",
 
-          whiteSpace:
-            props.block
-              ? "pre-wrap"
-              : "nowrap",
-
-          display:
-            props.block
-              ? "block"
-              : "inline-block",
-
-          overflowX:
-            props.block
-              ? "auto"
-              : undefined,
-
-        },
-      };
-    },
-  });
+        overflowX: props.block ? "auto" : undefined,
+      },
+    };
+  },
+});

@@ -1,14 +1,8 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
-import {
-  textareaRecipe,
-} from "./Textarea.recipe";
+import { textareaRecipe } from "./Textarea.recipe";
 
-import type {
-  TextareaProps,
-} from "./Textarea.types";
+import type { TextareaProps } from "./Textarea.types";
 
 export function Textarea({
   size = "md",
@@ -20,10 +14,7 @@ export function Textarea({
   return (
     <textarea
       rows={rows}
-      className={`${textareaRecipe(
-        size,
-        error,
-      )} ${className}`}
+      className={`${textareaRecipe(size, error)} ${className}`}
       {...props}
     />
   );

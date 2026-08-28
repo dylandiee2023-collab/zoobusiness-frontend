@@ -7,15 +7,9 @@ export interface SidebarActions {
 
   hide(): void;
 
-  openGroup(
-    id: string,
-  ): void;
+  openGroup(id: string): void;
 
-  closeGroup(
-    id: string,
-  ): void;
+  closeGroup(id: string): void;
 
-  toggleGroup(
-    id: string,
-  ): void;
+  toggleGroup(id: string): void;
 }

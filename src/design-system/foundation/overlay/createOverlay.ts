@@ -8,16 +8,12 @@ export interface OverlayState {
   closeOnBackdrop: boolean;
 }
 
-export function createOverlay(
-  options: OverlayOptions = {},
-): OverlayState {
+export function createOverlay(options: OverlayOptions = {}): OverlayState {
   return {
     isOpen: options.open ?? false,
 
-    closeOnEscape:
-      options.closeOnEscape ?? true,
+    closeOnEscape: options.closeOnEscape ?? true,
 
-    closeOnBackdrop:
-      options.closeOnBackdrop ?? true,
+    closeOnBackdrop: options.closeOnBackdrop ?? true,
   };
 }

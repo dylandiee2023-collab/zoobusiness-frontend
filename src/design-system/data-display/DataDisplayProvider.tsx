@@ -1,27 +1,14 @@
-import {
-  useState,
-  type PropsWithChildren,
-} from "react";
+import { useState, type PropsWithChildren } from "react";
 
-import {
-  DataDisplayContext,
-} from "./DataDisplayContext";
+import { DataDisplayContext } from "./DataDisplayContext";
 
-import {
-  DataDisplayController,
-} from "./DataDisplayController";
+import { DataDisplayController } from "./DataDisplayController";
 
-export function DataDisplayProvider({
-  children,
-}: PropsWithChildren) {
-  const [controller] = useState(
-    () => new DataDisplayController(),
-  );
+export function DataDisplayProvider({ children }: PropsWithChildren) {
+  const [controller] = useState(() => new DataDisplayController());
 
   return (
-    <DataDisplayContext.Provider
-      value={controller}
-    >
+    <DataDisplayContext.Provider value={controller}>
       {children}
     </DataDisplayContext.Provider>
   );

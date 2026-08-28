@@ -8,8 +8,6 @@ export class ThemeError extends Error {
 
 export class InvalidThemeModeError extends ThemeError {
   constructor(mode: string) {
-    super(
-      `Invalid theme mode "${mode}".`,
-    );
+    super(`Invalid theme mode "${mode}".`);
   }
 }

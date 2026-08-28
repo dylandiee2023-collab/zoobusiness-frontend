@@ -1,6 +1,4 @@
-export interface Transaction<
-  T = unknown,
-> {
+export interface Transaction<T = unknown> {
   id: string;
 
   before: T;
@@ -10,9 +8,7 @@ export interface Transaction<
   timestamp: Date;
 }
 
-export function createTransaction<
-  T,
->(
+export function createTransaction<T>(
   id: string,
   before: T,
   after: T,
@@ -21,7 +17,6 @@ export function createTransaction<
     id,
     before,
     after,
-    timestamp:
-      new Date(),
+    timestamp: new Date(),
   };
 }

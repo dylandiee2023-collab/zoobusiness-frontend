@@ -1,12 +1,7 @@
 export interface HttpRequest {
   url: string;
 
-  method:
-    | "GET"
-    | "POST"
-    | "PUT"
-    | "PATCH"
-    | "DELETE";
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
   headers?: Record<string, string>;
 
@@ -22,7 +17,5 @@ export interface HttpResponse<T = unknown> {
 }
 
 export interface HttpClientContract {
-  request<T = unknown>(
-    request: HttpRequest,
-  ): Promise<HttpResponse<T>>;
+  request<T = unknown>(request: HttpRequest): Promise<HttpResponse<T>>;
 }

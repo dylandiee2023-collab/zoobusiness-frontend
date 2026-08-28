@@ -4,20 +4,15 @@ import { Button } from "@/design-system/buttons";
 
 import { useTopBar } from "../../context";
 
-import {
-  menuButtonStyles,
-} from "./menu-button.styles";
+import { menuButtonStyles } from "./menu-button.styles";
 
-import type {
-  MenuButtonProps,
-} from "./menu-button.types";
+import type { MenuButtonProps } from "./menu-button.types";
 
 export function MenuButton({
   disabled = false,
 
   ariaLabel = "Toggle sidebar",
 }: MenuButtonProps) {
-
   const {
     state,
 
@@ -26,9 +21,7 @@ export function MenuButton({
 
   return (
     <Button
-      variant={
-        menuButtonStyles.recipe.variant
-      }
+      variant={menuButtonStyles.recipe.variant}
 
       size="md"
 
@@ -36,18 +29,11 @@ export function MenuButton({
 
       aria-label={ariaLabel}
 
-      aria-pressed={
-        state.sidebarMode !==
-        "hidden"
-      }
+      aria-pressed={state.sidebarMode !== "hidden"}
 
-      onClick={
-        actions.toggleSidebar
-      }
+      onClick={actions.toggleSidebar}
 
-      onDoubleClick={
-        actions.hideSidebar
-      }
+      onDoubleClick={actions.hideSidebar}
     >
       <Menu />
     </Button>

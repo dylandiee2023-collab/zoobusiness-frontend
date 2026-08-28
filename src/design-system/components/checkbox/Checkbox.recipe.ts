@@ -1,6 +1,4 @@
-export function checkboxRecipe(
-  size: "sm" | "md" | "lg" = "md",
-): string {
+export function checkboxRecipe(size: "sm" | "md" | "lg" = "md"): string {
   const sizes = {
     sm: "h-4 w-4",
     md: "h-5 w-5",

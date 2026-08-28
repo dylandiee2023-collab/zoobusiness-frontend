@@ -1,16 +1,8 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
-export type AlertVariant =
-  | "success"
-  | "info"
-  | "warning"
-  | "error";
+export type AlertVariant = "success" | "info" | "warning" | "error";
 
-export interface AlertProps
-  extends HTMLAttributes<HTMLDivElement> {
+export interface AlertProps extends HTMLAttributes<HTMLDivElement> {
   variant?: AlertVariant;
 
   heading?: ReactNode;

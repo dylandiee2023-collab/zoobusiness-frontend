@@ -1,14 +1,8 @@
-import type {
-  JSX,
-} from "react";
+import type { JSX } from "react";
 
-import {
-  ratingRecipe,
-} from "./Rating.recipe";
+import { ratingRecipe } from "./Rating.recipe";
 
-import type {
-  RatingProps,
-} from "./Rating.types";
+import type { RatingProps } from "./Rating.types";
 
 export function Rating({
   value = 0,
@@ -20,51 +14,30 @@ export function Rating({
   className = "",
   ...props
 }: RatingProps): JSX.Element {
-
-  const styles =
-    ratingRecipe();
+  const styles = ratingRecipe();
 
   return (
-    <div
-      className={[
-        styles.root,
-        className,
-      ].join(" ")}
-      {...props}
-    >
+    <div className={[styles.root, className].join(" ")} {...props}>
       {Array.from(
         {
           length: max,
         },
         (_, index) => {
-          const star =
-            index + 1;
+          const star = index + 1;
 
-          const active =
-            star <= value;
+          const active = star <= value;
 
           return (
             <button
               key={star}
               type="button"
-              disabled={
-                disabled ||
-                readonly
-              }
+              disabled={disabled || readonly}
               className={[
                 styles.button,
-                active
-                  ? styles.active
-                  : styles.inactive,
-                disabled
-                  ? styles.disabled
-                  : "",
+                active ? styles.active : styles.inactive,
+                disabled ? styles.disabled : "",
               ].join(" ")}
-              onClick={() =>
-                onValueChange?.(
-                  star,
-                )
-              }
+              onClick={() => onValueChange?.(star)}
             >
               {icon ?? "★"}
             </button>

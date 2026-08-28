@@ -9,16 +9,13 @@ export interface SessionData {
 }
 
 export class SessionStore {
-  private session: SessionData | null =
-    null;
+  private session: SessionData | null = null;
 
   get(): SessionData | null {
     return this.session;
   }
 
-  set(
-    session: SessionData,
-  ): void {
+  set(session: SessionData): void {
     this.session = session;
   }
 

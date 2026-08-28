@@ -1,25 +1,19 @@
 export class NavigationHistory {
-  private readonly history: string[] =
-    [];
+  private readonly history: string[] = [];
 
-  push(
-    path: string,
-  ): void {
+  push(path: string): void {
     this.history.push(path);
   }
 
-  back():
-    string | undefined {
+  back(): string | undefined {
     return this.history.pop();
   }
 
-  current():
-    string | undefined {
+  current(): string | undefined {
     return this.history.at(-1);
   }
 
-  all():
-    readonly string[] {
+  all(): readonly string[] {
     return this.history;
   }
 

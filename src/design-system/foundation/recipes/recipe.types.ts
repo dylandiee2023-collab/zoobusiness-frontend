@@ -6,7 +6,6 @@ export interface BaseRecipeResult {
   style: StyleObject;
 }
 
-export type Recipe<Props = void> =
-  Props extends void
-    ? (theme: Theme) => BaseRecipeResult
-    : (theme: Theme, props: Props) => BaseRecipeResult;
+export type Recipe<Props = void> = Props extends void
+  ? (theme: Theme) => BaseRecipeResult
+  : (theme: Theme, props: Props) => BaseRecipeResult;

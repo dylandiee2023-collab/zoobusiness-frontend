@@ -8,8 +8,6 @@ export class CacheError extends Error {
 
 export class CacheKeyNotFoundError extends CacheError {
   constructor(key: string) {
-    super(
-      `Cache key "${key}" not found.`,
-    );
+    super(`Cache key "${key}" not found.`);
   }
 }

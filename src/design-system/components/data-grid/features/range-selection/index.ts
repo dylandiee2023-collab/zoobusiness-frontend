@@ -8,46 +8,26 @@ export interface CellRange {
   end: CellPosition;
 }
 
-export function createRange(
-  start: CellPosition,
-  end: CellPosition,
-): CellRange {
+export function createRange(start: CellPosition, end: CellPosition): CellRange {
   return {
     start,
     end,
   };
 }
 
-export function inRange(
-  cell: CellPosition,
-  range: CellRange,
-): boolean {
-  const minRow = Math.min(
-    range.start.row,
-    range.end.row,
-  );
+export function inRange(cell: CellPosition, range: CellRange): boolean {
+  const minRow = Math.min(range.start.row, range.end.row);
 
-  const maxRow = Math.max(
-    range.start.row,
-    range.end.row,
-  );
+  const maxRow = Math.max(range.start.row, range.end.row);
 
-  const minColumn = Math.min(
-    range.start.column,
-    range.end.column,
-  );
+  const minColumn = Math.min(range.start.column, range.end.column);
 
-  const maxColumn = Math.max(
-    range.start.column,
-    range.end.column,
-  );
+  const maxColumn = Math.max(range.start.column, range.end.column);
 
   return (
     cell.row >= minRow &&
     cell.row <= maxRow &&
-    cell.column >=
-      minColumn &&
-    cell.column <=
-      maxColumn
+    cell.column >= minColumn &&
+    cell.column <= maxColumn
   );
 }

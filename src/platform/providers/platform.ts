@@ -1,6 +1,4 @@
-import type {
-  PlatformContract,
-} from "@/platform/contracts";
+import type { PlatformContract } from "@/platform/contracts";
 
 import {
   createKernel,
@@ -35,100 +33,64 @@ import {
   createCommandEngine,
 } from "@/platform";
 
-export class Platform
-  implements PlatformContract
-{
-  private readonly kernel =
-    createKernel();
+export class Platform implements PlatformContract {
+  private readonly kernel = createKernel();
 
-  readonly bootstrap =
-    createBootstrap(
-      this.kernel,
-    );
+  readonly bootstrap = createBootstrap(this.kernel);
 
-  readonly runtime =
-    createRuntime(
-      this.bootstrap,
-    );
+  readonly runtime = createRuntime(this.bootstrap);
 
-  readonly environment =
-    createEnvironment();
+  readonly environment = createEnvironment();
 
-  readonly configuration =
-    createConfiguration();
+  readonly configuration = createConfiguration();
 
-  readonly logger =
-    createLogger();
+  readonly logger = createLogger();
 
-  readonly events =
-    createEventBus();
+  readonly events = createEventBus();
 
-  readonly storage =
-    createStorage();
+  readonly storage = createStorage();
 
-  readonly preferences =
-    createPreferences();
+  readonly preferences = createPreferences();
 
-  readonly session =
-    createSession();
+  readonly session = createSession();
 
-  readonly http =
-    createHttpClient();
+  readonly http = createHttpClient();
 
-  readonly api =
-    createApiClient();
+  readonly api = createApiClient();
 
-  readonly authentication =
-    createAuthentication();
+  readonly authentication = createAuthentication();
 
-  readonly tokens =
-    createTokenManager();
+  readonly tokens = createTokenManager();
 
-  readonly cache =
-    createCache();
+  readonly cache = createCache();
 
-  readonly telemetry =
-    createTelemetry();
+  readonly telemetry = createTelemetry();
 
-  readonly upload =
-    createUpload();
+  readonly upload = createUpload();
 
-  readonly download =
-    createDownload();
+  readonly download = createDownload();
 
-  readonly theme =
-    createTheme();
+  readonly theme = createTheme();
 
-  readonly responsive =
-    createResponsive();
+  readonly responsive = createResponsive();
 
-  readonly icons =
-    createIconEngine();
+  readonly icons = createIconEngine();
 
-  readonly permissions =
-    createPermissionEngine();
+  readonly permissions = createPermissionEngine();
 
-  readonly menu =
-    createMenuEngine();
+  readonly menu = createMenuEngine();
 
-  readonly routes =
-    createRouteEngine();
+  readonly routes = createRouteEngine();
 
-  readonly navigation =
-    createNavigationEngine();
+  readonly navigation = createNavigationEngine();
 
-  readonly widgets =
-    createWidgetEngine();
+  readonly widgets = createWidgetEngine();
 
-  readonly layout =
-    createLayoutEngine();
+  readonly layout = createLayoutEngine();
 
-  readonly search =
-    createSearchEngine();
+  readonly search = createSearchEngine();
 
-  readonly notifications =
-    createNotificationEngine();
+  readonly notifications = createNotificationEngine();
 
-  readonly commands =
-    createCommandEngine();
+  readonly commands = createCommandEngine();
 }

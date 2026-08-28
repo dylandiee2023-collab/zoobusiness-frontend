@@ -1,12 +1,9 @@
-import type {
-  HTMLAttributes,
-} from "react";
+import type { HTMLAttributes } from "react";
 
-export interface SliderProps
-  extends Omit<
-    HTMLAttributes<HTMLDivElement>,
-    "onChange"
-  > {
+export interface SliderProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "onChange"
+> {
   value?: number | undefined;
 
   min?: number | undefined;
@@ -19,7 +16,5 @@ export interface SliderProps
 
   showValue?: boolean | undefined;
 
-  onValueChange?: (
-    value: number,
-  ) => void;
+  onValueChange?: (value: number) => void;
 }

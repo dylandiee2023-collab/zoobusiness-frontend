@@ -5,9 +5,7 @@ export interface SearchResult<T = unknown> {
 }
 
 export interface SearchEngineContract {
-  search<T = unknown>(
-    query: string,
-  ): Promise<SearchResult<T>>;
+  search<T = unknown>(query: string): Promise<SearchResult<T>>;
 
   clear(): void;
 }

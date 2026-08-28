@@ -6,15 +6,13 @@ export class AuthenticationError extends Error {
   }
 }
 
-export class InvalidCredentialsError
-  extends AuthenticationError {
+export class InvalidCredentialsError extends AuthenticationError {
   constructor() {
     super("Invalid credentials.");
   }
 }
 
-export class SessionExpiredError
-  extends AuthenticationError {
+export class SessionExpiredError extends AuthenticationError {
   constructor() {
     super("Session expired.");
   }

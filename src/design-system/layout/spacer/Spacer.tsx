@@ -8,23 +8,13 @@ import { spacerRecipe } from "./Spacer.recipe";
 
 import type { SpacerProps } from "./Spacer.types";
 
-export const Spacer = forwardRef<
-  HTMLDivElement,
-  SpacerProps
->(function Spacer(
-  {
-    style,
-    children,
-    ...props
-  },
+export const Spacer = forwardRef<HTMLDivElement, SpacerProps>(function Spacer(
+  { style, children, ...props },
   ref,
 ) {
   const { theme } = useTheme();
 
-  const recipe = spacerRecipe(
-    theme,
-    props,
-  );
+  const recipe = spacerRecipe(theme, props);
 
   return (
     <Box

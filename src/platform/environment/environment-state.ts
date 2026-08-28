@@ -1,7 +1,4 @@
-export type EnvironmentMode =
-  | "development"
-  | "production"
-  | "test";
+export type EnvironmentMode = "development" | "production" | "test";
 
 export class EnvironmentState {
   private mode: EnvironmentMode;

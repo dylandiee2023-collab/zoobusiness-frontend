@@ -1,10 +1,5 @@
 export type GuardType =
-  | "auth"
-  | "guest"
-  | "role"
-  | "permission"
-  | "subscription"
-  | "feature";
+  "auth" | "guest" | "role" | "permission" | "subscription" | "feature";
 
 export interface GuardDefinition {
   type: GuardType;

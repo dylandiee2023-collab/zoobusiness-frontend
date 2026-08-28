@@ -1,11 +1,6 @@
-import type {
-  Tenant,
-  TenantType,
-} from "@/dashboard/foundation";
+import type { Tenant, TenantType } from "@/dashboard/foundation";
 
-import {
-  getTenant,
-} from "@/dashboard/foundation";
+import { getTenant } from "@/dashboard/foundation";
 
 export interface TenantEngine {
   current: TenantType;
@@ -14,14 +9,10 @@ export interface TenantEngine {
 
   resolve(): Tenant;
 
-  is(
-    tenant: TenantType,
-  ): boolean;
+  is(tenant: TenantType): boolean;
 }
 
-export function createTenantEngine(
-  tenant: TenantType,
-): TenantEngine {
+export function createTenantEngine(tenant: TenantType): TenantEngine {
   return {
     current: tenant,
 
@@ -33,9 +24,7 @@ export function createTenantEngine(
       return getTenant(tenant);
     },
 
-    is(
-      target: TenantType,
-    ): boolean {
+    is(target: TenantType): boolean {
       return tenant === target;
     },
   };

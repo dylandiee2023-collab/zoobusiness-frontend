@@ -5,17 +5,11 @@ export interface Command {
 }
 
 export interface CommandEngineContract {
-  register(
-    command: Command,
-  ): void;
+  register(command: Command): void;
 
-  execute(
-    id: string,
-  ): Promise<void>;
+  execute(id: string): Promise<void>;
 
-  unregister(
-    id: string,
-  ): void;
+  unregister(id: string): void;
 
   clear(): void;
 }

@@ -1,13 +1,8 @@
-import type {
-  StyleObject,
-} from "../contracts";
+import type { StyleObject } from "../contracts";
 
 export function mergeStyles(
-  ...styles: Array<
-    StyleObject | undefined
-  >
+  ...styles: Array<StyleObject | undefined>
 ): StyleObject {
-
   const result: StyleObject = {};
 
   for (const style of styles) {

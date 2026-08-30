@@ -11,3 +11,4 @@ export * from "./containers";
 export * from "./grid";
 export * from "./icon-sizes";
 export * from "./component-sizes";
+export * from "./effects";

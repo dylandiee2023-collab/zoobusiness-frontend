@@ -1,7 +1,12 @@
-import type { AppProvidersProps } from "./app-providers.types";
+import type { PropsWithChildren } from "react";
 
-import { PlatformProvider } from "@/platform/providers";
+import { ThemeProvider } from "@/theme/providers";
+import { ResponsiveProvider } from "@/responsive";
 
-export function AppProviders({ children }: AppProvidersProps) {
-  return <PlatformProvider>{children}</PlatformProvider>;
+export function AppProviders({ children }: PropsWithChildren) {
+  return (
+    <ThemeProvider>
+      <ResponsiveProvider>{children}</ResponsiveProvider>
+    </ThemeProvider>
+  );
 }

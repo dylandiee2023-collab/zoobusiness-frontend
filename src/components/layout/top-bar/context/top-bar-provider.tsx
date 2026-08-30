@@ -1,18 +1,20 @@
 import type { PropsWithChildren } from "react";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
 import { TopBarContext } from "./top-bar.context";
 
-import type { TopBarContract, TopBarSidebarMode } from "../contracts";
+import type { TopBarContract } from "../contracts";
+
+import { useSidebar } from "@/components/layout/sidebar/context";
 
 export function TopBarProvider({ children }: PropsWithChildren) {
-  const [sidebarMode, setSidebarMode] = useState<TopBarSidebarMode>("expanded");
+  const { state: sidebarState, actions: sidebarActions } = useSidebar();
 
   const contract = useMemo<TopBarContract>(
     () => ({
       state: {
-        sidebarMode,
+        sidebarMode: sidebarState.mode,
 
         searching: false,
 
@@ -27,13 +29,11 @@ export function TopBarProvider({ children }: PropsWithChildren) {
 
       actions: {
         toggleSidebar() {
-          setSidebarMode((current) =>
-            current === "expanded" ? "collapsed" : "expanded",
-          );
+          sidebarActions.toggle();
         },
 
         hideSidebar() {
-          setSidebarMode("hidden");
+          sidebarActions.hide();
         },
 
         openSearch() {},
@@ -49,7 +49,7 @@ export function TopBarProvider({ children }: PropsWithChildren) {
         openProfile() {},
       },
     }),
-    [sidebarMode],
+    [sidebarState.mode, sidebarActions],
   );
 
   return (

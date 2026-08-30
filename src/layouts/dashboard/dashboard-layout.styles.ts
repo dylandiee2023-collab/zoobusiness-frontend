@@ -1,23 +1,21 @@
 export const dashboardLayoutStyles = {
   root: {
-    display: "grid",
-    gridTemplateColumns: "auto 1fr",
     minHeight: "100vh",
+    width: "100%",
   },
 
   sidebar: {
-    minWidth: 0,
+    width: 280,
   },
 
   content: {
-    display: "flex",
-    flexDirection: "column",
     minWidth: 0,
     minHeight: "100vh",
+    transition: "margin-left 180ms ease",
   },
 
   main: {
-    flex: 1,
+    paddingTop: 72,
     minWidth: 0,
   },
 } as const;

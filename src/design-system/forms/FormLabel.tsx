@@ -1,7 +1,9 @@
 import { useFormField } from "./hooks/useFormField";
+import { useTheme } from "@/theme/hooks";
 
 export function FormLabel() {
-  const { id, label, required, disabled } = useFormField();
+  const { id, label, disabled } = useFormField();
+  const { theme } = useTheme();
 
   if (!label) {
     return null;
@@ -12,23 +14,16 @@ export function FormLabel() {
       htmlFor={id}
       style={{
         display: "block",
-        marginBottom: 6,
+        width: "100%",
+        marginBottom: theme.spacing.icon,
+        textAlign: "left",
         fontWeight: 600,
-        opacity: disabled ? 0.6 : 1,
+        color: theme.colors.text,
+        opacity: disabled ? theme.opacity.disabled : 1,
+        boxSizing: "border-box",
       }}
     >
       {label}
-
-      {required && (
-        <span
-          style={{
-            color: "#DC2626",
-            marginLeft: 4,
-          }}
-        >
-          *
-        </span>
-      )}
     </label>
   );
 }

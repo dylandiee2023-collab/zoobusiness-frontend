@@ -3,6 +3,11 @@ export * from "./Form.types";
 export * from "./FormContext";
 export * from "./FormProvider";
 
+export * from "./FormField";
+export * from "./FormLabel";
+export * from "./FormError";
+export * from "./FormHelperText";
+
 export * from "./FormRegistry";
 export * from "./FormController";
 

@@ -9,6 +9,10 @@ export const typography = {
       "sans-serif",
     ].join(", "),
 
+    serif: ["Georgia", "Cambria", '"Times New Roman"', "Times", "serif"].join(
+      ", ",
+    ),
+
     mono: [
       "JetBrains Mono",
       "Cascadia Code",

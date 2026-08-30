@@ -1,36 +1,48 @@
-import type { DashboardLayoutProps } from "./dashboard-layout.types";
+import { Sidebar } from "@/components/layout/sidebar";
+import {
+  SidebarProvider,
+  useSidebar,
+} from "@/components/layout/sidebar/context";
 
+import { TopBar } from "@/components/layout/top-bar";
+import { TopBarProvider } from "@/components/layout/top-bar/context";
+
+import type { DashboardLayoutProps } from "./dashboard-layout.types";
 import { dashboardLayoutStyles } from "./dashboard-layout.styles";
 
-import {
-  Sidebar,
-  SidebarProvider,
-} from "@/components/layout/sidebar";
+function DashboardLayoutContent({ children }: DashboardLayoutProps) {
+  const { state } = useSidebar();
 
-import {
-  TopBar,
-  TopBarProvider,
-} from "@/components/layout/top-bar";
+  const sidebarWidth =
+    state.mode === "expanded" ? 280 : state.mode === "collapsed" ? 72 : 0;
 
-export function DashboardLayout({
-  children,
-}: DashboardLayoutProps) {
+  return (
+    <div
+      style={{
+        ...dashboardLayoutStyles.root,
+      }}
+    >
+      <Sidebar />
+
+      <main
+        style={{
+          ...dashboardLayoutStyles.content,
+          marginLeft: sidebarWidth,
+        }}
+      >
+        <TopBar />
+
+        <div style={dashboardLayoutStyles.main}>{children}</div>
+      </main>
+    </div>
+  );
+}
+
+export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <SidebarProvider>
       <TopBarProvider>
-        <div style={dashboardLayoutStyles.root}>
-          <aside style={dashboardLayoutStyles.sidebar}>
-            <Sidebar />
-          </aside>
-
-          <div style={dashboardLayoutStyles.content}>
-            <TopBar />
-
-            <main style={dashboardLayoutStyles.main}>
-              {children}
-            </main>
-          </div>
-        </div>
+        <DashboardLayoutContent>{children}</DashboardLayoutContent>
       </TopBarProvider>
     </SidebarProvider>
   );

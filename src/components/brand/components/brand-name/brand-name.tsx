@@ -1,3 +1,3 @@
 export function BrandName() {
-  return <>ZooBay</>;
+  return <>ZooBUSINESS</>;
 }

@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
 export interface AuthShellProps {
-  children: ReactNode;
+  readonly children: ReactNode;
+
+  readonly glass?: boolean;
 }

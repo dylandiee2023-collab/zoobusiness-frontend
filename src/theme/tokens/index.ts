@@ -14,3 +14,4 @@ export * from "./grid";
 export * from "./icon-sizes";
 export * from "./component-sizes";
 export * from "./components";
+export * from "./effects";

@@ -2,21 +2,35 @@ import { createRecipe } from "@/design-system/foundation/recipes";
 
 import { typographyRecipe } from "@/design-system/typography/base";
 
-//import { typography,} from "@/theme/tokens";
-
 import type { HeadingProps } from "./Heading.types";
 
 export const headingRecipe = createRecipe<HeadingProps>({
   recipe(theme, props) {
+    const level = props.level ?? 1;
+
+    const semantic =
+      level === 1
+        ? theme.typography.heading1
+        : level === 2
+          ? theme.typography.heading2
+          : theme.typography.heading3;
+
     const base = typographyRecipe(theme, props);
 
     return {
       style: {
         ...base.style,
 
-        fontSize: props.size ?? theme.typography.heading2.fontSize,
+        fontFamily: props.style?.fontFamily ?? semantic.fontFamily,
 
-        fontWeight: props.weight ?? theme.typography.heading2.fontWeight,
+        fontSize: props.size ?? semantic.fontSize,
+
+        fontWeight: props.weight ?? semantic.fontWeight,
+
+        lineHeight: props.lineHeight ?? semantic.lineHeight,
+
+        letterSpacing:
+          props.letterSpacing ?? semantic.letterSpacing,
       },
     };
   },

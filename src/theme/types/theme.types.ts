@@ -5,6 +5,7 @@ import type {
   semanticColors,
   semanticComponentSizes,
   semanticContainers,
+  semanticEffects,
   semanticGrid,
   semanticIconSizes,
   semanticMotion,
@@ -20,11 +21,9 @@ export type ThemeMode = "system" | "light" | "dark" | "glass" | "high-contrast";
 
 export type ThemeProviderProps = PropsWithChildren;
 
-/**
- * Shared semantic token types
- */
 export type SemanticColors =
   typeof semanticColors.light | typeof semanticColors.dark;
+
 export type SemanticSpacing = typeof semanticSpacing;
 export type SemanticRadius = typeof semanticRadius;
 export type SemanticTypography = typeof semanticTypography;
@@ -37,6 +36,7 @@ export type SemanticContainers = typeof semanticContainers;
 export type SemanticGrid = typeof semanticGrid;
 export type SemanticIconSizes = typeof semanticIconSizes;
 export type SemanticComponentSizes = typeof semanticComponentSizes;
+export type SemanticEffects = typeof semanticEffects;
 
 export interface Theme {
   id: string;
@@ -56,7 +56,9 @@ export interface Theme {
   grid: SemanticGrid;
   iconSizes: SemanticIconSizes;
   componentSizes: SemanticComponentSizes;
+  effects: SemanticEffects;
 }
+
 export interface ThemeContextValue {
   theme: Theme;
 

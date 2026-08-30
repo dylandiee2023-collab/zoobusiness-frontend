@@ -5,6 +5,7 @@ import {
   semanticColors,
   semanticComponentSizes,
   semanticContainers,
+  semanticEffects,
   semanticGrid,
   semanticIconSizes,
   semanticMotion,
@@ -34,4 +35,5 @@ export const darkTheme: Theme = {
   grid: semanticGrid,
   iconSizes: semanticIconSizes,
   componentSizes: semanticComponentSizes,
+  effects: semanticEffects,
 };

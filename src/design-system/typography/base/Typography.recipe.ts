@@ -8,6 +8,8 @@ export const typographyRecipe = createRecipe<TypographyProps>({
   recipe(theme, props) {
     return {
       style: {
+        margin: 0,
+
         color: props.color ?? theme.colors.text,
 
         fontSize: props.size,

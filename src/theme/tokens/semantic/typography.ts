@@ -2,7 +2,7 @@ import { typography } from "@/theme/tokens";
 
 export const semanticTypography = {
   display: {
-    fontFamily: typography.fontFamily.sans,
+    fontFamily: typography.fontFamily.serif,
     fontSize: typography.fontSize["4xl"],
     fontWeight: typography.fontWeight.bold,
     lineHeight: typography.lineHeight.tight,
@@ -10,7 +10,7 @@ export const semanticTypography = {
   },
 
   heading1: {
-    fontFamily: typography.fontFamily.sans,
+    fontFamily: typography.fontFamily.serif,
     fontSize: typography.fontSize["3xl"],
     fontWeight: typography.fontWeight.bold,
     lineHeight: typography.lineHeight.tight,
@@ -18,7 +18,7 @@ export const semanticTypography = {
   },
 
   heading2: {
-    fontFamily: typography.fontFamily.sans,
+    fontFamily: typography.fontFamily.serif,
     fontSize: typography.fontSize["2xl"],
     fontWeight: typography.fontWeight.semibold,
     lineHeight: typography.lineHeight.tight,
@@ -26,7 +26,7 @@ export const semanticTypography = {
   },
 
   heading3: {
-    fontFamily: typography.fontFamily.sans,
+    fontFamily: typography.fontFamily.serif,
     fontSize: typography.fontSize.xl,
     fontWeight: typography.fontWeight.semibold,
     lineHeight: typography.lineHeight.normal,
@@ -57,5 +57,3 @@ export const semanticTypography = {
     letterSpacing: typography.letterSpacing.wide,
   },
 } as const;
-
-//type SemanticTypography = typeof semanticTypography;

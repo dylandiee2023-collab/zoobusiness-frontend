@@ -10,23 +10,23 @@ export const inputRecipe = createRecipe<InputProps>({
       style: {
         width: props.fullWidth ? "100%" : undefined,
 
-        height: "40px",
+        height: theme.componentSizes.input.md,
 
-        padding: "0 12px",
+        padding: `0 ${theme.spacing.input}`,
 
-        borderRadius: "8px",
+        borderRadius: theme.radius.input,
 
         border: `1px solid ${
           props.invalid ? theme.colors.danger : theme.colors.border
         }`,
 
-        background: theme.colors.background,
+        background: theme.colors.surface,
 
         color: theme.colors.text,
 
         outline: "none",
 
-        fontSize: "16px",
+        fontSize: theme.typography.body.fontSize,
 
         transition: createMotion({
           property: "all",
@@ -34,7 +34,9 @@ export const inputRecipe = createRecipe<InputProps>({
           easing: "ease",
         }),
 
-        opacity: props.disabled ? 0.6 : 1,
+        opacity: props.disabled ? theme.opacity.disabled : 1,
+
+        boxSizing: "border-box",
       },
     };
   },

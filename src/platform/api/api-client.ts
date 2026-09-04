@@ -1,4 +1,7 @@
-import type { ApiClientContract } from "@/platform/contracts";
+import type {
+  ApiClientContract,
+  TokenManagerContract,
+} from "@/platform/contracts";
 
 import {
   ApiError,
@@ -14,8 +17,13 @@ import { defaultApiConfig } from "./api-config";
 
 export class ApiClient implements ApiClientContract {
   private readonly config: ApiConfig;
+  private readonly tokens: TokenManagerContract;
 
-  constructor(config: ApiConfig = defaultApiConfig) {
+  constructor(
+    tokens: TokenManagerContract,
+    config: ApiConfig = defaultApiConfig,
+  ) {
+    this.tokens = tokens;
     this.config = config;
   }
 
@@ -27,33 +35,21 @@ export class ApiClient implements ApiClientContract {
     url: string,
     body?: unknown,
   ): Promise<T> {
-    return this.request<T>(
-      "POST",
-      url,
-      body,
-    );
+    return this.request<T>("POST", url, body);
   }
 
   async put<T>(
     url: string,
     body?: unknown,
   ): Promise<T> {
-    return this.request<T>(
-      "PUT",
-      url,
-      body,
-    );
+    return this.request<T>("PUT", url, body);
   }
 
   async patch<T>(
     url: string,
     body?: unknown,
   ): Promise<T> {
-    return this.request<T>(
-      "PATCH",
-      url,
-      body,
-    );
+    return this.request<T>("PATCH", url, body);
   }
 
   async delete<T>(url: string): Promise<T> {
@@ -65,8 +61,7 @@ export class ApiClient implements ApiClientContract {
     url: string,
     body?: unknown,
   ): Promise<T> {
-    const controller =
-      new AbortController();
+    const controller = new AbortController();
 
     const timeoutId = setTimeout(
       () => controller.abort(),
@@ -74,9 +69,15 @@ export class ApiClient implements ApiClientContract {
     );
 
     try {
-      const headers = {
+      const accessToken = this.tokens.getAccessToken();
+
+      const headers: Record<string, string> = {
         ...this.config.headers,
       };
+
+      if (accessToken !== null) {
+        headers.Authorization = `Bearer ${accessToken}`;
+      }
 
       const request: RequestInit = {
         method,
@@ -96,14 +97,10 @@ export class ApiClient implements ApiClientContract {
       let data: unknown = null;
 
       const contentType =
-        response.headers.get(
-          "content-type",
-        );
+        response.headers.get("content-type");
 
       if (
-        contentType?.includes(
-          "application/json",
-        )
+        contentType?.includes("application/json")
       ) {
         data = await response.json();
       } else {
@@ -127,9 +124,7 @@ export class ApiClient implements ApiClientContract {
         error instanceof DOMException &&
         error.name === "AbortError"
       ) {
-        throw new ApiError(
-          "Request timed out",
-        );
+        throw new ApiError("Request timed out");
       }
 
       throw new ApiError(
@@ -165,10 +160,7 @@ export class ApiClient implements ApiClientContract {
     const message =
       this.extractErrorMessage(data);
 
-    return new ApiError(
-      message,
-      status,
-    );
+    return new ApiError(message, status);
   }
 
   private extractErrorMessage(
@@ -180,9 +172,7 @@ export class ApiClient implements ApiClientContract {
       "message" in data
     ) {
       const message =
-        (data as {
-          message?: unknown;
-        }).message;
+        (data as { message?: unknown }).message;
 
       if (typeof message === "string") {
         return message;

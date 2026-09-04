@@ -5,6 +5,9 @@ import { LoginPage } from "@/pages/auth/login/LoginPage";
 import { RegisterPage } from "@/pages/auth/register/RegisterPage";
 import { ResetPasswordPage } from "@/pages/auth/reset-password/ResetPasswordPage";
 import { VerifyEmailPage } from "@/pages/auth/verify-email/VerifyEmailPage";
+import { BusinessSetupPage } from "@/pages/business-setup/BusinessSetupPage";
+import { DashboardPage } from "@/pages/dashboard/DashboardPage";
+
 
 export function AppRoutes() {
   return (
@@ -32,6 +35,16 @@ export function AppRoutes() {
       <Route
         path="/reset-password"
         element={<ResetPasswordPage />}
+      />
+
+      <Route
+        path="/business-setup"
+        element={<BusinessSetupPage />}
+      />
+
+      <Route
+        path="/dashboard"
+        element={<DashboardPage />}
       />
 
       <Route

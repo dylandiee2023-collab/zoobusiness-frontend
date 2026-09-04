@@ -12,15 +12,36 @@ export class PreferencesEngine {
       return;
     }
 
-    const values = JSON.parse(raw) as Record<string, unknown>;
+    try {
+      const values = JSON.parse(raw) as unknown;
 
-    this.data = new Map(Object.entries(values));
+      if (
+        typeof values !== "object" ||
+        values === null ||
+        Array.isArray(values)
+      ) {
+        this.data.clear();
+        return;
+      }
+
+      this.data = new Map(
+        Object.entries(
+          values as Record<string, unknown>,
+        ),
+      );
+    } catch {
+      this.data.clear();
+      localStorage.removeItem(this.key);
+    }
   }
 
   save(): void {
     const values = Object.fromEntries(this.data);
 
-    localStorage.setItem(this.key, JSON.stringify(values));
+    localStorage.setItem(
+      this.key,
+      JSON.stringify(values),
+    );
   }
 
   has(key: string): boolean {

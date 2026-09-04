@@ -36,13 +36,18 @@ import {
 export class Platform implements PlatformContract {
   private readonly kernel = createKernel();
 
-  readonly bootstrap = createBootstrap(this.kernel);
+  readonly bootstrap = createBootstrap(
+    this.kernel,
+  );
 
-  readonly runtime = createRuntime(this.bootstrap);
+  readonly runtime = createRuntime(
+    this.bootstrap,
+  );
 
   readonly environment = createEnvironment();
 
-  readonly configuration = createConfiguration();
+  readonly configuration =
+    createConfiguration();
 
   readonly logger = createLogger();
 
@@ -50,17 +55,25 @@ export class Platform implements PlatformContract {
 
   readonly storage = createStorage();
 
-  readonly preferences = createPreferences();
+  readonly preferences =
+    createPreferences();
 
   readonly session = createSession();
 
   readonly http = createHttpClient();
 
-  readonly api = createApiClient();
-
-  readonly authentication = createAuthentication();
-
   readonly tokens = createTokenManager();
+
+  readonly api = createApiClient(
+    this.tokens,
+  );
+
+  readonly authentication =
+    createAuthentication(
+      this.api,
+      this.tokens,
+      this.session,
+    );
 
   readonly cache = createCache();
 
@@ -72,17 +85,20 @@ export class Platform implements PlatformContract {
 
   readonly theme = createTheme();
 
-  readonly responsive = createResponsive();
+  readonly responsive =
+    createResponsive();
 
   readonly icons = createIconEngine();
 
-  readonly permissions = createPermissionEngine();
+  readonly permissions =
+    createPermissionEngine();
 
   readonly menu = createMenuEngine();
 
   readonly routes = createRouteEngine();
 
-  readonly navigation = createNavigationEngine();
+  readonly navigation =
+    createNavigationEngine();
 
   readonly widgets = createWidgetEngine();
 
@@ -90,7 +106,8 @@ export class Platform implements PlatformContract {
 
   readonly search = createSearchEngine();
 
-  readonly notifications = createNotificationEngine();
+  readonly notifications =
+    createNotificationEngine();
 
   readonly commands = createCommandEngine();
 }

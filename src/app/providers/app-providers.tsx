@@ -1,12 +1,19 @@
 import type { PropsWithChildren } from "react";
 
+import { PlatformProvider } from "@/platform/providers";
 import { ThemeProvider } from "@/theme/providers";
 import { ResponsiveProvider } from "@/responsive";
 
-export function AppProviders({ children }: PropsWithChildren) {
+export function AppProviders({
+  children,
+}: PropsWithChildren) {
   return (
-    <ThemeProvider>
-      <ResponsiveProvider>{children}</ResponsiveProvider>
-    </ThemeProvider>
+    <PlatformProvider>
+      <ThemeProvider>
+        <ResponsiveProvider>
+          {children}
+        </ResponsiveProvider>
+      </ThemeProvider>
+    </PlatformProvider>
   );
 }

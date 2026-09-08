@@ -1,0 +1,446 @@
+/* Landing responsive layer: mobile-first, then tablet, laptop and desktop. */
+
+.zb-homepage {
+  overflow-x: clip;
+}
+
+.zb-home-nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  min-height: 60px;
+  padding: 8px 14px;
+  gap: 12px;
+}
+
+.zb-homepage {
+  padding-top: 60px;
+}
+
+.zb-brand img {
+  width: 104px;
+}
+
+.zb-nav-actions {
+  gap: 8px;
+}
+
+.zb-signin {
+  display: inline-flex;
+  align-items: center;
+}
+
+.zb-button-small {
+  min-height: 38px;
+  padding: 0 13px;
+  border-radius: 11px;
+}
+
+.zb-button-small svg {
+  width: 15px;
+  height: 15px;
+}
+
+.zb-hero {
+  grid-template-columns: 1fr;
+  gap: 34px;
+  padding: 48px 16px 34px;
+}
+
+.zb-hero-copy {
+  max-width: 760px;
+}
+
+.zb-hero h1 {
+  font-size: clamp(42px, 12vw, 58px);
+  line-height: 0.99;
+}
+
+.zb-hero-copy > p {
+  margin-top: 20px;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.zb-hero-actions {
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 26px;
+}
+
+.zb-hero-actions .zb-button {
+  width: 100%;
+}
+
+.zb-hero-visual {
+  min-height: 420px;
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.zb-orbit-one {
+  width: min(84vw, 390px);
+  height: min(84vw, 390px);
+}
+
+.zb-orbit-two {
+  width: min(62vw, 290px);
+  height: min(62vw, 290px);
+}
+
+.zb-hero-core {
+  width: 148px;
+  height: 148px;
+  padding: 18px;
+  border-radius: 24px;
+}
+
+.zb-hero-core img {
+  width: 44px;
+  height: 44px;
+}
+
+.zb-hero-core strong {
+  font-size: 15px;
+}
+
+.zb-hero-node {
+  width: 96px;
+  min-height: 72px;
+  padding: 9px;
+  border-radius: 16px;
+}
+
+.zb-hero-node span {
+  font-size: 11px;
+}
+
+.zb-node-retail {
+  right: 0;
+  top: 10%;
+}
+
+.zb-node-inventory {
+  right: 0;
+  bottom: 8%;
+}
+
+.zb-node-orders {
+  left: 0;
+  bottom: 12%;
+}
+
+.zb-node-team {
+  left: 0;
+  top: 22%;
+}
+
+.zb-floating-automation {
+  top: 3%;
+  right: 2%;
+  padding: 9px 11px;
+  font-size: 10px;
+}
+
+.zb-floating-orders {
+  left: 2%;
+  bottom: 25%;
+  padding: 9px 11px;
+  font-size: 10px;
+}
+
+.zb-trust-strip {
+  grid-template-columns: 1fr;
+  gap: 12px;
+  padding: 22px 16px 30px;
+}
+
+.zb-stat {
+  justify-content: space-between;
+}
+
+.zb-trust-strip p {
+  grid-column: auto;
+  justify-self: start;
+  text-align: left;
+}
+
+.zb-section,
+.zb-marketplace-section,
+.zb-ai-section,
+.zb-pricing-section,
+.zb-channels-section {
+  padding: 72px 16px;
+}
+
+.zb-capability-grid,
+.zb-ecosystem-grid,
+.zb-channel-grid {
+  grid-template-columns: 1fr;
+}
+
+.zb-marketplace-section,
+.zb-ai-section,
+.zb-pricing-section {
+  grid-template-columns: 1fr;
+  gap: 38px;
+}
+
+.zb-pricing-section {
+  max-width: 100%;
+}
+
+.zb-pricing-card {
+  width: 100%;
+}
+
+.zb-footer {
+  display: block;
+  padding: 42px 16px 24px;
+}
+
+.zb-footer-main {
+  display: grid;
+  gap: 32px;
+}
+
+.zb-footer-brand img {
+  width: 112px;
+}
+
+.zb-footer-brand strong {
+  display: block;
+  margin-top: 10px;
+  color: var(--zb-text, #0f172a);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.zb-footer-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px 20px;
+}
+
+.zb-footer-column {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+
+.zb-footer-column h2 {
+  margin: 0 0 3px;
+  color: var(--zb-text, #0f172a);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.zb-footer-column a {
+  color: var(--zb-muted, #64748b);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.zb-footer-column a:hover {
+  color: var(--zb-primary, #2563eb);
+}
+
+.zb-footer-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 34px;
+  padding-top: 20px;
+  border-top: 1px solid var(--zb-border, #e2e8f0);
+  color: var(--zb-muted, #64748b);
+  font-size: 11px;
+}
+
+@media (min-width: 600px) {
+  .zb-home-nav {
+    min-height: 64px;
+    padding: 8px 22px;
+  }
+
+  .zb-homepage {
+    padding-top: 64px;
+  }
+
+  .zb-brand img {
+    width: 112px;
+  }
+
+  .zb-hero {
+    padding: 58px 24px 44px;
+  }
+
+  .zb-hero-actions {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .zb-hero-actions .zb-button {
+    width: auto;
+  }
+
+  .zb-hero-visual {
+    min-height: 500px;
+  }
+
+  .zb-capability-grid,
+  .zb-ecosystem-grid,
+  .zb-channel-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .zb-footer-columns {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .zb-home-nav {
+    padding-inline: 28px;
+  }
+
+  .zb-brand img {
+    width: 116px;
+  }
+
+  .zb-hero {
+    padding: 70px 32px 54px;
+  }
+
+  .zb-hero h1 {
+    font-size: clamp(52px, 7vw, 72px);
+  }
+
+  .zb-section,
+  .zb-marketplace-section,
+  .zb-ai-section,
+  .zb-pricing-section,
+  .zb-channels-section {
+    padding-inline: 32px;
+  }
+
+  .zb-footer {
+    padding-inline: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .zb-home-nav {
+    min-height: 68px;
+    padding: 8px 42px;
+  }
+
+  .zb-homepage {
+    padding-top: 68px;
+  }
+
+  .zb-brand img {
+    width: 120px;
+  }
+
+  .zb-nav-links {
+    display: flex;
+  }
+
+  .zb-hero {
+    grid-template-columns: minmax(0, 1.03fr) minmax(360px, 0.97fr);
+    gap: 44px;
+    padding: 72px 42px 58px;
+  }
+
+  .zb-hero-copy {
+    margin: 0;
+  }
+
+  .zb-hero-visual {
+    min-height: 540px;
+  }
+
+  .zb-hero h1 {
+    font-size: clamp(56px, 6vw, 82px);
+  }
+
+  .zb-capability-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .zb-ecosystem-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .zb-channel-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .zb-marketplace-section,
+  .zb-ai-section,
+  .zb-pricing-section {
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+  }
+
+  .zb-footer-main {
+    grid-template-columns: 260px 1fr;
+    align-items: start;
+    gap: 48px;
+  }
+
+  .zb-footer-columns {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .zb-footer-bottom {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+@media (min-width: 1280px) {
+  .zb-home-nav {
+    min-height: 70px;
+    padding-inline: 56px;
+  }
+
+  .zb-homepage {
+    padding-top: 70px;
+  }
+
+  .zb-brand img {
+    width: 124px;
+  }
+
+  .zb-hero {
+    grid-template-columns: minmax(0, 1.03fr) minmax(420px, 0.97fr);
+    gap: 64px;
+    padding: 82px 56px 68px;
+  }
+
+  .zb-hero h1 {
+    font-size: clamp(62px, 6vw, 92px);
+  }
+
+  .zb-hero-visual {
+    min-height: 600px;
+  }
+
+  .zb-section,
+  .zb-marketplace-section,
+  .zb-ai-section,
+  .zb-pricing-section,
+  .zb-channels-section {
+    padding-inline: 56px;
+  }
+
+  .zb-footer {
+    padding-inline: 56px;
+  }
+}

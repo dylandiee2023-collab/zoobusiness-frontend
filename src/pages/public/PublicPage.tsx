@@ -8,6 +8,7 @@ import "./public-page.css";
 
 type Language = "en" | "sw";
 type LinkItem = readonly [string, string];
+type FooterColumn = { title: string; links: readonly LinkItem[] };
 type Section = { title: string; body: string };
 type PageContent = { title: string; description: string; sections: Section[] };
 
@@ -28,18 +29,18 @@ const legalPages: Record<string, Record<Language, PageContent>> = {
   "/acceptable-use": { en: { title: "Acceptable Use", description: "The acceptable-use requirements for ZooBusiness will be published before production launch.", sections: [{ title: "Responsible use", body: "The final requirements will describe prohibited misuse, security expectations and responsibilities for using the platform and its automation capabilities." }] }, sw: { title: "Matumizi Yanayokubalika", description: "Masharti ya matumizi yanayokubalika ya ZooBusiness yatachapishwa kabla ya production launch.", sections: [{ title: "Matumizi yenye uwajibikaji", body: "Masharti ya mwisho yataeleza matumizi yasiyoruhusiwa, matarajio ya usalama na majukumu ya kutumia platform pamoja na automation capabilities." }] } },
 };
 
-const columns = (language: Language) => language === "en" ? [
-  { title: "Platform", links: [["Platform", "/platform"], ["Features", "/features"], ["Automation", "/automation"], ["Integrations", "/integrations"], ["Pricing", "/pricing"]] },
-  { title: "Company", links: [["About OTUS", "/about"], ["Contact", "/contact"]] },
-  { title: "Resources", links: [["Resources", "/resources"]] },
-  { title: "Legal", links: [["Terms of Service", "/terms"], ["Privacy Policy", "/privacy"], ["Cookie Policy", "/cookies"], ["Acceptable Use", "/acceptable-use"]] },
-  { title: "Account", links: [["Sign In", "/login"], ["Get Started", "/register"]] },
+const columns = (language: Language): readonly FooterColumn[] => language === "en" ? [
+  { title: "Platform", links: [["Platform", "/platform"], ["Features", "/features"], ["Automation", "/automation"], ["Integrations", "/integrations"], ["Pricing", "/pricing"] as LinkItem] },
+  { title: "Company", links: [["About OTUS", "/about"], ["Contact", "/contact"] as LinkItem] },
+  { title: "Resources", links: [["Resources", "/resources"] as LinkItem] },
+  { title: "Legal", links: [["Terms of Service", "/terms"], ["Privacy Policy", "/privacy"], ["Cookie Policy", "/cookies"], ["Acceptable Use", "/acceptable-use"] as LinkItem] },
+  { title: "Account", links: [["Sign In", "/login"], ["Get Started", "/register"] as LinkItem] },
 ] : [
-  { title: "Jukwaa", links: [["Jukwaa", "/platform"], ["Vipengele", "/features"], ["Automation", "/automation"], ["Integrations", "/integrations"], ["Bei", "/pricing"]] },
-  { title: "Kampuni", links: [["Kuhusu OTUS", "/about"], ["Wasiliana", "/contact"]] },
-  { title: "Rasilimali", links: [["Rasilimali", "/resources"]] },
-  { title: "Kisheria", links: [["Masharti ya Huduma", "/terms"], ["Sera ya Faragha", "/privacy"], ["Sera ya Cookies", "/cookies"], ["Matumizi Yanayokubalika", "/acceptable-use"]] },
-  { title: "Akaunti", links: [["Ingia", "/login"], ["Anza", "/register"]] },
+  { title: "Jukwaa", links: [["Jukwaa", "/platform"], ["Vipengele", "/features"], ["Automation", "/automation"], ["Integrations", "/integrations"], ["Bei", "/pricing"] as LinkItem] },
+  { title: "Kampuni", links: [["Kuhusu OTUS", "/about"], ["Wasiliana", "/contact"] as LinkItem] },
+  { title: "Rasilimali", links: [["Rasilimali", "/resources"] as LinkItem] },
+  { title: "Kisheria", links: [["Masharti ya Huduma", "/terms"], ["Sera ya Faragha", "/privacy"], ["Sera ya Cookies", "/cookies"], ["Matumizi Yanayokubalika", "/acceptable-use"] as LinkItem] },
+  { title: "Akaunti", links: [["Ingia", "/login"], ["Anza", "/register"] as LinkItem] },
 ];
 
 const pricingPlans = (language: Language) => language === "en" ? [
@@ -61,8 +62,8 @@ export function PublicPage() {
   const colors = theme.colors;
   const isPricing = pathname === "/pricing";
   const base = pages[pathname]?.[language];
-  const content = base ?? legalPages[pathname]?.[language] ?? pages["/platform"][language];
-  const links = columns(language) as { title: string; links: readonly LinkItem[] }[];
+  const content = base ?? legalPages[pathname]?.[language] ?? pages["/platform"]![language];
+  const links = columns(language);
   const title = isPricing ? (language === "sw" ? "Bei ya ZooBusiness" : "ZooBusiness pricing") : content.title;
   const description = isPricing ? (language === "sw" ? "Chagua mpango unaoendana na uendeshaji wa biashara yako ya rejareja." : "Choose the plan that fits the way your retail operation runs.") : content.description;
 

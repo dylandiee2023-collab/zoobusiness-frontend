@@ -1,13 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
 
 import logo from "@/assets/logo.png";
+import { useTheme } from "@/theme/hooks";
+
 import "./public-page.css";
 
-type PublicPageConfig = {
-  title: string;
-  description: string;
-  primary?: string;
-};
+type PublicPageConfig = { title: string; description: string };
 
 const pages: Record<string, PublicPageConfig> = {
   "/platform": { title: "The retail operating platform", description: "ZooBusiness connects the core work behind modern retail operations in one business workspace." },
@@ -26,34 +24,30 @@ const pages: Record<string, PublicPageConfig> = {
 
 export function PublicPage() {
   const { pathname } = useLocation();
+  const { theme } = useTheme();
+  const colors = theme.colors;
   const config = pages[pathname] ?? pages["/platform"];
 
   return (
-    <main className="zb-public-page">
+    <main className="zb-public-page" style={{
+      "--zb-background": colors.background,
+      "--zb-surface": colors.surface,
+      "--zb-text": colors.text,
+      "--zb-muted": colors.textMuted,
+      "--zb-primary": colors.primary,
+      "--zb-border": colors.border,
+    } as React.CSSProperties}>
       <header className="zb-public-nav">
         <Link to="/" aria-label="ZooBusiness home"><img src={logo} alt="ZooBusiness" /></Link>
         <nav aria-label="Public navigation">
-          <Link to="/platform">Platform</Link>
-          <Link to="/features">Features</Link>
-          <Link to="/automation">Automation</Link>
-          <Link to="/pricing">Pricing</Link>
+          <Link to="/platform">Platform</Link><Link to="/features">Features</Link><Link to="/automation">Automation</Link><Link to="/pricing">Pricing</Link>
         </nav>
-        <div className="zb-public-actions">
-          <Link to="/login">Sign In</Link>
-          <Link className="zb-public-button" to="/register">Get Started</Link>
-        </div>
+        <div className="zb-public-actions"><Link to="/login">Sign In</Link><Link className="zb-public-button" to="/register">Get Started</Link></div>
       </header>
-
       <section className="zb-public-content">
-        <span>ZooBusiness · OTUS</span>
-        <h1>{config.title}</h1>
-        <p>{config.description}</p>
-        <div className="zb-public-actions-content">
-          <Link className="zb-public-button" to="/register">Get Started</Link>
-          <Link to="/">Back to Home</Link>
-        </div>
+        <span>ZooBusiness · OTUS</span><h1>{config.title}</h1><p>{config.description}</p>
+        <div className="zb-public-actions-content"><Link className="zb-public-button" to="/register">Get Started</Link><Link to="/">Back to Home</Link></div>
       </section>
-
       <footer className="zb-public-footer">
         <div><strong>ZooBusiness</strong><span>A retail operations platform by OTUS.</span></div>
         <div><Link to="/privacy">Privacy</Link><Link to="/terms">Terms</Link><Link to="/contact">Contact</Link></div>

@@ -6,9 +6,7 @@ export interface AuthCardRecipeProps {
 
 export const authCardRecipe =
   createRecipe<AuthCardRecipeProps>({
-    recipe(theme, props) {
-      const glass = props.glass ?? false;
-
+    recipe(theme) {
       return {
         style: {
           width: "100%",

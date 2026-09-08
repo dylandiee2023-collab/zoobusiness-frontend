@@ -1,4 +1,5 @@
 import { StorageError } from "./storage-errors";
+import { StorageKeys } from "./storage-keys";
 
 export class StorageEngine {
   has(key: string): boolean {
@@ -36,6 +37,8 @@ export class StorageEngine {
   }
 
   clear(): void {
-    localStorage.clear();
+    for (const key of Object.values(StorageKeys)) {
+      localStorage.removeItem(key);
+    }
   }
 }

@@ -8,7 +8,6 @@ export * from "./event-bus.contract";
 export * from "./storage.contract";
 export * from "./preferences.contract";
 export * from "./session.contract";
-export * from "./http.contract";
 export * from "./api.contract";
 export * from "./authentication.contract";
 export * from "./token-manager.contract";

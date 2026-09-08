@@ -1,24 +1,24 @@
-import {
-  AVAILABLE_THEMES,
-  DEFAULT_THEME,
-  THEME_STORAGE_KEY,
-} from "@/theme/constants";
+import { StorageKeys } from "@/platform/storage";
 import type { ThemeMode } from "@/theme/types";
+
+const VALID_THEME_MODES: readonly ThemeMode[] = [
+  "system",
+  "light",
+  "dark",
+  "glass",
+  "high-contrast",
+];
 
 export function getStoredTheme(): ThemeMode {
   if (typeof window === "undefined") {
-    return DEFAULT_THEME;
+    return "light";
   }
 
-  const stored = localStorage.getItem(THEME_STORAGE_KEY);
+  const stored = localStorage.getItem(StorageKeys.THEME);
 
-  if (!stored) {
-    return DEFAULT_THEME;
-  }
-
-  return AVAILABLE_THEMES.includes(stored as ThemeMode)
+  return VALID_THEME_MODES.includes(stored as ThemeMode)
     ? (stored as ThemeMode)
-    : DEFAULT_THEME;
+    : "light";
 }
 
 export function saveTheme(theme: ThemeMode): void {
@@ -26,7 +26,7 @@ export function saveTheme(theme: ThemeMode): void {
     return;
   }
 
-  localStorage.setItem(THEME_STORAGE_KEY, theme);
+  localStorage.setItem(StorageKeys.THEME, theme);
 }
 
 export function removeStoredTheme(): void {
@@ -34,5 +34,5 @@ export function removeStoredTheme(): void {
     return;
   }
 
-  localStorage.removeItem(THEME_STORAGE_KEY);
+  localStorage.removeItem(StorageKeys.THEME);
 }

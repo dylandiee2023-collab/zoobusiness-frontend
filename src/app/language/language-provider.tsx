@@ -1,14 +1,15 @@
 import { createContext, useEffect, useMemo, useState, type PropsWithChildren } from "react";
 
-type Language = "en" | "sw";
+export type Language = "en" | "sw";
 
 type LanguageContextValue = {
   language: Language;
   setLanguage: (language: Language) => void;
 };
 
-const STORAGE_KEY = "zoobusiness.language";
 export const LanguageContext = createContext<LanguageContextValue | null>(null);
+
+const STORAGE_KEY = "zoobusiness.language";
 
 function getInitialLanguage(): Language {
   if (typeof window === "undefined") return "en";

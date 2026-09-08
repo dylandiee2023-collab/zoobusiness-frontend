@@ -17,7 +17,7 @@ import type {
   semanticZIndex,
 } from "@/theme/tokens/semantic";
 
-export type ThemeMode = "system" | "light" | "dark" | "glass" | "high-contrast";
+export type ThemeMode = "system" | "light" | "dark";
 
 export type ThemeProviderProps = PropsWithChildren;
 

@@ -24,16 +24,5 @@ export function resolveTheme(mode: ThemeMode): Theme {
 
     case "system":
       return getSystemTheme() === "dark" ? darkTheme : lightTheme;
-
-    case "glass":
-      // TODO: Replace with glassTheme
-      return lightTheme;
-
-    case "high-contrast":
-      // TODO: Replace with highContrastTheme
-      return lightTheme;
-
-    default:
-      return lightTheme;
   }
 }

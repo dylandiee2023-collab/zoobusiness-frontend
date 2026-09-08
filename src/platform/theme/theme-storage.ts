@@ -6,8 +6,6 @@ const VALID_THEME_MODES: readonly ThemeMode[] = [
   "system",
   "light",
   "dark",
-  "glass",
-  "high-contrast",
 ];
 
 export class ThemeStorage {

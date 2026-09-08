@@ -1,33 +1,187 @@
 import { Link, useLocation } from "react-router-dom";
 
 import logo from "@/assets/logo.png";
-import { useTheme } from "@/theme/hooks";
 import { useLanguage } from "@/app/language";
+import { useTheme } from "@/theme/hooks";
 
 import "./public-page.css";
 
-type PublicPageConfig = { en: { title: string; description: string }; sw: { title: string; description: string } };
-
+type Language = "en" | "sw";
 type LinkItem = readonly [string, string];
-
-const pages: Record<string, PublicPageConfig> = {
-  "/platform": { en: { title: "The retail operating platform", description: "ZooBusiness connects the core work behind modern retail operations in one business workspace." }, sw: { title: "Jukwaa la uendeshaji wa biashara ya rejareja", description: "ZooBusiness inaunganisha kazi kuu za uendeshaji wa biashara ya rejareja katika workspace moja ya biashara." } },
-  "/features": { en: { title: "Features built for retail", description: "Explore the operational foundation for products, inventory, branches, customers, orders, payments, teams and automation." }, sw: { title: "Vipengele vilivyojengwa kwa biashara ya rejareja", description: "Gundua msingi wa uendeshaji wa bidhaa, stock, matawi, wateja, oda, malipo, timu na automation." } },
-  "/automation": { en: { title: "Automation with AutoBots", description: "AutoBots is the automation layer behind ZooBusiness, designed to turn business events, rules and schedules into repeatable workflows." }, sw: { title: "Automation kupitia AutoBots", description: "AutoBots ni layer ya automation nyuma ya ZooBusiness, iliyoundwa kubadilisha matukio, sheria na ratiba za biashara kuwa workflows zinazorudiwa." } },
-  "/integrations": { en: { title: "Connect your business", description: "Bring operational workflows together as ZooBusiness expands its integration surface across business channels and services." }, sw: { title: "Unganisha biashara yako", description: "Unganisha workflows za uendeshaji kadri ZooBusiness inavyopanua integrations kwenye channels na huduma za biashara." } },
-  "/pricing": { en: { title: "Pricing", description: "Choose the ZooBusiness plan that fits your retail operation. Plan details will be published here as pricing is finalized." }, sw: { title: "Bei", description: "Chagua mpango wa ZooBusiness unaoendana na biashara yako ya rejareja. Maelezo ya mipango yatachapishwa hapa bei zitakapokamilishwa." } },
-  "/resources": { en: { title: "Resources", description: "Guides, documentation and practical resources for getting more from ZooBusiness." }, sw: { title: "Rasilimali", description: "Miongozo, documentation na rasilimali za vitendo za kupata zaidi kutoka ZooBusiness." } },
-  "/about": { en: { title: "About OTUS", description: "OTUS builds ZooBusiness as a retail operations platform focused on connected work and practical automation." }, sw: { title: "Kuhusu OTUS", description: "OTUS inajenga ZooBusiness kama jukwaa la uendeshaji wa rejareja linalolenga kazi zilizounganishwa na automation ya vitendo." } },
-  "/contact": { en: { title: "Contact OTUS", description: "Have a question about ZooBusiness, partnerships or getting started? Contact the OTUS team." }, sw: { title: "Wasiliana na OTUS", description: "Una swali kuhusu ZooBusiness, partnerships au kuanza kutumia mfumo? Wasiliana na timu ya OTUS." } },
-  "/terms": { en: { title: "Terms of Service", description: "The terms governing use of ZooBusiness will be published here before production launch." }, sw: { title: "Masharti ya Huduma", description: "Masharti yanayosimamia matumizi ya ZooBusiness yatachapishwa hapa kabla ya uzinduzi wa production." } },
-  "/privacy": { en: { title: "Privacy Policy", description: "The ZooBusiness privacy policy will be published here before production launch." }, sw: { title: "Sera ya Faragha", description: "Sera ya faragha ya ZooBusiness itachapishwa hapa kabla ya uzinduzi wa production." } },
-  "/cookies": { en: { title: "Cookie Policy", description: "Information about cookies and similar technologies used by ZooBusiness will be published here before production launch." }, sw: { title: "Sera ya Cookies", description: "Taarifa kuhusu cookies na teknolojia zinazofanana zinazotumiwa na ZooBusiness zitachapishwa hapa kabla ya uzinduzi wa production." } },
-  "/acceptable-use": { en: { title: "Acceptable Use", description: "The acceptable-use requirements for ZooBusiness will be published here before production launch." }, sw: { title: "Matumizi Yanayokubalika", description: "Masharti ya matumizi yanayokubalika ya ZooBusiness yatachapishwa hapa kabla ya uzinduzi wa production." } },
+type Section = { title: string; body: string };
+type PageContent = {
+  title: string;
+  description: string;
+  sections: Section[];
 };
 
-const columns = (language: "en" | "sw") => {
+const pages: Record<string, Record<Language, PageContent>> = {
+  "/platform": {
+    en: {
+      title: "The retail operating platform",
+      description: "ZooBusiness brings the core work behind day-to-day retail operations into one business workspace.",
+      sections: [
+        { title: "One operational workspace", body: "Manage the work around stores, branches, products, customers, orders, payments and teams without splitting the operation across disconnected tools." },
+        { title: "Built around retail workflows", body: "The platform is structured around the operational events that matter to a retail business, from stock movement and orders to customer communication and fulfillment." },
+        { title: "Automation-ready by design", body: "AutoBots provides the automation layer so repeatable business events can become rules, scheduled actions and auditable workflows." },
+      ],
+    },
+    sw: {
+      title: "Jukwaa la uendeshaji wa biashara ya rejareja",
+      description: "ZooBusiness inaweka kazi kuu za uendeshaji wa biashara ya rejareja katika workspace moja ya biashara.",
+      sections: [
+        { title: "Workspace moja ya uendeshaji", body: "Simamia stores, matawi, bidhaa, wateja, oda, malipo na timu bila kugawa uendeshaji kwenye tools nyingi zisizounganishwa." },
+        { title: "Imejengwa kwa workflows za rejareja", body: "Mfumo umejengwa kuzunguka matukio muhimu ya biashara ya rejareja, kutoka stock na oda hadi mawasiliano na fulfillment." },
+        { title: "Imeandaliwa kwa automation", body: "AutoBots ndiyo layer ya automation inayowezesha matukio yanayojirudia kuwa rules, scheduled actions na workflows zenye audit trail." },
+      ],
+    },
+  },
+  "/features": {
+    en: {
+      title: "Features built for retail",
+      description: "A practical operating foundation for the work your retail team handles every day.",
+      sections: [
+        { title: "Products and stock", body: "Keep product information, stock control, warehouses and branch operations connected to the rest of the business workflow." },
+        { title: "Customers and orders", body: "Organize customer activity and order workflows so the team can move from an order to payment and fulfillment with less friction." },
+        { title: "Teams and access", body: "Support business workspaces, members, branches and role-based access so the right people can work on the right operations." },
+        { title: "Payments and records", body: "Keep payment activity, methods, proofs and operational records connected to the business workflow and audit history." },
+      ],
+    },
+    sw: {
+      title: "Vipengele vilivyojengwa kwa biashara ya rejareja",
+      description: "Msingi wa vitendo kwa kazi ambazo timu yako ya rejareja inafanya kila siku.",
+      sections: [
+        { title: "Bidhaa na stock", body: "Weka taarifa za bidhaa, stock, warehouses na uendeshaji wa matawi vikiwa vimeunganishwa na workflow nyingine za biashara." },
+        { title: "Wateja na oda", body: "Panga shughuli za wateja na oda ili timu iweze kutoka oda hadi malipo na fulfillment kwa urahisi zaidi." },
+        { title: "Timu na access", body: "Tumia workspaces, members, branches na role-based access ili kila mtu afanye kazi anayoruhusiwa kufanya." },
+        { title: "Malipo na records", body: "Unganisha shughuli za malipo, payment methods, proofs na records za uendeshaji pamoja na audit history." },
+      ],
+    },
+  },
+  "/automation": {
+    en: {
+      title: "Automation with AutoBots",
+      description: "Turn repeatable retail events into controlled workflows instead of relying on manual follow-up for every task.",
+      sections: [
+        { title: "Event-driven workflows", body: "Automation can be structured around business events such as messages, keywords, payments, orders, schedules, webhooks and API activity." },
+        { title: "Customer communication", body: "The architecture is designed to support customer conversations across channels such as WhatsApp, Instagram, Messenger and Email as integrations are connected." },
+        { title: "Rules with an audit trail", body: "Automation should be understandable and traceable: an event triggers a rule, the workflow performs an action, and the operation can be recorded for accountability." },
+      ],
+    },
+    sw: {
+      title: "Automation kupitia AutoBots",
+      description: "Geuza matukio yanayojirudia ya rejareja kuwa workflows zinazodhibitiwa badala ya kutegemea follow-up ya manual kila mara.",
+      sections: [
+        { title: "Workflows zinazoendeshwa na events", body: "Automation inaweza kujengwa kuzunguka messages, keywords, payments, orders, schedules, webhooks na API activity." },
+        { title: "Mawasiliano na wateja", body: "Architecture imeandaliwa kusaidia conversations kupitia WhatsApp, Instagram, Messenger na Email kadri integrations zinavyounganishwa." },
+        { title: "Rules zenye audit trail", body: "Automation inapaswa kueleweka na kufuatilika: event inachochea rule, workflow inafanya action, na operation inaweza kurekodiwa kwa accountability." },
+      ],
+    },
+  },
+  "/integrations": {
+    en: {
+      title: "Connect your business",
+      description: "ZooBusiness is being structured so operational workflows can connect to the channels and services your business depends on.",
+      sections: [
+        { title: "Customer channels", body: "The product architecture is prepared for customer communication workflows across WhatsApp, Instagram, Messenger and Email." },
+        { title: "Business services", body: "Integrations can connect external services to the operational workspace while keeping business events and actions inside the wider workflow model." },
+        { title: "Integration-ready, not pretend-connected", body: "Channels and services will be enabled as their backend integrations are completed. The frontend does not claim a live connection where one is not yet available." },
+      ],
+    },
+    sw: {
+      title: "Unganisha biashara yako",
+      description: "ZooBusiness inaandaliwa ili workflows za biashara ziweze kuunganishwa na channels na huduma ambazo biashara inategemea.",
+      sections: [
+        { title: "Channels za wateja", body: "Architecture ya bidhaa imeandaliwa kwa workflows za mawasiliano kupitia WhatsApp, Instagram, Messenger na Email." },
+        { title: "Huduma za biashara", body: "Integrations zinaweza kuunganisha services za nje na workspace ya uendeshaji huku events na actions zikiendelea ndani ya workflow model." },
+        { title: "Integration-ready bila kudanganya", body: "Channels na services zitawezeshwa backend integrations zitakapokamilika. Frontend haidai connection ya live ambayo bado haipo." },
+      ],
+    },
+  },
+  "/resources": {
+    en: {
+      title: "Resources",
+      description: "Practical documentation and guidance will help teams understand the platform and use it effectively.",
+      sections: [
+        { title: "Getting started", body: "Learn the core workspace concepts, account setup and the operational model before connecting your wider retail workflow." },
+        { title: "Automation guidance", body: "Understand events, rules, schedules and the principles behind building reliable AutoBots workflows." },
+        { title: "Product documentation", body: "Detailed product and integration documentation will expand as ZooBusiness moves through its production rollout." },
+      ],
+    },
+    sw: {
+      title: "Rasilimali",
+      description: "Documentation na miongozo ya vitendo itasaidia timu kuelewa mfumo na kuutumia kwa ufanisi.",
+      sections: [
+        { title: "Kuanza kutumia", body: "Jifunze concepts za workspace, account setup na operational model kabla ya kuunganisha workflow yako yote ya rejareja." },
+        { title: "Mwongozo wa automation", body: "Elewa events, rules, schedules na principles za kujenga AutoBots workflows zinazotegemeka." },
+        { title: "Product documentation", body: "Documentation ya bidhaa na integrations itaongezeka kadri ZooBusiness inavyoelekea production rollout." },
+      ],
+    },
+  },
+  "/about": {
+    en: {
+      title: "About OTUS",
+      description: "OTUS is building ZooBusiness around a simple idea: retail teams should spend less time coordinating repetitive work and more time running the business.",
+      sections: [
+        { title: "The product", body: "ZooBusiness is a retail operations platform designed to connect everyday business work in one workspace." },
+        { title: "The automation layer", body: "AutoBots is the backend automation engine being developed to turn business events into repeatable, controlled workflows." },
+        { title: "The direction", body: "The focus is practical retail operations: connected work, clear business records and automation that supports the team rather than hiding what the system is doing." },
+      ],
+    },
+    sw: {
+      title: "Kuhusu OTUS",
+      description: "OTUS inajenga ZooBusiness kwa wazo rahisi: timu za rejareja zitumie muda mdogo kwenye kazi zinazojirudia na muda mwingi kuendesha biashara.",
+      sections: [
+        { title: "Bidhaa", body: "ZooBusiness ni jukwaa la uendeshaji wa biashara ya rejareja linalounganisha kazi za kila siku katika workspace moja." },
+        { title: "Layer ya automation", body: "AutoBots ni backend automation engine inayotengenezwa kubadilisha business events kuwa workflows zinazojirudia na kudhibitiwa." },
+        { title: "Mwelekeo", body: "Lengo ni retail operations za vitendo: kazi zilizounganishwa, business records zilizo wazi na automation inayosaidia timu bila kuficha mfumo unachofanya." },
+      ],
+    },
+  },
+  "/contact": {
+    en: {
+      title: "Contact OTUS",
+      description: "Questions about ZooBusiness, partnerships or getting started can be directed to the OTUS team.",
+      sections: [
+        { title: "Product questions", body: "Use the account and product flows on this site to explore the current ZooBusiness experience." },
+        { title: "Partnerships", body: "Partnership and integration conversations can be handled by the OTUS team as the platform expands." },
+        { title: "Production support", body: "Production support channels will be published alongside the production service and its operational support process." },
+      ],
+    },
+    sw: {
+      title: "Wasiliana na OTUS",
+      description: "Maswali kuhusu ZooBusiness, partnerships au kuanza kutumia mfumo yanaweza kuelekezwa kwa timu ya OTUS.",
+      sections: [
+        { title: "Maswali ya bidhaa", body: "Tumia account na product flows kwenye tovuti hii kuchunguza uzoefu wa sasa wa ZooBusiness." },
+        { title: "Partnerships", body: "Mazungumzo ya partnerships na integrations yanaweza kushughulikiwa na timu ya OTUS kadri platform inavyopanuka." },
+        { title: "Production support", body: "Njia za production support zitachapishwa pamoja na production service na mchakato wake wa support." },
+      ],
+    },
+  },
+};
+
+const legalPages: Record<string, Record<Language, PageContent>> = {
+  "/terms": {
+    en: { title: "Terms of Service", description: "The terms governing use of ZooBusiness will be published before production launch.", sections: [{ title: "Before launch", body: "The final service terms will define account responsibilities, acceptable platform use, service conditions and other contractual requirements." }] },
+    sw: { title: "Masharti ya Huduma", description: "Masharti yanayosimamia matumizi ya ZooBusiness yatachapishwa kabla ya production launch.", sections: [{ title: "Kabla ya uzinduzi", body: "Masharti ya mwisho yataeleza majukumu ya akaunti, matumizi yanayokubalika, masharti ya huduma na mahitaji mengine ya kimkataba." }] },
+  },
+  "/privacy": {
+    en: { title: "Privacy Policy", description: "The ZooBusiness privacy policy will be published before production launch.", sections: [{ title: "Privacy commitment", body: "The final policy will explain what information is handled, why it is needed, how it is protected and what rights and choices apply." }] },
+    sw: { title: "Sera ya Faragha", description: "Sera ya faragha ya ZooBusiness itachapishwa kabla ya production launch.", sections: [{ title: "Ahadi ya faragha", body: "Sera ya mwisho itaeleza taarifa zinazoshughulikiwa, sababu zake, namna zinavyolindwa na haki pamoja na uchaguzi wa mtumiaji." }] },
+  },
+  "/cookies": {
+    en: { title: "Cookie Policy", description: "Information about cookies and similar technologies used by ZooBusiness will be published before production launch.", sections: [{ title: "How cookies will be documented", body: "The final policy will identify relevant cookies or similar technologies, their purposes and the controls available to users." }] },
+    sw: { title: "Sera ya Cookies", description: "Taarifa kuhusu cookies na teknolojia zinazofanana zinazotumiwa na ZooBusiness itachapishwa kabla ya production launch.", sections: [{ title: "Namna cookies zitakavyoelezwa", body: "Sera ya mwisho itaeleza cookies au technologies zinazohusika, matumizi yake na controls zinazopatikana kwa watumiaji." }] },
+  },
+  "/acceptable-use": {
+    en: { title: "Acceptable Use", description: "The acceptable-use requirements for ZooBusiness will be published before production launch.", sections: [{ title: "Responsible use", body: "The final requirements will describe prohibited misuse, security expectations and responsibilities for using the platform and its automation capabilities." }] },
+    sw: { title: "Matumizi Yanayokubalika", description: "Masharti ya matumizi yanayokubalika ya ZooBusiness yatachapishwa kabla ya production launch.", sections: [{ title: "Matumizi yenye uwajibikaji", body: "Masharti ya mwisho yataeleza matumizi yasiyoruhusiwa, matarajio ya usalama na majukumu ya kutumia platform pamoja na automation capabilities." }] },
+  },
+};
+
+const columns = (language: Language) => {
   const en = [
-    { title: "Platform", links: [["Platform", "/platform"], ["Operations", "/features"], ["Automation", "/automation"], ["Integrations", "/integrations"], ["Pricing", "/pricing"]] },
+    { title: "Platform", links: [["Platform", "/platform"], ["Features", "/features"], ["Automation", "/automation"], ["Integrations", "/integrations"], ["Pricing", "/pricing"] },
     { title: "Company", links: [["About OTUS", "/about"], ["Contact", "/contact"]] },
     { title: "Resources", links: [["Resources", "/resources"]] },
     { title: "Legal", links: [["Terms of Service", "/terms"], ["Privacy Policy", "/privacy"], ["Cookie Policy", "/cookies"], ["Acceptable Use", "/acceptable-use"]] },
@@ -35,7 +189,7 @@ const columns = (language: "en" | "sw") => {
   ];
   if (language === "en") return en;
   return [
-    { title: "Jukwaa", links: [["Jukwaa", "/platform"], ["Uendeshaji", "/features"], ["Automation", "/automation"], ["Integrations", "/integrations"], ["Bei", "/pricing"]] },
+    { title: "Jukwaa", links: [["Jukwaa", "/platform"], ["Vipengele", "/features"], ["Automation", "/automation"], ["Integrations", "/integrations"], ["Bei", "/pricing"]] },
     { title: "Kampuni", links: [["Kuhusu OTUS", "/about"], ["Wasiliana", "/contact"]] },
     { title: "Rasilimali", links: [["Rasilimali", "/resources"]] },
     { title: "Kisheria", links: [["Masharti ya Huduma", "/terms"], ["Sera ya Faragha", "/privacy"], ["Sera ya Cookies", "/cookies"], ["Matumizi Yanayokubalika", "/acceptable-use"]] },
@@ -43,32 +197,53 @@ const columns = (language: "en" | "sw") => {
   ];
 };
 
+const pricingPlans = (language: Language) => language === "en"
+  ? [
+      { name: "Trial", description: "Explore the core ZooBusiness experience before committing to a paid plan.", action: "Start exploring" },
+      { name: "Monthly", description: "A recurring plan for retail teams that prefer flexible billing.", action: "Plan details coming soon" },
+      { name: "Quarterly", description: "A longer billing cycle designed for teams planning ahead.", action: "Plan details coming soon" },
+      { name: "Annual", description: "An annual option for businesses looking for a longer-term operating plan.", action: "Plan details coming soon" },
+    ]
+  : [
+      { name: "Trial", description: "Chunguza uzoefu wa msingi wa ZooBusiness kabla ya kuingia kwenye mpango wa kulipia.", action: "Anza kuchunguza" },
+      { name: "Monthly", description: "Mpango wa malipo ya kila mwezi kwa timu zinazohitaji flexibility ya billing.", action: "Maelezo ya bei yanakuja" },
+      { name: "Quarterly", description: "Mzunguko mrefu wa billing kwa timu zinazopanga mbele.", action: "Maelezo ya bei yanakuja" },
+      { name: "Annual", description: "Chaguo la mwaka kwa biashara inayotaka mpango wa uendeshaji wa muda mrefu.", action: "Maelezo ya bei yanakuja" },
+    ];
+
 export function PublicPage() {
   const { pathname } = useLocation();
   const { theme } = useTheme();
   const { language, setLanguage } = useLanguage();
   const colors = theme.colors;
-  const config = pages[pathname] ?? pages["/platform"];
-  const copy = config[language];
+  const isPricing = pathname === "/pricing";
+  const base = pages[pathname]?.[language];
+  const content = base ?? legalPages[pathname]?.[language] ?? pages["/platform"][language];
   const links = columns(language) as { title: string; links: readonly LinkItem[] }[];
 
   return (
-    <main className="zb-public-page" style={{
-      "--zb-background": colors.background,
-      "--zb-surface": colors.surface,
-      "--zb-text": colors.text,
-      "--zb-muted": colors.textMuted,
-      "--zb-primary": colors.primary,
-      "--zb-border": colors.border,
-    } as React.CSSProperties}>
+    <main className="zb-public-page" style={{ "--zb-background": colors.background, "--zb-surface": colors.surface, "--zb-text": colors.text, "--zb-muted": colors.textMuted, "--zb-primary": colors.primary, "--zb-border": colors.border } as React.CSSProperties}>
       <header className="zb-public-nav">
         <Link to="/" aria-label="ZooBusiness home"><img src={logo} alt="ZooBusiness" /></Link>
         <nav aria-label="Public navigation"><Link to="/platform">{language === "sw" ? "Jukwaa" : "Platform"}</Link><Link to="/features">{language === "sw" ? "Vipengele" : "Features"}</Link><Link to="/automation">Automation</Link><Link to="/pricing">{language === "sw" ? "Bei" : "Pricing"}</Link></nav>
-        <div className="zb-public-actions"><label className="zb-language-switch"><span>{language === "sw" ? "Lugha" : "Language"}</span><select aria-label="Language" value={language} onChange={(event) => setLanguage(event.target.value as "en" | "sw")}><option value="en">EN</option><option value="sw">SW</option></select></label><Link to="/login">{language === "sw" ? "Ingia" : "Sign In"}</Link><Link className="zb-public-button" to="/register">{language === "sw" ? "Anza" : "Get Started"}</Link></div>
+        <div className="zb-public-actions"><label className="zb-language-switch"><span>{language === "sw" ? "Lugha" : "Language"}</span><select aria-label="Language" value={language} onChange={(event) => setLanguage(event.target.value as Language)}><option value="en">EN</option><option value="sw">SW</option></select></label><Link to="/login">{language === "sw" ? "Ingia" : "Sign In"}</Link><Link className="zb-public-button" to="/register">{language === "sw" ? "Anza" : "Get Started"}</Link></div>
       </header>
 
-      <section className="zb-public-content">
-        <span>ZooBusiness · OTUS</span><h1>{copy.title}</h1><p>{copy.description}</p>
+      <section className={`zb-public-content${isPricing ? " zb-public-pricing" : ""}`}>
+        <span>ZooBusiness · OTUS</span>
+        <h1>{content.title}</h1>
+        <p className="zb-public-lead">{content.description}</p>
+
+        {isPricing ? (
+          <>
+            <div className="zb-pricing-note"><strong>{language === "sw" ? "Bei rasmi bado haijafungwa" : "Final pricing is not locked yet"}</strong><p>{language === "sw" ? "Hatutaki kuweka namba za bei za kubuni. Muundo huu uko tayari kupokea bei rasmi itakapothibitishwa." : "We will not invent pricing numbers. This production structure is ready for the confirmed prices when they are finalized."}</p></div>
+            <div className="zb-pricing-grid">{pricingPlans(language).map((plan, index) => <article className={`zb-pricing-card${index === 0 ? " is-primary" : ""}`} key={plan.name}><h2>{plan.name}</h2><p>{plan.description}</p><div className="zb-pricing-value">{index === 0 ? (language === "sw" ? "Jaribu" : "Explore") : "—"}</div><span>{plan.action}</span>{index === 0 && <Link className="zb-public-button" to="/register">{language === "sw" ? "Anza" : "Get Started"}</Link>}</article>)}</div>
+            <div className="zb-pricing-foot"><strong>{language === "sw" ? "Kila mpango umejengwa kuzunguka retail operations." : "Every plan is designed around retail operations."}</strong><span>{language === "sw" ? "Products · Stock · Orders · Customers · Payments · Teams · Automation" : "Products · Stock · Orders · Customers · Payments · Teams · Automation"}</span></div>
+          </>
+        ) : (
+          <div className="zb-public-sections">{content.sections.map((section) => <article key={section.title}><h2>{section.title}</h2><p>{section.body}</p></article>)}</div>
+        )}
+
         <div className="zb-public-actions-content"><Link className="zb-public-button" to="/register">{language === "sw" ? "Anza" : "Get Started"}</Link><Link to="/">{language === "sw" ? "Rudi Mwanzo" : "Back to Home"}</Link></div>
       </section>
 

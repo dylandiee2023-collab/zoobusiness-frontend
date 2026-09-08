@@ -5,9 +5,7 @@ const VALID_THEME_MODES: readonly ThemeMode[] = [
   "system",
   "light",
   "dark",
-  "glass",
-  "high-contrast",
-];
+] as const;
 
 export function getStoredTheme(): ThemeMode {
   if (typeof window === "undefined") {

@@ -1,3 +1,5 @@
+import { StorageError } from "./storage-errors";
+
 export class StorageEngine {
   has(key: string): boolean {
     return localStorage.getItem(key) !== null;
@@ -10,11 +12,23 @@ export class StorageEngine {
       return null;
     }
 
-    return JSON.parse(value) as T;
+    try {
+      return JSON.parse(value) as T;
+    } catch {
+      throw new StorageError(`Stored value for key "${key}" is invalid.`);
+    }
   }
 
   set<T>(key: string, value: T): void {
-    localStorage.setItem(key, JSON.stringify(value));
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      throw new StorageError(
+        error instanceof Error
+          ? `Unable to persist key "${key}": ${error.message}`
+          : `Unable to persist key "${key}".`,
+      );
+    }
   }
 
   remove(key: string): void {

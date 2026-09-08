@@ -6,7 +6,7 @@ export interface AuthShellRecipeProps {
 
 export const authShellRecipe = createRecipe<AuthShellRecipeProps>({
   recipe(theme, props) {
-    const glass = props.glass ?? true;
+    const glass = props.glass ?? false;
 
     return {
       style: {
@@ -50,6 +50,9 @@ export const authShellRecipe = createRecipe<AuthShellRecipeProps>({
           : theme.colors.background,
 
         color: theme.colors.text,
+        fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif",
+        textRendering: "optimizeLegibility",
+        WebkitFontSmoothing: "antialiased",
       },
     };
   },

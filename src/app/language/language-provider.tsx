@@ -30,8 +30,8 @@ export function LanguageProvider({ children }: PropsWithChildren) {
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }
 
-export function useLanguage() {
+export const useLanguage = () => {
   const context = useContext(LanguageContext);
   if (!context) throw new Error("useLanguage must be used within LanguageProvider");
   return context;
-}
+};

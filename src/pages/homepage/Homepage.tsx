@@ -59,9 +59,8 @@ const foundations = [
   "Team roles, permissions and auditability",
 ];
 
-export function Homepage() {
+export function HomePage() {
   const { theme } = useTheme();
-
   const colors = theme.colors;
 
   return (
@@ -259,15 +258,9 @@ export function Homepage() {
             business events, rules and schedules into repeatable operational workflows.
           </p>
           <div className="zb-check-list">
-            <div>
-              <Check size={17} aria-hidden="true" /> Respond to operational events
-            </div>
-            <div>
-              <Check size={17} aria-hidden="true" /> Apply business rules consistently
-            </div>
-            <div>
-              <Check size={17} aria-hidden="true" /> Keep activity auditable
-            </div>
+            <div><Check size={17} aria-hidden="true" /> Respond to operational events</div>
+            <div><Check size={17} aria-hidden="true" /> Apply business rules consistently</div>
+            <div><Check size={17} aria-hidden="true" /> Keep activity auditable</div>
           </div>
         </div>
 
@@ -275,23 +268,17 @@ export function Homepage() {
           <div className="zb-market-panel">
             <span className="zb-market-label">AUTOMATION FLOW</span>
             <div className="zb-market-row">
-              <span className="zb-product-pill">
-                <ClipboardList size={16} /> Order event
-              </span>
+              <span className="zb-product-pill"><ClipboardList size={16} /> Order event</span>
               <strong>Rule</strong>
               <span>Triggered</span>
             </div>
             <div className="zb-market-row">
-              <span className="zb-product-pill">
-                <Zap size={16} /> Business workflow
-              </span>
+              <span className="zb-product-pill"><Zap size={16} /> Business workflow</span>
               <strong>AutoBots</strong>
               <span>Running</span>
             </div>
             <div className="zb-market-row">
-              <span className="zb-product-pill">
-                <ShieldCheck size={16} /> Audit trail
-              </span>
+              <span className="zb-product-pill"><ShieldCheck size={16} /> Audit trail</span>
               <strong>Activity</strong>
               <span>Recorded</span>
             </div>
@@ -305,13 +292,7 @@ export function Homepage() {
             <BrainCircuit size={28} aria-hidden="true" />
             <span>CONNECTED OPERATIONS</span>
             <strong>See the signals behind the work.</strong>
-            <div className="zb-ai-bars">
-              <i />
-              <i />
-              <i />
-              <i />
-              <i />
-            </div>
+            <div className="zb-ai-bars"><i /><i /><i /><i /><i /></div>
             <small>Operational data, automation and insight working from the same foundation.</small>
           </div>
         </div>
@@ -324,15 +305,9 @@ export function Homepage() {
             that can support smarter planning, stock decisions and faster action.
           </p>
           <div className="zb-check-list">
-            <div>
-              <Check size={17} aria-hidden="true" /> Connect business activity in one place
-            </div>
-            <div>
-              <Check size={17} aria-hidden="true" /> Build repeatable workflows with automation
-            </div>
-            <div>
-              <Check size={17} aria-hidden="true" /> Create a stronger foundation for future insight
-            </div>
+            <div><Check size={17} aria-hidden="true" /> Connect business activity in one place</div>
+            <div><Check size={17} aria-hidden="true" /> Build repeatable workflows with automation</div>
+            <div><Check size={17} aria-hidden="true" /> Create a stronger foundation for future insight</div>
           </div>
         </div>
       </section>
@@ -350,9 +325,7 @@ export function Homepage() {
           <span className="zb-pricing-label">GET STARTED</span>
           <strong>One platform. More of the work connected.</strong>
           {foundations.map((item) => (
-            <div className="zb-pricing-line" key={item}>
-              <Check size={17} aria-hidden="true" /> {item}
-            </div>
+            <div className="zb-pricing-line" key={item}><Check size={17} aria-hidden="true" /> {item}</div>
           ))}
           <Link className="zb-button zb-button-primary" to="/login">
             Get Started <ArrowRight size={18} aria-hidden="true" />

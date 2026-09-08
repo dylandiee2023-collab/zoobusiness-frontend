@@ -4,6 +4,8 @@ import {
   BrainCircuit,
   Check,
   ClipboardList,
+  Mail,
+  MessageCircle,
   Package,
   ShieldCheck,
   Store,
@@ -25,6 +27,13 @@ const operations = [
   { icon: ClipboardList, title: "Orders & Fulfillment", text: "Keep order activity and fulfillment workflows connected to the rest of the business." },
   { icon: ShieldCheck, title: "Payments & Security", text: "Build daily operations on a foundation designed for controlled access and auditable activity." },
   { icon: Zap, title: "Automation", text: "Turn business events and rules into repeatable workflows with AutoBots at the core." },
+];
+
+const channels = [
+  { icon: MessageCircle, name: "WhatsApp", text: "Customer conversations can enter the automation flow." },
+  { icon: MessageCircle, name: "Instagram", text: "Route supported social conversations into business workflows." },
+  { icon: MessageCircle, name: "Messenger", text: "Connect customer messages to repeatable response rules." },
+  { icon: Mail, name: "Email", text: "Bring customer email workflows into the same automation model." },
 ];
 
 const foundations = [
@@ -105,8 +114,13 @@ export function HomePage() {
       </section>
 
       <section className="zb-marketplace-section" id="automation">
-        <div className="zb-marketplace-copy"><div className="zb-eyebrow">AUTOMATION WITH AUTOBOTS</div><h2>When business events happen, workflows can move with them.</h2><p>AutoBots sits behind the experience as the automation layer, helping ZooBusiness turn business events, rules and schedules into repeatable operational workflows.</p><div className="zb-check-list"><div><Check size={17} aria-hidden="true" /> Respond to operational events</div><div><Check size={17} aria-hidden="true" /> Apply business rules consistently</div><div><Check size={17} aria-hidden="true" /> Keep activity auditable</div></div></div>
-        <div className="zb-marketplace-visual"><div className="zb-market-panel"><span className="zb-market-label">AUTOMATION FLOW</span><div className="zb-market-row"><span className="zb-product-pill"><ClipboardList size={16} /> Order event</span><strong>Rule</strong><span>Triggered</span></div><div className="zb-market-row"><span className="zb-product-pill"><Zap size={16} /> Business workflow</span><strong>AutoBots</strong><span>Running</span></div><div className="zb-market-row"><span className="zb-product-pill"><ShieldCheck size={16} /> Audit trail</span><strong>Activity</strong><span>Recorded</span></div></div></div>
+        <div className="zb-marketplace-copy"><div className="zb-eyebrow">AUTOMATION WITH AUTOBOTS</div><h2>Customers message. AutoBots can move the workflow.</h2><p>AutoBots sits behind ZooBusiness as the automation layer, turning supported customer events, business rules and schedules into repeatable workflows.</p><div className="zb-check-list"><div><Check size={17} aria-hidden="true" /> Respond to supported customer events</div><div><Check size={17} aria-hidden="true" /> Apply business rules consistently</div><div><Check size={17} aria-hidden="true" /> Keep activity auditable</div></div></div>
+        <div className="zb-marketplace-visual"><div className="zb-market-panel"><span className="zb-market-label">AUTOBOTS FLOW</span><div className="zb-market-row"><span className="zb-product-pill"><MessageCircle size={16} /> Customer message</span><strong>Event</strong><span>Received</span></div><div className="zb-market-row"><span className="zb-product-pill"><Zap size={16} /> AutoBots</span><strong>Rule</strong><span>Evaluated</span></div><div className="zb-market-row"><span className="zb-product-pill"><ArrowRight size={16} /> Response / action</span><strong>Workflow</strong><span>Executed</span></div><div className="zb-market-row"><span className="zb-product-pill"><ShieldCheck size={16} /> Audit trail</span><strong>Activity</strong><span>Recorded</span></div></div></div>
+      </section>
+
+      <section className="zb-channels-section" aria-labelledby="zb-channels-title">
+        <div className="zb-section-heading"><div className="zb-eyebrow">OMNICHANNEL CUSTOMER COMMUNICATION</div><h2 id="zb-channels-title">Meet customers where they already talk to your business.</h2><p>ZooBusiness is designed around an automation model that can connect customer conversations with the operational work behind the business.</p></div>
+        <div className="zb-channel-grid">{channels.map(({ icon: Icon, name, text }) => <article className="zb-channel-card" key={name}><div className="zb-icon-box"><Icon size={22} aria-hidden="true" /></div><h3>{name}</h3><p>{text}</p></article>)}</div>
       </section>
 
       <section className="zb-ai-section" id="resources">

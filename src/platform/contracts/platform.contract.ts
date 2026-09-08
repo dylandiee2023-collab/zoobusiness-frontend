@@ -7,7 +7,6 @@ import type { EventBusContract } from "./event-bus.contract";
 import type { StorageContract } from "./storage.contract";
 import type { PreferencesContract } from "./preferences.contract";
 import type { SessionContract } from "./session.contract";
-import type { HttpClientContract } from "./http.contract";
 import type { ApiClientContract } from "./api.contract";
 import type { AuthenticationContract } from "./authentication.contract";
 import type { TokenManagerContract } from "./token-manager.contract";
@@ -46,8 +45,6 @@ export interface PlatformContract {
   readonly preferences: PreferencesContract;
 
   readonly session: SessionContract;
-
-  readonly http: HttpClientContract;
 
   readonly api: ApiClientContract;
 

@@ -19,6 +19,7 @@ import logo from "@/assets/logo.png";
 import { useTheme } from "@/theme/hooks";
 
 import "./homepage.css";
+import "./autobots-section.css";
 
 const operations = [
   { icon: Store, title: "Retail Operations", text: "Run your everyday retail work from one connected business foundation." },

@@ -3,3 +3,8 @@ dist
 coverage
 .vite
 package-lock.json
+src/pages/homepage/homepage.css
+src/pages/homepage/Homepage.tsx
+src/pages/homepage/autobots-section.css
+src/pages/public/PublicPage.tsx
+src/pages/public/public-page.css

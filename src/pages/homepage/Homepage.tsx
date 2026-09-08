@@ -1,34 +1,85 @@
-import { ArrowRight, Boxes, BrainCircuit, Building2, Check, Globe2, PackageCheck, Smartphone, Store, Truck, Users, X } from "lucide-react";
+import {
+  ArrowRight,
+  BarChart3,
+  BrainCircuit,
+  Check,
+  ClipboardList,
+  Package,
+  ShieldCheck,
+  Smartphone,
+  Store,
+  Truck,
+  Users,
+  Zap,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 import logo from "@/assets/logo.png";
+import { useTheme } from "@/theme/hooks";
+
 import "./homepage.css";
 
-const ecosystem = [
-  { icon: Building2, title: "Manufacturers", text: "Reach verified B2B buyers and move products through a connected supply network." },
-  { icon: Boxes, title: "Suppliers", text: "Manage catalogues, stock and commercial relationships from one business platform." },
-  { icon: PackageCheck, title: "Wholesalers", text: "Source products, manage inventory and keep wholesale operations moving." },
-  { icon: Store, title: "Retailers", text: "Run stores, track stock and grow sales with connected business operations." },
+const operations = [
+  {
+    icon: Store,
+    title: "Retail Operations",
+    text: "Run your everyday retail work from one connected business foundation.",
+  },
+  {
+    icon: Package,
+    title: "Products & Stock",
+    text: "Keep products, stock and warehouse activity visible as your business moves.",
+  },
+  {
+    icon: Users,
+    title: "Teams & Access",
+    text: "Organize business users, roles and access without losing operational control.",
+  },
+  {
+    icon: ClipboardList,
+    title: "Orders & Fulfillment",
+    text: "Keep order activity and fulfillment workflows connected to the rest of the business.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Payments & Security",
+    text: "Build daily operations on a foundation designed for controlled access and auditable activity.",
+  },
+  {
+    icon: Zap,
+    title: "Automation",
+    text: "Turn business events and rules into repeatable workflows with AutoBots at the core.",
+  },
 ];
 
-const capabilities = [
-  { icon: Store, title: "Business Operations", text: "Manage products, branches, inventory, orders and everyday workflows in one place." },
-  { icon: Globe2, title: "B2B Marketplace", text: "Connect businesses across the supply chain and create new buying and selling opportunities." },
-  { icon: Users, title: "Teams & Access", text: "Organize people, roles and business access as your company grows." },
-  { icon: Truck, title: "Connected Commerce", text: "Keep products, movement and commercial activity connected from source to customer." },
-  { icon: Smartphone, title: "Web + Mobile", text: "Give your teams a consistent business experience wherever work happens." },
-  { icon: BrainCircuit, title: "Business Intelligence", text: "Turn operational data into clearer decisions, forecasts and smarter next steps." },
-];
-
-const stats = [
-  { value: "1", label: "connected platform" },
-  { value: "5", label: "business roles supported" },
-  { value: "24/7", label: "digital access" },
+const foundations = [
+  "Business workspace and branch structure",
+  "Inventory and warehouse operations",
+  "Customers, orders and payment activity",
+  "Team roles, permissions and auditability",
 ];
 
 export function Homepage() {
+  const { theme } = useTheme();
+
+  const colors = theme.colors;
+
   return (
-    <main className="zb-homepage">
+    <main
+      className="zb-homepage"
+      style={
+        {
+          "--zb-background": colors.background,
+          "--zb-surface": colors.surface,
+          "--zb-text": colors.text,
+          "--zb-muted": colors.textMuted,
+          "--zb-primary": colors.primary,
+          "--zb-border": colors.border,
+          "--zb-info": colors.info,
+          "--zb-success": colors.success,
+        } as React.CSSProperties
+      }
+    >
       <header className="zb-home-nav">
         <Link className="zb-brand" to="/" aria-label="ZooBusiness home">
           <img src={logo} alt="ZooBusiness" />
@@ -36,15 +87,17 @@ export function Homepage() {
 
         <nav className="zb-nav-links" aria-label="Primary navigation">
           <a href="#platform">Platform</a>
-          <a href="#solutions">Solutions</a>
-          <a href="#marketplace">Marketplace</a>
+          <a href="#operations">Operations</a>
+          <a href="#automation">Automation</a>
           <a href="#businesses">For Businesses</a>
           <a href="#resources">Resources</a>
           <a href="#pricing">Pricing</a>
         </nav>
 
         <div className="zb-nav-actions">
-          <Link className="zb-signin" to="/login">Sign In</Link>
+          <Link className="zb-signin" to="/login">
+            Sign In
+          </Link>
           <Link className="zb-button zb-button-primary zb-button-small" to="/login">
             Get Started
             <ArrowRight size={17} aria-hidden="true" />
@@ -54,63 +107,100 @@ export function Homepage() {
 
       <section className="zb-hero" id="platform">
         <div className="zb-hero-copy">
-          <div className="zb-eyebrow">THE BUSINESS OPERATING ECOSYSTEM</div>
-          <h1>One Platform.<br /><span>Every Business.</span></h1>
+          <div className="zb-eyebrow">THE RETAIL OPERATING PLATFORM</div>
+          <h1>
+            Run your business.
+            <br />
+            <span>Let the platform do more.</span>
+          </h1>
           <p>
-            ZooBusiness brings manufacturers, suppliers, wholesalers and retailers into one connected digital ecosystem for managing operations, moving products and growing business.
+            ZooBusiness gives retail businesses one connected foundation for products,
+            inventory, branches, customers, orders, payments, teams and automation.
           </p>
           <div className="zb-hero-actions">
             <Link className="zb-button zb-button-primary" to="/login">
               Get Started
               <ArrowRight size={18} aria-hidden="true" />
             </Link>
-            <a className="zb-button zb-button-secondary" href="#businesses">Explore ZooBusiness</a>
+            <a className="zb-button zb-button-secondary" href="#operations">
+              Explore the platform
+            </a>
           </div>
           <div className="zb-hero-proof">
-            <Check size={17} aria-hidden="true" /> Built for growing African businesses
+            <Check size={17} aria-hidden="true" /> Retail-first. Automation-ready.
           </div>
         </div>
 
-        <div className="zb-hero-visual" aria-label="Connected business ecosystem illustration">
+        <div className="zb-hero-visual" aria-label="Retail operations and automation illustration">
           <div className="zb-orbit zb-orbit-one" />
           <div className="zb-orbit zb-orbit-two" />
           <div className="zb-hero-network-line zb-line-a" />
           <div className="zb-hero-network-line zb-line-b" />
           <div className="zb-hero-network-line zb-line-c" />
-          <div className="zb-hero-node zb-node-factory"><Building2 size={23} /><span>Factory</span></div>
-          <div className="zb-hero-node zb-node-supplier"><Boxes size={22} /><span>Supplier</span></div>
-          <div className="zb-hero-node zb-node-wholesale"><PackageCheck size={21} /><span>Wholesale</span></div>
-          <div className="zb-hero-node zb-node-retail"><Store size={22} /><span>Retail</span></div>
+
+          <div className="zb-hero-node zb-node-retail">
+            <Store size={22} aria-hidden="true" />
+            <span>Retail</span>
+          </div>
+          <div className="zb-hero-node zb-node-inventory">
+            <Package size={22} aria-hidden="true" />
+            <span>Inventory</span>
+          </div>
+          <div className="zb-hero-node zb-node-orders">
+            <ClipboardList size={21} aria-hidden="true" />
+            <span>Orders</span>
+          </div>
+          <div className="zb-hero-node zb-node-team">
+            <Users size={22} aria-hidden="true" />
+            <span>Team</span>
+          </div>
+
           <div className="zb-hero-core">
             <img src={logo} alt="" />
             <strong>ZooBusiness</strong>
-            <span>Connected commerce</span>
+            <span>Retail operating platform</span>
           </div>
-          <div className="zb-floating-card zb-floating-stock"><span className="zb-dot" /> Inventory connected</div>
-          <div className="zb-floating-card zb-floating-orders"><PackageCheck size={16} /><span>Orders moving</span></div>
+
+          <div className="zb-floating-card zb-floating-automation">
+            <Zap size={15} aria-hidden="true" /> Automation ready
+          </div>
+          <div className="zb-floating-card zb-floating-orders">
+            <BarChart3 size={16} aria-hidden="true" /> Business activity connected
+          </div>
         </div>
       </section>
 
       <section className="zb-trust-strip" aria-label="ZooBusiness platform capabilities">
-        {stats.map((stat) => (
-          <div key={stat.label} className="zb-stat">
-            <strong>{stat.value}</strong>
-            <span>{stat.label}</span>
-          </div>
-        ))}
-        <p>One connected foundation for the way modern businesses buy, sell and operate.</p>
+        <div className="zb-stat">
+          <strong>1</strong>
+          <span>retail platform</span>
+        </div>
+        <div className="zb-stat">
+          <strong>24/7</strong>
+          <span>digital access</span>
+        </div>
+        <div className="zb-stat">
+          <strong>+</strong>
+          <span>automation-ready workflows</span>
+        </div>
+        <p>One connected foundation for retail operations today and smarter workflows tomorrow.</p>
       </section>
 
-      <section className="zb-section" id="solutions">
+      <section className="zb-section" id="operations">
         <div className="zb-section-heading">
-          <div className="zb-eyebrow">BUILT AROUND YOUR BUSINESS</div>
-          <h2>Everything your business needs, connected.</h2>
-          <p>One place to run operations, connect the supply chain and create room for the next stage of growth.</p>
+          <div className="zb-eyebrow">RETAIL OPERATIONS</div>
+          <h2>Everything your retail business needs, connected.</h2>
+          <p>
+            Build daily operations around one platform instead of stitching together disconnected tools.
+          </p>
         </div>
+
         <div className="zb-capability-grid">
-          {capabilities.map(({ icon: Icon, title, text }) => (
+          {operations.map(({ icon: Icon, title, text }) => (
             <article className="zb-capability-card" key={title}>
-              <div className="zb-icon-box"><Icon size={21} aria-hidden="true" /></div>
+              <div className="zb-icon-box">
+                <Icon size={21} aria-hidden="true" />
+              </div>
               <h3>{title}</h3>
               <p>{text}</p>
               <ArrowRight size={17} className="zb-card-arrow" aria-hidden="true" />
@@ -121,40 +211,90 @@ export function Homepage() {
 
       <section className="zb-ecosystem-section" id="businesses">
         <div className="zb-section-heading zb-section-heading-light">
-          <div className="zb-eyebrow">ONE BUSINESS NETWORK</div>
-          <h2>From factory to customer, keep the whole chain connected.</h2>
-          <p>ZooBusiness is designed around how products actually move through African commerce.</p>
+          <div className="zb-eyebrow">BUILT FOR RETAIL BUSINESSES</div>
+          <h2>One business workspace. One operating picture.</h2>
+          <p>
+            Manage the structure behind your retail business and keep the work your teams do connected.
+          </p>
         </div>
+
         <div className="zb-ecosystem-grid">
-          {ecosystem.map(({ icon: Icon, title, text }, index) => (
-            <div className="zb-ecosystem-card" key={title}>
-              <div className="zb-ecosystem-step">0{index + 1}</div>
-              <div className="zb-icon-box zb-icon-box-light"><Icon size={21} aria-hidden="true" /></div>
-              <h3>{title}</h3>
-              <p>{text}</p>
+          <div className="zb-ecosystem-card">
+            <div className="zb-icon-box zb-icon-box-light">
+              <Store size={21} aria-hidden="true" />
             </div>
-          ))}
-        </div>
-        <div className="zb-flow" aria-label="Business flow from factory to customer">
-          <span>Factory</span><ArrowRight size={18} /><span>Supplier</span><ArrowRight size={18} /><span>Wholesaler</span><ArrowRight size={18} /><span>Retailer</span><ArrowRight size={18} /><span>Customer</span>
+            <h3>Business Workspace</h3>
+            <p>Keep your retail organization and operational structure in one place.</p>
+          </div>
+          <div className="zb-ecosystem-card">
+            <div className="zb-icon-box zb-icon-box-light">
+              <Truck size={21} aria-hidden="true" />
+            </div>
+            <h3>Stores & Branches</h3>
+            <p>Support branch-based operations with the right business structure around them.</p>
+          </div>
+          <div className="zb-ecosystem-card">
+            <div className="zb-icon-box zb-icon-box-light">
+              <Package size={21} aria-hidden="true" />
+            </div>
+            <h3>Stock Control</h3>
+            <p>Connect products, inventory and warehouse activity so teams can act from one picture.</p>
+          </div>
+          <div className="zb-ecosystem-card">
+            <div className="zb-icon-box zb-icon-box-light">
+              <BarChart3 size={21} aria-hidden="true" />
+            </div>
+            <h3>Business Insight</h3>
+            <p>Turn operational activity into clearer signals for planning and decisions.</p>
+          </div>
         </div>
       </section>
 
-      <section className="zb-marketplace-section" id="marketplace">
+      <section className="zb-marketplace-section" id="automation">
         <div className="zb-marketplace-copy">
-          <div className="zb-eyebrow">B2B MARKETPLACE</div>
-          <h2>Turn supply-chain connections into new business.</h2>
+          <div className="zb-eyebrow">AUTOMATION WITH AUTOBOTS</div>
+          <h2>When business events happen, workflows can move with them.</h2>
           <p>
-            Discover products, connect with commercial partners and build stronger B2B relationships without leaving the ecosystem that runs your business.
+            AutoBots sits behind the experience as the automation layer, helping ZooBusiness turn
+            business events, rules and schedules into repeatable operational workflows.
           </p>
-          <Link className="zb-button zb-button-primary" to="/login">Explore the platform <ArrowRight size={18} /></Link>
+          <div className="zb-check-list">
+            <div>
+              <Check size={17} aria-hidden="true" /> Respond to operational events
+            </div>
+            <div>
+              <Check size={17} aria-hidden="true" /> Apply business rules consistently
+            </div>
+            <div>
+              <Check size={17} aria-hidden="true" /> Keep activity auditable
+            </div>
+          </div>
         </div>
+
         <div className="zb-marketplace-visual">
           <div className="zb-market-panel">
-            <span className="zb-market-label">LIVE BUSINESS NETWORK</span>
-            <div className="zb-market-row"><span className="zb-product-pill"><PackageCheck size={16} /> Fertilizer</span><strong>Wholesale</strong><span>Connected</span></div>
-            <div className="zb-market-row"><span className="zb-product-pill"><Boxes size={16} /> Packaging</span><strong>Supplier</strong><span>Connected</span></div>
-            <div className="zb-market-row"><span className="zb-product-pill"><Store size={16} /> Retail stock</span><strong>Retail</strong><span>Connected</span></div>
+            <span className="zb-market-label">AUTOMATION FLOW</span>
+            <div className="zb-market-row">
+              <span className="zb-product-pill">
+                <ClipboardList size={16} /> Order event
+              </span>
+              <strong>Rule</strong>
+              <span>Triggered</span>
+            </div>
+            <div className="zb-market-row">
+              <span className="zb-product-pill">
+                <Zap size={16} /> Business workflow
+              </span>
+              <strong>AutoBots</strong>
+              <span>Running</span>
+            </div>
+            <div className="zb-market-row">
+              <span className="zb-product-pill">
+                <ShieldCheck size={16} /> Audit trail
+              </span>
+              <strong>Activity</strong>
+              <span>Recorded</span>
+            </div>
           </div>
         </div>
       </section>
@@ -162,21 +302,37 @@ export function Homepage() {
       <section className="zb-ai-section" id="resources">
         <div className="zb-ai-visual">
           <div className="zb-ai-panel">
-            <BrainCircuit size={28} />
-            <span>BUSINESS INTELLIGENCE</span>
-            <strong>Make the next decision with better signals.</strong>
-            <div className="zb-ai-bars"><i /><i /><i /><i /><i /></div>
-            <small>Forecasts, recommendations and operational insight.</small>
+            <BrainCircuit size={28} aria-hidden="true" />
+            <span>CONNECTED OPERATIONS</span>
+            <strong>See the signals behind the work.</strong>
+            <div className="zb-ai-bars">
+              <i />
+              <i />
+              <i />
+              <i />
+              <i />
+            </div>
+            <small>Operational data, automation and insight working from the same foundation.</small>
           </div>
         </div>
+
         <div className="zb-ai-copy">
           <div className="zb-eyebrow">INTELLIGENT OPERATIONS</div>
           <h2>Know what is happening. See what comes next.</h2>
-          <p>As your business grows, ZooBusiness gives your teams a connected operational picture that can support smarter planning, stock decisions and commercial action.</p>
+          <p>
+            As your retail business grows, ZooBusiness gives your teams a connected operational picture
+            that can support smarter planning, stock decisions and faster action.
+          </p>
           <div className="zb-check-list">
-            <div><Check size={17} /> Forecast demand and inventory needs</div>
-            <div><Check size={17} /> Surface useful business recommendations</div>
-            <div><Check size={17} /> Build decisions from connected operations</div>
+            <div>
+              <Check size={17} aria-hidden="true" /> Connect business activity in one place
+            </div>
+            <div>
+              <Check size={17} aria-hidden="true" /> Build repeatable workflows with automation
+            </div>
+            <div>
+              <Check size={17} aria-hidden="true" /> Create a stronger foundation for future insight
+            </div>
           </div>
         </div>
       </section>
@@ -184,28 +340,35 @@ export function Homepage() {
       <section className="zb-pricing-section" id="pricing">
         <div className="zb-pricing-copy">
           <div className="zb-eyebrow">READY WHEN YOU ARE</div>
-          <h2>Build, manage and grow your business with ZooBusiness.</h2>
-          <p>Start with the platform foundation you need today, then expand as your business evolves.</p>
+          <h2>A retail platform designed to grow with the way you operate.</h2>
+          <p>
+            Start with the foundation your business needs today, then expand your workflows as your operations become more connected.
+          </p>
         </div>
+
         <div className="zb-pricing-card">
           <span className="zb-pricing-label">GET STARTED</span>
-          <strong>One platform for your next stage.</strong>
-          <div className="zb-pricing-line"><Check size={17} /> Business-ready foundation</div>
-          <div className="zb-pricing-line"><Check size={17} /> Connected ecosystem</div>
-          <div className="zb-pricing-line"><Check size={17} /> Built to scale with you</div>
-          <Link className="zb-button zb-button-primary" to="/login">Get Started <ArrowRight size={18} /></Link>
+          <strong>One platform. More of the work connected.</strong>
+          {foundations.map((item) => (
+            <div className="zb-pricing-line" key={item}>
+              <Check size={17} aria-hidden="true" /> {item}
+            </div>
+          ))}
+          <Link className="zb-button zb-button-primary" to="/login">
+            Get Started <ArrowRight size={18} aria-hidden="true" />
+          </Link>
         </div>
       </section>
 
       <footer className="zb-footer">
         <div className="zb-footer-brand">
           <img src={logo} alt="ZooBusiness" />
-          <p>The operating ecosystem for modern businesses.</p>
+          <p>Retail operations, connected with automation.</p>
         </div>
         <div className="zb-footer-links">
           <a href="#platform">Platform</a>
-          <a href="#solutions">Solutions</a>
-          <a href="#marketplace">Marketplace</a>
+          <a href="#operations">Operations</a>
+          <a href="#automation">Automation</a>
           <a href="#pricing">Pricing</a>
           <Link to="/login">Sign In</Link>
         </div>

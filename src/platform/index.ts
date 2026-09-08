@@ -15,7 +15,6 @@ export * from "./cache";
 export * from "./providers";
 export * from "./events";
 export * from "./session";
-export * from "./http";
 export * from "./telemetry";
 export * from "./upload";
 export * from "./download";

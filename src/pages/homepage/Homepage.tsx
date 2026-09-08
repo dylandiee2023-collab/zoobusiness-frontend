@@ -52,11 +52,11 @@ export function HomePage() {
       <header className="zb-home-nav">
         <Link className="zb-brand" to="/" aria-label="ZooBusiness home"><img src={logo} alt="ZooBusiness" /></Link>
         <nav className="zb-nav-links" aria-label="Primary navigation">
-          <a href="#platform">Platform</a><a href="#operations">Operations</a><a href="#automation">Automation</a><a href="#businesses">For Businesses</a><a href="#resources">Resources</a><a href="#pricing">Pricing</a>
+          <Link to="/platform">Platform</Link><Link to="/features">Operations</Link><Link to="/automation">Automation</Link><Link to="/platform">For Businesses</Link><Link to="/resources">Resources</Link><Link to="/pricing">Pricing</Link>
         </nav>
         <div className="zb-nav-actions">
           <Link className="zb-signin" to="/login">Sign In</Link>
-          <Link className="zb-button zb-button-primary zb-button-small" to="/login">Get Started <ArrowRight size={17} aria-hidden="true" /></Link>
+          <Link className="zb-button zb-button-primary zb-button-small" to="/register">Get Started <ArrowRight size={17} aria-hidden="true" /></Link>
         </div>
       </header>
 
@@ -66,8 +66,8 @@ export function HomePage() {
           <h1>Run your business.<br /><span>Let the platform do more.</span></h1>
           <p>ZooBusiness gives retail businesses one connected foundation for products, inventory, branches, customers, orders, payments, teams and automation.</p>
           <div className="zb-hero-actions">
-            <Link className="zb-button zb-button-primary" to="/login">Get Started <ArrowRight size={18} aria-hidden="true" /></Link>
-            <a className="zb-button zb-button-secondary" href="#operations">Explore the platform</a>
+            <Link className="zb-button zb-button-primary" to="/register">Get Started <ArrowRight size={18} aria-hidden="true" /></Link>
+            <Link className="zb-button zb-button-secondary" to="/features">Explore the platform</Link>
           </div>
           <div className="zb-hero-proof"><Check size={17} aria-hidden="true" /> Retail-first. Automation-ready.</div>
         </div>
@@ -114,9 +114,9 @@ export function HomePage() {
         <div className="zb-ai-copy"><div className="zb-eyebrow">INTELLIGENT OPERATIONS</div><h2>Know what is happening. See what comes next.</h2><p>As your retail business grows, ZooBusiness gives your teams a connected operational picture that can support smarter planning, stock decisions and faster action.</p><div className="zb-check-list"><div><Check size={17} aria-hidden="true" /> Connect business activity in one place</div><div><Check size={17} aria-hidden="true" /> Build repeatable workflows with automation</div><div><Check size={17} aria-hidden="true" /> Create a stronger foundation for future insight</div></div></div>
       </section>
 
-      <section className="zb-pricing-section" id="pricing"><div className="zb-pricing-copy"><div className="zb-eyebrow">READY WHEN YOU ARE</div><h2>A retail platform designed to grow with the way you operate.</h2><p>Start with the foundation your business needs today, then expand your workflows as your operations become more connected.</p></div><div className="zb-pricing-card"><span className="zb-pricing-label">GET STARTED</span><strong>One platform. More of the work connected.</strong>{foundations.map((item) => <div className="zb-pricing-line" key={item}><Check size={17} aria-hidden="true" /> {item}</div>)}<Link className="zb-button zb-button-primary" to="/login">Get Started <ArrowRight size={18} aria-hidden="true" /></Link></div></section>
+      <section className="zb-pricing-section" id="pricing"><div className="zb-pricing-copy"><div className="zb-eyebrow">READY WHEN YOU ARE</div><h2>A retail platform designed to grow with the way you operate.</h2><p>Start with the foundation your business needs today, then expand your workflows as your operations become more connected.</p></div><div className="zb-pricing-card"><span className="zb-pricing-label">GET STARTED</span><strong>One platform. More of the work connected.</strong>{foundations.map((item) => <div className="zb-pricing-line" key={item}><Check size={17} aria-hidden="true" /> {item}</div>)}<Link className="zb-button zb-button-primary" to="/pricing">View pricing <ArrowRight size={18} aria-hidden="true" /></Link></div></section>
 
-      <footer className="zb-footer"><div className="zb-footer-brand"><img src={logo} alt="ZooBusiness" /><p>Retail operations, connected with automation.</p></div><div className="zb-footer-links"><a href="#platform">Platform</a><a href="#operations">Operations</a><a href="#automation">Automation</a><a href="#pricing">Pricing</a><Link to="/login">Sign In</Link></div></footer>
+      <footer className="zb-footer"><div className="zb-footer-brand"><img src={logo} alt="ZooBusiness" /><p>Retail operations, connected with automation.</p></div><div className="zb-footer-links"><Link to="/platform">Platform</Link><Link to="/features">Operations</Link><Link to="/automation">Automation</Link><Link to="/pricing">Pricing</Link><Link to="/login">Sign In</Link></div></footer>
     </main>
   );
 }

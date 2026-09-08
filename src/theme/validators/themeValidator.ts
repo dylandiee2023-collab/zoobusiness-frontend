@@ -4,8 +4,6 @@ const VALID_THEMES: readonly ThemeMode[] = [
   "system",
   "light",
   "dark",
-  "glass",
-  "high-contrast",
 ] as const;
 
 export function isValidTheme(value: unknown): value is ThemeMode {

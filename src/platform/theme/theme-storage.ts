@@ -2,12 +2,20 @@ import { StorageKeys } from "@/platform/storage";
 
 import type { ThemeMode } from "@/platform/contracts";
 
+const VALID_THEME_MODES: readonly ThemeMode[] = [
+  "system",
+  "light",
+  "dark",
+  "glass",
+  "high-contrast",
+];
+
 export class ThemeStorage {
   load(): ThemeMode {
     const value = localStorage.getItem(StorageKeys.THEME);
 
-    if (value === "light" || value === "dark" || value === "system") {
-      return value;
+    if (VALID_THEME_MODES.includes(value as ThemeMode)) {
+      return value as ThemeMode;
     }
 
     return "system";

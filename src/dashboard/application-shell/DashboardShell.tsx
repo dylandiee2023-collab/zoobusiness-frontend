@@ -50,26 +50,29 @@ export function DashboardShell() {
   useEffect(() => {
     let active = true;
 
-    setAccessLoaded(false);
-    setPermissions(new Set());
-    platform.permissions.setPermissions([]);
+    queueMicrotask(() => {
+      if (!active) return;
 
-    void platform.api
-      .get<WorkspaceAccessResponse>("/workspaces/current/access")
-      .then((access) => {
-        if (!active) return;
+      setAccessLoaded(false);
+      setPermissions(new Set());
+      platform.permissions.setPermissions([]);
 
-        const resolvedPermissions = new Set(access.permissions);
-        platform.permissions.setPermissions(access.permissions);
-        setPermissions(resolvedPermissions);
-        setAccessLoaded(true);
-      })
-      .catch(() => {
-        if (!active) return;
-        // Fail closed: an unavailable access response must not expose protected navigation.
-        setPermissions(new Set());
-        setAccessLoaded(true);
-      });
+      void platform.api
+        .get<WorkspaceAccessResponse>("/workspaces/current/access")
+        .then((access) => {
+          if (!active) return;
+
+          const resolvedPermissions = new Set(access.permissions);
+          platform.permissions.setPermissions(access.permissions);
+          setPermissions(resolvedPermissions);
+          setAccessLoaded(true);
+        })
+        .catch(() => {
+          if (!active) return;
+          setPermissions(new Set());
+          setAccessLoaded(true);
+        });
+    });
 
     return () => {
       active = false;

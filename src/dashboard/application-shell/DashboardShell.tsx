@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 
 import { usePlatform } from "@/platform/providers/use-platform";
@@ -9,21 +9,11 @@ import { resolveNavigation } from "../navigation/navigation.resolver";
 import type { NavigationItem } from "../navigation/navigation.types";
 import "./dashboard-shell.css";
 
-// Phase 7A uses the permissions already defined by AutoBots RBAC.
-// The runtime permission endpoint will replace this adapter once the API exposes
-// the authenticated workspace permission set to the frontend.
-const retailPermissions = new Set([
-  "pos.use",
-  "order.view",
-  "customer.view",
-  "product.view",
-  "inventory.view",
-  "inventory.manage",
-  "payment.view",
-  "report.view",
-  "ai.use",
-  "workspace.manage",
-]);
+interface WorkspaceAccessResponse {
+  readonly workspaceId: string;
+  readonly role: string;
+  readonly permissions: readonly string[];
+}
 
 function NavigationItems({ items, onNavigate }: { items: readonly NavigationItem[]; onNavigate?: () => void }) {
   return items.map((item) => (
@@ -54,14 +44,45 @@ export function DashboardShell() {
   const { workspace } = useWorkspace();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [permissions, setPermissions] = useState<ReadonlySet<string>>(new Set());
+  const [accessLoaded, setAccessLoaded] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+
+    setAccessLoaded(false);
+    setPermissions(new Set());
+    platform.permissions.setPermissions([]);
+
+    void platform.api
+      .get<WorkspaceAccessResponse>("/workspaces/current/access")
+      .then((access) => {
+        if (!active) return;
+
+        const resolvedPermissions = new Set(access.permissions);
+        platform.permissions.setPermissions(access.permissions);
+        setPermissions(resolvedPermissions);
+        setAccessLoaded(true);
+      })
+      .catch(() => {
+        if (!active) return;
+        // Fail closed: an unavailable access response must not expose protected navigation.
+        setPermissions(new Set());
+        setAccessLoaded(true);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [platform, workspace?.id]);
 
   const navigation = useMemo(
     () =>
       resolveNavigation(navigationConfig, {
         businessCategory: "retail",
-        permissions: retailPermissions,
+        permissions,
       }),
-    [],
+    [permissions],
   );
   const sidebarItems = navigation.filter((item) => item.placement === "sidebar");
   const userName = platform.authentication.user?.name?.trim() || "Account";
@@ -80,7 +101,7 @@ export function DashboardShell() {
           </div>
         </div>
         <nav className="zb-shell-nav" aria-label="Business navigation">
-          <NavigationItems items={sidebarItems} onNavigate={() => setMobileOpen(false)} />
+          {accessLoaded ? <NavigationItems items={sidebarItems} onNavigate={() => setMobileOpen(false)} /> : null}
         </nav>
         <button className="zb-shell-collapse" onClick={() => setSidebarCollapsed((value) => !value)} aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}>
           <span aria-hidden="true">{sidebarCollapsed ? "→" : "←"}</span>

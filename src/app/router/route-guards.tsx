@@ -1,6 +1,5 @@
 import type { PropsWithChildren } from "react";
 
-import { useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
 import { usePlatform } from "@/platform/providers/use-platform";
@@ -28,10 +27,9 @@ export function GuestRoute({ children }: PropsWithChildren) {
   const platform = usePlatform();
   const location = useLocation();
 
-  if (!platform.authentication.ready) {
-    return <RouteLoading />;
-  }
-
+  // Public/auth pages must remain renderable while a persisted session is
+  // being hydrated. If the session proves authenticated, the redirect below
+  // takes effect immediately after authentication notifies React.
   if (platform.authentication.authenticated) {
     return (
       <Navigate
@@ -54,33 +52,9 @@ export function AuthenticatedRoute({ children }: PropsWithChildren) {
     bootstrapping,
     bootstrapComplete,
     error,
-    refresh,
   } = useWorkspace();
 
-  useEffect(() => {
-    if (
-      !platform.authentication.ready ||
-      !platform.runtime.ready ||
-      !platform.authentication.authenticated
-    ) {
-      return;
-    }
-
-    void refresh();
-  }, [
-    location.pathname,
-    platform.authentication.ready,
-    platform.runtime.ready,
-    platform.authentication.authenticated,
-    refresh,
-  ]);
-
-  if (
-    !platform.authentication.ready ||
-    !platform.runtime.ready ||
-    loading ||
-    bootstrapping
-  ) {
+  if (!platform.authentication.ready || loading || bootstrapping) {
     return <RouteLoading />;
   }
 

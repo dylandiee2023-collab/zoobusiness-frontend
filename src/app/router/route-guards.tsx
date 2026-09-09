@@ -28,14 +28,10 @@ export function GuestRoute({ children }: PropsWithChildren) {
   const platform = usePlatform();
   const location = useLocation();
 
-  // Authentication state is available independently of the runtime lifecycle.
-  // Do not block public auth pages behind runtime.ready: if runtime startup is
-  // delayed or a non-critical bootstrap step fails, /login and /register must
-  // still render so the user can authenticate and recover.
   if (platform.authentication.authenticated) {
     return (
       <Navigate
-        to="/dashboard"
+        to="/business-setup"
         replace
         state={{ from: location.pathname }}
       />
@@ -58,10 +54,7 @@ export function AuthenticatedRoute({ children }: PropsWithChildren) {
   } = useWorkspace();
 
   useEffect(() => {
-    if (
-      !platform.runtime.ready ||
-      !platform.authentication.authenticated
-    ) {
+    if (!platform.runtime.ready || !platform.authentication.authenticated) {
       return;
     }
 
@@ -102,7 +95,10 @@ export function AuthenticatedRoute({ children }: PropsWithChildren) {
     );
   }
 
-  const setupComplete = workspace.business_category_id !== null;
+  // A new workspace has no business category yet. Treat null and undefined as
+  // incomplete so an incomplete API payload can never accidentally bypass
+  // onboarding and open the dashboard.
+  const setupComplete = workspace.business_category_id != null;
 
   if (!setupComplete && location.pathname !== "/business-setup") {
     return (

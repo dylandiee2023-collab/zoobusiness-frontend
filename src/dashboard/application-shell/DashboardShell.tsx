@@ -2,11 +2,7 @@ import { useMemo, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 
 import { usePlatform } from "@/platform/providers/use-platform";
-import {
-  usePermission,
-  useWorkspace,
-  useWorkspaceAccess,
-} from "@/workspace/providers";
+import { useWorkspace, useWorkspaceAccess } from "@/workspace/providers";
 
 import { navigationConfig } from "../navigation/navigation.config";
 import { resolveNavigation } from "../navigation/navigation.resolver";
@@ -57,7 +53,6 @@ export function DashboardShell() {
   const { workspace } = useWorkspace();
   const { loading: accessLoading, error: accessError, access, refresh } =
     useWorkspaceAccess();
-  const canViewDashboard = usePermission("report.view") || access !== null;
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -113,7 +108,7 @@ export function DashboardShell() {
                 Retry
               </button>
             </div>
-          ) : canViewDashboard ? (
+          ) : access !== null ? (
             <NavigationItems
               items={sidebarItems}
               onNavigate={() => setMobileOpen(false)}

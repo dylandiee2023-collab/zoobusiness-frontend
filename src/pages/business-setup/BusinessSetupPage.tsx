@@ -143,11 +143,6 @@ export function BusinessSetupPage() {
     );
   }
 
-  if (workspace.business_category_id !== null && bootstrapComplete) {
-    navigate("/dashboard", { replace: true });
-    return null;
-  }
-
   return (
     <main>
       <Stack spacing="24px">

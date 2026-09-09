@@ -15,8 +15,8 @@ function RouteLoading() {
         display: "grid",
         placeItems: "center",
         padding: "24px",
-        background: "var(--color-background, #ffffff)",
-        color: "var(--color-text, #0f172a)",
+        background: "var(--zb-background, #ffffff)",
+        color: "var(--zb-text, #0f172a)",
       }}
     >
       Loading ZooBusiness…
@@ -89,7 +89,14 @@ export function AuthenticatedRoute({ children }: PropsWithChildren) {
 
   if (workspace === null) {
     return (
-      <main aria-live="polite">
+      <main
+        aria-live="polite"
+        style={{
+          minHeight: "100dvh",
+          background: "var(--zb-background, #ffffff)",
+          color: "var(--zb-text, #0f172a)",
+        }}
+      >
         {error ?? "Preparing your workspace..."}
       </main>
     );

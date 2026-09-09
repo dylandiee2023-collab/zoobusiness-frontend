@@ -1,152 +1,113 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { usePlatform } from "@/platform/providers/use-platform";
+import { useWorkspace } from "@/workspace/providers";
 
 import { BusinessSetupService } from "../services/BusinessSetupService";
 import type {
   BusinessCategory,
   CompleteBusinessSetupPayload,
-  CurrentWorkspace,
 } from "../types/business-setup.types";
 
 export function useBusinessSetup() {
   const { api } = usePlatform();
+  const {
+    workspace,
+    loading: workspaceLoading,
+    bootstrapping,
+    bootstrapComplete,
+    error: workspaceError,
+    refresh: refreshWorkspace,
+    bootstrap,
+  } = useWorkspace();
 
   const service = useMemo(
     () => new BusinessSetupService(api),
     [api],
   );
 
-  const [workspace, setWorkspace] =
-    useState<CurrentWorkspace | null>(null);
-
-  const [categories, setCategories] =
-    useState<BusinessCategory[]>([]);
-
-  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState<BusinessCategory[]>([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] =
-    useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+  const loadCategories = useCallback(async () => {
+    setCategoriesLoading(true);
 
     try {
-      const [
-        currentWorkspace,
-        businessCategories,
-      ] = await Promise.all([
-        service.getCurrentWorkspace(),
-        service.getCategories(),
-      ]);
-
-      setWorkspace(currentWorkspace);
-      setCategories(businessCategories);
+      setCategories(await service.getCategories());
     } catch (err) {
       setError(
         err instanceof Error
           ? err.message
-          : "Failed to load business setup.",
+          : "Failed to load business categories.",
       );
     } finally {
-      setLoading(false);
+      setCategoriesLoading(false);
     }
   }, [service]);
 
   useEffect(() => {
-    let cancelled = false;
-
-    async function initialize() {
-      try {
-        const [
-          currentWorkspace,
-          businessCategories,
-        ] = await Promise.all([
-          service.getCurrentWorkspace(),
-          service.getCategories(),
-        ]);
-
-        if (cancelled) {
-          return;
-        }
-
-        setWorkspace(currentWorkspace);
-        setCategories(businessCategories);
-        setError(null);
-      } catch (err) {
-        if (cancelled) {
-          return;
-        }
-
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Failed to load business setup.",
-        );
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    }
-
-    void initialize();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [service]);
+    void loadCategories();
+  }, [loadCategories]);
 
   const completeSetup = useCallback(
-    async (
-      payload: CompleteBusinessSetupPayload,
-    ) => {
+    async (payload: CompleteBusinessSetupPayload) => {
       if (!workspace) {
-        throw new Error(
-          "Current workspace is not available.",
-        );
+        throw new Error("Current workspace is not available.");
       }
 
       setSubmitting(true);
       setError(null);
 
       try {
-        const updatedWorkspace =
-          await service.completeSetup(
-            workspace.id,
-            payload,
-          );
+        if (workspace.business_category_id === null) {
+          await service.completeSetup(workspace.id, payload);
+        }
 
-        await service.bootstrapWorkspace(
-          workspace.id,
-        );
-
-        setWorkspace(updatedWorkspace);
-
-        return updatedWorkspace;
+        await refreshWorkspace();
+        return workspace;
       } catch (err) {
-        const message =
+        setError(
           err instanceof Error
             ? err.message
-            : "Failed to complete business setup.";
-
-        setError(message);
+            : "Failed to complete business setup.",
+        );
         throw err;
       } finally {
         setSubmitting(false);
       }
     },
-    [service, workspace],
+    [refreshWorkspace, service, workspace],
   );
+
+  const retryBootstrap = useCallback(async () => {
+    setError(null);
+
+    try {
+      await bootstrap();
+      await refreshWorkspace();
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Failed to initialize your business workspace.",
+      );
+      throw err;
+    }
+  }, [bootstrap, refreshWorkspace]);
 
   return {
     workspace,
     categories,
-    loading,
-    submitting,
-    error,
+    loading: workspaceLoading || categoriesLoading,
+    submitting: submitting || bootstrapping,
+    bootstrapComplete,
+    error: error ?? workspaceError,
     completeSetup,
-    reload: load,
+    retryBootstrap,
+    reload: async () => {
+      await Promise.all([refreshWorkspace(), loadCategories()]);
+    },
   };
 }

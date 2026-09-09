@@ -1,11 +1,17 @@
-import { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { NavLink, Outlet } from "react-router-dom";
+
+import { usePlatform } from "@/platform/providers/use-platform";
+import { useWorkspace } from "@/workspace/providers/workspace-provider";
 
 import { navigationConfig } from "../navigation/navigation.config";
 import { resolveNavigation } from "../navigation/navigation.resolver";
 import type { NavigationItem } from "../navigation/navigation.types";
 import "./dashboard-shell.css";
 
+// Phase 7A uses the permissions already defined by AutoBots RBAC.
+// The runtime permission endpoint will replace this adapter once the API exposes
+// the authenticated workspace permission set to the frontend.
 const retailPermissions = new Set([
   "pos.use",
   "order.view",
@@ -14,21 +20,24 @@ const retailPermissions = new Set([
   "inventory.view",
   "inventory.manage",
   "payment.view",
-  "expense.view",
   "report.view",
   "ai.use",
   "workspace.manage",
-  "purchase.view",
 ]);
 
 function NavigationItems({ items, onNavigate }: { items: readonly NavigationItem[]; onNavigate?: () => void }) {
   return items.map((item) => (
     <div className="zb-shell-nav-group" key={item.id}>
       {item.route ? (
-        <Link className="zb-shell-nav-item" to={item.route} onClick={onNavigate} title={item.label}>
+        <NavLink
+          className={({ isActive }) => `zb-shell-nav-item${isActive ? " is-active" : ""}`}
+          to={item.route}
+          onClick={onNavigate}
+          title={item.label}
+        >
           <span className={`zb-shell-icon zb-icon-${item.icon}`} aria-hidden="true" />
           <span className="zb-shell-nav-label">{item.label}</span>
-        </Link>
+        </NavLink>
       ) : (
         <div className="zb-shell-nav-section">
           <span className={`zb-shell-icon zb-icon-${item.icon}`} aria-hidden="true" />
@@ -41,13 +50,22 @@ function NavigationItems({ items, onNavigate }: { items: readonly NavigationItem
 }
 
 export function DashboardShell() {
+  const platform = usePlatform();
+  const { workspace } = useWorkspace();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const navigation = resolveNavigation(navigationConfig, {
-    businessCategory: "retail",
-    permissions: retailPermissions,
-  });
+
+  const navigation = useMemo(
+    () =>
+      resolveNavigation(navigationConfig, {
+        businessCategory: "retail",
+        permissions: retailPermissions,
+      }),
+    [],
+  );
   const sidebarItems = navigation.filter((item) => item.placement === "sidebar");
+  const userName = platform.authentication.user?.name?.trim() || "Account";
+  const workspaceName = workspace?.name?.trim() || "My Business";
 
   return (
     <div className={`zb-dashboard-shell${sidebarCollapsed ? " is-collapsed" : ""}`}>
@@ -75,12 +93,12 @@ export function DashboardShell() {
           <div className="zb-shell-topbar-left">
             <button className="zb-shell-mobile-menu" onClick={() => setMobileOpen(true)} aria-label="Open navigation">☰</button>
             <div className="zb-shell-mobile-brand">ZooBusiness</div>
-            <button className="zb-shell-workspace" type="button" aria-label="Select workspace">My Business <span>⌄</span></button>
+            <button className="zb-shell-workspace" type="button" aria-label="Select workspace">{workspaceName} <span>⌄</span></button>
           </div>
           <div className="zb-shell-topbar-actions">
             <button type="button" aria-label="Search">⌕</button>
             <button type="button" aria-label="Notifications">🔔</button>
-            <button className="zb-shell-user" type="button">Dylan <span>⌄</span></button>
+            <button className="zb-shell-user" type="button">{userName} <span>⌄</span></button>
           </div>
         </header>
         <main className="zb-shell-content">
@@ -89,9 +107,7 @@ export function DashboardShell() {
       </div>
 
       <nav className="zb-shell-mobile-nav" aria-label="Mobile shortcuts">
-        <Link to="/dashboard"><span>⌂</span><small>Home</small></Link>
-        <Link to="/pos"><span>▣</span><small>Sales</small></Link>
-        <Link to="/inventory"><span>▤</span><small>Stock</small></Link>
+        <NavLink to="/dashboard"><span>⌂</span><small>Home</small></NavLink>
         <button type="button" onClick={() => setMobileOpen(true)}><span>☰</span><small>More</small></button>
       </nav>
     </div>

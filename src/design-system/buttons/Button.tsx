@@ -29,16 +29,15 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) {
     const { theme } = useTheme();
 
-    const recipe = buttonRecipe(theme, {
+    const recipeProps: ButtonProps = {
       ...props,
-      variant,
-      size,
-      fullWidth,
+      ...(variant !== undefined ? { variant } : {}),
+      ...(size !== undefined ? { size } : {}),
+      ...(fullWidth !== undefined ? { fullWidth } : {}),
       loading,
-      ...(disabled !== undefined && {
-        disabled,
-      }),
-    });
+      ...(disabled !== undefined ? { disabled } : {}),
+    };
+    const recipe = buttonRecipe(theme, recipeProps);
 
     const aria = createAria({
       disabled: disabled ?? false,

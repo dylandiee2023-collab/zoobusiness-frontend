@@ -67,8 +67,9 @@ export function useBusinessSetup() {
           await service.completeSetup(workspace.id, payload);
         }
 
+        // WorkspaceProvider owns the resulting workspace state and the
+        // onboarding gate owns the route transition after that state changes.
         await refreshWorkspace();
-        return workspace;
       } catch (err) {
         setError(
           err instanceof Error

@@ -1,4 +1,5 @@
 import { forwardRef } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
 import { useTheme } from "@/theme/hooks";
 
@@ -14,6 +15,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
     external = false,
     target,
     rel,
+    href,
     ...props
   },
   ref,
@@ -25,16 +27,36 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
     underline,
   });
 
+  const sharedStyle = {
+    ...recipe.style,
+    ...style,
+  };
+
+  // Internal application links must stay inside the SPA. A native <a href>
+  // would perform a full document navigation and briefly expose the browser's
+  // default page background between documents, which is the white flash seen
+  // when moving between auth/public pages.
+  if (!external && href?.startsWith("/") && target === undefined) {
+    return (
+      <RouterLink
+        ref={ref}
+        to={href}
+        {...props}
+        style={sharedStyle}
+      >
+        {children}
+      </RouterLink>
+    );
+  }
+
   return (
     <a
       ref={ref}
+      href={href}
       target={external ? "_blank" : target}
       rel={external ? "noopener noreferrer" : rel}
       {...props}
-      style={{
-        ...recipe.style,
-        ...style,
-      }}
+      style={sharedStyle}
     >
       {children}
     </a>

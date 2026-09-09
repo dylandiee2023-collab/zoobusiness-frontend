@@ -6,3 +6,37 @@ body,
   margin: 0;
   padding: 0;
 }
+
+html {
+  background: var(--zb-background, #ffffff);
+  color: var(--zb-text, #0f172a);
+  color-scheme: light dark;
+}
+
+body {
+  background: var(--zb-background, #ffffff);
+  color: var(--zb-text, #0f172a);
+}
+
+/* Public pages use the same persistent navigation behavior as the landing page. */
+.zb-public-page {
+  padding-top: 76px;
+}
+
+.zb-public-nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  backdrop-filter: blur(18px);
+  background: color-mix(
+    in srgb,
+    var(--zb-background, #ffffff) 94%,
+    transparent
+  );
+}
+
+@media (max-width: 760px) {
+  .zb-public-page {
+    padding-top: 64px;
+  }
+}

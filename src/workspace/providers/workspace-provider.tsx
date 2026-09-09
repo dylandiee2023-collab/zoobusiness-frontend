@@ -49,15 +49,10 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
 
     try {
       const user = platform.authentication.user;
-
-      if (user === null) {
-        throw new Error("Signed-in user is not available.");
-      }
-
-      const currentWorkspace = await service.ensureWorkspace(
-        user.id,
-        user.name,
-      );
+      const currentWorkspace =
+        user === null
+          ? await service.getCurrentWorkspace()
+          : await service.ensureWorkspace(user.id, user.name);
 
       setWorkspace(currentWorkspace);
     } catch (err) {

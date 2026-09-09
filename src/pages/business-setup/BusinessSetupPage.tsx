@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import type { FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/design-system/buttons";
 import { Input } from "@/design-system/inputs";
@@ -17,8 +16,6 @@ import { Textarea } from "@/design-system/components/textarea";
 import { useBusinessSetup } from "@/business-setup/hooks/useBusinessSetup";
 
 export function BusinessSetupPage() {
-  const navigate = useNavigate();
-
   const {
     workspace,
     categories,
@@ -74,7 +71,6 @@ export function BusinessSetupPage() {
 
     try {
       await completeSetup(payload);
-      navigate("/dashboard", { replace: true });
     } catch {
       // Error is already exposed by useBusinessSetup.
     }
@@ -83,7 +79,6 @@ export function BusinessSetupPage() {
   async function handleBootstrapRetry() {
     try {
       await retryBootstrap();
-      navigate("/dashboard", { replace: true });
     } catch {
       // Error is already exposed by useBusinessSetup.
     }
@@ -254,13 +249,15 @@ export function BusinessSetupPage() {
               />
             </FormField>
 
-            {error && !categoryError ? <Text>{error}</Text> : null}
+            {error && <Text>{error}</Text>}
 
             <Button
               type="submit"
-              disabled={submitting || !businessCategoryId}
+              variant="primary"
+              disabled={submitting}
+              loading={submitting}
             >
-              {submitting ? "Setting up..." : "Continue"}
+              {submitting ? "Saving..." : "Continue"}
             </Button>
           </Stack>
         </form>

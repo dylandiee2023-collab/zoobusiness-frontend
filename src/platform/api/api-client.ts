@@ -22,6 +22,8 @@ export class ApiClient implements ApiClientContract {
   private readonly tokens: TokenManagerContract;
   private refreshHandler: RefreshHandler | null = null;
   private refreshPromise: Promise<void> | null = null;
+  private workspaceId: string | null = null;
+  private branchId: string | null = null;
 
   constructor(
     tokens: TokenManagerContract,
@@ -33,6 +35,11 @@ export class ApiClient implements ApiClientContract {
 
   setRefreshHandler(handler: RefreshHandler): void {
     this.refreshHandler = handler;
+  }
+
+  setWorkspaceContext(workspaceId: string | null, branchId: string | null = null): void {
+    this.workspaceId = workspaceId;
+    this.branchId = branchId;
   }
 
   async get<T>(url: string): Promise<T> {
@@ -114,6 +121,14 @@ export class ApiClient implements ApiClientContract {
 
       if (accessToken !== null) {
         headers.Authorization = `Bearer ${accessToken}`;
+      }
+
+      if (this.workspaceId !== null) {
+        headers["x-workspace-id"] = this.workspaceId;
+      }
+
+      if (this.branchId !== null) {
+        headers["x-branch-id"] = this.branchId;
       }
 
       const request: RequestInit = {

@@ -34,7 +34,14 @@ export function GuestRoute({ children }: PropsWithChildren) {
 export function AuthenticatedRoute({ children }: PropsWithChildren) {
   const platform = usePlatform();
   const location = useLocation();
-  const { refresh } = useWorkspace();
+  const {
+    workspace,
+    loading,
+    bootstrapping,
+    bootstrapComplete,
+    error,
+    refresh,
+  } = useWorkspace();
 
   useEffect(() => {
     if (
@@ -52,7 +59,7 @@ export function AuthenticatedRoute({ children }: PropsWithChildren) {
     refresh,
   ]);
 
-  if (!platform.runtime.ready) {
+  if (!platform.runtime.ready || loading || bootstrapping) {
     return <RouteLoading />;
   }
 
@@ -64,6 +71,40 @@ export function AuthenticatedRoute({ children }: PropsWithChildren) {
         state={{ from: location.pathname }}
       />
     );
+  }
+
+  if (workspace === null) {
+    return (
+      <main aria-live="polite">
+        {error ?? "Preparing your workspace..."}
+      </main>
+    );
+  }
+
+  const setupComplete = workspace.business_category_id !== null;
+
+  if (!setupComplete && location.pathname !== "/business-setup") {
+    return (
+      <Navigate
+        to="/business-setup"
+        replace
+        state={{ from: location.pathname }}
+      />
+    );
+  }
+
+  if (setupComplete && !bootstrapComplete && location.pathname !== "/business-setup") {
+    return (
+      <Navigate
+        to="/business-setup"
+        replace
+        state={{ from: location.pathname }}
+      />
+    );
+  }
+
+  if (setupComplete && location.pathname === "/business-setup" && bootstrapComplete) {
+    return <Navigate to="/dashboard" replace />;
   }
 
   return children;

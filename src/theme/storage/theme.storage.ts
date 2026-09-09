@@ -9,14 +9,14 @@ const VALID_THEME_MODES: readonly ThemeMode[] = [
 
 export function getStoredTheme(): ThemeMode {
   if (typeof window === "undefined") {
-    return "light";
+    return "system";
   }
 
   const stored = localStorage.getItem(StorageKeys.THEME);
 
   return VALID_THEME_MODES.includes(stored as ThemeMode)
     ? (stored as ThemeMode)
-    : "light";
+    : "system";
 }
 
 export function saveTheme(theme: ThemeMode): void {

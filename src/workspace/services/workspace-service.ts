@@ -17,6 +17,7 @@ export interface CreateWorkspacePayload {
 
 export class WorkspaceService {
   private readonly api: ApiClientContract;
+  private ensureWorkspaceInFlight: Promise<CurrentWorkspace> | null = null;
 
   constructor(api: ApiClientContract) {
     this.api = api;
@@ -37,6 +38,21 @@ export class WorkspaceService {
   }
 
   async ensureWorkspace(
+    userId: string,
+    userName: string,
+  ): Promise<CurrentWorkspace> {
+    if (this.ensureWorkspaceInFlight !== null) {
+      return this.ensureWorkspaceInFlight;
+    }
+
+    this.ensureWorkspaceInFlight = this.resolveWorkspace(userId, userName).finally(() => {
+      this.ensureWorkspaceInFlight = null;
+    });
+
+    return this.ensureWorkspaceInFlight;
+  }
+
+  private async resolveWorkspace(
     userId: string,
     userName: string,
   ): Promise<CurrentWorkspace> {

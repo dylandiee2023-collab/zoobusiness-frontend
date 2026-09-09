@@ -39,7 +39,6 @@ export function VerifyEmailPage() {
   const [resending, setResending] = useState(false);
   const [cooldown, setCooldown] = useState(0);
 
-
   useEffect(() => {
     if (cooldown <= 0) {
       return;
@@ -219,7 +218,7 @@ export function VerifyEmailPage() {
               style={{
                 display: "block",
                 width: "100%",
-                color: "#16A34A",
+                color: theme.colors.success,
                 fontSize: 12,
                 textAlign: "center",
               }}
@@ -286,5 +285,3 @@ export function VerifyEmailPage() {
     </AuthShell>
   );
 }
-
-

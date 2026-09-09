@@ -112,7 +112,7 @@ export function BusinessSetupPage() {
     );
   }
 
-  if (workspace.business_category_id !== null && !bootstrapComplete) {
+  if (workspace.business_category_id != null && !bootstrapComplete) {
     return (
       <main>
         <Stack spacing="24px">
@@ -178,7 +178,12 @@ export function BusinessSetupPage() {
               <FormError />
             </FormField>
 
-            <FormField id="description" name="description" label="Description" disabled={submitting}>
+            <FormField
+              id="description"
+              name="description"
+              label="Description"
+              disabled={submitting}
+            >
               <FormLabel />
               <Textarea
                 id="description"
@@ -190,7 +195,12 @@ export function BusinessSetupPage() {
               />
             </FormField>
 
-            <FormField id="address" name="address" label="Address" disabled={submitting}>
+            <FormField
+              id="address"
+              name="address"
+              label="Address"
+              disabled={submitting}
+            >
               <FormLabel />
               <Input
                 id="address"
@@ -212,7 +222,12 @@ export function BusinessSetupPage() {
               />
             </FormField>
 
-            <FormField id="region" name="region" label="Region" disabled={submitting}>
+            <FormField
+              id="region"
+              name="region"
+              label="Region"
+              disabled={submitting}
+            >
               <FormLabel />
               <Input
                 id="region"
@@ -223,7 +238,12 @@ export function BusinessSetupPage() {
               />
             </FormField>
 
-            <FormField id="country" name="country" label="Country" disabled={submitting}>
+            <FormField
+              id="country"
+              name="country"
+              label="Country"
+              disabled={submitting}
+            >
               <FormLabel />
               <Input
                 id="country"

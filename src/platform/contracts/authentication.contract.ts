@@ -36,4 +36,6 @@ export interface AuthenticationContract {
   logout(): Promise<void>;
 
   refresh(): Promise<void>;
+
+  subscribe(listener: () => void): () => void;
 }

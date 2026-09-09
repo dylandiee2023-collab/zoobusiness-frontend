@@ -98,4 +98,10 @@ export class Platform implements PlatformContract {
   readonly notifications = createNotificationEngine();
 
   readonly commands = createCommandEngine();
+
+  constructor() {
+    this.api.setRefreshHandler(() =>
+      this.authentication.refresh(),
+    );
+  }
 }

@@ -32,8 +32,7 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
     [platform.api],
   );
 
-  const [workspace, setWorkspace] =
-    useState<CurrentWorkspace | null>(null);
+  const [workspace, setWorkspace] = useState<CurrentWorkspace | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -49,8 +48,17 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
     setError(null);
 
     try {
-      const currentWorkspace =
-        await service.getCurrentWorkspace();
+      const user = platform.authentication.user;
+
+      if (user === null) {
+        throw new Error("Signed-in user is not available.");
+      }
+
+      const currentWorkspace = await service.ensureWorkspace(
+        user.id,
+        user.name,
+      );
+
       setWorkspace(currentWorkspace);
     } catch (err) {
       setWorkspace(null);
@@ -62,7 +70,7 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
     } finally {
       setLoading(false);
     }
-  }, [platform.authentication.authenticated, service]);
+  }, [platform.authentication, service]);
 
   useEffect(() => {
     if (!platform.runtime.ready) {

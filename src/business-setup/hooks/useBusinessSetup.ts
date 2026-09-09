@@ -63,7 +63,7 @@ export function useBusinessSetup() {
       setError(null);
 
       try {
-        if (workspace.business_category_id === null) {
+        if (workspace.business_category_id == null) {
           await service.completeSetup(workspace.id, payload);
         }
 

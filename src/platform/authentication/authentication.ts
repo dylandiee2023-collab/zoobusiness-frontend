@@ -196,9 +196,15 @@ export class Authentication implements AuthenticationContract {
       return null;
     }
 
+    const payloadPart = parts[1];
+
+    if (payloadPart === undefined) {
+      return null;
+    }
+
     try {
       const payload = JSON.parse(
-        this.decodeBase64Url(parts[1]),
+        this.decodeBase64Url(payloadPart),
       ) as { exp?: unknown };
 
       if (typeof payload.exp !== "number") {

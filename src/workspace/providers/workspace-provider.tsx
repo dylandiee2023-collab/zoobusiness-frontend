@@ -35,6 +35,11 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
     [platform.api],
   );
 
+  const authenticated = platform.authentication.authenticated;
+  const user = platform.authentication.user;
+  const userId = user?.id ?? null;
+  const userName = user?.name ?? "";
+
   const [workspace, setWorkspace] = useState<CurrentWorkspace | null>(null);
   const [loading, setLoading] = useState(false);
   const [bootstrapping, setBootstrapping] = useState(false);
@@ -66,7 +71,7 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
   }, [service, workspace]);
 
   const refresh = useCallback(async () => {
-    if (!platform.authentication.authenticated) {
+    if (!authenticated) {
       setWorkspace(null);
       setBootstrapComplete(false);
       setError(null);
@@ -79,17 +84,16 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
     setBootstrapComplete(false);
 
     try {
-      const user = platform.authentication.user;
       const currentWorkspace =
-        user === null
+        userId === null
           ? await service.getCurrentWorkspace()
-          : await service.ensureWorkspace(user.id, user.name);
+          : await service.ensureWorkspace(userId, userName);
 
       setWorkspace(currentWorkspace);
 
-      // Bootstrap is only valid after business setup has selected a category.
-      // Treat null and undefined as incomplete so a malformed/incomplete
-      // workspace response can never be initialized as a completed business.
+      // Bootstrap is only valid after business setup has assigned a category.
+      // Treat null and undefined as incomplete so a new workspace never gets
+      // initialized before the user submits Business Setup.
       if (currentWorkspace.business_category_id != null) {
         await service.bootstrapWorkspace(currentWorkspace.id);
         setBootstrapComplete(true);
@@ -104,7 +108,7 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
     } finally {
       setLoading(false);
     }
-  }, [platform.authentication, service]);
+  }, [authenticated, service, userId, userName]);
 
   useEffect(() => {
     if (!platform.runtime.ready) {

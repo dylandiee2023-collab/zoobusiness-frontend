@@ -1,19 +1,17 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 
 import { usePlatform } from "@/platform/providers/use-platform";
-import { useWorkspace } from "@/workspace/providers/workspace-provider";
+import {
+  usePermission,
+  useWorkspace,
+  useWorkspaceAccess,
+} from "@/workspace/providers";
 
 import { navigationConfig } from "../navigation/navigation.config";
 import { resolveNavigation } from "../navigation/navigation.resolver";
 import type { NavigationItem } from "../navigation/navigation.types";
 import "./dashboard-shell.css";
-
-interface WorkspaceAccessResponse {
-  readonly workspaceId: string;
-  readonly role: string;
-  readonly permissions: readonly string[];
-}
 
 interface NavigationItemsProps {
   readonly items: readonly NavigationItem[];
@@ -57,41 +55,16 @@ function NavigationItems({ items, onNavigate }: NavigationItemsProps) {
 export function DashboardShell() {
   const platform = usePlatform();
   const { workspace } = useWorkspace();
+  const { loading: accessLoading, error: accessError, access, refresh } =
+    useWorkspaceAccess();
+  const canViewDashboard = usePermission("report.view") || access !== null;
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [permissions, setPermissions] = useState<ReadonlySet<string>>(
-    new Set(),
+
+  const permissions = useMemo(
+    () => new Set(access?.permissions ?? []),
+    [access],
   );
-  const [accessLoaded, setAccessLoaded] = useState(false);
-
-  useEffect(() => {
-    let active = true;
-
-    setAccessLoaded(false);
-    setPermissions(new Set());
-    platform.permissions.setPermissions([]);
-
-    void platform.api
-      .get<WorkspaceAccessResponse>("/api/workspaces/current/access")
-      .then((access) => {
-        if (!active) return;
-
-        const resolvedPermissions = new Set(access.permissions);
-        platform.permissions.setPermissions(access.permissions);
-        setPermissions(resolvedPermissions);
-        setAccessLoaded(true);
-      })
-      .catch(() => {
-        if (!active) return;
-        setPermissions(new Set());
-        setAccessLoaded(true);
-      });
-
-    return () => {
-      active = false;
-    };
-  }, [platform, workspace?.id]);
-
   const navigation = useMemo(
     () =>
       resolveNavigation(navigationConfig, {
@@ -129,7 +102,18 @@ export function DashboardShell() {
           </div>
         </div>
         <nav className="zb-shell-nav" aria-label="Business navigation">
-          {accessLoaded ? (
+          {accessLoading ? (
+            <div aria-busy="true" className="zb-shell-nav-status">
+              Loading permissions…
+            </div>
+          ) : accessError ? (
+            <div className="zb-shell-nav-status" role="alert">
+              <span>{accessError}</span>
+              <button type="button" onClick={() => void refresh()}>
+                Retry
+              </button>
+            </div>
+          ) : canViewDashboard ? (
             <NavigationItems
               items={sidebarItems}
               onNavigate={() => setMobileOpen(false)}

@@ -1,79 +1,20 @@
-.zb-dashboard-shell {
-  min-height: 100dvh;
-  background: var(--zb-background);
-  color: var(--zb-text);
-}
-
-.zb-shell-sidebar {
-  position: fixed;
-  inset: 0 auto 0 0;
-  z-index: 60;
-  display: flex;
-  width: 252px;
-  flex-direction: column;
-  border-right: 1px solid color-mix(in srgb, var(--zb-text) 10%, transparent);
-  background: var(--zb-background);
-  transition: width 180ms ease, transform 180ms ease;
-}
-
-.zb-shell-brand {
-  display: flex;
-  min-height: 72px;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 18px;
-  border-bottom: 1px solid color-mix(in srgb, var(--zb-text) 8%, transparent);
-}
-
-.zb-shell-brand-mark {
-  display: grid;
-  width: 38px;
-  height: 38px;
-  flex: 0 0 38px;
-  place-items: center;
-  border-radius: 11px;
-  background: var(--zb-primary);
-  color: #fff;
-  font-weight: 800;
-}
-
+.zb-dashboard-shell { min-height: 100dvh; background: var(--zb-background); color: var(--zb-text); }
+.zb-shell-sidebar { position: fixed; inset: 0 auto 0 0; z-index: 60; display: flex; width: 252px; flex-direction: column; border-right: 1px solid color-mix(in srgb, var(--zb-text) 10%, transparent); background: var(--zb-background); transition: width 180ms ease, transform 180ms ease; }
+.zb-shell-brand { display: flex; min-height: 72px; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid color-mix(in srgb, var(--zb-text) 8%, transparent); }
+.zb-shell-brand-mark { display: grid; width: 38px; height: 38px; flex: 0 0 38px; place-items: center; border-radius: 11px; background: var(--zb-primary); color: #fff; font-weight: 800; }
 .zb-shell-brand-copy { display: grid; gap: 2px; min-width: 0; }
 .zb-shell-brand-copy strong { font-size: 15px; }
 .zb-shell-brand-copy span { font-size: 11px; opacity: .62; }
-
 .zb-shell-nav { flex: 1; overflow-y: auto; padding: 14px 10px; }
 .zb-shell-nav-group { margin-bottom: 3px; }
-.zb-shell-nav-item,
-.zb-shell-nav-section {
-  display: flex;
-  min-height: 42px;
-  align-items: center;
-  gap: 12px;
-  border-radius: 9px;
-  padding: 9px 11px;
-  color: inherit;
-  text-decoration: none;
-}
+.zb-shell-nav-item, .zb-shell-nav-section { display: flex; min-height: 42px; align-items: center; gap: 12px; border-radius: 9px; padding: 9px 11px; color: inherit; text-decoration: none; }
 .zb-shell-nav-item:hover { background: color-mix(in srgb, var(--zb-primary) 8%, transparent); }
+.zb-shell-nav-item.is-active { background: color-mix(in srgb, var(--zb-primary) 13%, transparent); color: var(--zb-primary); font-weight: 700; box-shadow: inset 3px 0 0 var(--zb-primary); }
 .zb-shell-nav-section { margin-top: 8px; font-size: 12px; font-weight: 700; opacity: .62; text-transform: uppercase; letter-spacing: .04em; }
 .zb-shell-nav-group > .zb-shell-nav-group { margin-left: 14px; }
 .zb-shell-icon { width: 20px; height: 20px; flex: 0 0 20px; display: grid; place-items: center; font-size: 14px; opacity: .78; }
 .zb-shell-icon::before { content: "•"; }
-.zb-icon-grid::before { content: "▦"; }
-.zb-icon-cart::before { content: "🛒"; }
-.zb-icon-scan::before { content: "▣"; }
-.zb-icon-receipt::before { content: "▤"; }
-.zb-icon-users::before { content: "♙"; }
-.zb-icon-package::before, .zb-icon-box::before { content: "□"; }
-.zb-icon-tags::before { content: "#"; }
-.zb-icon-warehouse::before, .zb-icon-boxes::before { content: "▥"; }
-.zb-icon-truck::before { content: "▰"; }
-.zb-icon-shopping-bag::before { content: "♧"; }
-.zb-icon-credit-card::before { content: "▭"; }
-.zb-icon-wallet::before { content: "▱"; }
-.zb-icon-chart::before { content: "▥"; }
-.zb-icon-bot::before { content: "✦"; }
-
+.zb-icon-grid::before { content: "▦"; } .zb-icon-cart::before { content: "🛒"; } .zb-icon-scan::before { content: "▣"; } .zb-icon-receipt::before { content: "▤"; } .zb-icon-users::before { content: "♙"; } .zb-icon-package::before, .zb-icon-box::before { content: "□"; } .zb-icon-tags::before { content: "#"; } .zb-icon-warehouse::before, .zb-icon-boxes::before { content: "▥"; } .zb-icon-truck::before { content: "▰"; } .zb-icon-shopping-bag::before { content: "♧"; } .zb-icon-credit-card::before { content: "▭"; } .zb-icon-chart::before { content: "▥"; } .zb-icon-bot::before { content: "✦"; }
 .zb-shell-collapse { display: flex; min-height: 48px; align-items: center; gap: 12px; margin: 8px 10px 12px; padding: 10px 12px; border: 0; border-radius: 9px; background: transparent; color: inherit; cursor: pointer; }
 .zb-shell-collapse:hover { background: color-mix(in srgb, var(--zb-text) 6%, transparent); }
 .zb-shell-main { min-width: 0; padding-left: 252px; }
@@ -86,17 +27,13 @@
 .zb-shell-topbar-actions button:hover { background: color-mix(in srgb, var(--zb-text) 6%, transparent); }
 .zb-shell-content { min-height: calc(100dvh - 64px); padding: 24px; }
 .zb-shell-mobile-menu, .zb-shell-mobile-brand, .zb-shell-mobile-nav { display: none; }
-
 .zb-dashboard-shell.is-collapsed .zb-shell-sidebar { width: 72px; }
 .zb-dashboard-shell.is-collapsed .zb-shell-main { padding-left: 72px; }
 .zb-dashboard-shell.is-collapsed .zb-shell-brand { justify-content: center; padding-inline: 8px; }
-.zb-dashboard-shell.is-collapsed .zb-shell-brand-copy,
-.zb-dashboard-shell.is-collapsed .zb-shell-nav-label { display: none; }
-.zb-dashboard-shell.is-collapsed .zb-shell-nav-item,
-.zb-dashboard-shell.is-collapsed .zb-shell-nav-section { justify-content: center; padding-inline: 8px; }
+.zb-dashboard-shell.is-collapsed .zb-shell-brand-copy, .zb-dashboard-shell.is-collapsed .zb-shell-nav-label { display: none; }
+.zb-dashboard-shell.is-collapsed .zb-shell-nav-item, .zb-dashboard-shell.is-collapsed .zb-shell-nav-section { justify-content: center; padding-inline: 8px; }
 .zb-dashboard-shell.is-collapsed .zb-shell-nav-group > .zb-shell-nav-group { margin-left: 0; }
 .zb-dashboard-shell.is-collapsed .zb-shell-collapse { justify-content: center; }
-
 @media (max-width: 767px) {
   .zb-shell-sidebar { width: min(86vw, 310px); transform: translateX(-102%); box-shadow: 20px 0 45px color-mix(in srgb, #000 18%, transparent); }
   .zb-shell-sidebar.is-mobile-open { transform: translateX(0); }
@@ -110,18 +47,11 @@
   .zb-shell-user { font-size: 0; }
   .zb-shell-user::before { content: "●"; font-size: 18px; }
   .zb-shell-content { min-height: calc(100dvh - 58px); padding: 16px 14px; }
-  .zb-shell-mobile-nav { position: fixed; inset: auto 0 0; z-index: 50; display: grid; grid-template-columns: repeat(4, 1fr); min-height: 62px; border-top: 1px solid color-mix(in srgb, var(--zb-text) 10%, transparent); background: var(--zb-background); }
+  .zb-shell-mobile-nav { position: fixed; inset: auto 0 0; z-index: 50; display: grid; grid-template-columns: repeat(2, 1fr); min-height: 62px; border-top: 1px solid color-mix(in srgb, var(--zb-text) 10%, transparent); background: var(--zb-background); }
   .zb-shell-mobile-nav a, .zb-shell-mobile-nav button { display: grid; place-items: center; gap: 2px; border: 0; background: transparent; color: inherit; text-decoration: none; font: inherit; }
-  .zb-shell-mobile-nav span { font-size: 18px; }
-  .zb-shell-mobile-nav small { font-size: 10px; opacity: .68; }
+  .zb-shell-mobile-nav a.active { color: var(--zb-primary); font-weight: 700; }
+  .zb-shell-mobile-nav span { font-size: 18px; } .zb-shell-mobile-nav small { font-size: 10px; opacity: .68; }
 }
-
 @media (min-width: 768px) and (max-width: 1023px) {
-  .zb-shell-sidebar { width: 72px; }
-  .zb-shell-main { padding-left: 72px; }
-  .zb-shell-brand { justify-content: center; padding-inline: 8px; }
-  .zb-shell-brand-copy, .zb-shell-nav-label { display: none; }
-  .zb-shell-nav-item, .zb-shell-nav-section { justify-content: center; padding-inline: 8px; }
-  .zb-shell-nav-group > .zb-shell-nav-group { margin-left: 0; }
-  .zb-shell-collapse { justify-content: center; }
+  .zb-shell-sidebar { width: 72px; } .zb-shell-main { padding-left: 72px; } .zb-shell-brand { justify-content: center; padding-inline: 8px; } .zb-shell-brand-copy, .zb-shell-nav-label { display: none; } .zb-shell-nav-item, .zb-shell-nav-section { justify-content: center; padding-inline: 8px; } .zb-shell-nav-group > .zb-shell-nav-group { margin-left: 0; } .zb-shell-collapse { justify-content: center; }
 }

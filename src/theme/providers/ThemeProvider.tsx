@@ -3,14 +3,20 @@ import { useCallback, useLayoutEffect, useMemo, useState } from "react";
 import { ThemeContext } from "@/theme/context";
 import { resolveInitialTheme, resolveTheme } from "@/theme/resolver";
 import { saveTheme } from "@/theme/storage";
-import { watchSystemTheme } from "@/theme/system";
+import { getSystemTheme, watchSystemTheme } from "@/theme/system";
 import type { ThemeMode, ThemeProviderProps } from "@/theme/types";
 import { applyCssVariables, createCssVariables } from "@/theme/utils";
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const [mode, setMode] = useState<ThemeMode>(() => resolveInitialTheme());
+  const [systemTheme, setSystemTheme] = useState<ThemeMode>(() =>
+    getSystemTheme(),
+  );
 
-  const theme = useMemo(() => resolveTheme(mode), [mode]);
+  const theme = useMemo(
+    () => (mode === "system" ? resolveTheme(systemTheme) : resolveTheme(mode)),
+    [mode, systemTheme],
+  );
 
   useLayoutEffect(() => {
     applyCssVariables(createCssVariables(theme));
@@ -22,10 +28,8 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
       return;
     }
 
-    const unsubscribe = watchSystemTheme(() => {
-      const systemTheme = resolveTheme("system");
-
-      applyCssVariables(createCssVariables(systemTheme));
+    const unsubscribe = watchSystemTheme((nextTheme) => {
+      setSystemTheme(nextTheme);
     });
 
     return unsubscribe;
@@ -34,6 +38,10 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   const changeTheme = useCallback((nextMode: ThemeMode) => {
     saveTheme(nextMode);
     setMode(nextMode);
+
+    if (nextMode === "system") {
+      setSystemTheme(getSystemTheme());
+    }
   }, []);
 
   const toggleMode = useCallback(() => {

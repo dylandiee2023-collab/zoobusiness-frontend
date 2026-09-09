@@ -4,7 +4,29 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>zoobusiness-frontend</title>
+    <script>
+      (() => {
+        try {
+          const stored = localStorage.getItem("theme");
+          const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          const dark = stored === "dark" || (stored !== "light" && systemDark);
+          const mode = stored === "light" || stored === "dark" ? stored : "system";
+
+          document.documentElement.dataset.theme = mode;
+          document.documentElement.style.setProperty(
+            "--zb-background",
+            dark ? "#0f172a" : "#ffffff",
+          );
+          document.documentElement.style.setProperty(
+            "--zb-text",
+            dark ? "#f8fafc" : "#0f172a",
+          );
+        } catch {
+          // ThemeProvider will apply the full theme after startup.
+        }
+      })();
+    </script>
+    <title>ZooBusiness</title>
   </head>
   <body>
     <div id="root"></div>

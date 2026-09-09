@@ -1,5 +1,4 @@
 import type { ApiClientContract } from "@/platform/contracts";
-
 import { ApiError } from "@/platform/api";
 
 export interface CurrentWorkspace {
@@ -20,18 +19,13 @@ export class WorkspaceService {
   constructor(private readonly api: ApiClientContract) {}
 
   async getCurrentWorkspace(): Promise<CurrentWorkspace> {
-    return this.api.get<CurrentWorkspace>(
-      "/workspaces/current",
-    );
+    return this.api.get<CurrentWorkspace>("/workspaces/current");
   }
 
   async createWorkspace(
     payload: CreateWorkspacePayload,
   ): Promise<CurrentWorkspace> {
-    return this.api.post<CurrentWorkspace>(
-      "/workspaces",
-      payload,
-    );
+    return this.api.post<CurrentWorkspace>("/workspaces", payload);
   }
 
   async ensureWorkspace(
@@ -46,22 +40,19 @@ export class WorkspaceService {
       }
     }
 
-    const baseName = userName.trim() || "My Business";
-    const normalizedName = baseName.slice(0, 90);
-    const nameSlug = normalizedName
+    const name = userName.trim().slice(0, 90) || "My Business";
+    const nameSlug = name
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-+|-+$/g, "")
       .slice(0, 70) || "workspace";
-
-    const uniqueSuffix = userId
-      .replace(/[^a-zA-Z0-9]/g, "")
-      .slice(0, 8)
-      .toLowerCase() || "default";
+    const suffix =
+      userId.replace(/[^a-zA-Z0-9]/g, "").slice(0, 8).toLowerCase() ||
+      "default";
 
     return this.createWorkspace({
-      name: normalizedName,
-      slug: `${nameSlug}-${uniqueSuffix}`.slice(0, 100),
+      name,
+      slug: `${nameSlug}-${suffix}`.slice(0, 100),
     });
   }
 }

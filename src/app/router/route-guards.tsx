@@ -1,6 +1,5 @@
 import type { PropsWithChildren } from "react";
 
-import { useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
 import { usePlatform } from "@/platform/providers/use-platform";
@@ -26,16 +25,9 @@ function RouteLoading() {
 
 export function GuestRoute({ children }: PropsWithChildren) {
   const platform = usePlatform();
-  const location = useLocation();
 
   if (platform.authentication.authenticated) {
-    return (
-      <Navigate
-        to="/business-setup"
-        replace
-        state={{ from: location.pathname }}
-      />
-    );
+    return <Navigate to="/business-setup" replace />;
   }
 
   return children;
@@ -50,21 +42,7 @@ export function AuthenticatedRoute({ children }: PropsWithChildren) {
     bootstrapping,
     bootstrapComplete,
     error,
-    refresh,
   } = useWorkspace();
-
-  useEffect(() => {
-    if (!platform.runtime.ready || !platform.authentication.authenticated) {
-      return;
-    }
-
-    void refresh();
-  }, [
-    location.pathname,
-    platform.runtime.ready,
-    platform.authentication.authenticated,
-    refresh,
-  ]);
 
   if (!platform.runtime.ready || loading || bootstrapping) {
     return <RouteLoading />;
@@ -88,16 +66,17 @@ export function AuthenticatedRoute({ children }: PropsWithChildren) {
           minHeight: "100dvh",
           background: "var(--zb-background, #ffffff)",
           color: "var(--zb-text, #0f172a)",
+          display: "grid",
+          placeItems: "center",
+          padding: "24px",
         }}
       >
-        {error ?? "Preparing your workspace..."}
+        {error ?? "We could not load your workspace."}
       </main>
     );
   }
 
-  // A new workspace has no business category yet. Treat null and undefined as
-  // incomplete so an incomplete API payload can never accidentally bypass
-  // onboarding and open the dashboard.
+  // null and undefined both mean that onboarding is incomplete.
   const setupComplete = workspace.business_category_id != null;
 
   if (!setupComplete && location.pathname !== "/business-setup") {

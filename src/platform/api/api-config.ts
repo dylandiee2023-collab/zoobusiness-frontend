@@ -6,7 +6,7 @@ export interface ApiConfig {
   headers: Record<string, string>;
 }
 
-const developmentApiUrl = "http://localhost:5000/api";
+const developmentApiUrl = "http://localhost:5000";
 
 export const defaultApiConfig: ApiConfig = {
   baseUrl: import.meta.env.VITE_API_URL ?? developmentApiUrl,

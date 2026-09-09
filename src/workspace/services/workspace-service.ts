@@ -16,7 +16,11 @@ export interface CreateWorkspacePayload {
 }
 
 export class WorkspaceService {
-  constructor(private readonly api: ApiClientContract) {}
+  private readonly api: ApiClientContract;
+
+  constructor(api: ApiClientContract) {
+    this.api = api;
+  }
 
   async getCurrentWorkspace(): Promise<CurrentWorkspace> {
     return this.api.get<CurrentWorkspace>("/workspaces/current");
@@ -26,6 +30,10 @@ export class WorkspaceService {
     payload: CreateWorkspacePayload,
   ): Promise<CurrentWorkspace> {
     return this.api.post<CurrentWorkspace>("/workspaces", payload);
+  }
+
+  async bootstrapWorkspace(workspaceId: string): Promise<void> {
+    await this.api.post(`/workspaces/${workspaceId}/bootstrap`);
   }
 
   async ensureWorkspace(

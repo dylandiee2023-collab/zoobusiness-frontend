@@ -8,4 +8,6 @@ export interface ApiClientContract {
   patch<T = unknown>(url: string, body?: unknown): Promise<T>;
 
   delete<T = unknown>(url: string): Promise<T>;
+
+  setWorkspaceContext(workspaceId: string | null, branchId?: string | null): void;
 }

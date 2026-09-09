@@ -192,7 +192,7 @@ export function LoginPage() {
                 role="alert"
                 style={{
                   display: "block",
-                  color: "#DC2626",
+                  color: theme.colors.danger,
                   fontSize: 12,
                   textAlign: "left",
                 }}

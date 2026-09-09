@@ -12,11 +12,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 ) {
   const { theme } = useTheme();
 
-  const recipe = inputRecipe(theme, {
+  const recipeProps: InputProps = {
     ...props,
-    fullWidth,
-    invalid,
-  });
+    ...(fullWidth !== undefined ? { fullWidth } : {}),
+    ...(invalid !== undefined ? { invalid } : {}),
+  };
+  const recipe = inputRecipe(theme, recipeProps);
 
   return (
     <input

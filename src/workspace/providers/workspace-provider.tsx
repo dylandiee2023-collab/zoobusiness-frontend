@@ -51,9 +51,6 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
       throw new Error("Current workspace is not available.");
     }
 
-    // A workspace is considered ready for bootstrap only after Business Setup
-    // has assigned a business category. This keeps initialization behind the
-    // explicit onboarding step.
     if (workspace.business_category_id == null) {
       throw new Error("Complete Business Setup before initializing your workspace.");
     }
@@ -79,6 +76,7 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
 
   const refresh = useCallback(async () => {
     if (!authenticated) {
+      platform.api.setWorkspaceContext(null);
       setWorkspace(null);
       setBootstrapComplete(false);
       setError(null);
@@ -97,6 +95,7 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
           : await service.ensureWorkspace(userId, userName);
 
       setWorkspace(currentWorkspace);
+      platform.api.setWorkspaceContext(currentWorkspace.id);
 
       if (currentWorkspace.business_category_id != null) {
         await service.bootstrapWorkspace(currentWorkspace.id);
@@ -112,12 +111,9 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
     } finally {
       setLoading(false);
     }
-  }, [authenticated, service, userId, userName]);
+  }, [authenticated, platform.api, service, userId, userName]);
 
   useEffect(() => {
-    // Workspace is an authenticated concern, not a runtime-startup concern.
-    // This deliberately does not depend on runtime.ready so public/auth pages
-    // can render independently of workspace initialization.
     if (!platform.authentication.ready) {
       return;
     }

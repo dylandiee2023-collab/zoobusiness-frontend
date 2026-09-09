@@ -1,5 +1,4 @@
 import { useState, type FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/design-system/buttons";
 import { FormError, FormField, FormLabel } from "@/design-system/forms";
@@ -14,7 +13,6 @@ import { AuthShell } from "@/shells/AuthShell";
 export function LoginPage() {
   const { theme } = useTheme();
   const { authentication } = usePlatform();
-  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -49,11 +47,9 @@ export function LoginPage() {
     setLoading(true);
     try {
       await authentication.login(email.trim(), password);
-
-      // Always enter the authenticated onboarding gate first. The route guard
-      // will send completed businesses to /dashboard and new businesses to
-      // /business-setup. This prevents a new account from bypassing setup.
-      navigate("/business-setup", { replace: true });
+      // Authentication state now drives the route transition. The
+      // AuthenticatedRoute and OnboardingGate decide whether the user belongs
+      // on Business Setup or Dashboard.
     } catch (error) {
       if (
         error instanceof Error &&

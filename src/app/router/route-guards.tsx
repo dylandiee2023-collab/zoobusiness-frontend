@@ -7,17 +7,31 @@ import { usePlatform } from "@/platform/providers/use-platform";
 import { useWorkspace } from "@/workspace/providers";
 
 function RouteLoading() {
-  return <main aria-busy="true" />;
+  return (
+    <main
+      aria-busy="true"
+      style={{
+        minHeight: "100dvh",
+        display: "grid",
+        placeItems: "center",
+        padding: "24px",
+        background: "var(--color-background, #ffffff)",
+        color: "var(--color-text, #0f172a)",
+      }}
+    >
+      Loading ZooBusiness…
+    </main>
+  );
 }
 
 export function GuestRoute({ children }: PropsWithChildren) {
   const platform = usePlatform();
   const location = useLocation();
 
-  if (!platform.runtime.ready) {
-    return <RouteLoading />;
-  }
-
+  // Authentication state is available independently of the runtime lifecycle.
+  // Do not block public auth pages behind runtime.ready: if runtime startup is
+  // delayed or a non-critical bootstrap step fails, /login and /register must
+  // still render so the user can authenticate and recover.
   if (platform.authentication.authenticated) {
     return (
       <Navigate
@@ -93,7 +107,11 @@ export function AuthenticatedRoute({ children }: PropsWithChildren) {
     );
   }
 
-  if (setupComplete && !bootstrapComplete && location.pathname !== "/business-setup") {
+  if (
+    setupComplete &&
+    !bootstrapComplete &&
+    location.pathname !== "/business-setup"
+  ) {
     return (
       <Navigate
         to="/business-setup"
@@ -103,7 +121,11 @@ export function AuthenticatedRoute({ children }: PropsWithChildren) {
     );
   }
 
-  if (setupComplete && location.pathname === "/business-setup" && bootstrapComplete) {
+  if (
+    setupComplete &&
+    location.pathname === "/business-setup" &&
+    bootstrapComplete
+  ) {
     return <Navigate to="/dashboard" replace />;
   }
 

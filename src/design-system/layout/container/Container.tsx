@@ -9,10 +9,19 @@ import { containerRecipe } from "./Container.recipe";
 import type { ContainerProps } from "./Container.types";
 
 export const Container = forwardRef<HTMLDivElement, ContainerProps>(
-  function Container({ style, children, ...props }, ref) {
+  function Container(
+    { style, children, maxWidth, padding, center, ...props },
+    ref,
+  ) {
     const { theme } = useTheme();
 
-    const recipe = containerRecipe(theme, props);
+    const recipeProps: ContainerProps = {
+      ...props,
+      ...(maxWidth !== undefined ? { maxWidth } : {}),
+      ...(padding !== undefined ? { padding } : {}),
+      ...(center !== undefined ? { center } : {}),
+    };
+    const recipe = containerRecipe(theme, recipeProps);
 
     return (
       <Box

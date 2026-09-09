@@ -1,25 +1,11 @@
-import {
-  useState,
-  type FormEvent,
-} from "react";
+import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/design-system/buttons";
-import {
-  FormError,
-  FormField,
-  FormLabel,
-} from "@/design-system/forms";
-import {
-  Input,
-  PasswordInput,
-} from "@/design-system/inputs";
+import { FormError, FormField, FormLabel } from "@/design-system/forms";
+import { Input, PasswordInput } from "@/design-system/inputs";
 import { Stack } from "@/design-system/layout";
-import {
-  Heading,
-  Link,
-  Text,
-} from "@/design-system/typography";
+import { Heading, Link, Text } from "@/design-system/typography";
 
 import { usePlatform } from "@/platform/providers";
 import { useTheme } from "@/theme/hooks";
@@ -32,71 +18,49 @@ export function LoginPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const [emailError, setEmailError] =
-    useState<string | undefined>();
-
-  const [passwordError, setPasswordError] =
-    useState<string | undefined>();
-
-  const [loginError, setLoginError] =
-    useState<string | undefined>();
-
+  const [emailError, setEmailError] = useState<string | undefined>();
+  const [passwordError, setPasswordError] = useState<string | undefined>();
+  const [loginError, setLoginError] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
 
-  function handleSubmit(
-    event: FormEvent<HTMLFormElement>,
-  ) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    if (loading) {
-      return;
-    }
+    if (loading) return;
 
     setEmailError(undefined);
     setPasswordError(undefined);
     setLoginError(undefined);
 
     let valid = true;
-
     if (!email.trim()) {
       setEmailError("Email is required");
       valid = false;
     }
-
     if (!password) {
       setPasswordError("Password is required");
       valid = false;
     }
-
-    if (!valid) {
-      return;
-    }
+    if (!valid) return;
 
     void submitLogin();
   }
 
   async function submitLogin() {
     setLoading(true);
-
     try {
-      await authentication.login(
-        email.trim(),
-        password,
-      );
+      await authentication.login(email.trim(), password);
 
-      navigate("/dashboard", {
-        replace: true,
-      });
+      // Always enter the authenticated onboarding gate first. The route guard
+      // will send completed businesses to /dashboard and new businesses to
+      // /business-setup. This prevents a new account from bypassing setup.
+      navigate("/business-setup", { replace: true });
     } catch (error) {
       if (
         error instanceof Error &&
         "status" in error &&
         error.status === 401
       ) {
-        setLoginError(
-          "Invalid email or password.",
-        );
+        setLoginError("Invalid email or password.");
       } else {
         setLoginError(
           error instanceof Error
@@ -112,35 +76,23 @@ export function LoginPage() {
   return (
     <AuthShell>
       <Stack spacing={theme.spacing.section}>
-        <Stack
-          spacing={theme.spacing.stack}
-          align="center"
-        >
+        <Stack spacing={theme.spacing.stack} align="center">
           <Heading level={1} align="center">
             Welcome back
           </Heading>
-
-          <Text align="center">
-            Sign in to your ZooBUSINESS account.
-          </Text>
+          <Text align="center">Sign in to your ZooBUSINESS account.</Text>
         </Stack>
 
-        <form
-          onSubmit={handleSubmit}
-          noValidate
-        >
+        <form onSubmit={handleSubmit} noValidate>
           <Stack spacing={theme.spacing.form}>
             <FormField
               id="login-email"
               name="email"
               label="Email"
-              {...(emailError !== undefined
-                ? { error: emailError }
-                : {})}
+              {...(emailError !== undefined ? { error: emailError } : {})}
               disabled={loading}
             >
               <FormLabel />
-
               <Input
                 id="login-email"
                 type="email"
@@ -155,7 +107,6 @@ export function LoginPage() {
                   setLoginError(undefined);
                 }}
               />
-
               <FormError />
             </FormField>
 
@@ -169,7 +120,6 @@ export function LoginPage() {
               disabled={loading}
             >
               <FormLabel />
-
               <PasswordInput
                 id="login-password"
                 value={password}
@@ -183,7 +133,6 @@ export function LoginPage() {
                   setLoginError(undefined);
                 }}
               />
-
               <FormError />
             </FormField>
 
@@ -201,15 +150,8 @@ export function LoginPage() {
               </small>
             )}
 
-            <div
-              style={{
-                width: "100%",
-                textAlign: "right",
-              }}
-            >
-              <Link href="/forgot-password">
-                Forgot your password?
-              </Link>
+            <div style={{ width: "100%", textAlign: "right" }}>
+              <Link href="/forgot-password">Forgot your password?</Link>
             </div>
 
             <Button
@@ -220,18 +162,13 @@ export function LoginPage() {
               loading={loading}
               disabled={loading}
             >
-              {loading
-                ? "Signing in..."
-                : "Sign in"}
+              {loading ? "Signing in..." : "Sign in"}
             </Button>
           </Stack>
         </form>
 
         <Text align="center">
-          Don&apos;t have an account?{" "}
-          <Link href="/register">
-            Create an account
-          </Link>
+          Don&apos;t have an account? <Link href="/register">Create an account</Link>
         </Text>
       </Stack>
     </AuthShell>

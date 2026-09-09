@@ -48,7 +48,9 @@ export function useBusinessSetup() {
   }, [service]);
 
   useEffect(() => {
-    void loadCategories();
+    queueMicrotask(() => {
+      void loadCategories();
+    });
   }, [loadCategories]);
 
   const completeSetup = useCallback(

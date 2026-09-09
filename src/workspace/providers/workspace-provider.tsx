@@ -87,7 +87,10 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
 
       setWorkspace(currentWorkspace);
 
-      if (currentWorkspace.business_category_id !== null) {
+      // Bootstrap is only valid after business setup has selected a category.
+      // Treat null and undefined as incomplete so a malformed/incomplete
+      // workspace response can never be initialized as a completed business.
+      if (currentWorkspace.business_category_id != null) {
         await service.bootstrapWorkspace(currentWorkspace.id);
         setBootstrapComplete(true);
       }
@@ -108,7 +111,9 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
       return;
     }
 
-    void refresh().catch(() => undefined);
+    queueMicrotask(() => {
+      void refresh().catch(() => undefined);
+    });
   }, [platform.runtime.ready, refresh]);
 
   const value = useMemo(
@@ -139,6 +144,7 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useWorkspace(): WorkspaceContextValue {
   const context = useContext(WorkspaceContext);
 

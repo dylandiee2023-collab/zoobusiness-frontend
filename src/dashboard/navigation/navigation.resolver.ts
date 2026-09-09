@@ -5,7 +5,10 @@ export function resolveNavigation(
   context: NavigationContext,
 ): NavigationItem[] {
   return items.flatMap((item) => {
-    if (item.businessCategories && !item.businessCategories.includes(context.businessCategory)) {
+    if (
+      item.businessCategories &&
+      !item.businessCategories.includes(context.businessCategory)
+    ) {
       return [];
     }
 
@@ -13,15 +16,16 @@ export function resolveNavigation(
       return [];
     }
 
-    const children = item.children
-      ? resolveNavigation(item.children, context)
-      : undefined;
+    if (item.children) {
+      const children = resolveNavigation(item.children, context);
 
-    // A section with no accessible children is hidden entirely.
-    if (item.children && children?.length === 0) {
-      return [];
+      if (children.length === 0) {
+        return [];
+      }
+
+      return [{ ...item, children }];
     }
 
-    return [{ ...item, children }];
+    return [item];
   });
 }

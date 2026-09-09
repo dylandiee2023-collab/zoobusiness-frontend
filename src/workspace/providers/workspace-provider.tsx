@@ -108,7 +108,9 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
       return;
     }
 
-    void refresh().catch(() => undefined);
+    queueMicrotask(() => {
+      void refresh().catch(() => undefined);
+    });
   }, [platform.runtime.ready, refresh]);
 
   const value = useMemo(
@@ -139,6 +141,7 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useWorkspace(): WorkspaceContextValue {
   const context = useContext(WorkspaceContext);
 

@@ -15,13 +15,13 @@ export class BusinessSetupService {
 
   async getCategories(): Promise<BusinessCategory[]> {
     return this.api.get<BusinessCategory[]>(
-      "/business-categories",
+      "/api/business-categories",
     );
   }
 
   async getCurrentWorkspace(): Promise<CurrentWorkspace> {
     return this.api.get<CurrentWorkspace>(
-      "/workspaces/current",
+      "/api/workspaces/current",
     );
   }
 
@@ -30,7 +30,7 @@ export class BusinessSetupService {
     payload: CompleteBusinessSetupPayload,
   ): Promise<CurrentWorkspace> {
     return this.api.post<CurrentWorkspace>(
-      `/workspaces/${workspaceId}/complete-setup`,
+      `/api/workspaces/${workspaceId}/complete-setup`,
       payload,
     );
   }
@@ -39,7 +39,7 @@ export class BusinessSetupService {
     workspaceId: string,
   ): Promise<unknown> {
     return this.api.post(
-      `/workspaces/${workspaceId}/bootstrap`,
+      `/api/workspaces/${workspaceId}/bootstrap`,
     );
   }
 }

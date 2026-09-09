@@ -30,9 +30,7 @@ interface RefreshResponse {
   expiresAt: string;
 }
 
-export class Authentication
-  implements AuthenticationContract
-{
+export class Authentication implements AuthenticationContract {
   private readonly api: ApiClientContract;
   private readonly tokens: TokenManagerContract;
   private readonly session: SessionContract;
@@ -47,8 +45,7 @@ export class Authentication
     this.api = api;
     this.tokens = tokens;
     this.session = session;
-    this.authenticatedState =
-      this.tokens.getAccessToken() !== null;
+    this.authenticatedState = this.hasValidAccessToken();
     this.currentUser = null;
   }
 
@@ -88,7 +85,9 @@ export class Authentication
 
     this.currentUser = response.user;
 
-    await this.session.start();
+    await this.session.start(
+      this.getAccessTokenExpiry(response.accessToken),
+    );
 
     this.authenticatedState = true;
   }
@@ -121,17 +120,19 @@ export class Authentication
     const refreshToken =
       this.tokens.getRefreshToken();
 
-    if (refreshToken !== null) {
-      await this.api.post(
-        "/api/auth/logout",
-        { refreshToken },
-      );
+    try {
+      if (refreshToken !== null) {
+        await this.api.post(
+          "/api/auth/logout",
+          { refreshToken },
+        );
+      }
+    } finally {
+      this.tokens.clear();
+      await this.session.end();
+      this.currentUser = null;
+      this.authenticatedState = false;
     }
-
-    this.tokens.clear();
-    await this.session.end();
-    this.currentUser = null;
-    this.authenticatedState = false;
   }
 
   async refresh(): Promise<void> {
@@ -139,25 +140,96 @@ export class Authentication
       this.tokens.getRefreshToken();
 
     if (refreshToken === null) {
-      await this.session.end();
-      this.currentUser = null;
-      this.authenticatedState = false;
+      await this.clearAuthenticationState();
       return;
     }
 
-    const response =
-      await this.api.post<RefreshResponse>(
-        "/api/auth/refresh",
-        { refreshToken },
+    try {
+      const response =
+        await this.api.post<RefreshResponse>(
+          "/api/auth/refresh",
+          { refreshToken },
+        );
+
+      this.tokens.setTokens(
+        response.accessToken,
+        response.refreshToken,
       );
 
-    this.tokens.setTokens(
-      response.accessToken,
-      response.refreshToken,
+      await this.session.refresh(response.expiresAt);
+
+      this.authenticatedState = true;
+    } catch (error) {
+      await this.clearAuthenticationState();
+      throw error;
+    }
+  }
+
+  private hasValidAccessToken(): boolean {
+    const accessToken = this.tokens.getAccessToken();
+
+    if (accessToken === null) {
+      return false;
+    }
+
+    const expiresAt = this.getAccessTokenExpiry(accessToken);
+
+    if (expiresAt === null) {
+      return true;
+    }
+
+    if (expiresAt.getTime() <= Date.now()) {
+      this.tokens.clear();
+      return false;
+    }
+
+    void this.session.start(expiresAt);
+    return true;
+  }
+
+  private getAccessTokenExpiry(
+    accessToken: string,
+  ): Date | null {
+    const parts = accessToken.split(".");
+
+    if (parts.length !== 3) {
+      return null;
+    }
+
+    try {
+      const payload = JSON.parse(
+        this.decodeBase64Url(parts[1]),
+      ) as { exp?: unknown };
+
+      if (typeof payload.exp !== "number") {
+        return null;
+      }
+
+      return new Date(payload.exp * 1000);
+    } catch {
+      return null;
+    }
+  }
+
+  private decodeBase64Url(value: string): string {
+    const base64 = value
+      .replace(/-/g, "+")
+      .replace(/_/g, "/")
+      .padEnd(Math.ceil(value.length / 4) * 4, "=");
+
+    return decodeURIComponent(
+      Array.from(atob(base64))
+        .map((character) =>
+          `%${character.charCodeAt(0).toString(16).padStart(2, "0")}`,
+        )
+        .join(""),
     );
+  }
 
-    await this.session.refresh();
-
-    this.authenticatedState = true;
+  private async clearAuthenticationState(): Promise<void> {
+    this.tokens.clear();
+    await this.session.end();
+    this.currentUser = null;
+    this.authenticatedState = false;
   }
 }

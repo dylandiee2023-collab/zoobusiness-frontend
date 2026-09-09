@@ -1,5 +1,6 @@
 import type { PropsWithChildren } from "react";
 
+import { useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
 import { usePlatform } from "@/platform/providers/use-platform";
@@ -25,9 +26,20 @@ function RouteLoading() {
 
 export function GuestRoute({ children }: PropsWithChildren) {
   const platform = usePlatform();
+  const location = useLocation();
+
+  if (!platform.authentication.ready) {
+    return <RouteLoading />;
+  }
 
   if (platform.authentication.authenticated) {
-    return <Navigate to="/business-setup" replace />;
+    return (
+      <Navigate
+        to="/business-setup"
+        replace
+        state={{ from: location.pathname }}
+      />
+    );
   }
 
   return children;
@@ -42,9 +54,33 @@ export function AuthenticatedRoute({ children }: PropsWithChildren) {
     bootstrapping,
     bootstrapComplete,
     error,
+    refresh,
   } = useWorkspace();
 
-  if (!platform.runtime.ready || loading || bootstrapping) {
+  useEffect(() => {
+    if (
+      !platform.authentication.ready ||
+      !platform.runtime.ready ||
+      !platform.authentication.authenticated
+    ) {
+      return;
+    }
+
+    void refresh();
+  }, [
+    location.pathname,
+    platform.authentication.ready,
+    platform.runtime.ready,
+    platform.authentication.authenticated,
+    refresh,
+  ]);
+
+  if (
+    !platform.authentication.ready ||
+    !platform.runtime.ready ||
+    loading ||
+    bootstrapping
+  ) {
     return <RouteLoading />;
   }
 
@@ -76,7 +112,6 @@ export function AuthenticatedRoute({ children }: PropsWithChildren) {
     );
   }
 
-  // null and undefined both mean that onboarding is incomplete.
   const setupComplete = workspace.business_category_id != null;
 
   if (!setupComplete && location.pathname !== "/business-setup") {

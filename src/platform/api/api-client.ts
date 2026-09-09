@@ -15,9 +15,13 @@ import type { ApiConfig } from "./api-config";
 
 import { defaultApiConfig } from "./api-config";
 
+export type RefreshHandler = () => Promise<void>;
+
 export class ApiClient implements ApiClientContract {
   private readonly config: ApiConfig;
   private readonly tokens: TokenManagerContract;
+  private refreshHandler: RefreshHandler | null = null;
+  private refreshPromise: Promise<void> | null = null;
 
   constructor(
     tokens: TokenManagerContract,
@@ -25,6 +29,10 @@ export class ApiClient implements ApiClientContract {
   ) {
     this.tokens = tokens;
     this.config = config;
+  }
+
+  setRefreshHandler(handler: RefreshHandler): void {
+    this.refreshHandler = handler;
   }
 
   async get<T>(url: string): Promise<T> {
@@ -57,6 +65,35 @@ export class ApiClient implements ApiClientContract {
   }
 
   private async request<T>(
+    method: string,
+    url: string,
+    body?: unknown,
+    allowRefresh = true,
+  ): Promise<T> {
+    try {
+      return await this.performRequest<T>(method, url, body);
+    } catch (error) {
+      if (
+        !allowRefresh ||
+        !(error instanceof UnauthorizedError) ||
+        !this.shouldRefresh(url) ||
+        this.refreshHandler === null
+      ) {
+        throw error;
+      }
+
+      try {
+        await this.refreshOnce();
+      } catch {
+        this.tokens.clear();
+        throw error;
+      }
+
+      return this.request<T>(method, url, body, false);
+    }
+  }
+
+  private async performRequest<T>(
     method: string,
     url: string,
     body?: unknown,
@@ -135,6 +172,28 @@ export class ApiClient implements ApiClientContract {
     } finally {
       clearTimeout(timeoutId);
     }
+  }
+
+  private async refreshOnce(): Promise<void> {
+    if (this.refreshPromise !== null) {
+      return this.refreshPromise;
+    }
+
+    const handler = this.refreshHandler;
+
+    if (handler === null) {
+      throw new UnauthorizedError();
+    }
+
+    this.refreshPromise = handler().finally(() => {
+      this.refreshPromise = null;
+    });
+
+    return this.refreshPromise;
+  }
+
+  private shouldRefresh(url: string): boolean {
+    return !url.startsWith("/api/auth/");
   }
 
   private createApiError(

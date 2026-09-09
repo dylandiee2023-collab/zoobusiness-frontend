@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useLayoutEffect, useMemo, useState } from "react";
 
 import { ThemeContext } from "@/theme/context";
 import { resolveInitialTheme, resolveTheme } from "@/theme/resolver";
@@ -12,13 +12,12 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 
   const theme = useMemo(() => resolveTheme(mode), [mode]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     applyCssVariables(createCssVariables(theme));
-
     document.documentElement.dataset.theme = mode;
   }, [theme, mode]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (mode !== "system") {
       return;
     }

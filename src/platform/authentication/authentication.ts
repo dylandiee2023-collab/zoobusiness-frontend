@@ -38,6 +38,8 @@ export class Authentication implements AuthenticationContract {
   private authenticatedState = false;
   private currentUser: AuthenticatedUser | null = null;
   private readyState = false;
+  private hydrateInFlight: Promise<void> | null = null;
+  private refreshInFlight: Promise<void> | null = null;
 
   constructor(
     api: ApiClientContract,
@@ -74,7 +76,18 @@ export class Authentication implements AuthenticationContract {
 
   async hydrate(): Promise<void> {
     if (this.readyState) return;
+    if (this.hydrateInFlight !== null) return this.hydrateInFlight;
 
+    this.hydrateInFlight = this.performHydrate();
+
+    try {
+      await this.hydrateInFlight;
+    } finally {
+      this.hydrateInFlight = null;
+    }
+  }
+
+  private async performHydrate(): Promise<void> {
     const accessToken = this.tokens.getAccessToken();
     const refreshToken = this.tokens.getRefreshToken();
 
@@ -150,6 +163,18 @@ export class Authentication implements AuthenticationContract {
   }
 
   async refresh(): Promise<void> {
+    if (this.refreshInFlight !== null) return this.refreshInFlight;
+
+    this.refreshInFlight = this.performRefresh();
+
+    try {
+      await this.refreshInFlight;
+    } finally {
+      this.refreshInFlight = null;
+    }
+  }
+
+  private async performRefresh(): Promise<void> {
     const refreshToken = this.tokens.getRefreshToken();
 
     if (refreshToken === null) {

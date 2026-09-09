@@ -23,17 +23,17 @@ export class WorkspaceService {
   }
 
   async getCurrentWorkspace(): Promise<CurrentWorkspace> {
-    return this.api.get<CurrentWorkspace>("/workspaces/current");
+    return this.api.get<CurrentWorkspace>("/api/workspaces/current");
   }
 
   async createWorkspace(
     payload: CreateWorkspacePayload,
   ): Promise<CurrentWorkspace> {
-    return this.api.post<CurrentWorkspace>("/workspaces", payload);
+    return this.api.post<CurrentWorkspace>("/api/workspaces", payload);
   }
 
   async bootstrapWorkspace(workspaceId: string): Promise<void> {
-    await this.api.post(`/workspaces/${workspaceId}/bootstrap`);
+    await this.api.post(`/api/workspaces/${workspaceId}/bootstrap`);
   }
 
   async ensureWorkspace(

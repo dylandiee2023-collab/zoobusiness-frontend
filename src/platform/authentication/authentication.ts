@@ -34,6 +34,7 @@ export class Authentication implements AuthenticationContract {
   private readonly api: ApiClientContract;
   private readonly tokens: TokenManagerContract;
   private readonly session: SessionContract;
+  private readonly listeners = new Set<() => void>();
   private authenticatedState = false;
   private currentUser: AuthenticatedUser | null = null;
   private readyState = false;
@@ -60,6 +61,17 @@ export class Authentication implements AuthenticationContract {
     return this.readyState;
   }
 
+  subscribe(listener: () => void): () => void {
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
+  }
+
+  private notify(): void {
+    for (const listener of this.listeners) {
+      listener();
+    }
+  }
+
   async hydrate(): Promise<void> {
     if (this.readyState) return;
 
@@ -68,28 +80,18 @@ export class Authentication implements AuthenticationContract {
 
     if (accessToken === null || refreshToken === null) {
       this.readyState = true;
+      this.notify();
       return;
     }
 
-    const expiresAt = this.getAccessTokenExpiry(accessToken);
-
-    if (expiresAt !== null && expiresAt.getTime() <= Date.now()) {
-      try {
-        await this.refresh();
-      } catch {
-        // refresh() clears invalid persisted credentials.
-      }
-    } else {
-      try {
-        // Validate the persisted session against the backend. A token that
-        // merely exists in localStorage must not be trusted forever.
-        await this.refresh();
-      } catch {
-        // refresh() clears the session when the persisted credentials are no longer valid.
-      }
+    try {
+      await this.refresh();
+    } catch {
+      // refresh() clears invalid persisted credentials.
+    } finally {
+      this.readyState = true;
+      this.notify();
     }
-
-    this.readyState = true;
   }
 
   async register(
@@ -111,10 +113,10 @@ export class Authentication implements AuthenticationContract {
 
     this.tokens.setTokens(response.accessToken, response.refreshToken);
     this.currentUser = response.user;
-
     await this.session.start(this.getAccessTokenExpiry(response.accessToken));
     this.authenticatedState = true;
     this.readyState = true;
+    this.notify();
   }
 
   async verifyEmail(email: string, code: string): Promise<void> {
@@ -125,6 +127,7 @@ export class Authentication implements AuthenticationContract {
         ...this.currentUser,
         emailVerified: true,
       };
+      this.notify();
     }
   }
 
@@ -142,6 +145,7 @@ export class Authentication implements AuthenticationContract {
     } finally {
       await this.clearAuthenticationState();
       this.readyState = true;
+      this.notify();
     }
   }
 
@@ -150,6 +154,7 @@ export class Authentication implements AuthenticationContract {
 
     if (refreshToken === null) {
       await this.clearAuthenticationState();
+      this.notify();
       return;
     }
 
@@ -164,6 +169,7 @@ export class Authentication implements AuthenticationContract {
       this.authenticatedState = true;
     } catch (error) {
       await this.clearAuthenticationState();
+      this.notify();
       throw error;
     }
   }

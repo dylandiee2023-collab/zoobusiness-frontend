@@ -34,8 +34,9 @@ export class Authentication implements AuthenticationContract {
   private readonly api: ApiClientContract;
   private readonly tokens: TokenManagerContract;
   private readonly session: SessionContract;
-  private authenticatedState: boolean;
-  private currentUser: AuthenticatedUser | null;
+  private authenticatedState = false;
+  private currentUser: AuthenticatedUser | null = null;
+  private readyState = false;
 
   constructor(
     api: ApiClientContract,
@@ -45,8 +46,6 @@ export class Authentication implements AuthenticationContract {
     this.api = api;
     this.tokens = tokens;
     this.session = session;
-    this.authenticatedState = this.hasValidAccessToken();
-    this.currentUser = null;
   }
 
   get authenticated(): boolean {
@@ -55,6 +54,42 @@ export class Authentication implements AuthenticationContract {
 
   get user(): AuthenticatedUser | null {
     return this.currentUser;
+  }
+
+  get ready(): boolean {
+    return this.readyState;
+  }
+
+  async hydrate(): Promise<void> {
+    if (this.readyState) return;
+
+    const accessToken = this.tokens.getAccessToken();
+    const refreshToken = this.tokens.getRefreshToken();
+
+    if (accessToken === null || refreshToken === null) {
+      this.readyState = true;
+      return;
+    }
+
+    const expiresAt = this.getAccessTokenExpiry(accessToken);
+
+    if (expiresAt !== null && expiresAt.getTime() <= Date.now()) {
+      try {
+        await this.refresh();
+      } catch {
+        // refresh() clears invalid persisted credentials.
+      }
+    } else {
+      try {
+        // Validate the persisted session against the backend. A token that
+        // merely exists in localStorage must not be trusted forever.
+        await this.refresh();
+      } catch {
+        // refresh() clears the session when the persisted credentials are no longer valid.
+      }
+    }
+
+    this.readyState = true;
   }
 
   async register(
@@ -68,38 +103,22 @@ export class Authentication implements AuthenticationContract {
     );
   }
 
-  async login(
-    email: string,
-    password: string,
-  ): Promise<void> {
-    const response =
-      await this.api.post<LoginResponse>(
-        "/api/auth/login",
-        { email, password },
-      );
-
-    this.tokens.setTokens(
-      response.accessToken,
-      response.refreshToken,
+  async login(email: string, password: string): Promise<void> {
+    const response = await this.api.post<LoginResponse>(
+      "/api/auth/login",
+      { email, password },
     );
 
+    this.tokens.setTokens(response.accessToken, response.refreshToken);
     this.currentUser = response.user;
 
-    await this.session.start(
-      this.getAccessTokenExpiry(response.accessToken),
-    );
-
+    await this.session.start(this.getAccessTokenExpiry(response.accessToken));
     this.authenticatedState = true;
+    this.readyState = true;
   }
 
-  async verifyEmail(
-    email: string,
-    code: string,
-  ): Promise<void> {
-    await this.api.post(
-      "/api/auth/verify-email",
-      { email, code },
-    );
+  async verifyEmail(email: string, code: string): Promise<void> {
+    await this.api.post("/api/auth/verify-email", { email, code });
 
     if (this.currentUser?.email === email) {
       this.currentUser = {
@@ -110,34 +129,24 @@ export class Authentication implements AuthenticationContract {
   }
 
   async resendVerification(email: string): Promise<void> {
-    await this.api.post(
-      "/api/auth/resend-verification",
-      { email },
-    );
+    await this.api.post("/api/auth/resend-verification", { email });
   }
 
   async logout(): Promise<void> {
-    const refreshToken =
-      this.tokens.getRefreshToken();
+    const refreshToken = this.tokens.getRefreshToken();
 
     try {
       if (refreshToken !== null) {
-        await this.api.post(
-          "/api/auth/logout",
-          { refreshToken },
-        );
+        await this.api.post("/api/auth/logout", { refreshToken });
       }
     } finally {
-      this.tokens.clear();
-      await this.session.end();
-      this.currentUser = null;
-      this.authenticatedState = false;
+      await this.clearAuthenticationState();
+      this.readyState = true;
     }
   }
 
   async refresh(): Promise<void> {
-    const refreshToken =
-      this.tokens.getRefreshToken();
+    const refreshToken = this.tokens.getRefreshToken();
 
     if (refreshToken === null) {
       await this.clearAuthenticationState();
@@ -145,19 +154,13 @@ export class Authentication implements AuthenticationContract {
     }
 
     try {
-      const response =
-        await this.api.post<RefreshResponse>(
-          "/api/auth/refresh",
-          { refreshToken },
-        );
-
-      this.tokens.setTokens(
-        response.accessToken,
-        response.refreshToken,
+      const response = await this.api.post<RefreshResponse>(
+        "/api/auth/refresh",
+        { refreshToken },
       );
 
+      this.tokens.setTokens(response.accessToken, response.refreshToken);
       await this.session.refresh(response.expiresAt);
-
       this.authenticatedState = true;
     } catch (error) {
       await this.clearAuthenticationState();
@@ -165,52 +168,27 @@ export class Authentication implements AuthenticationContract {
     }
   }
 
-  private hasValidAccessToken(): boolean {
-    const accessToken = this.tokens.getAccessToken();
-
-    if (accessToken === null) {
-      return false;
-    }
-
-    const expiresAt = this.getAccessTokenExpiry(accessToken);
-
-    if (expiresAt === null) {
-      return true;
-    }
-
-    if (expiresAt.getTime() <= Date.now()) {
-      this.tokens.clear();
-      return false;
-    }
-
-    void this.session.start(expiresAt);
-    return true;
+  private async clearAuthenticationState(): Promise<void> {
+    this.tokens.clear();
+    await this.session.end();
+    this.currentUser = null;
+    this.authenticatedState = false;
   }
 
-  private getAccessTokenExpiry(
-    accessToken: string,
-  ): Date | null {
+  private getAccessTokenExpiry(accessToken: string): Date | null {
     const parts = accessToken.split(".");
 
-    if (parts.length !== 3) {
-      return null;
-    }
+    if (parts.length !== 3) return null;
 
     const payloadPart = parts[1];
-
-    if (payloadPart === undefined) {
-      return null;
-    }
+    if (payloadPart === undefined) return null;
 
     try {
-      const payload = JSON.parse(
-        this.decodeBase64Url(payloadPart),
-      ) as { exp?: unknown };
+      const payload = JSON.parse(this.decodeBase64Url(payloadPart)) as {
+        exp?: unknown;
+      };
 
-      if (typeof payload.exp !== "number") {
-        return null;
-      }
-
+      if (typeof payload.exp !== "number") return null;
       return new Date(payload.exp * 1000);
     } catch {
       return null;
@@ -230,12 +208,5 @@ export class Authentication implements AuthenticationContract {
         )
         .join(""),
     );
-  }
-
-  private async clearAuthenticationState(): Promise<void> {
-    this.tokens.clear();
-    await this.session.end();
-    this.currentUser = null;
-    this.authenticatedState = false;
   }
 }

@@ -20,6 +20,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       rightIcon,
       loading = false,
       disabled,
+      variant,
+      size,
+      fullWidth,
       ...props
     },
     ref,
@@ -28,6 +31,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const recipe = buttonRecipe(theme, {
       ...props,
+      variant,
+      size,
+      fullWidth,
       loading,
       ...(disabled !== undefined && {
         disabled,
@@ -53,9 +59,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         }}
       >
         {leftIcon}
-
         {children}
-
         {rightIcon}
       </button>
     );

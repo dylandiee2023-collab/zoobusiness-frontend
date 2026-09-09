@@ -3,9 +3,9 @@ export interface SessionContract {
 
   readonly expiresAt: Date | null;
 
-  start(): Promise<void>;
+  start(expiresAt?: Date | string | null): Promise<void>;
 
-  refresh(): Promise<void>;
+  refresh(expiresAt?: Date | string | null): Promise<void>;
 
   end(): Promise<void>;
 }

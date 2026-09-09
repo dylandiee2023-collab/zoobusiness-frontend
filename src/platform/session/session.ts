@@ -13,23 +13,36 @@ export class Session implements SessionContract {
     return this.expiry;
   }
 
-  async start(): Promise<void> {
+  async start(expiresAt?: Date | string | null): Promise<void> {
     this.authenticatedState = true;
-
-    this.expiry = new Date(Date.now() + 60 * 60 * 1000);
+    this.expiry = this.resolveExpiry(expiresAt);
   }
 
-  async refresh(): Promise<void> {
+  async refresh(expiresAt?: Date | string | null): Promise<void> {
     if (!this.authenticatedState) {
       return;
     }
 
-    this.expiry = new Date(Date.now() + 60 * 60 * 1000);
+    this.expiry = this.resolveExpiry(expiresAt);
   }
 
   async end(): Promise<void> {
     this.authenticatedState = false;
-
     this.expiry = null;
+  }
+
+  private resolveExpiry(
+    expiresAt?: Date | string | null,
+  ): Date | null {
+    if (expiresAt === undefined || expiresAt === null) {
+      return null;
+    }
+
+    const value =
+      expiresAt instanceof Date
+        ? expiresAt.getTime()
+        : Date.parse(expiresAt);
+
+    return Number.isNaN(value) ? null : new Date(value);
   }
 }

@@ -86,7 +86,6 @@ export function useBusinessSetup() {
 
     try {
       await bootstrap();
-      await refreshWorkspace();
     } catch (err) {
       setError(
         err instanceof Error
@@ -95,7 +94,7 @@ export function useBusinessSetup() {
       );
       throw err;
     }
-  }, [bootstrap, refreshWorkspace]);
+  }, [bootstrap]);
 
   return {
     workspace,

@@ -43,7 +43,7 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
 
   const bootstrap = useCallback(async () => {
     if (!workspace) {
-      return;
+      throw new Error("Current workspace is not available.");
     }
 
     setBootstrapping(true);
@@ -92,13 +92,12 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
         setBootstrapComplete(true);
       }
     } catch (err) {
-      setWorkspace((current) => current);
-      setBootstrapComplete(false);
       setError(
         err instanceof Error
           ? err.message
           : "Failed to resolve your business workspace.",
       );
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -109,7 +108,7 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
       return;
     }
 
-    void refresh();
+    void refresh().catch(() => undefined);
   }, [platform.runtime.ready, refresh]);
 
   const value = useMemo(

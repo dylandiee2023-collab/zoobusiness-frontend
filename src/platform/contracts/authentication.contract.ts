@@ -13,6 +13,8 @@ export interface AuthenticationContract {
 
   readonly user: AuthenticatedUser | null;
 
+  readonly ready: boolean;
+
   register(
     name: string,
     email: string,
@@ -29,9 +31,7 @@ export interface AuthenticationContract {
     code: string,
   ): Promise<void>;
 
-  resendVerification(
-    email: string,
-  ): Promise<void>;
+  resendVerification(email: string): Promise<void>;
 
   logout(): Promise<void>;
 

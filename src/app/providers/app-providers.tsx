@@ -1,9 +1,10 @@
 import type { PropsWithChildren } from "react";
 
-import { PlatformProvider } from "@/platform/providers";
-import { ThemeProvider } from "@/theme/providers";
-import { ResponsiveProvider } from "@/responsive";
 import { LanguageProvider } from "@/app/language";
+import { ResponsiveProvider } from "@/responsive";
+import { ThemeProvider } from "@/theme/providers";
+import { PlatformProvider } from "@/platform/providers";
+import { WorkspaceProvider } from "@/workspace/providers/workspace-provider";
 
 export function AppProviders({
   children,
@@ -13,7 +14,9 @@ export function AppProviders({
       <ThemeProvider>
         <ResponsiveProvider>
           <LanguageProvider>
-            {children}
+            <WorkspaceProvider>
+              {children}
+            </WorkspaceProvider>
           </LanguageProvider>
         </ResponsiveProvider>
       </ThemeProvider>

@@ -15,7 +15,12 @@ interface WorkspaceAccessResponse {
   readonly permissions: readonly string[];
 }
 
-function NavigationItems({ items, onNavigate }: { items: readonly NavigationItem[]; onNavigate?: () => void }) {
+interface NavigationItemsProps {
+  readonly items: readonly NavigationItem[];
+  readonly onNavigate?: (() => void) | undefined;
+}
+
+function NavigationItems({ items, onNavigate }: NavigationItemsProps) {
   return items.map((item) => (
     <div className="zb-shell-nav-group" key={item.id}>
       {item.route ? (

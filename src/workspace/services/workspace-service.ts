@@ -38,7 +38,7 @@ export class WorkspaceService {
   }
 
   async ensureWorkspace(
-    userId: string,
+    userId: string | null,
     userName: string,
   ): Promise<CurrentWorkspace> {
     if (this.ensureWorkspaceInFlight !== null) {
@@ -56,7 +56,7 @@ export class WorkspaceService {
   }
 
   private async resolveWorkspace(
-    userId: string,
+    userId: string | null,
     userName: string,
   ): Promise<CurrentWorkspace> {
     try {
@@ -74,11 +74,12 @@ export class WorkspaceService {
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-+|-+$/g, "")
         .slice(0, 70) || "workspace";
+    const userSuffix = userId
+      ?.replace(/[^a-zA-Z0-9]/g, "")
+      .slice(0, 8)
+      .toLowerCase();
     const suffix =
-      userId
-        .replace(/[^a-zA-Z0-9]/g, "")
-        .slice(0, 8)
-        .toLowerCase() || "default";
+      userSuffix || crypto.randomUUID().replace(/-/g, "").slice(0, 8);
 
     return this.createWorkspace({
       name,

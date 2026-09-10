@@ -1,10 +1,6 @@
 import type { ThemeMode } from "@/theme/types";
 
-const VALID_THEMES: readonly ThemeMode[] = [
-  "system",
-  "light",
-  "dark",
-] as const;
+const VALID_THEMES: readonly ThemeMode[] = ["system", "light", "dark"] as const;
 
 export function isValidTheme(value: unknown): value is ThemeMode {
   return typeof value === "string" && VALID_THEMES.includes(value as ThemeMode);

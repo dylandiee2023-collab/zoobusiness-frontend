@@ -35,13 +35,9 @@ import {
 export class Platform implements PlatformContract {
   private readonly kernel = createKernel();
 
-  readonly bootstrap = createBootstrap(
-    this.kernel,
-  );
+  readonly bootstrap = createBootstrap(this.kernel);
 
-  readonly runtime = createRuntime(
-    this.bootstrap,
-  );
+  readonly runtime = createRuntime(this.bootstrap);
 
   readonly environment = createEnvironment();
 
@@ -100,8 +96,6 @@ export class Platform implements PlatformContract {
   readonly commands = createCommandEngine();
 
   constructor() {
-    this.api.setRefreshHandler(() =>
-      this.authentication.refresh(),
-    );
+    this.api.setRefreshHandler(() => this.authentication.refresh());
   }
 }

@@ -9,5 +9,8 @@ export interface ApiClientContract {
 
   delete<T = unknown>(url: string): Promise<T>;
 
-  setWorkspaceContext(workspaceId: string | null, branchId?: string | null): void;
+  setWorkspaceContext(
+    workspaceId: string | null,
+    branchId?: string | null,
+  ): void;
 }

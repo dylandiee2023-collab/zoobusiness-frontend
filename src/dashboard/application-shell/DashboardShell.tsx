@@ -51,8 +51,12 @@ function NavigationItems({ items, onNavigate }: NavigationItemsProps) {
 export function DashboardShell() {
   const platform = usePlatform();
   const { workspace } = useWorkspace();
-  const { loading: accessLoading, error: accessError, access, refresh } =
-    useWorkspaceAccess();
+  const {
+    loading: accessLoading,
+    error: accessError,
+    access,
+    refresh,
+  } = useWorkspaceAccess();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 

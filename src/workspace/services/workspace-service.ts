@@ -45,7 +45,10 @@ export class WorkspaceService {
       return this.ensureWorkspaceInFlight;
     }
 
-    this.ensureWorkspaceInFlight = this.resolveWorkspace(userId, userName).finally(() => {
+    this.ensureWorkspaceInFlight = this.resolveWorkspace(
+      userId,
+      userName,
+    ).finally(() => {
       this.ensureWorkspaceInFlight = null;
     });
 
@@ -65,14 +68,17 @@ export class WorkspaceService {
     }
 
     const name = userName.trim().slice(0, 90) || "My Business";
-    const nameSlug = name
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "")
-      .slice(0, 70) || "workspace";
+    const nameSlug =
+      name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 70) || "workspace";
     const suffix =
-      userId.replace(/[^a-zA-Z0-9]/g, "").slice(0, 8).toLowerCase() ||
-      "default";
+      userId
+        .replace(/[^a-zA-Z0-9]/g, "")
+        .slice(0, 8)
+        .toLowerCase() || "default";
 
     return this.createWorkspace({
       name,

@@ -31,7 +31,11 @@ export function AuthShell({ children, glass = false }: AuthShellProps) {
           justifyContent: "center",
         }}
       >
-        <Stack spacing={theme.spacing.section} align="center" style={{ width: "100%" }}>
+        <Stack
+          spacing={theme.spacing.section}
+          align="center"
+          style={{ width: "100%" }}
+        >
           <AuthBrand />
           <Center style={{ width: "100%" }}>
             <AuthCard>{children}</AuthCard>
@@ -40,7 +44,12 @@ export function AuthShell({ children, glass = false }: AuthShellProps) {
       </Container>
 
       <nav aria-label="Authentication footer" style={{ width: "100%" }}>
-        <Flex gap={theme.spacing.inline} wrap="wrap" justify="center" align="center">
+        <Flex
+          gap={theme.spacing.inline}
+          wrap="wrap"
+          justify="center"
+          align="center"
+        >
           {FOOTER_LINKS.map((item) => (
             <Link key={item.label} href={item.href}>
               {item.label}

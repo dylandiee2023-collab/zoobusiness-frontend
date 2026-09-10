@@ -4,9 +4,7 @@ import { useTheme } from "@/theme/hooks";
 
 import type { BrandLogoProps } from "./brand-logo.types";
 
-export function BrandLogo({
-  size,
-}: BrandLogoProps) {
+export function BrandLogo({ size }: BrandLogoProps) {
   const { theme } = useTheme();
 
   const logoSize = size ?? theme.iconSizes.avatar;

@@ -1,25 +1,11 @@
-import {
-  useState,
-  type FormEvent,
-} from "react";
+import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/design-system/buttons";
-import {
-  FormError,
-  FormField,
-  FormLabel,
-} from "@/design-system/forms";
-import {
-  Input,
-  PasswordInput,
-} from "@/design-system/inputs";
+import { FormError, FormField, FormLabel } from "@/design-system/forms";
+import { Input, PasswordInput } from "@/design-system/inputs";
 import { Stack } from "@/design-system/layout";
-import {
-  Heading,
-  Link,
-  Text,
-} from "@/design-system/typography";
+import { Heading, Link, Text } from "@/design-system/typography";
 
 import { usePlatform } from "@/platform/providers";
 import { useTheme } from "@/theme/hooks";
@@ -34,23 +20,17 @@ export function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [fullNameError, setFullNameError] =
-    useState<string | undefined>();
+  const [fullNameError, setFullNameError] = useState<string | undefined>();
 
-  const [emailError, setEmailError] =
-    useState<string | undefined>();
+  const [emailError, setEmailError] = useState<string | undefined>();
 
-  const [passwordError, setPasswordError] =
-    useState<string | undefined>();
+  const [passwordError, setPasswordError] = useState<string | undefined>();
 
-  const [registerError, setRegisterError] =
-    useState<string | undefined>();
+  const [registerError, setRegisterError] = useState<string | undefined>();
 
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(
-    event: FormEvent<HTMLFormElement>,
-  ) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (loading) {
@@ -72,11 +52,7 @@ export function RegisterPage() {
     if (!email.trim()) {
       setEmailError("Email is required");
       valid = false;
-    } else if (
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
-        email.trim(),
-      )
-    ) {
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
       setEmailError("Enter a valid email address");
       valid = false;
     }
@@ -85,9 +61,7 @@ export function RegisterPage() {
       setPasswordError("Password is required");
       valid = false;
     } else if (password.length < 8) {
-      setPasswordError(
-        "Password must be at least 8 characters",
-      );
+      setPasswordError("Password must be at least 8 characters");
       valid = false;
     }
 
@@ -98,29 +72,16 @@ export function RegisterPage() {
     setLoading(true);
 
     try {
-      await authentication.register(
-        fullName.trim(),
-        email.trim(),
-        password,
-      );
+      await authentication.register(fullName.trim(), email.trim(), password);
 
-      sessionStorage.setItem(
-        "verification_email",
-        email.trim(),
-      );
+      sessionStorage.setItem("verification_email", email.trim());
 
       navigate("/verify-email", {
         replace: true,
       });
     } catch (error) {
-      if (
-        error instanceof Error &&
-        "status" in error &&
-        error.status === 409
-      ) {
-        setRegisterError(
-          "An account with this email already exists.",
-        );
+      if (error instanceof Error && "status" in error && error.status === 409) {
+        setRegisterError("An account with this email already exists.");
       } else {
         setRegisterError(
           error instanceof Error
@@ -136,31 +97,21 @@ export function RegisterPage() {
   return (
     <AuthShell>
       <Stack spacing={theme.spacing.section}>
-        <Stack
-          spacing={theme.spacing.stack}
-          align="center"
-        >
+        <Stack spacing={theme.spacing.stack} align="center">
           <Heading level={1} align="center">
             Create your account
           </Heading>
 
-          <Text align="center">
-            Get started with ZooBUSINESS.
-          </Text>
+          <Text align="center">Get started with ZooBUSINESS.</Text>
         </Stack>
 
-        <form
-          onSubmit={handleSubmit}
-          noValidate
-        >
+        <form onSubmit={handleSubmit} noValidate>
           <Stack spacing={theme.spacing.form}>
             <FormField
               id="register-full-name"
               name="fullName"
               label="Full name"
-              {...(fullNameError !== undefined
-                ? { error: fullNameError }
-                : {})}
+              {...(fullNameError !== undefined ? { error: fullNameError } : {})}
             >
               <FormLabel />
 
@@ -186,9 +137,7 @@ export function RegisterPage() {
               id="register-email"
               name="email"
               label="Email"
-              {...(emailError !== undefined
-                ? { error: emailError }
-                : {})}
+              {...(emailError !== undefined ? { error: emailError } : {})}
             >
               <FormLabel />
 
@@ -214,9 +163,7 @@ export function RegisterPage() {
               id="register-password"
               name="password"
               label="Password"
-              {...(passwordError !== undefined
-                ? { error: passwordError }
-                : {})}
+              {...(passwordError !== undefined ? { error: passwordError } : {})}
             >
               <FormLabel />
 
@@ -259,18 +206,13 @@ export function RegisterPage() {
               loading={loading}
               disabled={loading}
             >
-              {loading
-                ? "Creating account..."
-                : "Create account"}
+              {loading ? "Creating account..." : "Create account"}
             </Button>
           </Stack>
         </form>
 
         <Text align="center">
-          Already have an account?{" "}
-          <Link href="/login">
-            Sign in
-          </Link>
+          Already have an account? <Link href="/login">Sign in</Link>
         </Text>
       </Stack>
     </AuthShell>

@@ -23,5 +23,9 @@ export function LanguageProvider({ children }: PropsWithChildren) {
   }, [language]);
 
   const value = useMemo(() => ({ language, setLanguage }), [language]);
-  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
+  return (
+    <LanguageContext.Provider value={value}>
+      {children}
+    </LanguageContext.Provider>
+  );
 }

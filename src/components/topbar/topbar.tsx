@@ -6,7 +6,11 @@ export function TopBar({ title }: TopBarProps) {
   return (
     <header style={topBarStyles.root}>
       <div style={topBarStyles.left}>
-        ☰<strong> <span>ZooBUSINESS</span> </strong>
+        ☰
+        <strong>
+          {" "}
+          <span>ZooBUSINESS</span>{" "}
+        </strong>
         {title}
       </div>
 

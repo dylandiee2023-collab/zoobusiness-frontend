@@ -1,21 +1,11 @@
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/design-system/buttons";
-import {
-  FormError,
-  FormField,
-} from "@/design-system/forms";
+import { FormError, FormField } from "@/design-system/forms";
 import { OtpInput } from "@/design-system/components/otp-input";
 import { Stack } from "@/design-system/layout";
-import {
-  Heading,
-  Link,
-  Text,
-} from "@/design-system/typography";
+import { Heading, Link, Text } from "@/design-system/typography";
 
 import { usePlatform } from "@/platform/providers";
 import { useTheme } from "@/theme/hooks";
@@ -29,11 +19,9 @@ export function VerifyEmailPage() {
   const [code, setCode] = useState("");
   const email = sessionStorage.getItem("verification_email") ?? "";
 
-  const [error, setError] =
-    useState<string | undefined>();
+  const [error, setError] = useState<string | undefined>();
 
-  const [success, setSuccess] =
-    useState<string | undefined>();
+  const [success, setSuccess] = useState<string | undefined>();
 
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
@@ -45,9 +33,7 @@ export function VerifyEmailPage() {
     }
 
     const timer = window.setInterval(() => {
-      setCooldown((current) =>
-        current > 0 ? current - 1 : 0,
-      );
+      setCooldown((current) => (current > 0 ? current - 1 : 0));
     }, 1000);
 
     return () => {
@@ -67,9 +53,7 @@ export function VerifyEmailPage() {
     }
 
     if (!email) {
-      setError(
-        "Verification email is missing. Please register again.",
-      );
+      setError("Verification email is missing. Please register again.");
       return;
     }
 
@@ -78,18 +62,11 @@ export function VerifyEmailPage() {
     setLoading(true);
 
     try {
-      await authentication.verifyEmail(
-        email,
-        code,
-      );
+      await authentication.verifyEmail(email, code);
 
-      setSuccess(
-        "Email verified successfully.",
-      );
+      setSuccess("Email verified successfully.");
 
-      sessionStorage.removeItem(
-        "verification_email",
-      );
+      sessionStorage.removeItem("verification_email");
 
       window.setTimeout(() => {
         navigate("/login", {
@@ -97,26 +74,16 @@ export function VerifyEmailPage() {
         });
       }, 1000);
     } catch (error) {
-      if (
-        error instanceof Error &&
-        "status" in error
-      ) {
+      if (error instanceof Error && "status" in error) {
         if (error.status === 401) {
           setError("Invalid verification code.");
         } else if (error.status === 400) {
-          setError(
-            error.message ||
-              "Verification code is invalid or expired.",
-          );
+          setError(error.message || "Verification code is invalid or expired.");
         } else {
-          setError(
-            "Unable to verify your email. Please try again.",
-          );
+          setError("Unable to verify your email. Please try again.");
         }
       } else {
-        setError(
-          "Unable to verify your email. Please try again.",
-        );
+        setError("Unable to verify your email. Please try again.");
       }
     } finally {
       setLoading(false);
@@ -124,11 +91,7 @@ export function VerifyEmailPage() {
   }
 
   async function handleResend() {
-    if (
-      resending ||
-      cooldown > 0 ||
-      !email
-    ) {
+    if (resending || cooldown > 0 || !email) {
       return;
     }
 
@@ -137,27 +100,17 @@ export function VerifyEmailPage() {
     setResending(true);
 
     try {
-      await authentication.resendVerification(
-        email,
-      );
+      await authentication.resendVerification(email);
 
-      setSuccess(
-        "A new verification code has been sent.",
-      );
+      setSuccess("A new verification code has been sent.");
 
       setCooldown(60);
       setCode("");
     } catch (error) {
-      if (
-        error instanceof Error &&
-        "status" in error &&
-        error.status === 400
-      ) {
+      if (error instanceof Error && "status" in error && error.status === 400) {
         setError(error.message);
       } else {
-        setError(
-          "Unable to resend the verification code. Please try again.",
-        );
+        setError("Unable to resend the verification code. Please try again.");
       }
     } finally {
       setResending(false);
@@ -167,39 +120,23 @@ export function VerifyEmailPage() {
   return (
     <AuthShell>
       <Stack spacing={theme.spacing.section}>
-        <Stack
-          spacing={theme.spacing.stack}
-          align="center"
-        >
-          <Heading
-            level={1}
-            align="center"
-          >
+        <Stack spacing={theme.spacing.stack} align="center">
+          <Heading level={1} align="center">
             Verify your email
           </Heading>
 
           <Text align="center">
-            Enter the 6-digit verification
-            code sent to your email.
+            Enter the 6-digit verification code sent to your email.
           </Text>
 
-          {email && (
-            <Text align="center">
-              {email}
-            </Text>
-          )}
+          {email && <Text align="center">{email}</Text>}
         </Stack>
 
-        <Stack
-          spacing={theme.spacing.form}
-          align="center"
-        >
+        <Stack spacing={theme.spacing.form} align="center">
           <FormField
             id="verify-email-code"
             name="verificationCode"
-            {...(error !== undefined
-              ? { error }
-              : {})}
+            {...(error !== undefined ? { error } : {})}
           >
             <OtpInput
               length={6}
@@ -232,39 +169,24 @@ export function VerifyEmailPage() {
             variant="primary"
             size="md"
             fullWidth
-            disabled={
-              loading ||
-              resending ||
-              code.length !== 6
-            }
+            disabled={loading || resending || code.length !== 6}
             loading={loading}
             onClick={() => {
               void handleVerify();
             }}
           >
-            {loading
-              ? "Verifying..."
-              : "Verify email"}
+            {loading ? "Verifying..." : "Verify email"}
           </Button>
         </Stack>
 
-        <Stack
-          spacing={theme.spacing.stack}
-          align="center"
-        >
-          <Text align="center">
-            Didn&apos;t receive the code?
-          </Text>
+        <Stack spacing={theme.spacing.stack} align="center">
+          <Text align="center">Didn&apos;t receive the code?</Text>
 
           <Button
             type="button"
             variant="secondary"
             size="md"
-            disabled={
-              resending ||
-              cooldown > 0 ||
-              !email
-            }
+            disabled={resending || cooldown > 0 || !email}
             loading={resending}
             onClick={() => {
               void handleResend();
@@ -277,9 +199,7 @@ export function VerifyEmailPage() {
                 : "Resend code"}
           </Button>
 
-          <Link href="/login">
-            Back to sign in
-          </Link>
+          <Link href="/login">Back to sign in</Link>
         </Stack>
       </Stack>
     </AuthShell>

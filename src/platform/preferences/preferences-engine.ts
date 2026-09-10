@@ -24,11 +24,7 @@ export class PreferencesEngine {
         return;
       }
 
-      this.data = new Map(
-        Object.entries(
-          values as Record<string, unknown>,
-        ),
-      );
+      this.data = new Map(Object.entries(values as Record<string, unknown>));
     } catch {
       this.data.clear();
       localStorage.removeItem(this.key);
@@ -38,10 +34,7 @@ export class PreferencesEngine {
   save(): void {
     const values = Object.fromEntries(this.data);
 
-    localStorage.setItem(
-      this.key,
-      JSON.stringify(values),
-    );
+    localStorage.setItem(this.key, JSON.stringify(values));
   }
 
   has(key: string): boolean {

@@ -11,9 +11,5 @@ export function createAuthentication(
   tokens: TokenManagerContract,
   session: SessionContract,
 ): Authentication {
-  return new Authentication(
-    api,
-    tokens,
-    session,
-  );
+  return new Authentication(api, tokens, session);
 }

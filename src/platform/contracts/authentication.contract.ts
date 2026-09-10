@@ -15,21 +15,11 @@ export interface AuthenticationContract {
 
   readonly ready: boolean;
 
-  register(
-    name: string,
-    email: string,
-    password: string,
-  ): Promise<void>;
+  register(name: string, email: string, password: string): Promise<void>;
 
-  login(
-    email: string,
-    password: string,
-  ): Promise<void>;
+  login(email: string, password: string): Promise<void>;
 
-  verifyEmail(
-    email: string,
-    code: string,
-  ): Promise<void>;
+  verifyEmail(email: string, code: string): Promise<void>;
 
   resendVerification(email: string): Promise<void>;
 

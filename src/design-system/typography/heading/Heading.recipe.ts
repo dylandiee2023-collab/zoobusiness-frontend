@@ -29,8 +29,7 @@ export const headingRecipe = createRecipe<HeadingProps>({
 
         lineHeight: props.lineHeight ?? semantic.lineHeight,
 
-        letterSpacing:
-          props.letterSpacing ?? semantic.letterSpacing,
+        letterSpacing: props.letterSpacing ?? semantic.letterSpacing,
       },
     };
   },

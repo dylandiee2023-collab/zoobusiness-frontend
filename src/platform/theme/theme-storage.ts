@@ -2,11 +2,7 @@ import { StorageKeys } from "@/platform/storage";
 
 import type { ThemeMode } from "@/platform/contracts";
 
-const VALID_THEME_MODES: readonly ThemeMode[] = [
-  "system",
-  "light",
-  "dark",
-];
+const VALID_THEME_MODES: readonly ThemeMode[] = ["system", "light", "dark"];
 
 export class ThemeStorage {
   load(): ThemeMode {

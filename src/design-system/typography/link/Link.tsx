@@ -38,12 +38,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
   // when moving between auth/public pages.
   if (!external && href?.startsWith("/") && target === undefined) {
     return (
-      <RouterLink
-        ref={ref}
-        to={href}
-        {...props}
-        style={sharedStyle}
-      >
+      <RouterLink ref={ref} to={href} {...props} style={sharedStyle}>
         {children}
       </RouterLink>
     );

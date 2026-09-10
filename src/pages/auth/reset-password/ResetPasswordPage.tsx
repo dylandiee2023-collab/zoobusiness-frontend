@@ -4,11 +4,7 @@ import { Button } from "@/design-system/buttons";
 import { PasswordInput } from "@/design-system/inputs";
 import { FormField, FormLabel } from "@/design-system/forms";
 import { Stack } from "@/design-system/layout";
-import {
-  Heading,
-  Link,
-  Text,
-} from "@/design-system/typography";
+import { Heading, Link, Text } from "@/design-system/typography";
 
 import { useTheme } from "@/theme/hooks";
 import { AuthShell } from "@/shells/AuthShell";
@@ -17,46 +13,28 @@ export function ResetPasswordPage() {
   const { theme } = useTheme();
 
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] =
-    useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  function handleSubmit(
-    event: FormEvent<HTMLFormElement>,
-  ) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
   }
 
   return (
     <AuthShell>
-      <Stack
-        spacing={theme.spacing.section}
-      >
-        <Stack
-          spacing={theme.spacing.stack}
-          align="center"
-        >
-          <Heading
-            level={1}
-            align="center"
-          >
+      <Stack spacing={theme.spacing.section}>
+        <Stack spacing={theme.spacing.stack} align="center">
+          <Heading level={1} align="center">
             Reset your password
           </Heading>
 
           <Text align="center">
-            Create a new password for your
-            ZooBUSINESS account.
+            Create a new password for your ZooBUSINESS account.
           </Text>
         </Stack>
 
         <form onSubmit={handleSubmit}>
-          <Stack
-            spacing={theme.spacing.form}
-          >
-            <FormField
-              id="reset-password"
-              name="password"
-              label="New password"
-            >
+          <Stack spacing={theme.spacing.form}>
+            <FormField id="reset-password" name="password" label="New password">
               <FormLabel />
 
               <PasswordInput
@@ -66,11 +44,7 @@ export function ResetPasswordPage() {
                 required
                 fullWidth
                 autoComplete="new-password"
-                onChange={(event) =>
-                  setPassword(
-                    event.target.value,
-                  )
-                }
+                onChange={(event) => setPassword(event.target.value)}
               />
             </FormField>
 
@@ -88,11 +62,7 @@ export function ResetPasswordPage() {
                 required
                 fullWidth
                 autoComplete="new-password"
-                onChange={(event) =>
-                  setConfirmPassword(
-                    event.target.value,
-                  )
-                }
+                onChange={(event) => setConfirmPassword(event.target.value)}
               />
             </FormField>
 
@@ -102,9 +72,7 @@ export function ResetPasswordPage() {
               size="md"
               fullWidth
               disabled={
-                !password ||
-                !confirmPassword ||
-                password !== confirmPassword
+                !password || !confirmPassword || password !== confirmPassword
               }
             >
               Reset password
@@ -113,10 +81,7 @@ export function ResetPasswordPage() {
         </form>
 
         <Text align="center">
-          Remember your password?{" "}
-          <Link href="/login">
-            Sign in
-          </Link>
+          Remember your password? <Link href="/login">Sign in</Link>
         </Text>
       </Stack>
     </AuthShell>

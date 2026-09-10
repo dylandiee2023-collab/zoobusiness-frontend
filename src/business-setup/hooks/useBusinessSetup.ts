@@ -21,10 +21,7 @@ export function useBusinessSetup() {
     bootstrap,
   } = useWorkspace();
 
-  const service = useMemo(
-    () => new BusinessSetupService(api),
-    [api],
-  );
+  const service = useMemo(() => new BusinessSetupService(api), [api]);
 
   const [categories, setCategories] = useState<BusinessCategory[]>([]);
   const [categoriesLoading, setCategoriesLoading] = useState(true);

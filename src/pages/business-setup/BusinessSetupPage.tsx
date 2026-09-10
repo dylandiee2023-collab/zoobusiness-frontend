@@ -3,11 +3,7 @@ import type { FormEvent } from "react";
 
 import { Button } from "@/design-system/buttons";
 import { Input } from "@/design-system/inputs";
-import {
-  FormError,
-  FormField,
-  FormLabel,
-} from "@/design-system/forms";
+import { FormError, FormField, FormLabel } from "@/design-system/forms";
 import { Heading, Text } from "@/design-system/typography";
 import { Stack } from "@/design-system/layout";
 import { Select } from "@/design-system/components/select";
@@ -115,8 +111,8 @@ export function BusinessSetupPage() {
             <Text>Workspace created</Text>
             <Heading level={1}>Finish setting up your business</Heading>
             <Text>
-              Your business details are saved. We still need to initialize
-              your workspace before you can open the dashboard.
+              Your business details are saved. We still need to initialize your
+              workspace before you can open the dashboard.
             </Text>
           </Stack>
 
@@ -144,9 +140,7 @@ export function BusinessSetupPage() {
         <Stack spacing="8px">
           <Text>Logo / Brand</Text>
           <Heading level={1}>Set up your business</Heading>
-          <Text>
-            Tell us a little about your business to get started.
-          </Text>
+          <Text>Tell us a little about your business to get started.</Text>
         </Stack>
 
         <form onSubmit={handleSubmit}>

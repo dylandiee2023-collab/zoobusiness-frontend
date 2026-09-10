@@ -8,9 +8,12 @@
       (() => {
         try {
           const stored = localStorage.getItem("theme");
-          const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          const systemDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
           const dark = stored === "dark" || (stored !== "light" && systemDark);
-          const mode = stored === "light" || stored === "dark" ? stored : "system";
+          const mode =
+            stored === "light" || stored === "dark" ? stored : "system";
 
           document.documentElement.dataset.theme = mode;
           document.documentElement.style.setProperty(

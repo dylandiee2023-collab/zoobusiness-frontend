@@ -107,22 +107,19 @@ export class Authentication implements AuthenticationContract {
     }
   }
 
-  async register(
-    name: string,
-    email: string,
-    password: string,
-  ): Promise<void> {
-    await this.api.post<RegisterResponse>(
-      "/api/auth/register",
-      { name, email, password },
-    );
+  async register(name: string, email: string, password: string): Promise<void> {
+    await this.api.post<RegisterResponse>("/api/auth/register", {
+      name,
+      email,
+      password,
+    });
   }
 
   async login(email: string, password: string): Promise<void> {
-    const response = await this.api.post<LoginResponse>(
-      "/api/auth/login",
-      { email, password },
-    );
+    const response = await this.api.post<LoginResponse>("/api/auth/login", {
+      email,
+      password,
+    });
 
     this.tokens.setTokens(response.accessToken, response.refreshToken);
     this.currentUser = response.user;
@@ -234,8 +231,9 @@ export class Authentication implements AuthenticationContract {
 
     return decodeURIComponent(
       Array.from(atob(base64))
-        .map((character) =>
-          `%${character.charCodeAt(0).toString(16).padStart(2, "0")}`,
+        .map(
+          (character) =>
+            `%${character.charCodeAt(0).toString(16).padStart(2, "0")}`,
         )
         .join(""),
     );

@@ -37,7 +37,10 @@ export class ApiClient implements ApiClientContract {
     this.refreshHandler = handler;
   }
 
-  setWorkspaceContext(workspaceId: string | null, branchId: string | null = null): void {
+  setWorkspaceContext(
+    workspaceId: string | null,
+    branchId: string | null = null,
+  ): void {
     this.workspaceId = workspaceId;
     this.branchId = branchId;
   }
@@ -46,24 +49,15 @@ export class ApiClient implements ApiClientContract {
     return this.request<T>("GET", url);
   }
 
-  async post<T>(
-    url: string,
-    body?: unknown,
-  ): Promise<T> {
+  async post<T>(url: string, body?: unknown): Promise<T> {
     return this.request<T>("POST", url, body);
   }
 
-  async put<T>(
-    url: string,
-    body?: unknown,
-  ): Promise<T> {
+  async put<T>(url: string, body?: unknown): Promise<T> {
     return this.request<T>("PUT", url, body);
   }
 
-  async patch<T>(
-    url: string,
-    body?: unknown,
-  ): Promise<T> {
+  async patch<T>(url: string, body?: unknown): Promise<T> {
     return this.request<T>("PATCH", url, body);
   }
 
@@ -107,10 +101,7 @@ export class ApiClient implements ApiClientContract {
   ): Promise<T> {
     const controller = new AbortController();
 
-    const timeoutId = setTimeout(
-      () => controller.abort(),
-      this.config.timeout,
-    );
+    const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
 
     try {
       const accessToken = this.tokens.getAccessToken();
@@ -141,29 +132,20 @@ export class ApiClient implements ApiClientContract {
         request.body = JSON.stringify(body);
       }
 
-      const response = await fetch(
-        `${this.config.baseUrl}${url}`,
-        request,
-      );
+      const response = await fetch(`${this.config.baseUrl}${url}`, request);
 
       let data: unknown = null;
 
-      const contentType =
-        response.headers.get("content-type");
+      const contentType = response.headers.get("content-type");
 
-      if (
-        contentType?.includes("application/json")
-      ) {
+      if (contentType?.includes("application/json")) {
         data = await response.json();
       } else {
         data = await response.text();
       }
 
       if (!response.ok) {
-        throw this.createApiError(
-          response.status,
-          data,
-        );
+        throw this.createApiError(response.status, data);
       }
 
       return data as T;
@@ -172,17 +154,12 @@ export class ApiClient implements ApiClientContract {
         throw error;
       }
 
-      if (
-        error instanceof DOMException &&
-        error.name === "AbortError"
-      ) {
+      if (error instanceof DOMException && error.name === "AbortError") {
         throw new ApiError("Request timed out");
       }
 
       throw new ApiError(
-        error instanceof Error
-          ? error.message
-          : "Network request failed",
+        error instanceof Error ? error.message : "Network request failed",
       );
     } finally {
       clearTimeout(timeoutId);
@@ -211,10 +188,7 @@ export class ApiClient implements ApiClientContract {
     return !url.startsWith("/api/auth/");
   }
 
-  private createApiError(
-    status: number,
-    data: unknown,
-  ): ApiError {
+  private createApiError(status: number, data: unknown): ApiError {
     if (status === 401) {
       return new UnauthorizedError();
     }
@@ -231,22 +205,14 @@ export class ApiClient implements ApiClientContract {
       return new InternalServerError();
     }
 
-    const message =
-      this.extractErrorMessage(data);
+    const message = this.extractErrorMessage(data);
 
     return new ApiError(message, status);
   }
 
-  private extractErrorMessage(
-    data: unknown,
-  ): string {
-    if (
-      typeof data === "object" &&
-      data !== null &&
-      "message" in data
-    ) {
-      const message =
-        (data as { message?: unknown }).message;
+  private extractErrorMessage(data: unknown): string {
+    if (typeof data === "object" && data !== null && "message" in data) {
+      const message = (data as { message?: unknown }).message;
 
       if (typeof message === "string") {
         return message;
@@ -254,10 +220,7 @@ export class ApiClient implements ApiClientContract {
 
       if (Array.isArray(message)) {
         return message
-          .filter(
-            (item): item is string =>
-              typeof item === "string",
-          )
+          .filter((item): item is string => typeof item === "string")
           .join(", ");
       }
     }

@@ -31,17 +31,13 @@ export class Session implements SessionContract {
     this.expiry = null;
   }
 
-  private resolveExpiry(
-    expiresAt?: Date | string | null,
-  ): Date | null {
+  private resolveExpiry(expiresAt?: Date | string | null): Date | null {
     if (expiresAt === undefined || expiresAt === null) {
       return null;
     }
 
     const value =
-      expiresAt instanceof Date
-        ? expiresAt.getTime()
-        : Date.parse(expiresAt);
+      expiresAt instanceof Date ? expiresAt.getTime() : Date.parse(expiresAt);
 
     return Number.isNaN(value) ? null : new Date(value);
   }

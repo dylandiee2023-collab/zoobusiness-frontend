@@ -34,11 +34,7 @@ export function GuestRoute({ children }: PropsWithChildren) {
 
   if (platform.authentication.authenticated) {
     return (
-      <Navigate
-        to="/dashboard"
-        replace
-        state={{ from: location.pathname }}
-      />
+      <Navigate to="/dashboard" replace state={{ from: location.pathname }} />
     );
   }
 
@@ -54,13 +50,7 @@ export function AuthenticatedRoute({ children }: PropsWithChildren) {
   }
 
   if (!platform.authentication.authenticated) {
-    return (
-      <Navigate
-        to="/login"
-        replace
-        state={{ from: location.pathname }}
-      />
-    );
+    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
   }
 
   return <OnboardingGate>{children}</OnboardingGate>;

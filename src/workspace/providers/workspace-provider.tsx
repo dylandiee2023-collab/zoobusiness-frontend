@@ -52,7 +52,9 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
     }
 
     if (workspace.business_category_id == null) {
-      throw new Error("Complete Business Setup before initializing your workspace.");
+      throw new Error(
+        "Complete Business Setup before initializing your workspace.",
+      );
     }
 
     setBootstrapping(true);

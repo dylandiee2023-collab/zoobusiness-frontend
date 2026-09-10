@@ -11,10 +11,7 @@ import type { InputProps } from "../Input.types";
 export const PasswordInput = forwardRef<
   HTMLInputElement,
   Omit<InputProps, "type">
->(function PasswordInput(
-  { style, ...props },
-  ref,
-) {
+>(function PasswordInput({ style, ...props }, ref) {
   const { theme } = useTheme();
 
   const [visible, setVisible] = useState(false);
@@ -23,19 +20,13 @@ export const PasswordInput = forwardRef<
     <div
       style={{
         position: "relative",
-        width: props.fullWidth
-          ? "100%"
-          : undefined,
+        width: props.fullWidth ? "100%" : undefined,
       }}
     >
       <Input
         {...props}
         ref={ref}
-        type={
-          visible
-            ? "text"
-            : "password"
-        }
+        type={visible ? "text" : "password"}
         style={{
           ...style,
           paddingRight: `calc(${theme.spacing.input} + ${theme.iconSizes.input} + ${theme.spacing.icon})`,
@@ -44,23 +35,14 @@ export const PasswordInput = forwardRef<
 
       <button
         type="button"
-        aria-label={
-          visible
-            ? "Hide password"
-            : "Show password"
-        }
+        aria-label={visible ? "Hide password" : "Show password"}
         aria-pressed={visible}
-        onClick={() =>
-          setVisible(
-            (current) => !current,
-          )
-        }
+        onClick={() => setVisible((current) => !current)}
         style={{
           position: "absolute",
           top: "50%",
           right: theme.spacing.input,
-          transform:
-            "translateY(-50%)",
+          transform: "translateY(-50%)",
           width: theme.iconSizes.input,
           height: theme.iconSizes.input,
           display: "inline-flex",
@@ -74,20 +56,13 @@ export const PasswordInput = forwardRef<
         }}
       >
         {visible ? (
-          <EyeOff
-            size={theme.iconSizes.input}
-            aria-hidden="true"
-          />
+          <EyeOff size={theme.iconSizes.input} aria-hidden="true" />
         ) : (
-          <Eye
-            size={theme.iconSizes.input}
-            aria-hidden="true"
-          />
+          <Eye size={theme.iconSizes.input} aria-hidden="true" />
         )}
       </button>
     </div>
   );
 });
 
-PasswordInput.displayName =
-  "PasswordInput";
+PasswordInput.displayName = "PasswordInput";

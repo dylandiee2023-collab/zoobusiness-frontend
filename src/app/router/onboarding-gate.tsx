@@ -6,13 +6,8 @@ import { useWorkspace } from "@/workspace/providers";
 
 export function OnboardingGate({ children }: PropsWithChildren) {
   const location = useLocation();
-  const {
-    workspace,
-    loading,
-    bootstrapping,
-    bootstrapComplete,
-    error,
-  } = useWorkspace();
+  const { workspace, loading, bootstrapping, bootstrapComplete, error } =
+    useWorkspace();
 
   if (loading || bootstrapping) {
     return (

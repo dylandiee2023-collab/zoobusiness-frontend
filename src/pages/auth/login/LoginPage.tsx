@@ -51,11 +51,7 @@ export function LoginPage() {
       // AuthenticatedRoute and OnboardingGate decide whether the user belongs
       // on Business Setup or Dashboard.
     } catch (error) {
-      if (
-        error instanceof Error &&
-        "status" in error &&
-        error.status === 401
-      ) {
+      if (error instanceof Error && "status" in error && error.status === 401) {
         setLoginError("Invalid email or password.");
       } else {
         setLoginError(
@@ -110,9 +106,7 @@ export function LoginPage() {
               id="login-password"
               name="password"
               label="Password"
-              {...(passwordError !== undefined
-                ? { error: passwordError }
-                : {})}
+              {...(passwordError !== undefined ? { error: passwordError } : {})}
               disabled={loading}
             >
               <FormLabel />
@@ -164,7 +158,8 @@ export function LoginPage() {
         </form>
 
         <Text align="center">
-          Don&apos;t have an account? <Link href="/register">Create an account</Link>
+          Don&apos;t have an account?{" "}
+          <Link href="/register">Create an account</Link>
         </Text>
       </Stack>
     </AuthShell>

@@ -35,9 +35,8 @@ interface WorkspaceAccessContextValue {
   readonly hasAll: (permissions: readonly string[]) => boolean;
 }
 
-const WorkspaceAccessContext = createContext<WorkspaceAccessContextValue | null>(
-  null,
-);
+const WorkspaceAccessContext =
+  createContext<WorkspaceAccessContextValue | null>(null);
 
 export function WorkspaceAccessProvider({ children }: PropsWithChildren) {
   const platform = usePlatform();
@@ -103,8 +102,7 @@ export function WorkspaceAccessProvider({ children }: PropsWithChildren) {
   }, [refresh]);
 
   const has = useCallback(
-    (permission: string) =>
-      access?.permissions.includes(permission) ?? false,
+    (permission: string) => access?.permissions.includes(permission) ?? false,
     [access],
   );
 

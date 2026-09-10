@@ -41,7 +41,10 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
   const userName = user?.name ?? "";
 
   const [workspace, setWorkspace] = useState<CurrentWorkspace | null>(null);
-  const [loading, setLoading] = useState(false);
+  // Workspace resolution starts in an unknown/loading state. Keeping this true
+  // until the authentication-ready effect has resolved prevents protected
+  // routes from rendering a false "workspace not found" state for one frame.
+  const [loading, setLoading] = useState(true);
   const [bootstrapping, setBootstrapping] = useState(false);
   const [bootstrapComplete, setBootstrapComplete] = useState(false);
   const [error, setError] = useState<string | null>(null);

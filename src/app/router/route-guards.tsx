@@ -34,7 +34,11 @@ export function GuestRoute({ children }: PropsWithChildren) {
 
   if (platform.authentication.authenticated) {
     return (
-      <Navigate to="/dashboard" replace state={{ from: location.pathname }} />
+      <Navigate
+        to="/business-setup"
+        replace
+        state={{ from: location.pathname }}
+      />
     );
   }
 

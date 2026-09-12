@@ -23,7 +23,7 @@ interface WorkspaceContextValue {
   readonly bootstrapComplete: boolean;
   readonly error: string | null;
   readonly refresh: () => Promise<void>;
-  readonly bootstrap: () => Promise<void>;
+  readonly bootstrap: (workspaceId?: string) => Promise<void>;
 }
 
 const WorkspaceContext = createContext<WorkspaceContextValue | null>(null);
@@ -41,43 +41,50 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
   const userName = user?.name ?? "";
 
   const [workspace, setWorkspace] = useState<CurrentWorkspace | null>(null);
-  // Workspace resolution starts in an unknown/loading state. Keeping this true
-  // until the authentication-ready effect has resolved prevents protected
-  // routes from rendering a false "workspace not found" state for one frame.
   const [loading, setLoading] = useState(true);
   const [bootstrapping, setBootstrapping] = useState(false);
   const [bootstrapComplete, setBootstrapComplete] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const bootstrap = useCallback(async () => {
-    if (!workspace) {
-      throw new Error("Current workspace is not available.");
-    }
+  const bootstrap = useCallback(
+    async (workspaceId?: string) => {
+      const targetWorkspaceId = workspaceId ?? workspace?.id;
+      const targetWorkspace = workspaceId
+        ? workspace?.id === workspaceId
+          ? workspace
+          : null
+        : workspace;
 
-    if (workspace.business_category_id == null) {
-      throw new Error(
-        "Complete Business Setup before initializing your workspace.",
-      );
-    }
+      if (!targetWorkspaceId) {
+        throw new Error("Current workspace is not available.");
+      }
 
-    setBootstrapping(true);
-    setError(null);
+      if (targetWorkspace && targetWorkspace.business_category_id == null) {
+        throw new Error(
+          "Complete Business Setup before initializing your workspace.",
+        );
+      }
 
-    try {
-      await service.bootstrapWorkspace(workspace.id);
-      setBootstrapComplete(true);
-    } catch (err) {
-      setBootstrapComplete(false);
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Failed to initialize your business workspace.",
-      );
-      throw err;
-    } finally {
-      setBootstrapping(false);
-    }
-  }, [service, workspace]);
+      setBootstrapping(true);
+      setError(null);
+
+      try {
+        await service.bootstrapWorkspace(targetWorkspaceId);
+        setBootstrapComplete(true);
+      } catch (err) {
+        setBootstrapComplete(false);
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Failed to initialize your business workspace.",
+        );
+        throw err;
+      } finally {
+        setBootstrapping(false);
+      }
+    },
+    [service, workspace],
+  );
 
   const refresh = useCallback(async () => {
     if (!authenticated) {
@@ -98,11 +105,6 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
 
       setWorkspace(currentWorkspace);
       platform.api.setWorkspaceContext(currentWorkspace.id);
-
-      if (currentWorkspace.business_category_id != null) {
-        await service.bootstrapWorkspace(currentWorkspace.id);
-        setBootstrapComplete(true);
-      }
     } catch (err) {
       setError(
         err instanceof Error

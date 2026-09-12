@@ -60,13 +60,13 @@ export function useBusinessSetup() {
       setError(null);
 
       try {
-        if (workspace.business_category_id == null) {
-          await service.completeSetup(workspace.id, payload);
-        }
+        const setupWorkspace =
+          workspace.business_category_id == null
+            ? await service.completeSetup(workspace.id, payload)
+            : workspace;
 
-        // WorkspaceProvider owns the resulting workspace state and the
-        // onboarding gate owns the route transition after that state changes.
         await refreshWorkspace();
+        await bootstrap(setupWorkspace.id);
       } catch (err) {
         setError(
           err instanceof Error
@@ -78,7 +78,7 @@ export function useBusinessSetup() {
         setSubmitting(false);
       }
     },
-    [refreshWorkspace, service, workspace],
+    [bootstrap, refreshWorkspace, service, workspace],
   );
 
   const retryBootstrap = useCallback(async () => {

@@ -24,6 +24,14 @@ interface LoginResponse {
   user: AuthenticatedUser;
 }
 
+interface VerifyEmailResponse {
+  message: string;
+  accessToken: string;
+  refreshToken: string;
+  refreshExpiresAt: string;
+  user: AuthenticatedUser;
+}
+
 interface RefreshResponse {
   accessToken: string;
   refreshToken: string;
@@ -130,15 +138,17 @@ export class Authentication implements AuthenticationContract {
   }
 
   async verifyEmail(email: string, code: string): Promise<void> {
-    await this.api.post("/api/auth/verify-email", { email, code });
+    const response = await this.api.post<VerifyEmailResponse>(
+      "/api/auth/verify-email",
+      { email, code },
+    );
 
-    if (this.currentUser?.email === email) {
-      this.currentUser = {
-        ...this.currentUser,
-        emailVerified: true,
-      };
-      this.notify();
-    }
+    this.tokens.setTokens(response.accessToken, response.refreshToken);
+    this.currentUser = response.user;
+    await this.session.start(this.getAccessTokenExpiry(response.accessToken));
+    this.authenticatedState = true;
+    this.readyState = true;
+    this.notify();
   }
 
   async resendVerification(email: string): Promise<void> {

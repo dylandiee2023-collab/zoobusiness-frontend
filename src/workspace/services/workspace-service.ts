@@ -7,6 +7,7 @@ export interface CurrentWorkspace {
   readonly name: string;
   readonly slug: string;
   readonly business_category_id: string | null;
+  readonly bootstrap_completed: boolean;
   readonly status: "ACTIVE" | "INACTIVE" | "SUSPENDED" | "DELETED";
 }
 

@@ -38,6 +38,14 @@ interface RefreshResponse {
   expiresAt: string;
 }
 
+interface ForgotPasswordResponse {
+  message: string;
+}
+
+interface ResetPasswordResponse {
+  message: string;
+}
+
 export class Authentication implements AuthenticationContract {
   private readonly api: ApiClientContract;
   private readonly tokens: TokenManagerContract;
@@ -153,6 +161,27 @@ export class Authentication implements AuthenticationContract {
 
   async resendVerification(email: string): Promise<void> {
     await this.api.post("/api/auth/resend-verification", { email });
+  }
+
+  async forgotPassword(email: string): Promise<string> {
+    const response = await this.api.post<ForgotPasswordResponse>(
+      "/api/auth/forgot-password",
+      { email },
+    );
+
+    return response.message;
+  }
+
+  async resetPassword(
+    email: string,
+    code: string,
+    password: string,
+  ): Promise<void> {
+    await this.api.post<ResetPasswordResponse>("/api/auth/reset-password", {
+      email,
+      code,
+      password,
+    });
   }
 
   async logout(): Promise<void> {

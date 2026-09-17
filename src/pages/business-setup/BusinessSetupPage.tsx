@@ -5,7 +5,7 @@ import { Button } from "@/design-system/buttons";
 import { Input } from "@/design-system/inputs";
 import { FormError, FormField, FormLabel } from "@/design-system/forms";
 import { Heading, Text } from "@/design-system/typography";
-import { Stack } from "@/design-system/layout";
+import { Stack, Container } from "@/design-system/layout";
 import { Select } from "@/design-system/components/select";
 import { Textarea } from "@/design-system/components/textarea";
 
@@ -83,10 +83,12 @@ export function BusinessSetupPage() {
   if (loading) {
     return (
       <main>
-        <Stack spacing="16px">
-          <Heading level={1}>Business Setup</Heading>
-          <Text>Loading your business setup...</Text>
-        </Stack>
+        <Container maxWidth="720px" padding="24px 16px">
+          <Stack spacing="16px">
+            <Heading level={1}>Business Setup</Heading>
+            <Text>Loading your business setup...</Text>
+          </Stack>
+        </Container>
       </main>
     );
   }
@@ -94,11 +96,13 @@ export function BusinessSetupPage() {
   if (!workspace) {
     return (
       <main>
-        <Stack spacing="16px">
-          <Heading level={1}>Business Setup</Heading>
-          <Text>We could not load your workspace.</Text>
-          {error && <Text>{error}</Text>}
-        </Stack>
+        <Container maxWidth="720px" padding="24px 16px">
+          <Stack spacing="16px">
+            <Heading level={1}>Business Setup</Heading>
+            <Text>We could not load your workspace.</Text>
+            {error && <Text>{error}</Text>}
+          </Stack>
+        </Container>
       </main>
     );
   }
@@ -106,156 +110,160 @@ export function BusinessSetupPage() {
   if (workspace.business_category_id != null && !bootstrapComplete) {
     return (
       <main>
-        <Stack spacing="24px">
-          <Stack spacing="8px">
-            <Text>Workspace created</Text>
-            <Heading level={1}>Finish setting up your business</Heading>
-            <Text>
-              Your business details are saved. We still need to initialize your
-              workspace before you can open the dashboard.
-            </Text>
+        <Container maxWidth="720px" padding="24px 16px">
+          <Stack spacing="24px">
+            <Stack spacing="8px">
+              <Text>Workspace created</Text>
+              <Heading level={1}>Finish setting up your business</Heading>
+              <Text>
+                Your business details are saved. We still need to initialize your
+                workspace before you can open the dashboard.
+              </Text>
+            </Stack>
+
+            {error && <Text>{error}</Text>}
+
+            <Button
+              type="button"
+              variant="primary"
+              disabled={submitting}
+              loading={submitting}
+              onClick={() => {
+                void handleBootstrapRetry();
+              }}
+            >
+              {submitting ? "Initializing..." : "Finish setup"}
+            </Button>
           </Stack>
-
-          {error && <Text>{error}</Text>}
-
-          <Button
-            type="button"
-            variant="primary"
-            disabled={submitting}
-            loading={submitting}
-            onClick={() => {
-              void handleBootstrapRetry();
-            }}
-          >
-            {submitting ? "Initializing..." : "Finish setup"}
-          </Button>
-        </Stack>
+        </Container>
       </main>
     );
   }
 
   return (
     <main>
-      <Stack spacing="24px">
-        <Stack spacing="8px">
-          <Text>Logo / Brand</Text>
-          <Heading level={1}>Set up your business</Heading>
-          <Text>Tell us a little about your business to get started.</Text>
-        </Stack>
+      <Container maxWidth="720px" padding="24px 16px">
+        <Stack spacing="24px">
+          <Stack spacing="8px">
+            <Text>Logo / Brand</Text>
+            <Heading level={1}>Set up your business</Heading>
+            <Text>Tell us a little about your business to get started.</Text>
+          </Stack>
 
-        <form onSubmit={handleSubmit}>
-          <Stack spacing="20px">
-            <FormField
-              id="business-category"
-              name="businessCategoryId"
-              label="Business Category"
-              required
-              {...(categoryError ? { error: categoryError } : {})}
-              disabled={submitting}
-            >
-              <FormLabel />
-              <Select
+          <form onSubmit={handleSubmit}>
+            <Stack spacing="20px">
+              <FormField
                 id="business-category"
                 name="businessCategoryId"
-                options={categoryOptions}
-                value={businessCategoryId}
-                onChange={(event) => setBusinessCategoryId(event.target.value)}
-                error={Boolean(categoryError)}
-                disabled={submitting}
+                label="Business Category"
                 required
-              />
-              <FormError />
-            </FormField>
+                {...(categoryError ? { error: categoryError } : {})}
+                disabled={submitting}
+              >
+                <FormLabel />
+                <Select
+                  id="business-category"
+                  name="businessCategoryId"
+                  options={categoryOptions}
+                  value={businessCategoryId}
+                  onChange={(event) => setBusinessCategoryId(event.target.value)}
+                  error={Boolean(categoryError)}
+                  disabled={submitting}
+                  required
+                />
+                <FormError />
+              </FormField>
 
-            <FormField
-              id="description"
-              name="description"
-              label="Description"
-              disabled={submitting}
-            >
-              <FormLabel />
-              <Textarea
+              <FormField
                 id="description"
                 name="description"
-                value={description}
-                onChange={(event) => setDescription(event.target.value)}
-                rows={4}
+                label="Description"
                 disabled={submitting}
-              />
-            </FormField>
+              >
+                <FormLabel />
+                <Textarea
+                  id="description"
+                  name="description"
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
+                  rows={4}
+                  disabled={submitting}
+                />
+              </FormField>
 
-            <FormField
-              id="address"
-              name="address"
-              label="Address"
-              disabled={submitting}
-            >
-              <FormLabel />
-              <Input
+              <FormField
                 id="address"
                 name="address"
-                value={address}
-                onChange={(event) => setAddress(event.target.value)}
+                label="Address"
                 disabled={submitting}
-              />
-            </FormField>
+              >
+                <FormLabel />
+                <Input
+                  id="address"
+                  name="address"
+                  value={address}
+                  onChange={(event) => setAddress(event.target.value)}
+                  disabled={submitting}
+                />
+              </FormField>
 
-            <FormField id="city" name="city" label="City" disabled={submitting}>
-              <FormLabel />
-              <Input
-                id="city"
-                name="city"
-                value={city}
-                onChange={(event) => setCity(event.target.value)}
-                disabled={submitting}
-              />
-            </FormField>
+              <FormField id="city" name="city" label="City" disabled={submitting}>
+                <FormLabel />
+                <Input
+                  id="city"
+                  name="city"
+                  value={city}
+                  onChange={(event) => setCity(event.target.value)}
+                  disabled={submitting}
+                />
+              </FormField>
 
-            <FormField
-              id="region"
-              name="region"
-              label="Region"
-              disabled={submitting}
-            >
-              <FormLabel />
-              <Input
+              <FormField
                 id="region"
                 name="region"
-                value={region}
-                onChange={(event) => setRegion(event.target.value)}
+                label="Region"
                 disabled={submitting}
-              />
-            </FormField>
+              >
+                <FormLabel />
+                <Input
+                  id="region"
+                  name="region"
+                  value={region}
+                  onChange={(event) => setRegion(event.target.value)}
+                  disabled={submitting}
+                />
+              </FormField>
 
-            <FormField
-              id="country"
-              name="country"
-              label="Country"
-              disabled={submitting}
-            >
-              <FormLabel />
-              <Input
+              <FormField
                 id="country"
                 name="country"
-                value={country}
-                onChange={(event) => setCountry(event.target.value)}
+                label="Country"
                 disabled={submitting}
-              />
-            </FormField>
+              >
+                <FormLabel />
+                <Input
+                  id="country"
+                  name="country"
+                  value={country}
+                  onChange={(event) => setCountry(event.target.value)}
+                  disabled={submitting}
+                />
+              </FormField>
 
-            {error && <Text>{error}</Text>}
+              {error && <Text>{error}</Text>}
 
-            <Button
-              type="submit"
-              variant="primary"
-              disabled={submitting}
-              loading={submitting}
-            >
-              {submitting ? "Saving..." : "Continue"}
-            </Button>
-          </Stack>
-        </form>
-      </Stack>
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={submitting}
+                loading={submitting}
+              >
+                {submitting ? "Saving..." : "Continue"}
+              </Button>
+            </Stack>
+          </form>
+        </Stack>
+      </Container>
     </main>
   );
 }

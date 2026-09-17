@@ -35,16 +35,27 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
     [platform.api],
   );
 
-  const authenticated = platform.authentication.authenticated;
-  const user = platform.authentication.user;
+  const authentication = platform.authentication;
+  const authenticated = authentication.authenticated;
+  const user = authentication.user;
   const userId = user?.id ?? null;
   const userName = user?.name ?? "";
 
+  const [authenticationVersion, setAuthenticationVersion] = useState(0);
   const [workspace, setWorkspace] = useState<CurrentWorkspace | null>(null);
   const [loading, setLoading] = useState(true);
   const [bootstrapping, setBootstrapping] = useState(false);
   const [bootstrapComplete, setBootstrapComplete] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // WorkspaceProvider must react directly to authentication state changes.
+  // This is especially important during the register -> verify-email flow,
+  // where verifyEmail() updates the authentication object in place.
+  useEffect(() => {
+    return authentication.subscribe(() => {
+      setAuthenticationVersion((version) => version + 1);
+    });
+  }, [authentication]);
 
   const bootstrap = useCallback(
     async (workspaceId?: string) => {
@@ -118,14 +129,16 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
   }, [authenticated, platform.api, service, userId, userName]);
 
   useEffect(() => {
-    if (!platform.authentication.ready) {
+    // Read the current value so this effect is re-evaluated when the
+    // authentication subscription above receives hydrate/login/verify events.
+    void authenticationVersion;
+
+    if (!authentication.ready) {
       return;
     }
 
-    queueMicrotask(() => {
-      void refresh().catch(() => undefined);
-    });
-  }, [platform.authentication.ready, refresh]);
+    void refresh().catch(() => undefined);
+  }, [authentication.ready, authenticationVersion, refresh]);
 
   const value = useMemo(
     () => ({

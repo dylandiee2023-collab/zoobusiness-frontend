@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/design-system/buttons";
 import { FormError, FormField, FormLabel } from "@/design-system/forms";
@@ -13,6 +14,7 @@ import { AuthShell } from "@/shells/AuthShell";
 export function LoginPage() {
   const { theme } = useTheme();
   const { authentication } = usePlatform();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -51,7 +53,10 @@ export function LoginPage() {
       // AuthenticatedRoute and OnboardingGate decide whether the user belongs
       // on Business Setup or Dashboard.
     } catch (error) {
-      if (error instanceof Error && "status" in error && error.status === 401) {
+      if (error instanceof Error && "status" in error && error.status === 403) {
+        sessionStorage.setItem("verification_email", email.trim());
+        navigate("/verify-email", { replace: true });
+      } else if (error instanceof Error && "status" in error && error.status === 401) {
         setLoginError("Invalid email or password.");
       } else {
         setLoginError(

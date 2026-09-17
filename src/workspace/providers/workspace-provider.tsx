@@ -98,12 +98,12 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
 
     setLoading(true);
     setError(null);
-    setBootstrapComplete(false);
 
     try {
       const currentWorkspace = await service.ensureWorkspace(userId, userName);
 
       setWorkspace(currentWorkspace);
+      setBootstrapComplete(currentWorkspace.bootstrap_completed);
       platform.api.setWorkspaceContext(currentWorkspace.id);
     } catch (err) {
       setError(

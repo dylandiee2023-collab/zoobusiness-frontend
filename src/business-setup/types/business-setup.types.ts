@@ -3,9 +3,8 @@ export interface BusinessCategory {
   readonly name: string;
   readonly slug: string;
   readonly description: string | null;
-  readonly icon: string | null;
   readonly sortOrder: number;
-  readonly status: "ACTIVE" | "INACTIVE";
+  readonly isActive: boolean;
 }
 
 export interface CurrentWorkspace {

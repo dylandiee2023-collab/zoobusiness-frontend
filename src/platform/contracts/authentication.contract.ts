@@ -23,6 +23,14 @@ export interface AuthenticationContract {
 
   resendVerification(email: string): Promise<void>;
 
+  forgotPassword(email: string): Promise<string>;
+
+  resetPassword(
+    email: string,
+    code: string,
+    password: string,
+  ): Promise<void>;
+
   logout(): Promise<void>;
 
   refresh(): Promise<void>;

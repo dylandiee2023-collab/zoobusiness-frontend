@@ -64,15 +64,14 @@ export function VerifyEmailPage() {
     try {
       await authentication.verifyEmail(email, code);
 
-      setSuccess("Email verified successfully.");
-
       sessionStorage.removeItem("verification_email");
+      setSuccess("Email verified successfully. Setting up your business...");
 
       window.setTimeout(() => {
-        navigate("/login", {
+        navigate("/business-setup", {
           replace: true,
         });
-      }, 1000);
+      }, 500);
     } catch (error) {
       if (error instanceof Error && "status" in error) {
         if (error.status === 401) {

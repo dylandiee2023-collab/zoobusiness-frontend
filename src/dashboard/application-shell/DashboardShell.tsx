@@ -66,10 +66,7 @@ export function DashboardShell() {
   );
   const navigation = useMemo(
     () =>
-      resolveNavigation(navigationConfig, {
-        businessCategory: "retail",
-        permissions,
-      }),
+      resolveNavigation(navigationConfig, { permissions }),
     [permissions],
   );
   const sidebarItems = navigation.filter(

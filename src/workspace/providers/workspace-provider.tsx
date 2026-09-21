@@ -137,7 +137,7 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
       return;
     }
 
-    void refresh().catch(() => undefined);
+    queueMicrotask(() => {\n      void refresh().catch(() => undefined);\n    });
   }, [authentication.ready, authenticationVersion, refresh]);
 
   const value = useMemo(

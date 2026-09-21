@@ -1,4 +1,4 @@
-import logo from "@/assets/logo.png";
+import { logo } from "@/assets/brand";
 
 import { useTheme } from "@/theme/hooks";
 
@@ -13,11 +13,12 @@ export function BrandLogo({ size }: BrandLogoProps) {
     <img
       src={logo}
       alt="ZooBUSINESS"
-      width={logoSize}
       height={logoSize}
       style={{
-        width: logoSize,
+        display: "block",
         height: logoSize,
+        width: "auto",
+        maxWidth: "100%",
         objectFit: "contain",
         flexShrink: 0,
       }}

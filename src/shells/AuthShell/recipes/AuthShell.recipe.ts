@@ -11,8 +11,7 @@ export const authShellRecipe = createRecipe<AuthShellRecipeProps>({
     return {
       style: {
         width: "100%",
-        height: "100dvh",
-        minHeight: 0,
+        minHeight: "100dvh",
         boxSizing: "border-box",
 
         display: "flex",
@@ -20,33 +19,32 @@ export const authShellRecipe = createRecipe<AuthShellRecipeProps>({
         alignItems: "center",
         justifyContent: "center",
 
-        overflow: "hidden",
+        overflowX: "hidden",
+        overflowY: "auto",
         overscrollBehavior: "none",
 
         padding: theme.spacing.page,
 
         background: glass
-          ? `
-            radial-gradient(
-              circle at 20% 20%,
+          ? `radial-gradient(
+              circle at 15% 10%,
               color-mix(
                 in srgb,
-                ${theme.colors.primary} ${theme.effects.glass.primaryGlow},
+                ${theme.colors.primary} 12%,
                 transparent
               ),
-              transparent ${theme.effects.glass.gradientStop}
+              transparent 34%
             ),
             radial-gradient(
-              circle at 80% 80%,
+              circle at 85% 90%,
               color-mix(
                 in srgb,
-                ${theme.colors.info} ${theme.effects.glass.infoGlow},
+                ${theme.colors.info} 8%,
                 transparent
               ),
-              transparent ${theme.effects.glass.gradientStop}
+              transparent 38%
             ),
-            ${theme.colors.background}
-          `
+            ${theme.colors.background}`
           : theme.colors.background,
 
         color: theme.colors.text,

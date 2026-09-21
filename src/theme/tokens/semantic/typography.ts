@@ -2,7 +2,7 @@ import { typography } from "@/theme/tokens";
 
 export const semanticTypography = {
   display: {
-    fontFamily: typography.fontFamily.serif,
+    fontFamily: typography.fontFamily.sans,
     fontSize: typography.fontSize["4xl"],
     fontWeight: typography.fontWeight.bold,
     lineHeight: typography.lineHeight.tight,

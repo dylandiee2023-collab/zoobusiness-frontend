@@ -9,18 +9,13 @@ export const authCardRecipe = createRecipe<AuthCardRecipeProps>({
     return {
       style: {
         width: "100%",
-        padding: theme.spacing.card,
-
-        border: `${theme.borders.card} solid ${theme.colors.border}`,
-
+        maxWidth: 460,
+        padding: "32px",
+        border: `1px solid ${theme.colors.border}`,
         borderRadius: theme.radius.dialog,
-
         background: theme.colors.surface,
-
         boxShadow: theme.shadows.floating,
-
         color: theme.colors.text,
-
         boxSizing: "border-box",
       },
     };

@@ -1,5 +1,4 @@
-import { Container, Stack, Center, Flex } from "@/design-system/layout";
-import { Link } from "@/design-system/typography";
+import { Container, Stack, Center } from "@/design-system/layout";
 import { useTheme } from "@/theme/hooks";
 
 import { AuthBrand } from "./components/AuthBrand";
@@ -8,14 +7,7 @@ import { authShellRecipe } from "./recipes";
 
 import type { AuthShellProps } from "./AuthShell.types";
 
-const FOOTER_LINKS = [
-  { label: "Privacy", href: "/privacy" },
-  { label: "Terms", href: "/terms" },
-  { label: "Contact", href: "/contact" },
-  { label: "Home", href: "/" },
-] as const;
-
-export function AuthShell({ children, glass = false }: AuthShellProps) {
+export function AuthShell({ children, glass = false, footer }: AuthShellProps) {
   const { theme } = useTheme();
   const recipe = authShellRecipe(theme, { glass });
 
@@ -43,20 +35,11 @@ export function AuthShell({ children, glass = false }: AuthShellProps) {
         </Stack>
       </Container>
 
-      <nav aria-label="Authentication footer" style={{ width: "100%" }}>
-        <Flex
-          gap={theme.spacing.inline}
-          wrap="wrap"
-          justify="center"
-          align="center"
-        >
-          {FOOTER_LINKS.map((item) => (
-            <Link key={item.label} href={item.href}>
-              {item.label}
-            </Link>
-          ))}
-        </Flex>
-      </nav>
+      {footer ? (
+        <nav aria-label="Authentication footer" style={{ width: "100%" }}>
+          {footer}
+        </nav>
+      ) : null}
     </main>
   );
 }

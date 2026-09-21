@@ -15,17 +15,17 @@ export function Card({
   const { theme } = useTheme();
 
   const paddingMap = {
-    none: theme.spacing[0],
-    sm: theme.spacing[2],
+    none: "0px",
+    sm: theme.spacing.icon,
     md: theme.spacing.card,
-    lg: theme.spacing[6],
+    lg: theme.spacing.section,
   } as const;
 
   const shadowMap = {
-    none: theme.shadows.none,
-    sm: theme.shadows.sm,
-    md: theme.shadows.md,
-    lg: theme.shadows.lg,
+    none: "none",
+    sm: theme.shadows.card,
+    md: theme.shadows.dropdown,
+    lg: theme.shadows.modal,
   } as const;
 
   return (
@@ -34,7 +34,7 @@ export function Card({
       style={{
         margin: 0,
         padding: paddingMap[padding],
-        borderRadius: theme.radius.lg,
+        borderRadius: theme.radius.card,
         border: bordered ? `1px solid ${theme.colors.border}` : "none",
         background: theme.colors.surface,
         boxShadow: shadowMap[shadow],

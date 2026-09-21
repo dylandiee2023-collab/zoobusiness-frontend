@@ -20,4 +20,4 @@ export type AppRouteObject = RouteObject & {
   readonly handle?: AppRouteHandle;
 };
 
-export const routes: readonly AppRouteObject[] = [];
+export const routes: AppRouteObject[] = [];

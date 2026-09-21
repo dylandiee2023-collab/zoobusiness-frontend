@@ -5,13 +5,6 @@ export function resolveNavigation(
   context: NavigationContext,
 ): NavigationItem[] {
   return items.flatMap((item) => {
-    if (
-      item.businessCategories &&
-      !item.businessCategories.includes(context.businessCategory)
-    ) {
-      return [];
-    }
-
     if (item.permission && !context.permissions.has(item.permission)) {
       return [];
     }

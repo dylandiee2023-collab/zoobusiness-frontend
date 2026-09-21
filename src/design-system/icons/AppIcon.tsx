@@ -1,69 +1,8 @@
-import type { LucideProps, LucideIcon } from "lucide-react";
-import {
-  AlertCircle,
-  Bell,
-  Boxes,
-  Box,
-  Bot,
-  ChartNoAxesCombined,
-  Check,
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  CircleHelp,
-  CreditCard,
-  Grid2X2,
-  Home,
-  LayoutDashboard,
-  LogOut,
-  Menu,
-  Package,
-  Plus,
-  Receipt,
-  Search,
-  Settings,
-  ShoppingBag,
-  ShoppingCart,
-  Tags,
-  Truck,
-  Users,
-  Warehouse,
-  X,
-} from "lucide-react";
+import type { LucideProps } from "lucide-react";
+import type { AppIconName } from "./app-icon-map";
+import { APP_ICONS } from "./app-icon-map";
 
-export const APP_ICONS = {
-  alert: AlertCircle,
-  bell: Bell,
-  boxes: Boxes,
-  box: Box,
-  bot: Bot,
-  chart: ChartNoAxesCombined,
-  check: Check,
-  chevronDown: ChevronDown,
-  chevronLeft: ChevronLeft,
-  chevronRight: ChevronRight,
-  help: CircleHelp,
-  home: Home,
-  dashboard: LayoutDashboard,
-  grid: Grid2X2,
-  logout: LogOut,
-  menu: Menu,
-  package: Package,
-  plus: Plus,
-  receipt: Receipt,
-  search: Search,
-  settings: Settings,
-  shoppingBag: ShoppingBag,
-  cart: ShoppingCart,
-  tags: Tags,
-  truck: Truck,
-  users: Users,
-  warehouse: Warehouse,
-  close: X,
-  creditCard: CreditCard,
-} as const satisfies Record<string, LucideIcon>;
-
-export type AppIconName = keyof typeof APP_ICONS;
+export type { AppIconName } from "./app-icon-map";
 
 export interface AppIconProps extends Omit<LucideProps, "name"> {
   readonly name: AppIconName;

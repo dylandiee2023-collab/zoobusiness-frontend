@@ -25,11 +25,7 @@ export interface AuthenticationContract {
 
   forgotPassword(email: string): Promise<string>;
 
-  resetPassword(
-    email: string,
-    code: string,
-    password: string,
-  ): Promise<void>;
+  resetPassword(email: string, code: string, password: string): Promise<void>;
 
   logout(): Promise<void>;
 

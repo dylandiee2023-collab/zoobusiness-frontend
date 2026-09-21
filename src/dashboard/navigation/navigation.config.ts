@@ -91,7 +91,7 @@ export const navigationConfig: readonly NavigationItem[] = [
   {
     id: "purchases",
     label: "Purchases",
-    icon: "shopping-bag",
+    icon: "shoppingBag",
     route: "/purchases",
     permission: "order.view",
     placement: "sidebar",
@@ -99,7 +99,7 @@ export const navigationConfig: readonly NavigationItem[] = [
   {
     id: "payments",
     label: "Payments",
-    icon: "credit-card",
+    icon: "creditCard",
     route: "/payments",
     permission: "payment.view",
     placement: "sidebar",

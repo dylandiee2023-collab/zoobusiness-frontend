@@ -36,6 +36,7 @@ interface RefreshResponse {
   accessToken: string;
   refreshToken: string;
   expiresAt: string;
+  user: AuthenticatedUser;
 }
 
 interface ForgotPasswordResponse {
@@ -226,6 +227,7 @@ export class Authentication implements AuthenticationContract {
       );
 
       this.tokens.setTokens(response.accessToken, response.refreshToken);
+      this.currentUser = response.user;
       await this.session.refresh(response.expiresAt);
       this.authenticatedState = true;
     } catch (error) {

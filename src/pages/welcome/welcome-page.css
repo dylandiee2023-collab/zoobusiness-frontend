@@ -29,10 +29,6 @@
     align-items: stretch;
   }
 
-  .landing-feature-grid,
-  .landing-capability-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

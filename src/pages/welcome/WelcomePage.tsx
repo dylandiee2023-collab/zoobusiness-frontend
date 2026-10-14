@@ -51,8 +51,10 @@ function LandingPageContent() {
     animationTimingFunction: theme.motion.easing,
     animationFillMode: "both" as const,
   };
-  const responsiveColumns =
-    "repeat(auto-fit, minmax(min(100%, " + theme.containers.dialog + "), 1fr))";
+  const responsiveColumns = `repeat(auto-fit, minmax(min(100%, ${theme.containers.dialog}), 1fr))`;
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView();
+  };
 
   const header = (
     <Flex
@@ -158,11 +160,7 @@ function LandingPageContent() {
                   <Button
                     size="lg"
                     variant="outline"
-                    onClick={() =>
-                      document
-                        .getElementById("solutions")
-                        ?.scrollIntoView()
-                    }
+                    onClick={() => scrollToSection("solutions")}
                   >
                     Explore solutions
                   </Button>
@@ -311,11 +309,7 @@ function LandingPageContent() {
               </Stack>
               <Button
                 variant="outline"
-                onClick={() =>
-                  document
-                    .getElementById("contact")
-                    ?.scrollIntoView()
-                }
+                onClick={() => scrollToSection("contact")}
               >
                 Contact us
               </Button>

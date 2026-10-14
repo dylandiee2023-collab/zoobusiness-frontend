@@ -16,6 +16,8 @@ export interface AppRouteHandle {
   readonly permissions?: readonly string[];
 }
 
-export type AppRouteObject = RouteObject & { readonly handle?: AppRouteHandle };
+export type AppRouteObject = RouteObject & {
+  readonly handle?: AppRouteHandle;
+};
 
 export const routes: AppRouteObject[] = [];

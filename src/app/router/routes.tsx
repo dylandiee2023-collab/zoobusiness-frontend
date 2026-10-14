@@ -5,13 +5,7 @@ import { SignUpPage } from "@/pages/auth/SignUpPage";
 import { WelcomePage } from "@/pages/welcome/WelcomePage";
 
 export type AppShellName =
-  | "auth"
-  | "dashboard"
-  | "blank"
-  | "error"
-  | "pos"
-  | "marketplace"
-  | "public";
+  "auth" | "dashboard" | "blank" | "error" | "pos" | "marketplace" | "public";
 
 export interface AppRouteHandle {
   readonly title?: string;

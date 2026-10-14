@@ -1,386 +1,385 @@
-import { logo } from "@/assets/brand";
+import { useNavigate } from "react-router-dom";
+
+import {
+  Button,
+  Container,
+  Flex,
+  Grid,
+  Heading,
+  Link,
+  Stack,
+  Text,
+} from "@/design-system";
 import { AppIcon } from "@/design-system/icons";
+import { LayoutProvider, useLayout } from "@/layout-engine";
 import { PublicShell } from "@/shells/PublicShell";
 import { useTheme } from "@/theme/hooks";
 
 import "./welcome-page.css";
 
-const features = [
+const capabilities = [
   {
     icon: "package",
-    title: "Product catalogue",
-    description:
-      "Keep product information organized so your team can find what it needs.",
+    title: "Products",
+    description: "Keep product information organized in your workspace.",
   },
   {
     icon: "warehouse",
-    title: "Inventory visibility",
-    description:
-      "Use the inventory tools to follow stock movements across your workspace.",
+    title: "Inventory",
+    description: "Manage stock and follow inventory movements.",
   },
   {
     icon: "receipt",
     title: "Orders and payments",
+    description: "Manage order workflows and record payment activity.",
+  },
+  {
+    icon: "bot",
+    title: "AI customer assistant",
     description:
-      "Bring order processing and payment workflows into the same operating space.",
+      "Answer customer questions using content available to their workspace.",
   },
 ] as const;
 
-const linkStyle = {
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: "8px",
-  minHeight: "44px",
-  padding: "0 18px",
-  borderRadius: "999px",
-  textDecoration: "none",
-  fontWeight: 600,
-  transition: "background-color 160ms ease, color 160ms ease",
-} as const;
-
-export function WelcomePage() {
+function LandingPageContent() {
+  const navigate = useNavigate();
   const { theme } = useTheme();
+  const { dimensions } = useLayout();
+
+  const revealStyle = {
+    animationDuration: theme.motion.modal,
+    animationTimingFunction: theme.motion.easing,
+    animationFillMode: "both" as const,
+  };
 
   const header = (
-    <div
-      className="welcome-header-inner"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: theme.spacing.inline,
-        minHeight: theme.componentSizes.topbarHeight,
-      }}
+    <Flex
+      className="landing-header"
+      align="center"
+      justify="space-between"
+      gap={theme.spacing.inline}
+      style={{ minHeight: theme.componentSizes.topbarHeight }}
     >
-      <a
-        href="#top"
-        aria-label="ZooBusiness home"
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: theme.spacing.inline,
-          color: theme.colors.text,
-          textDecoration: "none",
-          fontWeight: 750,
-          whiteSpace: "nowrap",
-        }}
+      <Link
+        href="#home"
+        aria-label="AvatraTech home"
+        color={theme.colors.text}
+        weight={theme.typography.heading3.fontWeight}
+        decoration="none"
       >
-        <img
-          src={logo}
-          alt=""
-          width={36}
-          height={36}
-          style={{ objectFit: "contain" }}
-        />
-        <span>ZooBusiness</span>
-      </a>
+        AvatraTech
+      </Link>
 
-      <nav
-        className="welcome-nav"
-        aria-label="Main navigation"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: theme.spacing.section,
-        }}
+      <Flex
+        className="landing-navigation"
+        align="center"
+        gap={theme.spacing.section}
       >
-        <a href="#features" style={{ color: theme.colors.textSecondary }}>
-          Features
-        </a>
-        <a href="#how-it-works" style={{ color: theme.colors.textSecondary }}>
-          How it works
-        </a>
-      </nav>
+        <Link href="#home">Home</Link>
+        <Link href="#solutions">Solutions</Link>
+        <Link href="#features">Features</Link>
+        <Link href="#pricing">Pricing</Link>
+        <Link href="#support">Help &amp; Support</Link>
+        <Link href="#contact">Contact</Link>
+      </Flex>
 
-      <a
-        className="welcome-header-cta"
-        href="#features"
-        style={{
-          ...linkStyle,
-          minHeight: "40px",
-          paddingInline: "14px",
-          background: theme.colors.primary,
-          color: theme.colors.onPrimary,
-        }}
-      >
-        Explore platform
-        <AppIcon name="chevronRight" size={16} aria-hidden="true" />
-      </a>
-    </div>
-  );
-
-  const footer = (
-    <div
-      className="welcome-footer-inner"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: theme.spacing.inline,
-        minHeight: theme.componentSizes.bottomNavigationHeight,
-        color: theme.colors.textSecondary,
-        fontSize: theme.typography.bodySmall.fontSize,
-      }}
-    >
-      <span>© {new Date().getFullYear()} ZooBusiness</span>
-      <a
-        href="#top"
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: theme.spacing.icon,
-          color: theme.colors.textSecondary,
-          textDecoration: "none",
-        }}
-      >
-        Back to top
-        <AppIcon
-          name="chevronRight"
-          size={16}
-          aria-hidden="true"
-          style={{ transform: "rotate(-90deg)" }}
-        />
-      </a>
-    </div>
+      <Flex align="center" gap={theme.spacing.inline}>
+        <Link href="/login">Log in</Link>
+        <Button size="md" onClick={() => navigate("/signup")}>
+          Sign up
+        </Button>
+      </Flex>
+    </Flex>
   );
 
   return (
-    <PublicShell header={header} footer={footer}>
-      <main
-        id="top"
-        style={{
-          width: "100%",
-          maxWidth: theme.containers.page,
-          marginInline: "auto",
-          padding: `${theme.spacing.section} ${theme.spacing.page}`,
-          boxSizing: "border-box",
-        }}
-      >
-        <section
-          className="welcome-enter"
-          aria-labelledby="welcome-title"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            justifyContent: "center",
-            gap: theme.spacing.section,
-            minHeight: "min(68dvh, 620px)",
-            paddingBlock: theme.spacing.section,
-          }}
+    <PublicShell header={header}>
+      <main id="home">
+        <Container
+          maxWidth={dimensions.maxContentWidth}
+          padding={theme.spacing.page}
+          center
         >
-          <p
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: theme.spacing.icon,
-              margin: 0,
-              padding: "8px 12px",
-              borderRadius: theme.radius.badge,
-              background: theme.colors.surface,
-              color: theme.colors.primary,
-              fontSize: theme.typography.caption.fontSize,
-              fontWeight: 700,
-            }}
-          >
-            <AppIcon name="grid" size={16} aria-hidden="true" />
-            Business operations, connected
-          </p>
-
-          <h1
-            id="welcome-title"
-            style={{
-              ...theme.typography.display,
-              maxWidth: "850px",
-              margin: 0,
-              fontSize: "clamp(2.5rem, 7vw, 5.25rem)",
-              color: theme.colors.text,
-            }}
-          >
-            Welcome to a clearer way to run your business.
-          </h1>
-
-          <p
-            style={{
-              maxWidth: "650px",
-              margin: 0,
-              color: theme.colors.textSecondary,
-              fontSize: "clamp(1rem, 2vw, 1.2rem)",
-              lineHeight: 1.75,
-            }}
-          >
-            Bring your product catalogue, inventory, orders, and payments
-            together in one workspace built to support your day-to-day work.
-          </p>
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: theme.spacing.inline,
-            }}
-          >
-            <a
-              href="#features"
-              style={{
-                ...linkStyle,
-                background: theme.colors.primary,
-                color: theme.colors.onPrimary,
-              }}
+          <Stack spacing={theme.spacing.section}>
+            <Flex
+              className="landing-hero"
+              align="center"
+              gap={theme.spacing.section}
+              style={{ paddingBlock: theme.spacing.section }}
             >
-              Explore features
-              <AppIcon name="chevronRight" size={18} aria-hidden="true" />
-            </a>
-            <a
-              href="#how-it-works"
-              style={{
-                ...linkStyle,
-                border: `1px solid ${theme.colors.border}`,
-                color: theme.colors.text,
-              }}
-            >
-              How it works
-            </a>
-          </div>
-        </section>
+              <Stack
+                className="landing-hero-copy landing-reveal"
+                spacing={theme.spacing.inline}
+                style={{ ...revealStyle, flex: 1 }}
+              >
+                <Text
+                  color={theme.colors.primary}
+                  weight={theme.typography.body.fontWeight}
+                  transform="uppercase"
+                  letterSpacing={theme.typography.caption.letterSpacing}
+                >
+                  AvatraTech introduces AutoBots
+                </Text>
+                <Heading
+                  level={1}
+                  color={theme.colors.text}
+                  style={theme.typography.display}
+                >
+                  Your business operations, connected.
+                </Heading>
+                <Text
+                  color={theme.colors.textSecondary}
+                  size={theme.typography.body.fontSize}
+                >
+                  AutoBots brings products, inventory, orders, payments and
+                  customer conversations into one workspace—with AI assistance
+                  to help answer customer questions.
+                </Text>
+                <Flex
+                  className="landing-hero-actions"
+                  align="center"
+                  gap={theme.spacing.inline}
+                  wrap="wrap"
+                >
+                  <Button
+                    size="lg"
+                    onClick={() => navigate("/signup")}
+                    rightIcon={
+                      <AppIcon
+                        name="chevronRight"
+                        size={theme.iconSizes.md}
+                        aria-hidden="true"
+                      />
+                    }
+                  >
+                    Get started
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    onClick={() =>
+                      document
+                        .getElementById("solutions")
+                        ?.scrollIntoView({ behavior: "smooth" })
+                    }
+                  >
+                    Explore solutions
+                  </Button>
+                </Flex>
+              </Stack>
 
-        <section
-          id="features"
-          className="welcome-enter welcome-enter-delay-1"
-          aria-labelledby="features-title"
-          style={{
-            paddingBlock: theme.spacing.section,
-            scrollMarginTop: theme.componentSizes.topbarHeight,
-          }}
-        >
-          <div style={{ marginBottom: theme.spacing.section }}>
-            <p
-              style={{
-                margin: "0 0 8px",
-                color: theme.colors.primary,
-                fontSize: theme.typography.caption.fontSize,
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-              }}
-            >
-              Built for everyday operations
-            </p>
-            <h2
-              id="features-title"
-              style={{
-                ...theme.typography.heading1,
-                margin: 0,
-                color: theme.colors.text,
-              }}
-            >
-              The essentials, in one place.
-            </h2>
-          </div>
-
-          <div
-            className="welcome-feature-grid"
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fit, minmax(min(100%, 230px), 1fr))",
-              gap: theme.spacing.card,
-            }}
-          >
-            {features.map((feature) => (
-              <article
-                key={feature.title}
-                className="welcome-feature-card"
+              <Stack
+                className="landing-hero-panel landing-reveal landing-reveal-delay"
+                spacing={theme.spacing.inline}
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  gap: theme.spacing.inline,
-                  padding: theme.spacing.section,
+                  ...revealStyle,
+                  flex: 1,
+                  background: theme.colors.surface,
                   border: `1px solid ${theme.colors.border}`,
                   borderRadius: theme.radius.card,
-                  background: theme.colors.background,
+                  padding: theme.spacing.section,
                 }}
               >
-                <span
-                  style={{
-                    display: "grid",
-                    placeItems: "center",
-                    width: "44px",
-                    height: "44px",
-                    borderRadius: theme.radius.card,
-                    background: theme.colors.surface,
-                    color: theme.colors.primary,
-                  }}
+                <Flex align="center" gap={theme.spacing.inline}>
+                  <AppIcon
+                    name="grid"
+                    size={theme.iconSizes.lg}
+                    color={theme.colors.primary}
+                    aria-hidden="true"
+                  />
+                  <Heading level={3}>One connected workspace</Heading>
+                </Flex>
+                <Text color={theme.colors.textSecondary}>
+                  The core tools your team uses, connected through AutoBots.
+                </Text>
+                <Grid
+                  className="landing-capability-grid"
+                  columns="repeat(2, minmax(0, 1fr))"
+                  gap={theme.spacing.inline}
                 >
-                  <AppIcon name={feature.icon} size={22} aria-hidden="true" />
-                </span>
-                <h3
-                  style={{
-                    ...theme.typography.heading3,
-                    margin: 0,
-                    color: theme.colors.text,
-                  }}
-                >
-                  {feature.title}
-                </h3>
-                <p
-                  style={{
-                    margin: 0,
-                    color: theme.colors.textSecondary,
-                    lineHeight: 1.7,
-                  }}
-                >
-                  {feature.description}
-                </p>
-              </article>
-            ))}
-          </div>
-        </section>
+                  {capabilities.map((capability) => (
+                    <Flex
+                      key={capability.title}
+                      align="flex-start"
+                      gap={theme.spacing.inline}
+                      className="landing-capability"
+                    >
+                      <AppIcon
+                        name={capability.icon}
+                        size={theme.iconSizes.md}
+                        color={theme.colors.primary}
+                        aria-hidden="true"
+                      />
+                      <Text weight={theme.typography.body.fontWeight}>
+                        {capability.title}
+                      </Text>
+                    </Flex>
+                  ))}
+                </Grid>
+              </Stack>
+            </Flex>
 
-        <section
-          id="how-it-works"
-          className="welcome-enter welcome-enter-delay-2"
-          aria-labelledby="how-title"
-          style={{
-            paddingBlock: theme.spacing.section,
-            scrollMarginTop: theme.componentSizes.topbarHeight,
-          }}
-        >
-          <div
-            style={{
-              padding: theme.spacing.section,
-              borderRadius: theme.radius.card,
-              background: theme.colors.surface,
-            }}
-          >
-            <h2
-              id="how-title"
+            <Stack
+              id="solutions"
+              spacing={theme.spacing.inline}
+              className="landing-section landing-reveal"
+              style={revealStyle}
+            >
+              <Text
+                color={theme.colors.primary}
+                weight={theme.typography.body.fontWeight}
+                transform="uppercase"
+                letterSpacing={theme.typography.caption.letterSpacing}
+              >
+                Solutions
+              </Text>
+              <Heading level={2}>From daily operations to customer support.</Heading>
+              <Text color={theme.colors.textSecondary}>
+                Use one workspace for product and stock management, order and
+                payment workflows, customer conversations, and AI-assisted
+                answers grounded in workspace content.
+              </Text>
+            </Stack>
+
+            <Stack
+              id="features"
+              spacing={theme.spacing.inline}
+              className="landing-section landing-reveal"
+              style={revealStyle}
+            >
+              <Text
+                color={theme.colors.primary}
+                weight={theme.typography.body.fontWeight}
+                transform="uppercase"
+                letterSpacing={theme.typography.caption.letterSpacing}
+              >
+                Features
+              </Text>
+              <Heading level={2}>The essentials, in one place.</Heading>
+              <Grid
+                className="landing-feature-grid"
+                columns="repeat(3, minmax(0, 1fr))"
+                gap={theme.spacing.card}
+              >
+                {capabilities.map((capability) => (
+                  <Stack
+                    key={capability.title}
+                    spacing={theme.spacing.inline}
+                    className="landing-feature-card"
+                    style={{
+                      border: `1px solid ${theme.colors.border}`,
+                      borderRadius: theme.radius.card,
+                      padding: theme.spacing.card,
+                    }}
+                  >
+                    <AppIcon
+                      name={capability.icon}
+                      size={theme.iconSizes.lg}
+                      color={theme.colors.primary}
+                      aria-hidden="true"
+                    />
+                    <Heading level={3}>{capability.title}</Heading>
+                    <Text color={theme.colors.textSecondary}>
+                      {capability.description}
+                    </Text>
+                  </Stack>
+                ))}
+              </Grid>
+            </Stack>
+
+            <Flex
+              id="pricing"
+              className="landing-pricing landing-section landing-reveal"
+              align="center"
+              justify="space-between"
+              gap={theme.spacing.section}
               style={{
-                ...theme.typography.heading2,
-                marginTop: 0,
-                color: theme.colors.text,
+                ...revealStyle,
+                border: `1px solid ${theme.colors.border}`,
+                borderRadius: theme.radius.card,
+                padding: theme.spacing.section,
               }}
             >
-              A workspace that follows your workflow.
-            </h2>
-            <p
+              <Stack spacing={theme.spacing.inline}>
+                <Heading level={2}>Pricing</Heading>
+                <Text color={theme.colors.textSecondary}>
+                  Pricing details will be shared soon.
+                </Text>
+              </Stack>
+              <Button
+                variant="outline"
+                onClick={() =>
+                  document
+                    .getElementById("contact")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+              >
+                Contact us
+              </Button>
+            </Flex>
+
+            <Flex
+              id="support"
+              className="landing-support landing-section landing-reveal"
+              align="flex-start"
+              gap={theme.spacing.section}
+              style={revealStyle}
+            >
+              <Stack spacing={theme.spacing.inline} style={{ flex: 1 }}>
+                <Heading level={2}>Help &amp; Support</Heading>
+                <Text color={theme.colors.textSecondary}>
+                  Need help with AutoBots? Contact the AvatraTech support team
+                  by email.
+                </Text>
+              </Stack>
+              <Stack
+                id="contact"
+                spacing={theme.spacing.inline}
+                style={{ flex: 1 }}
+              >
+                <Text weight={theme.typography.body.fontWeight}>
+                  Contact AvatraTech
+                </Text>
+                <Link
+                  href="mailto:support@avatratech.com"
+                  color={theme.colors.primary}
+                >
+                  support@avatratech.com
+                </Link>
+              </Stack>
+            </Flex>
+
+            <Flex
+              className="landing-footer"
+              align="center"
+              justify="space-between"
+              gap={theme.spacing.inline}
+              wrap="wrap"
               style={{
-                maxWidth: "720px",
-                marginBottom: 0,
-                color: theme.colors.textSecondary,
-                lineHeight: 1.75,
+                borderTop: `1px solid ${theme.colors.border}`,
+                paddingBlock: theme.spacing.section,
               }}
             >
-              Start with your workspace, then use the available tools for
-              products, stock, orders, and payments. Each feature will connect
-              to the AutoBots services that support it.
-            </p>
-          </div>
-        </section>
+              <Text color={theme.colors.textSecondary} size={theme.typography.bodySmall.fontSize}>
+                © {new Date().getFullYear()} AvatraTech
+              </Text>
+              <Flex align="center" gap={theme.spacing.section} wrap="wrap">
+                <Link href="#terms">Terms &amp; Conditions</Link>
+                <Link href="#privacy">Privacy</Link>
+                <Link href="mailto:support@avatratech.com">Contact</Link>
+              </Flex>
+            </Flex>
+          </Stack>
+        </Container>
       </main>
     </PublicShell>
+  );
+}
+
+export function WelcomePage() {
+  return (
+    <LayoutProvider layout="public">
+      <LandingPageContent />
+    </LayoutProvider>
   );
 }

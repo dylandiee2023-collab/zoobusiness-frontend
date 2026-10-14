@@ -147,7 +147,7 @@ function LandingPageContent() {
                     rightIcon={
                       <AppIcon
                         name="chevronRight"
-                        size={theme.iconSizes.md}
+                        size={theme.iconSizes.toolbar}
                         aria-hidden="true"
                       />
                     }
@@ -160,7 +160,7 @@ function LandingPageContent() {
                     onClick={() =>
                       document
                         .getElementById("solutions")
-                        ?.scrollIntoView({ behavior: "smooth" })
+                        ?.scrollIntoView()
                     }
                   >
                     Explore solutions
@@ -169,7 +169,7 @@ function LandingPageContent() {
               </Stack>
 
               <Stack
-                className="landing-hero-panel landing-reveal landing-reveal-delay"
+                className="landing-hero-panel landing-reveal"
                 spacing={theme.spacing.inline}
                 style={{
                   ...revealStyle,
@@ -183,7 +183,7 @@ function LandingPageContent() {
                 <Flex align="center" gap={theme.spacing.inline}>
                   <AppIcon
                     name="grid"
-                    size={theme.iconSizes.lg}
+                    size={theme.iconSizes.card}
                     color={theme.colors.primary}
                     aria-hidden="true"
                   />
@@ -206,7 +206,7 @@ function LandingPageContent() {
                     >
                       <AppIcon
                         name={capability.icon}
-                        size={theme.iconSizes.md}
+                        size={theme.iconSizes.toolbar}
                         color={theme.colors.primary}
                         aria-hidden="true"
                       />
@@ -274,7 +274,7 @@ function LandingPageContent() {
                   >
                     <AppIcon
                       name={capability.icon}
-                      size={theme.iconSizes.lg}
+                      size={theme.iconSizes.card}
                       color={theme.colors.primary}
                       aria-hidden="true"
                     />
@@ -311,7 +311,7 @@ function LandingPageContent() {
                 onClick={() =>
                   document
                     .getElementById("contact")
-                    ?.scrollIntoView({ behavior: "smooth" })
+                    ?.scrollIntoView()
                 }
               >
                 Contact us

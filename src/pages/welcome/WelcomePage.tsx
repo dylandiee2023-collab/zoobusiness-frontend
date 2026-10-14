@@ -51,6 +51,8 @@ function LandingPageContent() {
     animationTimingFunction: theme.motion.easing,
     animationFillMode: "both" as const,
   };
+  const responsiveColumns =
+    "repeat(auto-fit, minmax(min(100%, " + theme.containers.dialog + "), 1fr))";
 
   const header = (
     <Flex
@@ -65,7 +67,7 @@ function LandingPageContent() {
         aria-label="AvatraTech home"
         color={theme.colors.text}
         weight={theme.typography.heading3.fontWeight}
-        >
+      >
         AvatraTech
       </Link>
 
@@ -193,7 +195,7 @@ function LandingPageContent() {
                 </Text>
                 <Grid
                   className="landing-capability-grid"
-                  columns={`repeat(auto-fit, minmax(min(100%, ${theme.containers.dialog}), 1fr))`}
+                  columns={responsiveColumns}
                   gap={theme.spacing.inline}
                 >
                   {capabilities.map((capability) => (
@@ -232,7 +234,9 @@ function LandingPageContent() {
               >
                 Solutions
               </Text>
-              <Heading level={2}>From daily operations to customer support.</Heading>
+              <Heading level={2}>
+                From daily operations to customer support.
+              </Heading>
               <Text color={theme.colors.textSecondary}>
                 Use one workspace for product and stock management, order and
                 payment workflows, customer conversations, and AI-assisted
@@ -257,7 +261,7 @@ function LandingPageContent() {
               <Heading level={2}>The essentials, in one place.</Heading>
               <Grid
                 className="landing-feature-grid"
-                columns={`repeat(auto-fit, minmax(min(100%, ${theme.containers.dialog}), 1fr))`}
+                columns={responsiveColumns}
                 gap={theme.spacing.card}
               >
                 {capabilities.map((capability) => (
@@ -359,7 +363,10 @@ function LandingPageContent() {
                 paddingBlock: theme.spacing.section,
               }}
             >
-              <Text color={theme.colors.textSecondary} size={theme.typography.bodySmall.fontSize}>
+              <Text
+                color={theme.colors.textSecondary}
+                size={theme.typography.bodySmall.fontSize}
+              >
                 © {new Date().getFullYear()} AvatraTech
               </Text>
               <Flex align="center" gap={theme.spacing.section} wrap="wrap">

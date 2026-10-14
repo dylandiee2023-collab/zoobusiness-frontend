@@ -5,11 +5,7 @@ import { useTheme } from "@/theme/hooks";
 import type { PublicShellProps } from "./PublicShell.types";
 import { PUBLIC_SHELL_STYLE } from "./PublicShell.styles";
 
-export function PublicShell({
-  children,
-  header,
-  footer,
-}: PublicShellProps) {
+export function PublicShell({ children, header, footer }: PublicShellProps) {
   const { theme } = useTheme();
   const headerHeight = theme.componentSizes.topbarHeight;
   const footerHeight = theme.componentSizes.bottomNavigationHeight;

@@ -3,7 +3,7 @@
 ## Scope
 
 This repository is the **Retail frontend foundation**. It does not contain YRP pages or YRP application logic.
-The current branch intentionally has no page modules. Pages will be added only after the foundation phases are complete.
+The initial public Welcome page is registered at `/`. Authentication, business-setup, dashboard, and feature pages are added in later implementation slices after their route and API contracts are verified.
 
 ## Layer boundaries
 
@@ -34,6 +34,7 @@ The current branch intentionally has no page modules. Pages will be added only a
 
 - `src/shells` owns reusable application shells (auth, dashboard, POS, public, blank, error, etc.).
 - Shells provide structure; pages provide page content.
+- The public shell supports optional fixed header and footer regions using semantic theme tokens.
 - Shells must not own business data fetching.
 
 ### 6. Dashboard engine
@@ -69,4 +70,4 @@ The latter is not a second page router. It is infrastructure for route registrat
 
 ## Phase gate
 
-No authentication pages, business-setup pages, dashboard pages, or feature pages should be implemented until this foundation remains buildable and the route table is intentionally populated.
+The foundation must remain buildable and routes must be intentionally registered before adding authentication, business-setup, dashboard, or feature pages. The public Welcome page is the first registered route.

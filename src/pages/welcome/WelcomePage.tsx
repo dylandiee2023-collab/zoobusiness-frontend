@@ -135,7 +135,12 @@ export function WelcomePage() {
         }}
       >
         Back to top
-        <AppIcon name="chevronRight" size={16} aria-hidden="true" />
+        <AppIcon
+          name="chevronRight"
+          size={16}
+          aria-hidden="true"
+          style={{ transform: "rotate(-90deg)" }}
+        />
       </a>
     </div>
   );

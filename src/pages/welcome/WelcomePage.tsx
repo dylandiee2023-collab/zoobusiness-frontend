@@ -65,8 +65,7 @@ function LandingPageContent() {
         aria-label="AvatraTech home"
         color={theme.colors.text}
         weight={theme.typography.heading3.fontWeight}
-        decoration="none"
-      >
+        >
         AvatraTech
       </Link>
 
@@ -194,7 +193,7 @@ function LandingPageContent() {
                 </Text>
                 <Grid
                   className="landing-capability-grid"
-                  columns="repeat(2, minmax(0, 1fr))"
+                  columns={`repeat(auto-fit, minmax(min(100%, ${theme.containers.dialog}), 1fr))`}
                   gap={theme.spacing.inline}
                 >
                   {capabilities.map((capability) => (
@@ -258,7 +257,7 @@ function LandingPageContent() {
               <Heading level={2}>The essentials, in one place.</Heading>
               <Grid
                 className="landing-feature-grid"
-                columns="repeat(3, minmax(0, 1fr))"
+                columns={`repeat(auto-fit, minmax(min(100%, ${theme.containers.dialog}), 1fr))`}
                 gap={theme.spacing.card}
               >
                 {capabilities.map((capability) => (

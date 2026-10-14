@@ -1,13 +1,7 @@
 import type { RouteObject } from "react-router-dom";
 
 export type AppShellName =
-  | "auth"
-  | "dashboard"
-  | "blank"
-  | "error"
-  | "pos"
-  | "marketplace"
-  | "public";
+  "auth" | "dashboard" | "blank" | "error" | "pos" | "marketplace" | "public";
 
 export interface AppRouteHandle {
   readonly title?: string;

@@ -279,7 +279,8 @@ export function WelcomePage() {
             className="welcome-feature-grid"
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 230px), 1fr))",
+              gridTemplateColumns:
+                "repeat(auto-fit, minmax(min(100%, 230px), 1fr))",
               gap: theme.spacing.card,
             }}
           >

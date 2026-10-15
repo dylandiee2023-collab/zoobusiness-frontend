@@ -34,7 +34,7 @@ export const publicCopy = {
     submitLogin: "Sign in", submitSignup: "Create account", requiredFields: "Please complete all required fields.",
     passwordMismatch: "Passwords do not match.", apiNotConfigured: "Authentication service is not configured yet.",
     verifyNotice: "Account created. Check your email for a verification code before signing in.",
-    genericError: "Something went wrong. Please try again.", loading: "Please wait…",
+    genericError: "Something went wrong. Please try again.", loading: "Please wait…", verifyTitle: "Verify your email", verifyInstructions: "Enter the 6-digit code sent to your email address.", verificationCode: "Verification code", verifyButton: "Verify email", resendCode: "Resend code",
   },
   sw: {
     navHome: "Nyumbani", navSolutions: "Suluhisho", navFeatures: "Vipengele", navPricing: "Bei",
@@ -69,7 +69,7 @@ export const publicCopy = {
     submitLogin: "Ingia", submitSignup: "Fungua akaunti", requiredFields: "Tafadhali jaza sehemu zote zinazohitajika.",
     passwordMismatch: "Nenosiri hazifanani.", apiNotConfigured: "Huduma ya kuingia bado haijasanidiwa.",
     verifyNotice: "Akaunti imeundwa. Angalia barua pepe yako upate msimbo wa uthibitisho kabla ya kuingia.",
-    genericError: "Hitilafu imetokea. Tafadhali jaribu tena.", loading: "Subiri tafadhali…",
+    genericError: "Hitilafu imetokea. Tafadhali jaribu tena.", loading: "Subiri tafadhali…", verifyTitle: "Thibitisha barua pepe", verifyInstructions: "Weka msimbo wa tarakimu 6 uliotumwa kwenye barua pepe yako.", verificationCode: "Msimbo wa uthibitisho", verifyButton: "Thibitisha barua pepe", resendCode: "Tuma msimbo tena",
   },
 } as const;
 

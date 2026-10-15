@@ -93,18 +93,19 @@ function LandingPageContent() {
         <Container maxWidth={dimensions.maxContentWidth} padding={theme.spacing.page} center>
           <Stack spacing={theme.spacing.section}>
             <Flex align="center" gap={theme.spacing.section} wrap="wrap" style={{ paddingBlock: theme.spacing.section }}>
-              <Stack spacing={theme.spacing.inline} style={{ flex: "1 1 20rem", minWidth: 0 }}>
+              <Stack spacing={theme.spacing.inline} style={{ flex: "1 1 28rem", minWidth: 0, maxWidth: "100%" }}>
                 <Text color={theme.colors.primary} weight={theme.typography.body.fontWeight} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>{t("eyebrow")}</Text>
                 <Heading
                   level={1}
                   color={theme.colors.text}
                   style={{
-                    fontSize: "clamp(3.5rem, 7.2vw, 7.5rem)",
+                    fontSize: "clamp(2.8rem, 5vw, 5.25rem)",
                     fontWeight: 900,
-                    lineHeight: 0.94,
-                    letterSpacing: "-0.065em",
-                    maxWidth: "11ch",
+                    lineHeight: 0.98,
+                    letterSpacing: "-0.055em",
+                    maxWidth: "100%",
                     margin: 0,
+                    overflowWrap: "normal",
                   }}
                 >
                   <span style={{ display: "block", color: theme.mode === "dark" ? theme.colors.text : "#111827" }}>Run your business</span>
@@ -117,9 +118,9 @@ function LandingPageContent() {
                 </Flex>
                 <Text color={theme.colors.textSecondary} size={theme.typography.bodySmall.fontSize}>{t("trustLine")}</Text>
               </Stack>
-              <Flex align="center" justify="center" style={{ flex: "1 1 20rem", minWidth: 0 }}>
+              <Flex align="center" justify="center" style={{ flex: "1 1 24rem", minWidth: 0 }}>
                 <img src={heroWoman} alt="Business owner using ZooBusiness to manage everyday operations" loading="eager"
-                  style={{ display: "block", width: "100%", maxWidth: "34rem", height: "auto", objectFit: "contain", borderRadius: theme.radius.card }} />
+                  style={{ display: "block", width: "100%", maxWidth: "38rem", height: "auto", objectFit: "contain", borderRadius: theme.radius.card }} />
               </Flex>
             </Flex>
 

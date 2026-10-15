@@ -5,6 +5,7 @@ import { AppIcon } from "@/design-system/icons";
 import { useLanguage } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
 import { LayoutProvider, useLayout } from "@/layout-engine";
+import { PricingSection } from "@/pages/pricing/PricingSection";
 import { PublicShell } from "@/shells/PublicShell";
 import { useTheme } from "@/theme/hooks";
 import darkLogo from "@/assets/brand/zoobusiness.dark.png.png";

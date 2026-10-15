@@ -115,7 +115,7 @@ export function PricingSection({
     products: sw ? "Bidhaa" : "Products",
     branches: sw ? "Matawi" : "Branches",
     features: sw ? "Vipengele muhimu" : "Core features",
-    trial: sw ? "Jaribio la siku 14" : "14-day trial",
+    trial: sw ? "Jaribio la siku 14 kwa mipango ya kulipia" : "14-day trial on paid plans",
     annualNote: sw ? "Malipo ya mwaka mzima" : "Billed annually",
     enterpriseNote: sw
       ? "Jadili mahitaji ya biashara yako na timu yetu."
@@ -128,7 +128,8 @@ export function PricingSection({
   return (
     <section
       id={sectionId}
-      aria-labelledby={sectionId ? `${sectionId}-title` : "pricing-section-title"}
+      aria-labelledby={compact ? undefined : sectionId ? `${sectionId}-title` : "pricing-section-title"}
+      aria-label={compact ? (sw ? "Mipango ya bei" : "Pricing plans") : undefined}
       style={{ scrollMarginTop: theme.componentSizes.topbarHeight }}
     >
       <Stack spacing={theme.spacing.section}>

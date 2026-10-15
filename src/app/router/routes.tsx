@@ -4,6 +4,7 @@ import { LoginPage } from "@/pages/auth/LoginPage";
 import { SignUpPage } from "@/pages/auth/SignUpPage";
 import { ForgotPasswordPage } from "@/pages/auth/ForgotPasswordPage";
 import { ResetPasswordPage } from "@/pages/auth/ResetPasswordPage";
+import { EmailVerificationPage } from "@/pages/auth/EmailVerificationPage";
 import { BusinessSetupPage } from "@/pages/auth/BusinessSetupPage";
 import { WelcomePage } from "@/pages/welcome/WelcomePage";
 import { AcademyPage } from "@/pages/academy/AcademyPage";
@@ -66,6 +67,11 @@ export const routes: AppRouteObject[] = [
     path: "/forgot-password",
     element: <ForgotPasswordPage />,
     handle: { title: "Forgot password", shell: "blank" },
+  },
+  {
+    path: "/verify-email",
+    element: <EmailVerificationPage />,
+    handle: { title: "Verify email", shell: "blank" },
   },
   {
     path: "/reset-password",

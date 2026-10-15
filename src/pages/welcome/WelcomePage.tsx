@@ -92,37 +92,65 @@ function LandingPageContent() {
       <main id="home">
         <Container maxWidth={dimensions.maxContentWidth} padding={theme.spacing.page} center>
           <Stack spacing={theme.spacing.section}>
-            <Flex align="center" gap={theme.spacing.section} wrap="wrap" style={{ paddingBlock: theme.spacing.section }}>
-              <Stack spacing={theme.spacing.inline} style={{ flex: "1 1 28rem", minWidth: 0, maxWidth: "100%" }}>
-                <Text color={theme.colors.primary} weight={theme.typography.body.fontWeight} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>{t("eyebrow")}</Text>
+            <section
+              aria-labelledby="home-hero-title"
+              style={{
+                position: "relative",
+                isolation: "isolate",
+                display: "flex",
+                alignItems: "center",
+                minHeight: "min(48rem, calc(100vh - 6.5rem))",
+                padding: "clamp(2rem, 5vw, 4.5rem)",
+                overflow: "hidden",
+                borderRadius: theme.radius.card,
+                backgroundImage: `url(${heroWoman})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center 38%",
+                color: "#FFFFFF",
+              }}
+            >
+              <div
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  zIndex: -1,
+                  background: "linear-gradient(90deg, rgba(7, 15, 12, 0.88) 0%, rgba(7, 15, 12, 0.68) 42%, rgba(7, 15, 12, 0.12) 100%)",
+                }}
+              />
+              <Stack spacing={theme.spacing.section} style={{ width: "100%", maxWidth: "48rem", alignItems: "flex-start" }}>
+                <Text color="#FFFFFF" weight={700} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>
+                  Z O O B U S I N E S S
+                </Text>
                 <Heading
+                  id="home-hero-title"
                   level={1}
-                  color={theme.colors.text}
                   style={{
-                    fontSize: "clamp(2.8rem, 5vw, 5.25rem)",
+                    color: "#FFFFFF",
+                    fontSize: "clamp(3.25rem, 6.3vw, 6.5rem)",
                     fontWeight: 900,
                     lineHeight: 0.98,
                     letterSpacing: "-0.055em",
-                    maxWidth: "100%",
+                    maxWidth: "10ch",
                     margin: 0,
-                    overflowWrap: "normal",
                   }}
                 >
-                  <span style={{ display: "block", color: theme.mode === "dark" ? theme.colors.text : "#111827" }}>Run your business</span>
+                  <span style={{ display: "block" }}>Run your business</span>
                   <span style={{ display: "block", color: theme.colors.primary }}>with automation.</span>
                 </Heading>
-                <Text color={theme.colors.textSecondary} size={theme.typography.body.fontSize}>{t("heroBody")}</Text>
+                <Text color="#FFFFFF" size={theme.typography.body.fontSize} style={{ maxWidth: "38rem", lineHeight: 1.65 }}>
+                  Manage products, inventory, orders and payments in one workspace. Automate everyday workflows and give your customers a better buying experience.
+                </Text>
                 <Flex align="center" gap={theme.spacing.inline} wrap="wrap">
-                  <Button size="lg" onClick={() => navigate("/signup")} rightIcon={<AppIcon name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" />}>{t("getStarted")}</Button>
-                  <Button size="lg" variant="outline" onClick={() => jumpTo("solutions")}>{t("explore")}</Button>
+                  <Button size="lg" onClick={() => navigate("/signup")} rightIcon={<AppIcon name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" />}>
+                    {t("getStarted")}
+                  </Button>
+                  <Button size="lg" variant="outline" onClick={() => jumpTo("features")} style={{ color: "#FFFFFF", borderColor: "rgba(255,255,255,0.72)" }}>
+                    Explore features
+                  </Button>
                 </Flex>
-                <Text color={theme.colors.textSecondary} size={theme.typography.bodySmall.fontSize}>{t("trustLine")}</Text>
               </Stack>
-              <Flex align="center" justify="center" style={{ flex: "1 1 24rem", minWidth: 0 }}>
-                <img src={heroWoman} alt="Business owner using ZooBusiness to manage everyday operations" loading="eager"
-                  style={{ display: "block", width: "100%", maxWidth: "38rem", height: "auto", objectFit: "contain", borderRadius: theme.radius.card }} />
-              </Flex>
-            </Flex>
+            </section>
 
             <Flex id="solutions" align="start" gap={theme.spacing.section} wrap="wrap" style={sectionStyle}>
               <Stack spacing={theme.spacing.inline} style={{ flex: "1 1 18rem" }}>

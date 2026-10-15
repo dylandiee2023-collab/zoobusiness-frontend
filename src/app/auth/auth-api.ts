@@ -54,6 +54,25 @@ export async function login(email: string, password: string, language: Language)
   return post<AuthSession>("login", { email, password }, language);
 }
 
+export async function refreshAuthSession(language: Language) {
+  const refreshToken = window.sessionStorage.getItem("zoobusiness.refreshToken");
+  if (!refreshToken) throw new Error(resolvePublicCopy(language, "genericError"));
+  const session = await post<AuthSession>("refresh", { refreshToken }, language);
+  saveAuthSession(session);
+  return session;
+}
+
+export async function logout(language: Language) {
+  const refreshToken = window.sessionStorage.getItem("zoobusiness.refreshToken");
+  try {
+    if (refreshToken) await post<{ message: string }>("logout", { refreshToken }, language);
+  } finally {
+    window.sessionStorage.removeItem("zoobusiness.accessToken");
+    window.sessionStorage.removeItem("zoobusiness.refreshToken");
+    window.sessionStorage.removeItem("zoobusiness.user");
+  }
+}
+
 export async function register(name: string, email: string, password: string, language: Language) {
   return post<{ user: AuthUser }>("register", { name, email, password }, language);
 }
@@ -92,9 +111,26 @@ async function authorizedRequest<T>(
         ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       },
       ...(method === "POST" ? { body: JSON.stringify(body) } : {}),
-    });
+    };
+  try {
+    response = await fetch(requestUrl, requestInit);
   } catch {
     throw new Error(resolvePublicCopy(language, "genericError"));
+  }
+  if (response.status === 401 && window.sessionStorage.getItem("zoobusiness.refreshToken")) {
+    try {
+      const refreshed = await refreshAuthSession(language);
+      requestInit.headers = {
+        ...(requestInit.headers as Record<string, string>),
+        Authorization: "Bearer " + refreshed.accessToken,
+      };
+      response = await fetch(requestUrl, requestInit);
+    } catch {
+      window.sessionStorage.removeItem("zoobusiness.accessToken");
+      window.sessionStorage.removeItem("zoobusiness.refreshToken");
+      window.sessionStorage.removeItem("zoobusiness.user");
+      throw new Error(resolvePublicCopy(language, "genericError"));
+    }
   }
   const payload = (await response.json().catch(() => ({}))) as T & { message?: string | string[] };
   if (!response.ok) {
@@ -119,6 +155,16 @@ export interface Workspace {
 
 export async function getBusinessCategories(language: Language) {
   return authorizedRequest<BusinessCategory[]>("/business-categories", "GET", undefined, language);
+}
+
+export interface WorkspaceAccess {
+  workspaceId: string;
+  role: string;
+  permissions: string[];
+}
+
+export async function getCurrentWorkspaceAccess(language: Language) {
+  return authorizedRequest<WorkspaceAccess>("/workspaces/current/access", "GET", undefined, language);
 }
 
 export async function getCurrentWorkspace(language: Language) {

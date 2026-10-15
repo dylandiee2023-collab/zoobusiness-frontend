@@ -282,7 +282,7 @@ export function PricingSection({
                 <Stack spacing={theme.spacing.inline}>
                   <Text weight={700}>{copy.features}</Text>
                   {coreFeatures.map((feature) => (
-                    <Flex key={feature.en} align="start" gap="0.55rem">
+                    <Flex key={feature.en} align="flex-start" gap="0.55rem">
                       <Text color={theme.colors.primary} weight={800} aria-hidden="true">✓</Text>
                       <Text color={theme.colors.textSecondary}>{sw ? feature.sw : feature.en}</Text>
                     </Flex>

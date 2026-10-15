@@ -166,7 +166,7 @@ export function PricingSection({
         <Flex align="center" justify="center" gap={theme.spacing.inline} wrap="wrap">
           <Button
             size="md"
-            variant={interval === "MONTH" ? "solid" : "outline"}
+            variant={interval === "MONTH" ? "primary" : "outline"}
             aria-pressed={interval === "MONTH"}
             onClick={() => setInterval("MONTH")}
           >
@@ -174,7 +174,7 @@ export function PricingSection({
           </Button>
           <Button
             size="md"
-            variant={interval === "YEAR" ? "solid" : "outline"}
+            variant={interval === "YEAR" ? "primary" : "outline"}
             aria-pressed={interval === "YEAR"}
             onClick={() => setInterval("YEAR")}
           >
@@ -186,7 +186,7 @@ export function PricingSection({
               weight={700}
               style={{
                 padding: "0.4rem 0.75rem",
-                borderRadius: theme.radius.pill,
+                borderRadius: theme.radius.badge,
                 background: theme.colors.surfaceSecondary,
               }}
             >
@@ -250,9 +250,9 @@ export function PricingSection({
                 </Stack>
 
                 <Button
-                  block
+                  fullWidth
                   size="lg"
-                  variant={isBusiness ? "solid" : "outline"}
+                  variant={isBusiness ? "primary" : "outline"}
                   onClick={() => {
                     if (isEnterprise) {
                       window.location.href = "mailto:support@avatratech.com?subject=ZooBusiness%20Enterprise%20Pricing";

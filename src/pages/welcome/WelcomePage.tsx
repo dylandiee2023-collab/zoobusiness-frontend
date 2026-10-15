@@ -10,6 +10,7 @@ import { useTheme } from "@/theme/hooks";
 import darkLogo from "@/assets/brand/zoobusiness.dark.png.png";
 import lightLogo from "@/assets/brand/zoobusiness.light.png.png";
 import aiSalesAgent from "@/assets/images/ai-sales-agent.webp";
+import heroWoman from "@/assets/images/hero-woman.webp";
 import shopOwner from "@/assets/images/woman-left-shoppings-with-many-bags.webp";
 
 function LandingPageContent() {
@@ -155,82 +156,97 @@ function LandingPageContent() {
             <section
               aria-labelledby="home-hero-title"
               style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 19rem), 1fr))",
+                position: "relative",
+                isolation: "isolate",
+                display: "flex",
                 alignItems: "center",
-                gap: "clamp(2rem, 5vw, 4.5rem)",
-                paddingBlock: "clamp(3rem, 7vw, 6rem)",
+                minHeight: "min(48rem, calc(100svh - 7rem))",
+                padding: "clamp(2rem, 5vw, 4.5rem)",
+                overflow: "hidden",
+                borderRadius: theme.radius.card,
+                backgroundImage: `url(${heroWoman})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center 38%",
+                color: "#FFFFFF",
               }}
             >
-              <Stack spacing={theme.spacing.section} style={{ alignItems: "flex-start", minWidth: 0 }}>
-                <Text
-                  color={theme.colors.primary}
-                  weight={700}
-                  transform="uppercase"
-                  letterSpacing={theme.typography.caption.letterSpacing}
-                >
-                  ZOOBUSINESS · AVATRATECH
+              <div
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  zIndex: 0,
+                  background: "linear-gradient(90deg, rgba(7, 15, 12, 0.9) 0%, rgba(7, 15, 12, 0.72) 48%, rgba(7, 15, 12, 0.16) 100%)",
+                }}
+              />
+              <Stack spacing={theme.spacing.section} style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: "48rem", alignItems: "flex-start" }}>
+                <Text color="#FFFFFF" weight={700} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>
+                  Z O O B U S I N E S S · AVATRATECH
                 </Text>
                 <Heading
                   id="home-hero-title"
                   level={1}
                   style={{
-                    fontSize: "clamp(2.8rem, 6.3vw, 5.8rem)",
+                    color: "#FFFFFF",
+                    fontSize: "clamp(3rem, 6.3vw, 6.25rem)",
                     fontWeight: 900,
-                    lineHeight: 0.99,
+                    lineHeight: 0.98,
                     letterSpacing: "-0.055em",
-                    maxWidth: "11ch",
+                    maxWidth: "10ch",
                     margin: 0,
                   }}
                 >
-                  {sw ? "Endesha biashara yako." : "Run your business."}
+                  <span style={{ display: "block" }}>{sw ? "Endesha biashara yako" : "Run your business"}</span>
                   <span style={{ display: "block", color: theme.colors.primary }}>
-                    {sw ? "Kila kitu sehemu moja." : "All in one place."}
+                    {sw ? "kwa mfumo mmoja." : "with one connected system."}
                   </span>
                 </Heading>
-                <Text
-                  color={theme.colors.textSecondary}
-                  size={theme.typography.body.fontSize}
-                  style={{ maxWidth: "37rem", lineHeight: 1.75 }}
-                >
+                <Text color="#FFFFFF" size={theme.typography.body.fontSize} style={{ maxWidth: "38rem", lineHeight: 1.75 }}>
                   {sw
-                    ? "Simamia bidhaa, stock, oda, malipo na wateja katika workspace moja. ZooBusiness hukusaidia kuweka shughuli zako za kila siku katika mtiririko unaoeleweka."
-                    : "Manage products, inventory, orders, payments and customer records in one workspace. ZooBusiness helps bring everyday business operations into a clearer, more connected flow."}
+                    ? "Simamia bidhaa, stock, oda, malipo na wateja sehemu moja. Pata mwonekano wa shughuli zako na uelekeze timu yako kwa urahisi."
+                    : "Manage products, inventory, orders, payments and customers in one workspace. Get a clearer view of daily operations and keep your team moving."}
                 </Text>
                 <Flex align="center" gap={theme.spacing.inline} wrap="wrap">
-                  <Button
-                    size="lg"
-                    onClick={() => navigate("/signup")}
-                    rightIcon={<AppIcon name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" />}
-                  >
+                  <Button size="lg" onClick={() => navigate("/signup")} rightIcon={<AppIcon name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" />}>
                     {t("getStarted")}
                   </Button>
-                  <Button size="lg" variant="outline" onClick={() => navigate("/features")}>
-                    {sw ? "Tazama vipengele" : "Explore features"}
+                  <Button size="lg" variant="outline" onClick={() => navigate("/features")} style={{ color: "#FFFFFF", borderColor: "rgba(255,255,255,0.8)" }}>
+                    {sw ? "Chunguza vipengele" : "Explore features"}
+                  </Button>
+                  <Button size="lg" variant="ghost" onClick={() => jumpTo("solutions")} style={{ color: "#FFFFFF" }}>
+                    {sw ? "Tazama suluhisho" : "See solutions"} ↓
                   </Button>
                 </Flex>
-                <Text size={theme.typography.bodySmall.fontSize} color={theme.colors.textSecondary}>
-                  {sw ? "Imeundwa na AvatraTech." : "Built by AvatraTech."}
-                </Text>
               </Stack>
-
-              <div style={{ minWidth: 0, position: "relative" }}>
-                <img
-                  src={aiSalesAgent}
-                  alt={sw ? "Msaidizi wa mauzo wa AI katika ZooBusiness" : "AI sales assistant for business workflows"}
-                  fetchPriority="high"
-                  style={{
-                    display: "block",
-                    width: "100%",
-                    height: "auto",
-                    maxHeight: "38rem",
-                    objectFit: "contain",
-                    borderRadius: theme.radius.card,
-                  }}
-                />
-              </div>
             </section>
 
+            <section aria-labelledby="home-capabilities-title" style={sectionStyle}>
+              <Flex align="end" justify="space-between" gap={theme.spacing.section} wrap="wrap" style={{ marginBottom: theme.spacing.section }}>
+                <Stack spacing={theme.spacing.inline} style={{ maxWidth: "42rem" }}>
+                  <Text color={theme.colors.primary} weight={700} transform="uppercase">{sw ? "JUKWAA MOJA" : "ONE BUSINESS WORKSPACE"}</Text>
+                  <Heading id="home-capabilities-title" level={2} style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", letterSpacing: "-0.04em" }}>
+                    {sw ? "Kila siku ya biashara, kwa mpangilio." : "Your everyday business, organised."}
+                  </Heading>
+                  <Text color={theme.colors.textSecondary} style={{ lineHeight: 1.75 }}>
+                    {sw ? "Kuanzia bidhaa na stock hadi mauzo na timu, anza na msingi unaohitaji kisha chunguza uwezo wote." : "From products and stock to sales and team operations, start with the essentials and explore the full platform."}
+                  </Text>
+                </Stack>
+                <Link href="/features" color={theme.colors.primary}>{sw ? "Vipengele vyote" : "All features"} →</Link>
+              </Flex>
+              <Flex gap={theme.spacing.inline} wrap="wrap">
+                {([
+                  { icon: "package" as const, title: sw ? "Bidhaa na stock" : "Products & inventory", body: sw ? "Panga katalogi na ufuatilie mienendo ya stock." : "Organise your catalogue and track inventory movement." },
+                  { icon: "receipt" as const, title: sw ? "Oda na mauzo" : "Orders & sales", body: sw ? "Weka oda na shughuli za mauzo katika mtiririko mmoja." : "Keep orders and sales activity in a consistent workflow." },
+                  { icon: "users" as const, title: sw ? "Wateja na timu" : "Customers & teams", body: sw ? "Fuatilia rekodi za wateja na ruhusa za washiriki." : "Keep customer records and team access organised." },
+                ]).map((item) => (
+                  <Stack key={item.title} spacing={theme.spacing.inline} style={{ flex: "1 1 15rem", minWidth: 0, padding: theme.spacing.card, border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.card, background: theme.colors.surface }}>
+                    <AppIcon name={item.icon} size={theme.iconSizes.card} color={theme.colors.primary} aria-hidden="true" />
+                    <Heading level={3}>{item.title}</Heading>
+                    <Text color={theme.colors.textSecondary} style={{ lineHeight: 1.7 }}>{item.body}</Text>
+                  </Stack>
+                ))}
+              </Flex>
+            </section>
             <section id="solutions" aria-labelledby="solutions-title" style={sectionStyle}>
               <Stack spacing={theme.spacing.inline} style={{ maxWidth: "46rem", marginBottom: theme.spacing.section }}>
                 <Text color={theme.colors.primary} weight={700} transform="uppercase">
@@ -270,6 +286,12 @@ function LandingPageContent() {
                     {sw ? "Jifunze kuhusu vipengele vya AI" : "Learn about AI capabilities"} →
                   </Link>
                 </Stack>
+                <img
+                  src={aiSalesAgent}
+                  alt={sw ? "Picha ya suluhisho la msaidizi wa mauzo wa AI" : "AI sales assistant solution"}
+                  loading="lazy"
+                  style={{ display: "block", flex: "1 1 18rem", width: "100%", maxWidth: "30rem", minWidth: 0, height: "auto", objectFit: "contain", borderRadius: theme.radius.card }}
+                />
               </Flex>
 
               <Flex

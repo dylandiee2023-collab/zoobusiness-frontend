@@ -23,8 +23,11 @@ const configuredApiUrl = (import.meta.env.VITE_API_URL ?? import.meta.env.VITE_A
 function apiUrl(path: string): string {
   if (!configuredApiUrl) throw new Error("API_NOT_CONFIGURED");
   const apiRoot = /\/api$/i.test(configuredApiUrl) ? configuredApiUrl : configuredApiUrl + "/api";
-  return apiRoot + "/auth/" + path;
+  return apiRoot + (path.startsWith("/") ? path : "/" + path);
 }
+
+function endpoint(path: string): string {
+  return apiUrl("/auth/" + path);
 }
 
 async function post<T>(path: string, body: unknown, language: Language): Promise<ApiEnvelope<T>> {

@@ -8,11 +8,11 @@ export const semanticColors = {
 
     surfaceSecondary: primitiveColors.slate[100],
 
-    primary: primitiveColors.blue[600],
+    primary: primitiveColors.green[600],
 
-    primaryHover: primitiveColors.blue[700],
+    primaryHover: primitiveColors.green[700],
 
-    primaryActive: primitiveColors.blue[800],
+    primaryActive: primitiveColors.green[800],
 
     secondary: primitiveColors.slate[200],
 
@@ -74,11 +74,11 @@ export const semanticColors = {
 
     surfaceSecondary: primitiveColors.slate[700],
 
-    primary: primitiveColors.blue[500],
+    primary: primitiveColors.green[500],
 
-    primaryHover: primitiveColors.blue[400],
+    primaryHover: primitiveColors.green[400],
 
-    primaryActive: primitiveColors.blue[300],
+    primaryActive: primitiveColors.green[300],
 
     secondary: primitiveColors.slate[700],
 

@@ -12,7 +12,6 @@ import {
 import { AppIcon } from "@/design-system/icons";
 import { LayoutProvider, useLayout } from "@/layout-engine";
 import { logo } from "@/assets/brand";
-import aiSalesAgent from "@/assets/images/ai-sales-agent.webp";
 import { PublicShell } from "@/shells/PublicShell";
 import { useTheme } from "@/theme/hooks";
 
@@ -110,11 +109,21 @@ function LandingPageContent() {
               </Stack>
 
               <div className="landing-hero-visual landing-reveal" style={revealStyle}>
-                <img
-                  className="landing-hero-image"
-                  src={aiSalesAgent}
-                  alt="AI sales assistant helping customers discover products"
-                />
+                <div className="landing-hero-illustration" role="img" aria-label="Illustration of connected products, orders and customer support">
+                  <div className="landing-illustration-card landing-illustration-products">
+                    <AppIcon name="package" size={theme.iconSizes.card} aria-hidden="true" />
+                    <span>Products</span>
+                  </div>
+                  <div className="landing-illustration-center">
+                    <AppIcon name="store" size={theme.iconSizes.hero} aria-hidden="true" />
+                    <span>ZooBusiness</span>
+                    <small>One connected workspace</small>
+                  </div>
+                  <div className="landing-illustration-card landing-illustration-support">
+                    <AppIcon name="bot" size={theme.iconSizes.card} aria-hidden="true" />
+                    <span>AI support</span>
+                  </div>
+                </div>
                 <div className="landing-workflow" aria-label="Business workflow: products, orders, payments and customer support">
                   <div className="landing-workflow-step">
                     <AppIcon name="package" size={theme.iconSizes.toolbar} aria-hidden="true" />
@@ -125,7 +134,7 @@ function LandingPageContent() {
                     <AppIcon name="receipt" size={theme.iconSizes.toolbar} aria-hidden="true" />
                     <span>Orders</span>
                   </div>
-                  <AppIcon className="landing-workflow-arrow" name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" />
+                  <span className="landing-workflow-arrow"><AppIcon name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" /></span>
                   <div className="landing-workflow-step">
                     <AppIcon name="bot" size={theme.iconSizes.toolbar} aria-hidden="true" />
                     <span>AI support</span>

@@ -1,32 +1,235 @@
+.landing-page {
+  color: var(--zb-colors-text);
+}
+
+.landing-header {
+  width: 100%;
+}
+
+.landing-brand {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.landing-logo {
+  display: block;
+  width: auto;
+  max-width: 10.5rem;
+  max-height: 2.5rem;
+  object-fit: contain;
+}
+
+.landing-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--zb-spacing-section, 1.5rem);
+  min-width: 0;
+}
+
+.landing-navigation a {
+  white-space: nowrap;
+}
+
+.landing-hero {
+  min-width: 0;
+}
+
+.landing-hero-copy {
+  min-width: 0;
+  align-items: flex-start;
+}
+
+.landing-heading-accent {
+  color: var(--zb-colors-primary);
+}
+
+.landing-hero-visual {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.landing-hero-image {
+  display: block;
+  width: 100%;
+  max-width: 34rem;
+  max-height: 30rem;
+  object-fit: contain;
+}
+
+.landing-workflow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid var(--zb-colors-border);
+  border-radius: var(--zb-radius-card, 1rem);
+  background: var(--zb-colors-surface);
+}
+
+.landing-workflow-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--zb-colors-primary);
+  font-weight: 600;
+}
+
+.landing-workflow-step span {
+  color: var(--zb-colors-text);
+}
+
+.landing-workflow-arrow {
+  color: var(--zb-colors-text-secondary);
+}
+
+.landing-section {
+  scroll-margin-top: 6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-block: 1.5rem;
+}
+
+.landing-solutions > *,
+.landing-support > * {
+  flex: 1;
+  min-width: 0;
+}
+
+.landing-section-heading {
+  margin-bottom: 1.5rem;
+}
+
+.landing-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.landing-feature-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  border: 1px solid var(--zb-colors-border);
+  border-radius: var(--zb-radius-card, 1rem);
+  background: var(--zb-colors-surface);
+}
+
+.landing-pricing {
+  padding: 1.5rem;
+  border: 1px solid var(--zb-colors-border);
+  border-radius: var(--zb-radius-card, 1rem);
+  background: var(--zb-colors-surface);
+}
+
+.landing-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.landing-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--zb-colors-border);
+}
+
+.landing-footer-logo {
+  display: block;
+  width: auto;
+  max-width: 8rem;
+  max-height: 2rem;
+  object-fit: contain;
+}
+
 .landing-reveal {
   animation-name: landing-fade-in;
 }
 
-.landing-feature-card,
-.landing-capability {
-  min-width: 0;
-}
-
 @keyframes landing-fade-in {
-  from {
-    opacity: 0;
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1100px) {
+  .landing-navigation {
+    gap: 0.75rem;
   }
 
-  to {
-    opacity: 1;
+  .landing-feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 820px) {
+  .landing-header {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-block: 0.5rem;
+  }
+
   .landing-navigation {
-    display: none;
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-block: 0.5rem;
   }
 
   .landing-hero,
+  .landing-solutions,
   .landing-support,
   .landing-pricing {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .landing-hero-visual {
+    width: 100%;
+  }
+
+  .landing-feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .landing-account-actions {
+    gap: 0.5rem;
+  }
+
+  .landing-logo {
+    max-width: 8rem;
+  }
+
+  .landing-feature-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .landing-workflow {
+    gap: 0.5rem;
+  }
+
+  .landing-workflow-arrow {
+    display: none;
   }
 }
 

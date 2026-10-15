@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Link as RouterLink, useNavigate, useSearchParams } from "react-router-dom";
 
 import { Button, Container, Flex, Heading, Input, Link, Stack, Text } from "@/design-system";
@@ -18,11 +18,23 @@ export function EmailVerificationPage() {
   const t = (key: Parameters<typeof resolvePublicCopy>[1]) => resolvePublicCopy(language, key);
   const [email, setEmail] = useState(params.get("email") ?? "");
   const [code, setCode] = useState("");
+  const [secondsLeft, setSecondsLeft] = useState(60);
+  const codeInputRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const logo = mode === "dark" ? lightLogo : darkLogo;
   const sw = language === "sw";
+
+  useEffect(() => {
+    codeInputRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    if (secondsLeft <= 0) return;
+    const intervalId = window.setInterval(() => setSecondsLeft((seconds) => Math.max(0, seconds - 1)), 1000);
+    return () => window.clearInterval(intervalId);
+  }, [secondsLeft > 0]);
 
   const header = (
     <Flex align="center" justify="space-between" gap={theme.spacing.inline} style={{ minHeight: theme.componentSizes.topbarHeight }}>
@@ -50,6 +62,9 @@ export function EmailVerificationPage() {
     setError(""); setNotice(""); setBusy(true);
     try {
       await resendVerification(email.trim(), language);
+      setSecondsLeft(60);
+      setCode("");
+      codeInputRef.current?.focus();
       setNotice(sw ? "Ikiwa akaunti inahitaji uthibitisho, msimbo mpya umetumwa." : "If the account needs verification, a new code has been sent.");
     } catch (caught) {
       setError(authErrorMessage(caught, language));
@@ -68,11 +83,11 @@ export function EmailVerificationPage() {
           <form onSubmit={submit}>
             <Stack spacing={theme.spacing.form}>
               <Stack spacing={theme.spacing.inline}><Text>{t("email")}</Text><Input type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} fullWidth /></Stack>
-              <Stack spacing={theme.spacing.inline}><Text>{t("verificationCode")}</Text><Input inputMode="numeric" autoComplete="one-time-code" required minLength={6} maxLength={6} value={code} onChange={(event) => setCode(event.target.value.replace(/\D/g, "").slice(0, 6))} fullWidth /></Stack>
+              <Stack spacing={theme.spacing.inline}><Text>{t("verificationCode")}</Text><Input ref={codeInputRef} autoFocus inputMode="numeric" autoComplete="one-time-code" required minLength={6} maxLength={6} value={code} onChange={(event) => setCode(event.target.value.replace(/\D/g, "").slice(0, 6))} fullWidth /></Stack>
               {error ? <Text color={theme.colors.danger}>{error}</Text> : null}
               {notice ? <Text color={theme.colors.primary}>{notice}</Text> : null}
               <Button type="submit" fullWidth loading={busy}>{busy ? t("loading") : t("verifyButton")}</Button>
-              <Button type="button" variant="outline" fullWidth disabled={busy} onClick={resend}>{t("resendCode")}</Button>
+              <Button type="button" variant="outline" fullWidth disabled={busy || secondsLeft > 0 || !email.trim()} onClick={resend}>{busy ? t("loading") : secondsLeft > 0 ? (sw ? `Tuma tena baada ya ${secondsLeft}s` : `Resend code in ${secondsLeft}s`) : t("resendCode")}</Button>
             </Stack>
           </form>
           <Text color={theme.colors.textSecondary}><Link href="/login" color={theme.colors.primary}>{sw ? "Rudi kuingia" : "Back to login"}</Link></Text>

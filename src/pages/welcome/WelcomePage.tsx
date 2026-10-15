@@ -51,11 +51,11 @@ function LandingPageContent() {
         <img src={logo} alt="ZooBusiness" style={{ display: "block", width: "auto", maxWidth: "10rem", maxHeight: "2.5rem", objectFit: "contain" }} />
       </Link>
       <Flex align="center" justify="center" gap={theme.spacing.inline} wrap="wrap">
-        {([["home", "navHome"], ["solutions", "navSolutions"], ["features", "navFeatures"], ["pricing", "navPricing"], ["support", "navSupport"], ["contact", "navContact"]] as const).map(([id, key]) => (
-          <Link key={id} href={`#${id}`} onClick={(event) => { event.preventDefault(); jumpTo(id); }} style={{ whiteSpace: "nowrap" }}>
-            {t(key)}
-          </Link>
+        {([["home", "navHome"], ["features", "navFeatures"], ["solutions", "navSolutions"]] as const).map(([id, key]) => (
+          <Link key={id} href={`#${id}`} onClick={(event) => { event.preventDefault(); jumpTo(id); }} style={{ whiteSpace: "nowrap" }}>{t(key)}</Link>
         ))}
+        <Link href="/pricing" style={{ whiteSpace: "nowrap" }}>{t("navPricing")}</Link>
+        <Link href="/academy" style={{ whiteSpace: "nowrap" }}>Academy</Link>
       </Flex>
       <Flex align="center" gap={theme.spacing.inline} wrap="wrap">
         <label style={{ display: "inline-flex", alignItems: "center", gap: theme.spacing.inline, color: theme.colors.textSecondary }}>

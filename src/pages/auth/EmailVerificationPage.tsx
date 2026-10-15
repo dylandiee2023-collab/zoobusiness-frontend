@@ -33,7 +33,7 @@ export function EmailVerificationPage() {
     if (secondsLeft <= 0) return;
     const intervalId = window.setInterval(() => setSecondsLeft((seconds) => Math.max(0, seconds - 1)), 1000);
     return () => window.clearInterval(intervalId);
-  }, [secondsLeft > 0]);
+  }, [secondsLeft]);
 
   const header = (
     <Flex align="center" justify="space-between" gap={theme.spacing.inline} style={{ minHeight: theme.componentSizes.topbarHeight }}>

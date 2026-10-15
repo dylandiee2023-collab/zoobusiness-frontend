@@ -95,7 +95,21 @@ function LandingPageContent() {
             <Flex align="center" gap={theme.spacing.section} wrap="wrap" style={{ paddingBlock: theme.spacing.section }}>
               <Stack spacing={theme.spacing.inline} style={{ flex: "1 1 20rem", minWidth: 0 }}>
                 <Text color={theme.colors.primary} weight={theme.typography.body.fontWeight} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>{t("eyebrow")}</Text>
-                <Heading level={1} color={theme.colors.text} style={theme.typography.display}>{t("heroTitle")}</Heading>
+                <Heading
+                  level={1}
+                  color={theme.colors.text}
+                  style={{
+                    fontSize: "clamp(3.5rem, 7.2vw, 7.5rem)",
+                    fontWeight: 900,
+                    lineHeight: 0.94,
+                    letterSpacing: "-0.065em",
+                    maxWidth: "11ch",
+                    margin: 0,
+                  }}
+                >
+                  <span style={{ display: "block", color: theme.mode === "dark" ? theme.colors.text : "#111827" }}>Run your business</span>
+                  <span style={{ display: "block", color: theme.colors.primary }}>with automation.</span>
+                </Heading>
                 <Text color={theme.colors.textSecondary} size={theme.typography.body.fontSize}>{t("heroBody")}</Text>
                 <Flex align="center" gap={theme.spacing.inline} wrap="wrap">
                   <Button size="lg" onClick={() => navigate("/signup")} rightIcon={<AppIcon name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" />}>{t("getStarted")}</Button>

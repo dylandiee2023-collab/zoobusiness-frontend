@@ -3,6 +3,8 @@ import type { RouteObject } from "react-router-dom";
 import { LoginPage } from "@/pages/auth/LoginPage";
 import { SignUpPage } from "@/pages/auth/SignUpPage";
 import { WelcomePage } from "@/pages/welcome/WelcomePage";
+import { AcademyPage } from "@/pages/academy/AcademyPage";
+import { PricingPage } from "@/pages/pricing/PricingPage";
 
 export type AppShellName =
   | "auth"
@@ -32,6 +34,16 @@ export const routes: AppRouteObject[] = [
       title: "ZooBusiness | AvatraTech",
       shell: "public",
     },
+  },
+  {
+    path: "/academy",
+    element: <AcademyPage />,
+    handle: { title: "Academy | AvatraTech", shell: "public" },
+  },
+  {
+    path: "/pricing",
+    element: <PricingPage />,
+    handle: { title: "Pricing | ZooBusiness", shell: "public" },
   },
   {
     path: "/signup",

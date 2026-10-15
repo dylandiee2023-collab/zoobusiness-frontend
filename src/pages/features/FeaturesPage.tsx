@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 import { Button, Container, Flex, Heading, Link, Stack, Text } from "@/design-system";
-import { AppIcon } from "@/design-system/icons";
+import { AppIcon, type AppIconName } from "@/design-system/icons";
 import { LayoutProvider, useLayout } from "@/layout-engine";
 import { useLanguage } from "@/app/language";
 import { PublicShell } from "@/shells/PublicShell";
@@ -12,7 +12,7 @@ import aiSalesAgent from "@/assets/images/ai-sales-agent.webp";
 import shopOwner from "@/assets/images/woman-left-shoppings-with-many-bags.webp";
 
 type FeatureItem = {
-  icon: string;
+  icon: AppIconName;
   title: string;
   description: string;
 };
@@ -101,12 +101,12 @@ function FeaturesPageContent() {
   const features: FeatureItem[] = [
     { icon: "package", title: sw ? "Bidhaa na katalogi" : "Products and catalogue", description: sw ? "Panga taarifa za bidhaa na variants zake." : "Keep product information and variants organised." },
     { icon: "warehouse", title: copy.inventoryTitle, description: copy.inventoryBody },
-    { icon: "shopping-cart", title: copy.ordersTitle, description: copy.ordersBody },
-    { icon: "credit-card", title: copy.paymentsTitle, description: copy.paymentsBody },
+    { icon: "cart", title: copy.ordersTitle, description: copy.ordersBody },
+    { icon: "creditCard", title: copy.paymentsTitle, description: copy.paymentsBody },
     { icon: "users", title: copy.customerTitle, description: copy.customerBody },
-    { icon: "wallet", title: copy.expensesTitle, description: copy.expensesBody },
-    { icon: "git-branch", title: copy.branchesTitle, description: copy.branchesBody },
-    { icon: "shield-check", title: copy.peopleTitle, description: copy.peopleBody },
+    { icon: "receipt", title: copy.expensesTitle, description: copy.expensesBody },
+    { icon: "boxes", title: copy.branchesTitle, description: copy.branchesBody },
+    { icon: "users", title: copy.peopleTitle, description: copy.peopleBody },
     { icon: "bot", title: copy.automationTitle, description: copy.automationBody },
   ];
 

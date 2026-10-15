@@ -11,6 +11,11 @@ import darkLogo from "@/assets/brand/zoobusiness.dark.png.png";
 import lightLogo from "@/assets/brand/zoobusiness.light.png.png";
 import heroWoman from "@/assets/images/hero-woman.webp";
 import aiSalesAgent from "@/assets/images/ai-sales-agent.webp";
+import instagramIcon from "@/assets/icons/social/instagram.svg";
+import linkedinIcon from "@/assets/icons/social/linkedin.svg";
+import xIcon from "@/assets/icons/social/x.svg";
+import facebookIcon from "@/assets/icons/social/facebook.svg";
+import youtubeIcon from "@/assets/icons/social/youtube.svg";
 
 function LandingPageContent() {
   const navigate = useNavigate();
@@ -140,10 +145,16 @@ function LandingPageContent() {
                 <Text size={theme.typography.bodySmall.fontSize} color={theme.colors.textSecondary}>WhatsApp is the currently registered provider; other channels require verified provider setup.</Text>
               </Stack>
               <Flex gap={theme.spacing.inline} wrap="wrap" style={{ flex: "1 1 18rem" }}>
-                {([["message-circle", "whatsapp"], ["instagram", "instagram"], ["messages-square", "messenger"], ["mail", "email"]] as const).map(([icon, key]) => (
-                  <Flex key={key} align="center" gap={theme.spacing.inline} style={{ ...cardStyle, flex: "1 1 9rem", padding: theme.spacing.card }}>
-                    <AppIcon name={icon} size={theme.iconSizes.toolbar} color={theme.colors.primary} aria-hidden="true" />
-                    <Text>{t(key)}</Text>
+                {([
+                  [linkedinIcon, "LinkedIn"],
+                  [xIcon, "X"],
+                  [facebookIcon, "Facebook"],
+                  [youtubeIcon, "YouTube"],
+                  [instagramIcon, "Instagram"],
+                ] as const).map(([iconSrc, label]) => (
+                  <Flex key={label} align="center" gap={theme.spacing.inline} style={{ ...cardStyle, flex: "1 1 9rem", padding: theme.spacing.card }}>
+                    <img src={iconSrc} alt="" aria-hidden="true" width={theme.iconSizes.toolbar} height={theme.iconSizes.toolbar} style={{ display: "block", flexShrink: 0 }} />
+                    <Text>{label}</Text>
                   </Flex>
                 ))}
               </Flex>

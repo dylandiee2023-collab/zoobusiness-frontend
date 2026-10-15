@@ -115,7 +115,7 @@ function LandingPageContent() {
                     <span>Products</span>
                   </div>
                   <div className="landing-illustration-center">
-                    <AppIcon name="store" size={theme.iconSizes.hero} aria-hidden="true" />
+                    <AppIcon name="package" size={theme.iconSizes.card} aria-hidden="true" />
                     <span>ZooBusiness</span>
                     <small>One connected workspace</small>
                   </div>

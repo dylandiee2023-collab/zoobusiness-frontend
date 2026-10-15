@@ -4,6 +4,7 @@ import { LoginPage } from "@/pages/auth/LoginPage";
 import { SignUpPage } from "@/pages/auth/SignUpPage";
 import { WelcomePage } from "@/pages/welcome/WelcomePage";
 import { AcademyPage } from "@/pages/academy/AcademyPage";
+import { FeaturesPage } from "@/pages/features/FeaturesPage";
 import { PricingPage } from "@/pages/pricing/PricingPage";
 
 export type AppShellName =
@@ -34,6 +35,11 @@ export const routes: AppRouteObject[] = [
       title: "ZooBusiness | AvatraTech",
       shell: "public",
     },
+  },
+  {
+    path: "/features",
+    element: <FeaturesPage />,
+    handle: { title: "Features | ZooBusiness", shell: "public" },
   },
   {
     path: "/academy",

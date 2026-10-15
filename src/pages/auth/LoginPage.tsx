@@ -58,7 +58,7 @@ export function LoginPage() {
     <PublicShell header={header} footer={footer}>
       <Container maxWidth="34rem" padding={theme.spacing.page} center style={{ paddingBlock: theme.spacing.section }}>
         <Stack spacing={theme.spacing.section} style={{ border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.card, background: theme.colors.surface, padding: theme.spacing.section, boxShadow: theme.shadows.card }}>
-          <Stack spacing={theme.spacing.xs}>
+          <Stack spacing={theme.spacing.inline}>
             <Text color={theme.colors.primary} weight={theme.typography.body.fontWeight} transform="uppercase">{t("welcomeBack")}</Text>
             <Heading level={1}>{t("login")}</Heading>
             <Text color={theme.colors.textSecondary}>{t("loginBody")}</Text>

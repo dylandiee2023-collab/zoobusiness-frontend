@@ -6,6 +6,7 @@ import { useLanguage } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
 import { LayoutProvider, useLayout } from "@/layout-engine";
 import { PublicShell } from "@/shells/PublicShell";
+import { Footer } from "./components/Footer";
 import { useTheme } from "@/theme/hooks";
 import darkLogo from "@/assets/brand/zoobusiness.dark.png.png";
 import lightLogo from "@/assets/brand/zoobusiness.light.png.png";
@@ -120,36 +121,8 @@ function LandingPageContent() {
     </Flex>
   );
 
-  const footer = (
-    <Flex
-      align="center"
-      justify="space-between"
-      gap={theme.spacing.inline}
-      wrap="wrap"
-      style={{ minHeight: theme.componentSizes.bottomNavigationHeight }}
-    >
-      <Flex align="center" gap={theme.spacing.inline}>
-        <img
-          src={logo}
-          alt="ZooBusiness"
-          style={{ width: "auto", maxWidth: "7rem", maxHeight: "1.8rem", objectFit: "contain" }}
-        />
-        <Text size={theme.typography.bodySmall.fontSize} color={theme.colors.textSecondary}>
-          {sw ? "Biashara yako, sehemu moja." : "Your business, in one workspace."}
-        </Text>
-      </Flex>
-      <Flex align="center" gap={theme.spacing.inline} wrap="wrap">
-        <Link href="/features">{t("navFeatures")}</Link>
-        <Link href="mailto:support@avatratech.com">{t("navContact")}</Link>
-        <Text size={theme.typography.bodySmall.fontSize} color={theme.colors.textSecondary}>
-          © {new Date().getFullYear()} AvatraTech
-        </Text>
-      </Flex>
-    </Flex>
-  );
-
   return (
-    <PublicShell header={header} footer={footer}>
+    <PublicShell header={header} footer={<Footer />}>
       <main id="home">
         <Container maxWidth={dimensions.maxContentWidth} padding={theme.spacing.page} center>
           <Stack spacing={0}>

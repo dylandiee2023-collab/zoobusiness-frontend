@@ -266,13 +266,10 @@ function LandingPageContent() {
                       ? "Tumia uwezo wa AI na mazungumzo yaliyowezeshwa kwenye workspace yako. Vitendo vinavyopatikana hutegemea integrations na usanidi uliokamilika."
                       : "Use AI-assisted conversations where enabled in your workspace. Available actions depend on the integrations and configuration in place."}
                   </Text>
+                  <Link href="/features" color={theme.colors.primary}>
+                    {sw ? "Jifunze kuhusu vipengele vya AI" : "Learn about AI capabilities"} →
+                  </Link>
                 </Stack>
-                <img
-                  src={aiSalesAgent}
-                  alt={sw ? "Suluhisho la msaidizi wa mauzo wa AI" : "AI sales assistance"}
-                  loading="lazy"
-                  style={{ display: "block", flex: "1 1 18rem", width: "100%", maxWidth: "30rem", minWidth: 0, height: "auto", objectFit: "contain", borderRadius: theme.radius.card }}
-                />
               </Flex>
 
               <Flex

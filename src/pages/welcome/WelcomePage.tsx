@@ -1,220 +1,184 @@
 import { useNavigate } from "react-router-dom";
 
-import {
-  Button,
-  Container,
-  Flex,
-  Heading,
-  Link,
-  Stack,
-  Text,
-} from "@/design-system";
+import { Button, Container, Flex, Heading, Link, Stack, Text } from "@/design-system";
 import { AppIcon } from "@/design-system/icons";
 import { LayoutProvider, useLayout } from "@/layout-engine";
-import { logo } from "@/assets/brand";
+import { useLanguage } from "@/app/language";
+import { resolvePublicCopy } from "@/app/language/public-copy";
 import { PublicShell } from "@/shells/PublicShell";
 import { useTheme } from "@/theme/hooks";
-
-import "./welcome-page.css";
+import darkLogo from "@/assets/brand/zoobusiness.dark.png.png";
+import lightLogo from "@/assets/brand/zoobusiness.light.png.png";
+import heroWoman from "@/assets/images/hero-woman.webp";
+import aiSalesAgent from "@/assets/images/ai-sales-agent.webp";
 
 function LandingPageContent() {
   const navigate = useNavigate();
-  const { theme } = useTheme();
+  const { theme, mode, toggleMode } = useTheme();
   const { dimensions } = useLayout();
+  const { language, setLanguage } = useLanguage();
+  const t = (key: Parameters<typeof resolvePublicCopy>[1]) => resolvePublicCopy(language, key);
+  const logo = mode === "dark" ? lightLogo : darkLogo;
 
-  const revealStyle = {
-    animationDuration: theme.motion.modal,
-    animationTimingFunction: theme.motion.easing,
-    animationFillMode: "both" as const,
-  };
+  const sectionStyle = {
+    paddingBlock: theme.spacing.section,
+    scrollMarginTop: theme.componentSizes.topbarHeight,
+  } as const;
+  const cardStyle = {
+    flex: "1 1 15rem",
+    minWidth: 0,
+    padding: theme.spacing.card,
+    border: `1px solid ${theme.colors.border}`,
+    borderRadius: theme.radius.card,
+    background: theme.colors.surface,
+    boxShadow: theme.shadows.card,
+  } as const;
+  const mutedText = { color: theme.colors.textSecondary } as const;
 
-  const scrollToSection = (id: string) => {
+  const jumpTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const header = (
-    <Flex
-      className="landing-header"
-      align="center"
-      justify="space-between"
-      gap={theme.spacing.inline}
-      style={{ minHeight: theme.componentSizes.topbarHeight }}
-    >
-      <Link href="#home" aria-label="ZooBusiness home" className="landing-brand">
-        <img className="landing-logo" src={logo} alt="ZooBusiness" />
+    <Flex align="center" justify="space-between" gap={theme.spacing.inline} wrap="wrap"
+      style={{ minHeight: theme.componentSizes.topbarHeight }}>
+      <Link href="#home" aria-label="ZooBusiness home" style={{ display: "inline-flex", alignItems: "center" }}>
+        <img src={logo} alt="ZooBusiness" style={{ display: "block", width: "auto", maxWidth: "10rem", maxHeight: "2.5rem", objectFit: "contain" }} />
       </Link>
+      <Flex align="center" justify="center" gap={theme.spacing.inline} wrap="wrap">
+        {([["home", "navHome"], ["solutions", "navSolutions"], ["features", "navFeatures"], ["pricing", "navPricing"], ["support", "navSupport"], ["contact", "navContact"]] as const).map(([id, key]) => (
+          <Link key={id} href={`#${id}`} onClick={(event) => { event.preventDefault(); jumpTo(id); }} style={{ whiteSpace: "nowrap" }}>
+            {t(key)}
+          </Link>
+        ))}
+      </Flex>
+      <Flex align="center" gap={theme.spacing.inline} wrap="wrap">
+        <label style={{ display: "inline-flex", alignItems: "center", gap: theme.spacing.xs, color: theme.colors.textSecondary }}>
+          <AppIcon name="languages" size={theme.iconSizes.toolbar} aria-hidden="true" />
+          <select aria-label={t("language")} value={language} onChange={(event) => setLanguage(event.target.value as "en" | "sw")}
+            style={{ color: theme.colors.text, background: theme.colors.surface, border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.control, padding: theme.spacing.xs }}>
+            <option value="en">EN</option><option value="sw">SW</option>
+          </select>
+        </label>
+        <Button variant="ghost" size="sm" aria-label={mode === "dark" ? t("themeLight") : t("themeDark")} onClick={toggleMode}>
+          <AppIcon name={mode === "dark" ? "sun" : "moon"} size={theme.iconSizes.toolbar} aria-hidden="true" />
+        </Button>
+        <Link href="/login">{t("login")}</Link>
+        <Button size="md" onClick={() => navigate("/signup")}>{t("signup")}</Button>
+      </Flex>
+    </Flex>
+  );
 
-      <nav className="landing-navigation" aria-label="Main navigation">
-        <Link href="#home">Home</Link>
-        <Link href="#solutions">Solutions</Link>
-        <Link href="#features">Features</Link>
-        <Link href="#pricing">Pricing</Link>
-        <Link href="#support">Help &amp; Support</Link>
-        <Link href="#contact">Contact</Link>
-      </nav>
-
-      <Flex className="landing-account-actions" align="center" gap={theme.spacing.inline}>
-        <Link href="/login">Log in</Link>
-        <Button size="md" onClick={() => navigate("/signup")}>Sign up</Button>
+  const footer = (
+    <Flex align="center" justify="space-between" gap={theme.spacing.inline} wrap="wrap" style={{ minHeight: theme.componentSizes.bottomNavigationHeight }}>
+      <Flex align="center" gap={theme.spacing.inline}>
+        <img src={logo} alt="ZooBusiness" style={{ width: "auto", maxWidth: "7rem", maxHeight: "1.8rem", objectFit: "contain" }} />
+        <Text size={theme.typography.bodySmall.fontSize} color={theme.colors.textSecondary}>{t("footerTagline")}</Text>
+      </Flex>
+      <Flex align="center" gap={theme.spacing.inline} wrap="wrap">
+        <Link href="mailto:support@avatratech.com">{t("navContact")}</Link>
+        <Text size={theme.typography.bodySmall.fontSize} color={theme.colors.textSecondary}>© {new Date().getFullYear()} {t("copyright")}</Text>
       </Flex>
     </Flex>
   );
 
   return (
-    <PublicShell header={header}>
-      <main id="home" className="landing-page">
+    <PublicShell header={header} footer={footer}>
+      <main id="home">
         <Container maxWidth={dimensions.maxContentWidth} padding={theme.spacing.page} center>
           <Stack spacing={theme.spacing.section}>
-            <Flex
-              className="landing-hero"
-              align="center"
-              gap={theme.spacing.section}
-              style={{ paddingBlock: theme.spacing.section }}
-            >
-              <Stack
-                className="landing-hero-copy landing-reveal"
-                spacing={theme.spacing.inline}
-                style={{ ...revealStyle, flex: 1 }}
-              >
-                <Text
-                  className="landing-eyebrow"
-                  color={theme.colors.primary}
-                  weight={theme.typography.body.fontWeight}
-                  transform="uppercase"
-                  letterSpacing={theme.typography.caption.letterSpacing}
-                >
-                  Built for the way business moves
-                </Text>
-                <Heading level={1} color={theme.colors.text} style={theme.typography.display}>
-                  Run your business. <span className="landing-heading-accent">In one place.</span>
-                </Heading>
-                <Text color={theme.colors.textSecondary} size={theme.typography.body.fontSize}>
-                  Manage products, stock, orders and payments in one connected workspace, with AI assistance for customer questions.
-                </Text>
-                <Flex className="landing-hero-actions" align="center" gap={theme.spacing.inline} wrap="wrap">
-                  <Button
-                    size="lg"
-                    onClick={() => navigate("/signup")}
-                    rightIcon={<AppIcon name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" />}
-                  >
-                    Get started
-                  </Button>
-                  <Button size="lg" variant="outline" onClick={() => scrollToSection("solutions")}>
-                    Explore solutions
-                  </Button>
+            <Flex align="center" gap={theme.spacing.section} wrap="wrap" style={{ paddingBlock: theme.spacing.section }}>
+              <Stack spacing={theme.spacing.inline} style={{ flex: "1 1 20rem", minWidth: 0 }}>
+                <Text color={theme.colors.primary} weight={theme.typography.body.fontWeight} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>{t("eyebrow")}</Text>
+                <Heading level={1} color={theme.colors.text} style={theme.typography.display}>{t("heroTitle")}</Heading>
+                <Text color={theme.colors.textSecondary} size={theme.typography.body.fontSize}>{t("heroBody")}</Text>
+                <Flex align="center" gap={theme.spacing.inline} wrap="wrap">
+                  <Button size="lg" onClick={() => navigate("/signup")} rightIcon={<AppIcon name="arrow-right" size={theme.iconSizes.toolbar} aria-hidden="true" />}>{t("getStarted")}</Button>
+                  <Button size="lg" variant="outline" onClick={() => jumpTo("solutions")}>{t("explore")}</Button>
                 </Flex>
-                <Text color={theme.colors.textSecondary} size={theme.typography.bodySmall.fontSize}>
-                  One workspace for your everyday business operations.
-                </Text>
+                <Text color={theme.colors.textSecondary} size={theme.typography.bodySmall.fontSize}>{t("trustLine")}</Text>
               </Stack>
-
-              <div className="landing-hero-visual landing-reveal" style={revealStyle}>
-                <div className="landing-hero-illustration" role="img" aria-label="Illustration of connected products, orders and customer support">
-                  <div className="landing-illustration-card landing-illustration-products">
-                    <AppIcon name="package" size={theme.iconSizes.card} aria-hidden="true" />
-                    <span>Products</span>
-                  </div>
-                  <div className="landing-illustration-center">
-                    <AppIcon name="package" size={theme.iconSizes.card} aria-hidden="true" />
-                    <span>ZooBusiness</span>
-                    <small>One connected workspace</small>
-                  </div>
-                  <div className="landing-illustration-card landing-illustration-support">
-                    <AppIcon name="bot" size={theme.iconSizes.card} aria-hidden="true" />
-                    <span>AI support</span>
-                  </div>
-                </div>
-                <div className="landing-workflow" aria-label="Business workflow: products, orders, payments and customer support">
-                  <div className="landing-workflow-step">
-                    <AppIcon name="package" size={theme.iconSizes.toolbar} aria-hidden="true" />
-                    <span>Products</span>
-                  </div>
-                  <AppIcon name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" />
-                  <div className="landing-workflow-step">
-                    <AppIcon name="receipt" size={theme.iconSizes.toolbar} aria-hidden="true" />
-                    <span>Orders</span>
-                  </div>
-                  <span className="landing-workflow-arrow"><AppIcon name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" /></span>
-                  <div className="landing-workflow-step">
-                    <AppIcon name="bot" size={theme.iconSizes.toolbar} aria-hidden="true" />
-                    <span>AI support</span>
-                  </div>
-                </div>
-              </div>
+              <Flex align="center" justify="center" style={{ flex: "1 1 20rem", minWidth: 0 }}>
+                <img src={heroWoman} alt="Business owner using ZooBusiness to manage everyday operations" loading="eager"
+                  style={{ display: "block", width: "100%", maxWidth: "34rem", height: "auto", objectFit: "contain", borderRadius: theme.radius.card }} />
+              </Flex>
             </Flex>
 
-            <section id="solutions" className="landing-section landing-solutions landing-reveal" style={revealStyle}>
-              <div>
-                <Text color={theme.colors.primary} weight={theme.typography.body.fontWeight} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>
-                  Solutions
-                </Text>
-                <Heading level={2}>The daily work, connected.</Heading>
-              </div>
-              <Text color={theme.colors.textSecondary}>
-                Keep product information, stock movements, order workflows and payment activity organised in the same workspace.
-              </Text>
-            </section>
+            <Flex id="solutions" align="start" gap={theme.spacing.section} wrap="wrap" style={sectionStyle}>
+              <Stack spacing={theme.spacing.inline} style={{ flex: "1 1 18rem" }}>
+                <Text color={theme.colors.primary} weight={theme.typography.body.fontWeight} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>{t("solutionsEyebrow")}</Text>
+                <Heading level={2}>{t("solutionsTitle")}</Heading>
+              </Stack>
+              <Text color={theme.colors.textSecondary} style={{ flex: "1 1 18rem" }}>{t("solutionsBody")}</Text>
+            </Flex>
 
-            <section id="features" className="landing-section landing-reveal" style={revealStyle}>
-              <div className="landing-section-heading">
-                <Text color={theme.colors.primary} weight={theme.typography.body.fontWeight} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>
-                  Features
-                </Text>
-                <Heading level={2}>Tools for everyday operations.</Heading>
-              </div>
-              <div className="landing-feature-grid">
-                <article className="landing-feature-card">
-                  <AppIcon name="package" size={theme.iconSizes.card} color={theme.colors.primary} aria-hidden="true" />
-                  <Heading level={3}>Product management</Heading>
-                  <Text color={theme.colors.textSecondary}>Keep product details organised for your workspace.</Text>
-                </article>
-                <article className="landing-feature-card">
-                  <AppIcon name="warehouse" size={theme.iconSizes.card} color={theme.colors.primary} aria-hidden="true" />
-                  <Heading level={3}>Inventory</Heading>
-                  <Text color={theme.colors.textSecondary}>Track stock and inventory movements.</Text>
-                </article>
-                <article className="landing-feature-card">
-                  <AppIcon name="receipt" size={theme.iconSizes.card} color={theme.colors.primary} aria-hidden="true" />
-                  <Heading level={3}>Orders &amp; payments</Heading>
-                  <Text color={theme.colors.textSecondary}>Manage order workflows and payment activity.</Text>
-                </article>
-                <article className="landing-feature-card">
-                  <AppIcon name="bot" size={theme.iconSizes.card} color={theme.colors.primary} aria-hidden="true" />
-                  <Heading level={3}>AI customer assistant</Heading>
-                  <Text color={theme.colors.textSecondary}>Help answer questions using content available in your workspace.</Text>
-                </article>
-              </div>
-            </section>
+            <Stack id="features" spacing={theme.spacing.section} style={sectionStyle}>
+              <Stack spacing={theme.spacing.xs}>
+                <Text color={theme.colors.primary} weight={theme.typography.body.fontWeight} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>{t("featuresEyebrow")}</Text>
+                <Heading level={2}>{t("featuresTitle")}</Heading>
+              </Stack>
+              <Flex gap={theme.spacing.inline} wrap="wrap">
+                {([
+                  ["package", "productTitle", "productBody"],
+                  ["warehouse", "inventoryTitle", "inventoryBody"],
+                  ["receipt", "ordersTitle", "ordersBody"],
+                  ["bot", "aiTitle", "aiBody"],
+                ] as const).map(([icon, title, body]) => (
+                  <Stack key={title} spacing={theme.spacing.inline} style={cardStyle}>
+                    <AppIcon name={icon} size={theme.iconSizes.card} color={theme.colors.primary} aria-hidden="true" />
+                    <Heading level={3}>{t(title)}</Heading>
+                    <Text color={theme.colors.textSecondary}>{t(body)}</Text>
+                  </Stack>
+                ))}
+              </Flex>
+            </Stack>
 
-            <section id="pricing" className="landing-pricing landing-section landing-reveal" style={revealStyle}>
-              <div>
-                <Heading level={2}>Pricing that fits your business</Heading>
-                <Text color={theme.colors.textSecondary}>Our pricing details will be announced soon.</Text>
-              </div>
-              <Button variant="outline" onClick={() => scrollToSection("contact")}>Talk to our team</Button>
-            </section>
+            <Flex align="center" gap={theme.spacing.section} wrap="wrap" style={sectionStyle}>
+              <Stack spacing={theme.spacing.inline} style={{ flex: "1 1 16rem" }}>
+                <Heading level={2}>{t("channelsTitle")}</Heading>
+                <Text color={theme.colors.textSecondary}>{t("channelsBody")}</Text>
+                <Text size={theme.typography.bodySmall.fontSize} color={theme.colors.textSecondary}>WhatsApp is the currently registered provider; other channels require verified provider setup.</Text>
+              </Stack>
+              <Flex gap={theme.spacing.inline} wrap="wrap" style={{ flex: "1 1 18rem" }}>
+                {([["message-circle", "whatsapp"], ["instagram", "instagram"], ["messages-square", "messenger"], ["mail", "email"]] as const).map(([icon, key]) => (
+                  <Flex key={key} align="center" gap={theme.spacing.sm} style={{ ...cardStyle, flex: "1 1 9rem", padding: theme.spacing.md }}>
+                    <AppIcon name={icon} size={theme.iconSizes.toolbar} color={theme.colors.primary} aria-hidden="true" />
+                    <Text>{t(key)}</Text>
+                  </Flex>
+                ))}
+              </Flex>
+            </Flex>
 
-            <section id="support" className="landing-support landing-section landing-reveal" style={revealStyle}>
-              <div>
-                <Text color={theme.colors.primary} weight={theme.typography.body.fontWeight} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>
-                  Help &amp; Support
-                </Text>
-                <Heading level={2}>We’re here to help.</Heading>
-                <Text color={theme.colors.textSecondary}>For questions about ZooBusiness, reach the AvatraTech support team.</Text>
-              </div>
-              <div id="contact" className="landing-contact">
-                <Text weight={theme.typography.body.fontWeight}>Contact support</Text>
+            <Stack id="pricing" spacing={theme.spacing.section} style={sectionStyle}>
+              <Stack spacing={theme.spacing.xs} style={{ textAlign: "center" }}>
+                <Text color={theme.colors.primary} weight={theme.typography.body.fontWeight} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>{t("pricingEyebrow")}</Text>
+                <Heading level={2}>{t("pricingTitle")}</Heading>
+                <Text color={theme.colors.textSecondary}>{t("pricingBody")}</Text>
+              </Stack>
+              <Flex gap={theme.spacing.inline} wrap="wrap">
+                {(["freePlan", "proPlan", "teamPlan", "enterprisePlan"] as const).map((key) => (
+                  <Stack key={key} spacing={theme.spacing.inline} style={cardStyle}>
+                    <Heading level={3}>{t(key)}</Heading>
+                    <Text color={theme.colors.textSecondary}>{t("planComing")}</Text>
+                    <Button variant="outline" onClick={() => jumpTo("contact")}>{t("planContact")}</Button>
+                  </Stack>
+                ))}
+              </Flex>
+            </Stack>
+
+            <Flex id="support" align="center" gap={theme.spacing.section} wrap="wrap" style={{ ...sectionStyle, borderRadius: theme.radius.card, background: theme.colors.surface, padding: theme.spacing.section }}>
+              <Stack spacing={theme.spacing.inline} style={{ flex: "1 1 18rem" }}>
+                <Heading level={2}>{t("supportTitle")}</Heading>
+                <Text color={theme.colors.textSecondary}>{t("supportBody")}</Text>
+              </Stack>
+              <Stack id="contact" spacing={theme.spacing.xs} style={{ flex: "1 1 14rem" }}>
+                <Text weight={theme.typography.body.fontWeight}>{t("contactSupport")}</Text>
                 <Link href="mailto:support@avatratech.com" color={theme.colors.primary}>support@avatratech.com</Link>
-              </div>
-            </section>
-
-            <footer className="landing-footer">
-              <img className="landing-footer-logo" src={logo} alt="ZooBusiness" />
-              <Text color={theme.colors.textSecondary} size={theme.typography.bodySmall.fontSize}>
-                © {new Date().getFullYear()} AvatraTech. ZooBusiness is our business platform.
-              </Text>
-              <Link href="mailto:support@avatratech.com">Contact</Link>
-            </footer>
+              </Stack>
+            </Flex>
+            <Flex justify="center" style={{ paddingBlock: theme.spacing.section }}>
+              <img src={aiSalesAgent} alt="AI sales assistant" loading="lazy" style={{ display: "block", width: "100%", maxWidth: "24rem", height: "auto", objectFit: "contain", borderRadius: theme.radius.card }} />
+            </Flex>
           </Stack>
         </Container>
       </main>

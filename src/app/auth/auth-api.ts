@@ -100,31 +100,26 @@ async function authorizedRequest<T>(
   language: Language,
 ): Promise<T> {
   if (!configuredApiUrl) throw new Error("API_NOT_CONFIGURED");
-  const accessToken = window.sessionStorage.getItem("zoobusiness.accessToken");
+  const requestUrl = apiUrl(path);
+  const makeInit = (token: string | null): RequestInit => ({
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      "Accept-Language": language,
+      ...(token ? { Authorization: "Bearer " + token } : {}),
+    },
+    ...(method === "POST" ? { body: JSON.stringify(body) } : {}),
+  });
   let response: Response;
   try {
-    response = await fetch((/\/api$/i.test(configuredApiUrl!) ? configuredApiUrl! : configuredApiUrl! + "/api") + path, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-        "Accept-Language": language,
-        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-      },
-      ...(method === "POST" ? { body: JSON.stringify(body) } : {}),
-    };
-  try {
-    response = await fetch(requestUrl, requestInit);
+    response = await fetch(requestUrl, makeInit(window.sessionStorage.getItem("zoobusiness.accessToken")));
   } catch {
     throw new Error(resolvePublicCopy(language, "genericError"));
   }
   if (response.status === 401 && window.sessionStorage.getItem("zoobusiness.refreshToken")) {
     try {
       const refreshed = await refreshAuthSession(language);
-      requestInit.headers = {
-        ...(requestInit.headers as Record<string, string>),
-        Authorization: "Bearer " + refreshed.accessToken,
-      };
-      response = await fetch(requestUrl, requestInit);
+      response = await fetch(requestUrl, makeInit(refreshed.accessToken));
     } catch {
       window.sessionStorage.removeItem("zoobusiness.accessToken");
       window.sessionStorage.removeItem("zoobusiness.refreshToken");

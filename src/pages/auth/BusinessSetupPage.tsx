@@ -25,6 +25,7 @@ export function BusinessSetupPage() {
   const [country, setCountry] = useState("Tanzania");
   const [busy, setBusy] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [setupComplete, setSetupComplete] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -43,9 +44,7 @@ export function BusinessSetupPage() {
         setCategories(available);
         setWorkspace(current);
         if (current?.name) setBusinessName(current.name);
-        if (current?.business_category_id) {
-          navigate("/dashboard", { replace: true });
-        }
+        if (current?.business_category_id) setSetupComplete(true);
       } catch (caught) {
         if (active) setError(authErrorMessage(caught, language));
       } finally {
@@ -75,7 +74,7 @@ export function BusinessSetupPage() {
         ...(region.trim() ? { region: region.trim() } : {}),
         ...(country.trim() ? { country: country.trim() } : {}),
       }, language);
-      navigate("/dashboard", { replace: true });
+      setSetupComplete(true);
     } catch (caught) {
       setError(authErrorMessage(caught, language));
     } finally { setSaving(false); }
@@ -90,13 +89,23 @@ export function BusinessSetupPage() {
             <Heading level={1}>{sw ? "Sanidi biashara yako" : "Set up your business"}</Heading>
             <Text color={theme.colors.textSecondary}>{sw ? "Taarifa hizi zitatumika kuanzisha workspace yako." : "Tell us a little about your business to configure your workspace."}</Text>
           </Stack>
-          {busy ? <Text color={theme.colors.textSecondary}>{t("loading")}</Text> : (
+          {setupComplete ? (
+            <Stack spacing={theme.spacing.inline}>
+              <Heading level={2}>{sw ? "Biashara yako iko tayari" : "Your business is ready"}</Heading>
+              <Text color={theme.colors.textSecondary}>
+                {sw
+                  ? "Usanidi umekamilika. Hatua inayofuata ni kuunganisha dashboard ya biashara yako."
+                  : "Setup is complete. The next step is connecting your business dashboard."}
+              </Text>
+              <Button onClick={() => navigate("/", { replace: true })}>{sw ? "Rudi mwanzo" : "Return home"}</Button>
+            </Stack>
+          ) : busy ? <Text color={theme.colors.textSecondary}>{t("loading")}</Text> : (
             <form onSubmit={submit}>
               <Stack spacing={theme.spacing.form}>
                 <Stack spacing={theme.spacing.inline}><Text>{sw ? "Jina la biashara" : "Business name"}</Text><Input required minLength={2} maxLength={100} value={businessName} onChange={(event) => setBusinessName(event.target.value)} fullWidth /></Stack>
                 <Stack spacing={theme.spacing.inline}>
                   <Text>{sw ? "Aina ya biashara" : "Business category"}</Text>
-                  <select required value={categoryId} onChange={(event) => setCategoryId(event.target.value)} style={{ width: "100%", color: theme.colors.text, background: theme.colors.surface, border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.input, padding: theme.spacing.control }}>
+                  <select required value={categoryId} onChange={(event) => setCategoryId(event.target.value)} style={{ width: "100%", color: theme.colors.text, background: theme.colors.surface, border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.input, padding: theme.spacing.inline }}>
                     <option value="">{sw ? "Chagua aina ya biashara" : "Select a category"}</option>
                     {categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
                   </select>

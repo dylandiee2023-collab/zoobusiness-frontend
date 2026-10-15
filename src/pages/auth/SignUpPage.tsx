@@ -34,7 +34,7 @@ export function SignUpPage() {
         <select aria-label={t("language")} value={language} onChange={(event) => setLanguage(event.target.value as "en" | "sw")} style={{ color: theme.colors.text, background: theme.colors.surface, border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.input, padding: theme.spacing.inline }}>
           <option value="en">EN</option><option value="sw">SW</option>
         </select>
-        <Button variant="ghost" size="sm" aria-label={mode === "dark" ? t("themeLight") : t("themeDark")} onClick={toggleMode}><AppIcon name={mode === "dark" ? "check" : "settings"} size={theme.iconSizes.toolbar} /></Button>
+        <Button variant="ghost" size="sm" aria-label={mode === "dark" ? t("themeLight") : t("themeDark")} onClick={toggleMode}><AppIcon name="moon" size={theme.iconSizes.toolbar} /></Button>
       </Flex>
     </Flex>
   );
@@ -68,7 +68,7 @@ export function SignUpPage() {
       const session = await verifyEmail(email.trim(), code, language);
       saveAuthSession(session);
       setNotice(t("welcomeBack"));
-      navigate("/", { replace: true });
+      navigate("/business-setup", { replace: true });
     } catch (caught) {
       setError(authErrorMessage(caught, language));
     } finally {

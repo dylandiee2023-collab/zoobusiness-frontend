@@ -18,11 +18,13 @@ export interface AuthSession {
   expiresAt?: string;
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace(/\/+$/, "");
+const configuredApiUrl = (import.meta.env.VITE_API_URL ?? import.meta.env.VITE_API_BASE_URL)?.replace(/\/+$/, "");
 
-function endpoint(path: string): string {
-  if (!API_BASE_URL) throw new Error("API_NOT_CONFIGURED");
-  return `${API_BASE_URL}/auth/${path}`;
+function apiUrl(path: string): string {
+  if (!configuredApiUrl) throw new Error("API_NOT_CONFIGURED");
+  const apiRoot = /\/api$/i.test(configuredApiUrl) ? configuredApiUrl : configuredApiUrl + "/api";
+  return apiRoot + "/auth/" + path;
+}
 }
 
 async function post<T>(path: string, body: unknown, language: Language): Promise<ApiEnvelope<T>> {
@@ -75,11 +77,11 @@ async function authorizedRequest<T>(
   body: unknown,
   language: Language,
 ): Promise<T> {
-  if (!API_BASE_URL) throw new Error("API_NOT_CONFIGURED");
+  if (!configuredApiUrl) throw new Error("API_NOT_CONFIGURED");
   const accessToken = window.sessionStorage.getItem("zoobusiness.accessToken");
   let response: Response;
   try {
-    response = await fetch(`${API_BASE_URL}${path}`, {
+    response = await fetch((/\/api$/i.test(configuredApiUrl!) ? configuredApiUrl! : configuredApiUrl! + "/api") + path, {
       method,
       headers: {
         "Content-Type": "application/json",

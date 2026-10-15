@@ -48,7 +48,12 @@ export function LoginPage() {
       setNotice(session.user.emailVerified ? t("welcomeBack") : t("verifyNotice"));
       navigate("/business-setup", { replace: true });
     } catch (caught) {
-      setError(authErrorMessage(caught, language));
+      const message = authErrorMessage(caught, language);
+      if (message.toLowerCase().includes("email verification is required")) {
+        navigate(`/verify-email?email=${encodeURIComponent(email.trim())}`, { replace: true });
+        return;
+      }
+      setError(message);
     } finally {
       setBusy(false);
     }

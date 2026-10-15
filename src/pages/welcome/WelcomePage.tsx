@@ -51,10 +51,11 @@ function LandingPageContent() {
         <img src={logo} alt="ZooBusiness" style={{ display: "block", width: "auto", maxWidth: "10rem", maxHeight: "2.5rem", objectFit: "contain" }} />
       </Link>
       <Flex align="center" justify="center" gap={theme.spacing.inline} wrap="wrap">
-        {([["home", "navHome"], ["solutions", "navSolutions"]] as const).map(([id, key]) => (
+        {([["home", "navHome"]] as const).map(([id, key]) => (
           <Link key={id} href={`#${id}`} onClick={(event) => { event.preventDefault(); jumpTo(id); }} style={{ whiteSpace: "nowrap" }}>{t(key)}</Link>
         ))}
         <Link href="/features" style={{ whiteSpace: "nowrap" }}>{t("navFeatures")}</Link>
+        <Link href="#solutions" onClick={(event) => { event.preventDefault(); jumpTo("solutions"); }} style={{ whiteSpace: "nowrap" }}>{t("navSolutions")}</Link>
         <Link href="/pricing" style={{ whiteSpace: "nowrap" }}>{t("navPricing")}</Link>
         <Link href="/academy" style={{ whiteSpace: "nowrap" }}>Academy</Link>
       </Flex>

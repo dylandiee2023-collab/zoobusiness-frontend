@@ -53,15 +53,15 @@ function LandingPageContent() {
         ))}
       </Flex>
       <Flex align="center" gap={theme.spacing.inline} wrap="wrap">
-        <label style={{ display: "inline-flex", alignItems: "center", gap: theme.spacing.xs, color: theme.colors.textSecondary }}>
-          <AppIcon name="languages" size={theme.iconSizes.toolbar} aria-hidden="true" />
+        <label style={{ display: "inline-flex", alignItems: "center", gap: theme.spacing.inline, color: theme.colors.textSecondary }}>
+          <AppIcon name="help" size={theme.iconSizes.toolbar} aria-hidden="true" />
           <select aria-label={t("language")} value={language} onChange={(event) => setLanguage(event.target.value as "en" | "sw")}
-            style={{ color: theme.colors.text, background: theme.colors.surface, border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.control, padding: theme.spacing.xs }}>
+            style={{ color: theme.colors.text, background: theme.colors.surface, border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.input, padding: theme.spacing.inline }}>
             <option value="en">EN</option><option value="sw">SW</option>
           </select>
         </label>
         <Button variant="ghost" size="sm" aria-label={mode === "dark" ? t("themeLight") : t("themeDark")} onClick={toggleMode}>
-          <AppIcon name={mode === "dark" ? "sun" : "moon"} size={theme.iconSizes.toolbar} aria-hidden="true" />
+          <AppIcon name={mode === "dark" ? "check" : "settings"} size={theme.iconSizes.toolbar} aria-hidden="true" />
         </Button>
         <Link href="/login">{t("login")}</Link>
         <Button size="md" onClick={() => navigate("/signup")}>{t("signup")}</Button>
@@ -93,7 +93,7 @@ function LandingPageContent() {
                 <Heading level={1} color={theme.colors.text} style={theme.typography.display}>{t("heroTitle")}</Heading>
                 <Text color={theme.colors.textSecondary} size={theme.typography.body.fontSize}>{t("heroBody")}</Text>
                 <Flex align="center" gap={theme.spacing.inline} wrap="wrap">
-                  <Button size="lg" onClick={() => navigate("/signup")} rightIcon={<AppIcon name="arrow-right" size={theme.iconSizes.toolbar} aria-hidden="true" />}>{t("getStarted")}</Button>
+                  <Button size="lg" onClick={() => navigate("/signup")} rightIcon={<AppIcon name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" />}>{t("getStarted")}</Button>
                   <Button size="lg" variant="outline" onClick={() => jumpTo("solutions")}>{t("explore")}</Button>
                 </Flex>
                 <Text color={theme.colors.textSecondary} size={theme.typography.bodySmall.fontSize}>{t("trustLine")}</Text>
@@ -113,7 +113,7 @@ function LandingPageContent() {
             </Flex>
 
             <Stack id="features" spacing={theme.spacing.section} style={sectionStyle}>
-              <Stack spacing={theme.spacing.xs}>
+              <Stack spacing={theme.spacing.inline}>
                 <Text color={theme.colors.primary} weight={theme.typography.body.fontWeight} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>{t("featuresEyebrow")}</Text>
                 <Heading level={2}>{t("featuresTitle")}</Heading>
               </Stack>
@@ -141,7 +141,7 @@ function LandingPageContent() {
               </Stack>
               <Flex gap={theme.spacing.inline} wrap="wrap" style={{ flex: "1 1 18rem" }}>
                 {([["message-circle", "whatsapp"], ["instagram", "instagram"], ["messages-square", "messenger"], ["mail", "email"]] as const).map(([icon, key]) => (
-                  <Flex key={key} align="center" gap={theme.spacing.sm} style={{ ...cardStyle, flex: "1 1 9rem", padding: theme.spacing.md }}>
+                  <Flex key={key} align="center" gap={theme.spacing.inline} style={{ ...cardStyle, flex: "1 1 9rem", padding: theme.spacing.card }}>
                     <AppIcon name={icon} size={theme.iconSizes.toolbar} color={theme.colors.primary} aria-hidden="true" />
                     <Text>{t(key)}</Text>
                   </Flex>
@@ -150,7 +150,7 @@ function LandingPageContent() {
             </Flex>
 
             <Stack id="pricing" spacing={theme.spacing.section} style={sectionStyle}>
-              <Stack spacing={theme.spacing.xs} style={{ textAlign: "center" }}>
+              <Stack spacing={theme.spacing.inline} style={{ textAlign: "center" }}>
                 <Text color={theme.colors.primary} weight={theme.typography.body.fontWeight} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>{t("pricingEyebrow")}</Text>
                 <Heading level={2}>{t("pricingTitle")}</Heading>
                 <Text color={theme.colors.textSecondary}>{t("pricingBody")}</Text>
@@ -171,7 +171,7 @@ function LandingPageContent() {
                 <Heading level={2}>{t("supportTitle")}</Heading>
                 <Text color={theme.colors.textSecondary}>{t("supportBody")}</Text>
               </Stack>
-              <Stack id="contact" spacing={theme.spacing.xs} style={{ flex: "1 1 14rem" }}>
+              <Stack id="contact" spacing={theme.spacing.inline} style={{ flex: "1 1 14rem" }}>
                 <Text weight={theme.typography.body.fontWeight}>{t("contactSupport")}</Text>
                 <Link href="mailto:support@avatratech.com" color={theme.colors.primary}>support@avatratech.com</Link>
               </Stack>

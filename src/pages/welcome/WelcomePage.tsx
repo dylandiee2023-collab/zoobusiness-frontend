@@ -4,7 +4,6 @@ import {
   Button,
   Container,
   Flex,
-  Grid,
   Heading,
   Link,
   Stack,
@@ -12,34 +11,12 @@ import {
 } from "@/design-system";
 import { AppIcon } from "@/design-system/icons";
 import { LayoutProvider, useLayout } from "@/layout-engine";
+import { logo } from "@/assets/brand";
+import aiSalesAgent from "@/assets/images/ai-sales-agent.webp";
 import { PublicShell } from "@/shells/PublicShell";
 import { useTheme } from "@/theme/hooks";
 
 import "./welcome-page.css";
-
-const capabilities = [
-  {
-    icon: "package",
-    title: "Products",
-    description: "Keep product information organized in your workspace.",
-  },
-  {
-    icon: "warehouse",
-    title: "Inventory",
-    description: "Manage stock and follow inventory movements.",
-  },
-  {
-    icon: "receipt",
-    title: "Orders and payments",
-    description: "Manage order workflows and record payment activity.",
-  },
-  {
-    icon: "bot",
-    title: "AI customer assistant",
-    description:
-      "Answer customer questions using content available to their workspace.",
-  },
-] as const;
 
 function LandingPageContent() {
   const navigate = useNavigate();
@@ -51,9 +28,9 @@ function LandingPageContent() {
     animationTimingFunction: theme.motion.easing,
     animationFillMode: "both" as const,
   };
-  const responsiveColumns = `repeat(auto-fit, minmax(min(100%, ${theme.containers.dialog}), 1fr))`;
+
   const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView();
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const header = (
@@ -64,45 +41,30 @@ function LandingPageContent() {
       gap={theme.spacing.inline}
       style={{ minHeight: theme.componentSizes.topbarHeight }}
     >
-      <Link
-        href="#home"
-        aria-label="AvatraTech home"
-        color={theme.colors.text}
-        weight={theme.typography.heading3.fontWeight}
-      >
-        AvatraTech
+      <Link href="#home" aria-label="ZooBusiness home" className="landing-brand">
+        <img className="landing-logo" src={logo} alt="ZooBusiness" />
       </Link>
 
-      <Flex
-        className="landing-navigation"
-        align="center"
-        gap={theme.spacing.section}
-      >
+      <nav className="landing-navigation" aria-label="Main navigation">
         <Link href="#home">Home</Link>
         <Link href="#solutions">Solutions</Link>
         <Link href="#features">Features</Link>
         <Link href="#pricing">Pricing</Link>
         <Link href="#support">Help &amp; Support</Link>
         <Link href="#contact">Contact</Link>
-      </Flex>
+      </nav>
 
-      <Flex align="center" gap={theme.spacing.inline}>
+      <Flex className="landing-account-actions" align="center" gap={theme.spacing.inline}>
         <Link href="/login">Log in</Link>
-        <Button size="md" onClick={() => navigate("/signup")}>
-          Sign up
-        </Button>
+        <Button size="md" onClick={() => navigate("/signup")}>Sign up</Button>
       </Flex>
     </Flex>
   );
 
   return (
     <PublicShell header={header}>
-      <main id="home">
-        <Container
-          maxWidth={dimensions.maxContentWidth}
-          padding={theme.spacing.page}
-          center
-        >
+      <main id="home" className="landing-page">
+        <Container maxWidth={dimensions.maxContentWidth} padding={theme.spacing.page} center>
           <Stack spacing={theme.spacing.section}>
             <Flex
               className="landing-hero"
@@ -116,259 +78,134 @@ function LandingPageContent() {
                 style={{ ...revealStyle, flex: 1 }}
               >
                 <Text
+                  className="landing-eyebrow"
                   color={theme.colors.primary}
                   weight={theme.typography.body.fontWeight}
                   transform="uppercase"
                   letterSpacing={theme.typography.caption.letterSpacing}
                 >
-                  AvatraTech introduces AutoBots
+                  Built for the way business moves
                 </Text>
-                <Heading
-                  level={1}
-                  color={theme.colors.text}
-                  style={theme.typography.display}
-                >
-                  Your business operations, connected.
+                <Heading level={1} color={theme.colors.text} style={theme.typography.display}>
+                  Run your business. <span className="landing-heading-accent">In one place.</span>
                 </Heading>
-                <Text
-                  color={theme.colors.textSecondary}
-                  size={theme.typography.body.fontSize}
-                >
-                  AutoBots brings products, inventory, orders, payments and
-                  customer conversations into one workspace—with AI assistance
-                  to help answer customer questions.
+                <Text color={theme.colors.textSecondary} size={theme.typography.body.fontSize}>
+                  Manage products, stock, orders and payments in one connected workspace, with AI assistance for customer questions.
                 </Text>
-                <Flex
-                  className="landing-hero-actions"
-                  align="center"
-                  gap={theme.spacing.inline}
-                  wrap="wrap"
-                >
+                <Flex className="landing-hero-actions" align="center" gap={theme.spacing.inline} wrap="wrap">
                   <Button
                     size="lg"
                     onClick={() => navigate("/signup")}
-                    rightIcon={
-                      <AppIcon
-                        name="chevronRight"
-                        size={theme.iconSizes.toolbar}
-                        aria-hidden="true"
-                      />
-                    }
+                    rightIcon={<AppIcon name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" />}
                   >
                     Get started
                   </Button>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    onClick={() => scrollToSection("solutions")}
-                  >
+                  <Button size="lg" variant="outline" onClick={() => scrollToSection("solutions")}>
                     Explore solutions
                   </Button>
                 </Flex>
+                <Text color={theme.colors.textSecondary} size={theme.typography.bodySmall.fontSize}>
+                  One workspace for your everyday business operations.
+                </Text>
               </Stack>
 
-              <Stack
-                className="landing-hero-panel landing-reveal"
-                spacing={theme.spacing.inline}
-                style={{
-                  ...revealStyle,
-                  flex: 1,
-                  background: theme.colors.surface,
-                  border: `1px solid ${theme.colors.border}`,
-                  borderRadius: theme.radius.card,
-                  padding: theme.spacing.section,
-                }}
-              >
-                <Flex align="center" gap={theme.spacing.inline}>
-                  <AppIcon
-                    name="grid"
-                    size={theme.iconSizes.card}
-                    color={theme.colors.primary}
-                    aria-hidden="true"
-                  />
-                  <Heading level={3}>One connected workspace</Heading>
-                </Flex>
-                <Text color={theme.colors.textSecondary}>
-                  The core tools your team uses, connected through AutoBots.
-                </Text>
-                <Grid
-                  className="landing-capability-grid"
-                  columns={responsiveColumns}
-                  gap={theme.spacing.inline}
-                >
-                  {capabilities.map((capability) => (
-                    <Flex
-                      key={capability.title}
-                      align="flex-start"
-                      gap={theme.spacing.inline}
-                      className="landing-capability"
-                    >
-                      <AppIcon
-                        name={capability.icon}
-                        size={theme.iconSizes.toolbar}
-                        color={theme.colors.primary}
-                        aria-hidden="true"
-                      />
-                      <Text weight={theme.typography.body.fontWeight}>
-                        {capability.title}
-                      </Text>
-                    </Flex>
-                  ))}
-                </Grid>
-              </Stack>
+              <div className="landing-hero-visual landing-reveal" style={revealStyle}>
+                <img
+                  className="landing-hero-image"
+                  src={aiSalesAgent}
+                  alt="AI sales assistant helping customers discover products"
+                />
+                <div className="landing-workflow" aria-label="Business workflow: products, orders, payments and customer support">
+                  <div className="landing-workflow-step">
+                    <AppIcon name="package" size={theme.iconSizes.toolbar} aria-hidden="true" />
+                    <span>Products</span>
+                  </div>
+                  <AppIcon className="landing-workflow-arrow" name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" />
+                  <div className="landing-workflow-step">
+                    <AppIcon name="receipt" size={theme.iconSizes.toolbar} aria-hidden="true" />
+                    <span>Orders</span>
+                  </div>
+                  <AppIcon className="landing-workflow-arrow" name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" />
+                  <div className="landing-workflow-step">
+                    <AppIcon name="bot" size={theme.iconSizes.toolbar} aria-hidden="true" />
+                    <span>AI support</span>
+                  </div>
+                </div>
+              </div>
             </Flex>
 
-            <Stack
-              id="solutions"
-              spacing={theme.spacing.inline}
-              className="landing-section landing-reveal"
-              style={revealStyle}
-            >
-              <Text
-                color={theme.colors.primary}
-                weight={theme.typography.body.fontWeight}
-                transform="uppercase"
-                letterSpacing={theme.typography.caption.letterSpacing}
-              >
-                Solutions
-              </Text>
-              <Heading level={2}>
-                From daily operations to customer support.
-              </Heading>
+            <section id="solutions" className="landing-section landing-solutions landing-reveal" style={revealStyle}>
+              <div>
+                <Text color={theme.colors.primary} weight={theme.typography.body.fontWeight} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>
+                  Solutions
+                </Text>
+                <Heading level={2}>The daily work, connected.</Heading>
+              </div>
               <Text color={theme.colors.textSecondary}>
-                Use one workspace for product and stock management, order and
-                payment workflows, customer conversations, and AI-assisted
-                answers grounded in workspace content.
+                Keep product information, stock movements, order workflows and payment activity organised in the same workspace.
               </Text>
-            </Stack>
+            </section>
 
-            <Stack
-              id="features"
-              spacing={theme.spacing.inline}
-              className="landing-section landing-reveal"
-              style={revealStyle}
-            >
-              <Text
-                color={theme.colors.primary}
-                weight={theme.typography.body.fontWeight}
-                transform="uppercase"
-                letterSpacing={theme.typography.caption.letterSpacing}
-              >
-                Features
+            <section id="features" className="landing-section landing-reveal" style={revealStyle}>
+              <div className="landing-section-heading">
+                <Text color={theme.colors.primary} weight={theme.typography.body.fontWeight} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>
+                  Features
+                </Text>
+                <Heading level={2}>Tools for everyday operations.</Heading>
+              </div>
+              <div className="landing-feature-grid">
+                <article className="landing-feature-card">
+                  <AppIcon name="package" size={theme.iconSizes.card} color={theme.colors.primary} aria-hidden="true" />
+                  <Heading level={3}>Product management</Heading>
+                  <Text color={theme.colors.textSecondary}>Keep product details organised for your workspace.</Text>
+                </article>
+                <article className="landing-feature-card">
+                  <AppIcon name="warehouse" size={theme.iconSizes.card} color={theme.colors.primary} aria-hidden="true" />
+                  <Heading level={3}>Inventory</Heading>
+                  <Text color={theme.colors.textSecondary}>Track stock and inventory movements.</Text>
+                </article>
+                <article className="landing-feature-card">
+                  <AppIcon name="receipt" size={theme.iconSizes.card} color={theme.colors.primary} aria-hidden="true" />
+                  <Heading level={3}>Orders &amp; payments</Heading>
+                  <Text color={theme.colors.textSecondary}>Manage order workflows and payment activity.</Text>
+                </article>
+                <article className="landing-feature-card">
+                  <AppIcon name="bot" size={theme.iconSizes.card} color={theme.colors.primary} aria-hidden="true" />
+                  <Heading level={3}>AI customer assistant</Heading>
+                  <Text color={theme.colors.textSecondary}>Help answer questions using content available in your workspace.</Text>
+                </article>
+              </div>
+            </section>
+
+            <section id="pricing" className="landing-pricing landing-section landing-reveal" style={revealStyle}>
+              <div>
+                <Heading level={2}>Pricing that fits your business</Heading>
+                <Text color={theme.colors.textSecondary}>Our pricing details will be announced soon.</Text>
+              </div>
+              <Button variant="outline" onClick={() => scrollToSection("contact")}>Talk to our team</Button>
+            </section>
+
+            <section id="support" className="landing-support landing-section landing-reveal" style={revealStyle}>
+              <div>
+                <Text color={theme.colors.primary} weight={theme.typography.body.fontWeight} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>
+                  Help &amp; Support
+                </Text>
+                <Heading level={2}>We’re here to help.</Heading>
+                <Text color={theme.colors.textSecondary}>For questions about ZooBusiness, reach the AvatraTech support team.</Text>
+              </div>
+              <div id="contact" className="landing-contact">
+                <Text weight={theme.typography.body.fontWeight}>Contact support</Text>
+                <Link href="mailto:support@avatratech.com" color={theme.colors.primary}>support@avatratech.com</Link>
+              </div>
+            </section>
+
+            <footer className="landing-footer">
+              <img className="landing-footer-logo" src={logo} alt="ZooBusiness" />
+              <Text color={theme.colors.textSecondary} size={theme.typography.bodySmall.fontSize}>
+                © {new Date().getFullYear()} AvatraTech. ZooBusiness is our business platform.
               </Text>
-              <Heading level={2}>The essentials, in one place.</Heading>
-              <Grid
-                className="landing-feature-grid"
-                columns={responsiveColumns}
-                gap={theme.spacing.card}
-              >
-                {capabilities.map((capability) => (
-                  <Stack
-                    key={capability.title}
-                    spacing={theme.spacing.inline}
-                    className="landing-feature-card"
-                    style={{
-                      border: `1px solid ${theme.colors.border}`,
-                      borderRadius: theme.radius.card,
-                      padding: theme.spacing.card,
-                    }}
-                  >
-                    <AppIcon
-                      name={capability.icon}
-                      size={theme.iconSizes.card}
-                      color={theme.colors.primary}
-                      aria-hidden="true"
-                    />
-                    <Heading level={3}>{capability.title}</Heading>
-                    <Text color={theme.colors.textSecondary}>
-                      {capability.description}
-                    </Text>
-                  </Stack>
-                ))}
-              </Grid>
-            </Stack>
-
-            <Flex
-              id="pricing"
-              className="landing-pricing landing-section landing-reveal"
-              align="center"
-              justify="space-between"
-              gap={theme.spacing.section}
-              style={{
-                ...revealStyle,
-                border: `1px solid ${theme.colors.border}`,
-                borderRadius: theme.radius.card,
-                padding: theme.spacing.section,
-              }}
-            >
-              <Stack spacing={theme.spacing.inline}>
-                <Heading level={2}>Pricing</Heading>
-                <Text color={theme.colors.textSecondary}>
-                  Pricing details will be shared soon.
-                </Text>
-              </Stack>
-              <Button
-                variant="outline"
-                onClick={() => scrollToSection("contact")}
-              >
-                Contact us
-              </Button>
-            </Flex>
-
-            <Flex
-              id="support"
-              className="landing-support landing-section landing-reveal"
-              align="flex-start"
-              gap={theme.spacing.section}
-              style={revealStyle}
-            >
-              <Stack spacing={theme.spacing.inline} style={{ flex: 1 }}>
-                <Heading level={2}>Help &amp; Support</Heading>
-                <Text color={theme.colors.textSecondary}>
-                  Need help with AutoBots? Contact the AvatraTech support team
-                  by email.
-                </Text>
-              </Stack>
-              <Stack
-                id="contact"
-                spacing={theme.spacing.inline}
-                style={{ flex: 1 }}
-              >
-                <Text weight={theme.typography.body.fontWeight}>
-                  Contact AvatraTech
-                </Text>
-                <Link
-                  href="mailto:support@avatratech.com"
-                  color={theme.colors.primary}
-                >
-                  support@avatratech.com
-                </Link>
-              </Stack>
-            </Flex>
-
-            <Flex
-              className="landing-footer"
-              align="center"
-              justify="space-between"
-              gap={theme.spacing.inline}
-              wrap="wrap"
-              style={{
-                borderTop: `1px solid ${theme.colors.border}`,
-                paddingBlock: theme.spacing.section,
-              }}
-            >
-              <Text
-                color={theme.colors.textSecondary}
-                size={theme.typography.bodySmall.fontSize}
-              >
-                © {new Date().getFullYear()} AvatraTech
-              </Text>
-              <Flex align="center" gap={theme.spacing.section} wrap="wrap">
-                <Link href="#terms">Terms &amp; Conditions</Link>
-                <Link href="#privacy">Privacy</Link>
-                <Link href="mailto:support@avatratech.com">Contact</Link>
-              </Flex>
-            </Flex>
+              <Link href="mailto:support@avatratech.com">Contact</Link>
+            </footer>
           </Stack>
         </Container>
       </main>

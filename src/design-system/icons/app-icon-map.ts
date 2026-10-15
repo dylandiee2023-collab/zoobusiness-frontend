@@ -14,9 +14,13 @@ import {
   CreditCard,
   Grid2X2,
   Home,
+  Instagram,
   LayoutDashboard,
   LogOut,
+  Mail,
   Menu,
+  MessageCircle,
+  MessagesSquare,
   Package,
   Plus,
   Receipt,
@@ -63,6 +67,10 @@ export const APP_ICONS = {
   warehouse: Warehouse,
   close: X,
   creditCard: CreditCard,
+  "message-circle": MessageCircle,
+  instagram: Instagram,
+  "messages-square": MessagesSquare,
+  mail: Mail,
 } as const satisfies Record<string, LucideIcon>;
 
 export type AppIconName = keyof typeof APP_ICONS;

@@ -120,7 +120,7 @@ function LandingPageContent() {
                     <AppIcon name="package" size={theme.iconSizes.toolbar} aria-hidden="true" />
                     <span>Products</span>
                   </div>
-                  <AppIcon className="landing-workflow-arrow" name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" />
+                  <AppIcon name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" />
                   <div className="landing-workflow-step">
                     <AppIcon name="receipt" size={theme.iconSizes.toolbar} aria-hidden="true" />
                     <span>Orders</span>

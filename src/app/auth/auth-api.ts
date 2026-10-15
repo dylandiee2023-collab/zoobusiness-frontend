@@ -61,6 +61,89 @@ export async function resendVerification(email: string, language: Language) {
   return post<Record<string, never>>("resend-verification", { email }, language);
 }
 
+export async function requestPasswordReset(email: string, language: Language) {
+  return post<{ message: string }>("forgot-password", { email }, language);
+}
+
+export async function resetPassword(email: string, code: string, password: string, language: Language) {
+  return post<{ message: string }>("reset-password", { email, code, password }, language);
+}
+
+async function authorizedRequest<T>(
+  path: string,
+  method: "GET" | "POST",
+  body: unknown,
+  language: Language,
+): Promise<T> {
+  if (!API_BASE_URL) throw new Error("API_NOT_CONFIGURED");
+  const accessToken = window.sessionStorage.getItem("zoobusiness.accessToken");
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE_URL}${path}`, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        "Accept-Language": language,
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+      },
+      ...(method === "POST" ? { body: JSON.stringify(body) } : {}),
+    });
+  } catch {
+    throw new Error(resolvePublicCopy(language, "genericError"));
+  }
+  const payload = (await response.json().catch(() => ({}))) as T & { message?: string | string[] };
+  if (!response.ok) {
+    const message = Array.isArray(payload.message) ? payload.message.join(" ") : payload.message;
+    throw new Error(message || resolvePublicCopy(language, "genericError"));
+  }
+  return payload;
+}
+
+export interface BusinessCategory {
+  id: string;
+  name: string;
+  description?: string | null;
+}
+
+export interface Workspace {
+  id: string;
+  name: string;
+  slug: string;
+  business_category_id?: string | null;
+}
+
+export async function getBusinessCategories(language: Language) {
+  return authorizedRequest<BusinessCategory[]>("/business-categories", "GET", undefined, language);
+}
+
+export async function getCurrentWorkspace(language: Language) {
+  return authorizedRequest<Workspace>("/workspaces/current", "GET", undefined, language);
+}
+
+export async function createWorkspace(name: string, slug: string, language: Language) {
+  return authorizedRequest<Workspace>("/workspaces", "POST", { name, slug }, language);
+}
+
+export async function completeBusinessSetup(
+  workspaceId: string,
+  data: {
+    businessCategoryId: string;
+    description?: string;
+    address?: string;
+    city?: string;
+    region?: string;
+    country?: string;
+  },
+  language: Language,
+) {
+  return authorizedRequest<Workspace>(
+    `/workspaces/${encodeURIComponent(workspaceId)}/complete-setup`,
+    "POST",
+    data,
+    language,
+  );
+}
+
 export function saveAuthSession(session: AuthSession) {
   window.sessionStorage.setItem("zoobusiness.accessToken", session.accessToken);
   window.sessionStorage.setItem("zoobusiness.refreshToken", session.refreshToken);

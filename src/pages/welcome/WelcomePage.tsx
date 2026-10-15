@@ -114,11 +114,11 @@ function LandingPageContent() {
                 style={{
                   position: "absolute",
                   inset: 0,
-                  zIndex: -1,
+                  zIndex: 0,
                   background: "linear-gradient(90deg, rgba(7, 15, 12, 0.88) 0%, rgba(7, 15, 12, 0.68) 42%, rgba(7, 15, 12, 0.12) 100%)",
                 }}
               />
-              <Stack spacing={theme.spacing.section} style={{ width: "100%", maxWidth: "48rem", alignItems: "flex-start" }}>
+              <Stack spacing={theme.spacing.section} style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: "48rem", alignItems: "flex-start" }}>
                 <Text color="#FFFFFF" weight={700} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>
                   Z O O B U S I N E S S
                 </Text>

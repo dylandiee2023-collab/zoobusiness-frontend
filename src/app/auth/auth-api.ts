@@ -1,7 +1,7 @@
 import type { Language } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
 
-type ApiEnvelope<T> = T & { message?: string };
+type ApiEnvelope<T> = T & { message?: string };\n\nexport class AuthApiError extends Error {\n  constructor(message: string, readonly status: number) {\n    super(message);\n    this.name = "AuthApiError";\n  }\n}\n\nlet refreshInFlight: Promise<AuthSession> | null = null;
 
 export interface AuthUser {
   id: string;
@@ -45,7 +45,7 @@ async function post<T>(path: string, body: unknown, language: Language): Promise
   const payload = (await response.json().catch(() => ({}))) as ApiEnvelope<T> & { message?: string | string[] };
   if (!response.ok) {
     const message = Array.isArray(payload.message) ? payload.message.join(" ") : payload.message;
-    throw new Error(message || resolvePublicCopy(language, "genericError"));
+    throw new AuthApiError(message || resolvePublicCopy(language, "genericError"), response.status);
   }
   return payload;
 }

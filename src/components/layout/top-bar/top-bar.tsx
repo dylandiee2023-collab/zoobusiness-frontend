@@ -26,7 +26,7 @@ export function TopBar() {
   const { isMobile } = useResponsive();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
-  const left = isMobile ? 0 : state.sidebarMode === "expanded" ? 280 : state.sidebarMode === "collapsed" ? 72 : 0;
+  const left = isMobile ? 0 : state.sidebarMode === "expanded" ? 296 : state.sidebarMode === "collapsed" ? 88 : 16;
   const cycleTheme = () => setMode(mode === "system" ? "light" : mode === "light" ? "dark" : "system");
   const ThemeIcon = mode === "system" ? Monitor : mode === "light" ? Sun : Moon;
 

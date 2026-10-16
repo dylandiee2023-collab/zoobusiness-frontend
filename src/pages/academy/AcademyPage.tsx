@@ -7,7 +7,7 @@ import darkLogo from "@/assets/brand/zoobusiness.dark.png.png";
 import lightLogo from "@/assets/brand/zoobusiness.light.png.png";
 
 function AcademyContent() {
-  const { theme, mode } = useTheme();
+  const { theme } = useTheme();
   const { dimensions } = useLayout();
   const { language } = useLanguage();
   const logo = theme.mode === "dark" ? lightLogo : darkLogo;

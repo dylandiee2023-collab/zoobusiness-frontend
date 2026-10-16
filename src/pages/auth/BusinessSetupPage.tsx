@@ -128,7 +128,7 @@ export function BusinessSetupPage() {
                   <Stack spacing={theme.spacing.inline} style={{ flex: "1 1 10rem" }}><Text>{sw ? "Mkoa" : "Region"}</Text><Input value={region} onChange={(event) => setRegion(event.target.value)} fullWidth /></Stack>
                 </Flex>
                 <Stack spacing={theme.spacing.inline}><Text>{sw ? "Nchi" : "Country"}</Text><Input required value={country} onChange={(event) => setCountry(event.target.value)} fullWidth /></Stack>
-                {error ? <Text color={theme.colors.danger}>{error}</Text> : null}
+                {error ? <Text color={theme.colors.danger} role="alert">{error}</Text> : null}
                 <Button type="submit" fullWidth loading={saving}>{saving ? t("loading") : (sw ? "Kamilisha usanidi" : "Complete setup")}</Button>
               </Stack>
             </form>

@@ -17,7 +17,8 @@ export function EmailVerificationPage() {
   const { language, setLanguage } = useLanguage();
   const t = (key: Parameters<typeof resolvePublicCopy>[1]) => resolvePublicCopy(language, key);
   const [email] = useState(params.get("emailAddress") ?? params.get("email") ?? "");
-  const [digits, setDigits] = useState<string[]>(Array.from({ length: 6 }, () => ""));\n  const code = digits.join("");
+  const [digits, setDigits] = useState<string[]>(Array.from({ length: 6 }, () => ""));
+  const code = digits.join("");
   const [secondsLeft, setSecondsLeft] = useState(60);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");

@@ -26,6 +26,7 @@ export function TopBar() {
   const { mode, setMode } = useTheme();
   const { isMobile } = useResponsive();
   const { actions: sidebarActions } = useSidebar();
+  const { actions: sidebarActions } = useSidebar();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const left = isMobile ? 8 : state.sidebarMode === "expanded" ? 312 : state.sidebarMode === "collapsed" ? 104 : 16;
@@ -35,7 +36,11 @@ export function TopBar() {
   return (
     <header className="dashboard-topbar" style={{ ...topBarStyles.root, left }}>
       <div className="zb-topbar-start">
-        <MenuButton />
+        {isMobile ? (
+          <button type="button" className="zb-mobile-brand" aria-label="Open navigation" title="Open navigation" onClick={sidebarActions.expand}>
+            <BrandLogo size={124} />
+          </button>
+        ) : null}
         <label className={`zb-topbar-search${searchOpen ? " is-open" : ""}`}>
           <button type="button" aria-label="Open search" onClick={() => setSearchOpen((open) => !open)}><Search size={18} aria-hidden="true" /></button>
           <input

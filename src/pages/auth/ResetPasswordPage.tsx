@@ -16,7 +16,7 @@ export function ResetPasswordPage() {
   const { theme, mode } = useTheme();
   const { language, setLanguage } = useLanguage();
   const t = (key: Parameters<typeof resolvePublicCopy>[1]) => resolvePublicCopy(language, key);
-  const [email, setEmail] = useState(searchParams.get("email") ?? "");
+  const [email, setEmail] = useState(searchParams.get("emailAddress") ?? "");
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -59,7 +59,7 @@ export function ResetPasswordPage() {
           </Stack>
           <form onSubmit={submit}>
             <Stack spacing={theme.spacing.form}>
-              <Stack spacing={theme.spacing.inline}><Text>{t("email")}</Text><Input type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} fullWidth /></Stack>
+              <Stack spacing={theme.spacing.inline}><Text>{t("emailAddress")}</Text><Input type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} fullWidth /></Stack>
               <Stack spacing={theme.spacing.inline}><Text>{language === "sw" ? "Msimbo wa tarakimu 6" : "6-digit code"}</Text><Input inputMode="numeric" autoComplete="one-time-code" required minLength={6} maxLength={6} value={code} onChange={(event) => setCode(event.target.value.replace(/\D/g, "").slice(0, 6))} fullWidth /></Stack>
               <Stack spacing={theme.spacing.inline}><Text>{t("password")}</Text><Input type="password" autoComplete="new-password" required minLength={8} value={password} onChange={(event) => setPassword(event.target.value)} fullWidth /></Stack>
               <Stack spacing={theme.spacing.inline}><Text>{t("confirmPassword")}</Text><Input type="password" autoComplete="new-password" required minLength={8} value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} fullWidth /></Stack>

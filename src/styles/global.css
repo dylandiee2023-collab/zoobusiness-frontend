@@ -41,3 +41,97 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+
+/* Public landing and form layouts remain usable on narrow screens. */
+.zb-public-header {
+  width: 100%;
+  min-width: 0;
+}
+
+.zb-public-nav,
+.zb-public-actions {
+  min-width: 0;
+}
+
+.zb-home-hero {
+  min-width: 0;
+}
+
+.zb-home-hero-content {
+  min-width: 0;
+}
+
+@media (max-width: 760px) {
+  .zb-public-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-block: 0.75rem;
+  }
+
+  .zb-public-nav {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .zb-public-actions {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .zb-public-actions > * {
+    max-width: 100%;
+  }
+
+  .zb-home-hero {
+    min-height: auto !important;
+    align-items: flex-start !important;
+    padding: clamp(1.25rem, 5vw, 2rem) !important;
+    background-position: 62% center !important;
+  }
+
+  .zb-home-hero-content {
+    gap: clamp(1rem, 4vw, 1.5rem);
+  }
+
+  .zb-home-hero-content h1 {
+    font-size: clamp(2.35rem, 10vw, 3.6rem) !important;
+    line-height: 0.98 !important;
+    max-width: 11ch !important;
+    overflow-wrap: anywhere;
+  }
+
+  .zb-home-hero-content p {
+    overflow-wrap: anywhere;
+  }
+
+  .zb-home-hero-actions {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .zb-home-hero-actions > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .zb-public-nav a,
+  .zb-public-actions a {
+    font-size: 0.9rem;
+  }
+
+  .zb-home-hero-actions {
+    flex-direction: column;
+  }
+
+  .zb-home-hero-actions > * {
+    width: 100%;
+  }
+}

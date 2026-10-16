@@ -71,7 +71,7 @@ export function LoginPage() {
           <form onSubmit={submit}>
             <Stack spacing={theme.spacing.form}>
               <Stack spacing={theme.spacing.inline}>
-                <Text weight={theme.typography.body.fontWeight}>{t("email")}</Text>
+                <Text weight={theme.typography.body.fontWeight}>{t("emailAddress")}</Text>
                 <Input type="email" name="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} fullWidth />
               </Stack>
               <Stack spacing={theme.spacing.inline}>

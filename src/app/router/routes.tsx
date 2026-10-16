@@ -1,5 +1,7 @@
 import type { RouteObject } from "react-router-dom";
 
+import { DashboardPage } from "@/pages/dashboard/DashboardPage";
+
 export type AppShellName =
   | "auth"
   | "dashboard"
@@ -20,4 +22,15 @@ export type AppRouteObject = RouteObject & {
   readonly handle?: AppRouteHandle;
 };
 
-export const routes: AppRouteObject[] = [];
+export const routes: AppRouteObject[] = [
+  {
+    path: "/dashboard",
+    element: <DashboardPage />,
+    handle: {
+      title: "Dashboard | ZooBusiness",
+      shell: "dashboard",
+      requiresAuthentication: true,
+      permissions: ["report.view"],
+    },
+  },
+];

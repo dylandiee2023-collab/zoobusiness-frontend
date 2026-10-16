@@ -91,11 +91,12 @@ export function BusinessSetupPage() {
           </Stack>
           {setupComplete ? (
             <Stack spacing={theme.spacing.inline}>
-              <Heading level={2}>{sw ? "Biashara yako iko tayari" : "Your business is ready"}</Heading>
+              <Heading level={2}>{sw ? "Usanidi wa biashara umekamilika" : "Business setup complete"}</Heading>
+              {workspace?.name ? <Heading level={3}>{workspace.name}</Heading> : null}
               <Text color={theme.colors.textSecondary}>
                 {sw
-                  ? "Usanidi umekamilika. Hatua inayofuata ni kuunganisha dashboard ya biashara yako."
-                  : "Setup is complete. The next step is connecting your business dashboard."}
+                  ? "Taarifa za workspace hii zimehifadhiwa na kuthibitishwa na mfumo."
+                  : "This workspace has been saved and confirmed by the business platform."}
               </Text>
               <Button onClick={() => navigate("/", { replace: true })}>{sw ? "Rudi mwanzo" : "Return home"}</Button>
             </Stack>

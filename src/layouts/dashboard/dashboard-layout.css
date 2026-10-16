@@ -75,8 +75,6 @@
 .zb-topbar-start, .zb-topbar-actions { display: flex; min-width: 0; align-items: center; gap: 10px; }
 .zb-mobile-brand { display: none; align-items: center; justify-content: flex-start; min-width: 0; padding: 0; border: 0; background: transparent; cursor: pointer; }
 .zb-mobile-brand img { max-width: 124px; max-height: 38px; }
-.zb-mobile-brand { display: none; align-items: center; justify-content: flex-start; min-width: 0; padding: 0; border: 0; background: transparent; cursor: pointer; }
-.zb-mobile-brand img { max-width: 124px; max-height: 38px; }
 .zb-topbar-start { flex: 1; }
 .zb-topbar-search {
   display: flex; width: min(100%, 440px); min-width: 120px; height: 42px; align-items: center; gap: 10px;

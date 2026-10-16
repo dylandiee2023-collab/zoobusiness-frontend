@@ -77,7 +77,6 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
             <Bot size={20} aria-hidden="true" /><span>AI assistant</span>
           </Link>
         </nav>
-      </main>
     </div>
   );
 }

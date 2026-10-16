@@ -71,6 +71,7 @@ export function ResetPasswordPage() {
               {email ? <> <strong>{email}</strong></> : null}
             </Text>
           </Stack>
+          {!email ? <Text color={theme.colors.danger} role="alert">{language === "sw" ? "Barua pepe haipo. Omba msimbo mpya kutoka ukurasa wa kurejesha nenosiri." : "The email address is missing. Request a new code from password recovery."}</Text> : null}
           <form onSubmit={submit}>
             <Stack spacing={theme.spacing.form}>
               <input type="hidden" name="email" value={email} />

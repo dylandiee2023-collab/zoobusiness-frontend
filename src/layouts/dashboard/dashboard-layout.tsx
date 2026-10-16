@@ -8,20 +8,35 @@ import { TopBar } from "@/components/layout/top-bar";
 import { TopBarProvider } from "@/components/layout/top-bar/context";
 
 import type { DashboardLayoutProps } from "./dashboard-layout.types";
+import "./dashboard-layout.css";
 import { dashboardLayoutStyles } from "./dashboard-layout.styles";
 
 function DashboardLayoutContent({ children }: DashboardLayoutProps) {
-  const { state } = useSidebar();
+  const { state, actions } = useSidebar();
 
   const sidebarWidth =
     state.mode === "expanded" ? 280 : state.mode === "collapsed" ? 72 : 0;
 
   return (
     <div
+      className="dashboard-layout-root"
+      data-sidebar-mode={state.mode}
       style={{
         ...dashboardLayoutStyles.root,
       }}
     >
+      {state.mode !== "hidden" ? (
+        <button
+          className="dashboard-layout-backdrop"
+          type="button"
+          aria-label="Close navigation"
+          onClick={() => {
+            if (window.matchMedia("(max-width: 767px)").matches) {
+              actions.hide();
+            }
+          }}
+        />
+      ) : null}
       <Sidebar />
 
       <main

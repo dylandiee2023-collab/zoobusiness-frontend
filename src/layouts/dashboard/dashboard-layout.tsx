@@ -12,7 +12,7 @@ import "./dashboard-layout.css";
 import { dashboardLayoutStyles } from "./dashboard-layout.styles";
 
 function DashboardLayoutContent({ children }: DashboardLayoutProps) {
-  const { state } = useSidebar();
+  const { state, actions } = useSidebar();
 
   const sidebarWidth =
     state.mode === "expanded" ? 280 : state.mode === "collapsed" ? 72 : 0;
@@ -32,7 +32,7 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
           aria-label="Close navigation"
           onClick={() => {
             if (window.matchMedia("(max-width: 767px)").matches) {
-              window.dispatchEvent(new CustomEvent("zoobusiness:close-sidebar"));
+              actions.hide();
             }
           }}
         />

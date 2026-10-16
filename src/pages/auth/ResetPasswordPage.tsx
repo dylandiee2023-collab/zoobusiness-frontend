@@ -4,7 +4,7 @@ import { Link as RouterLink, useNavigate, useSearchParams } from "react-router-d
 import { Button, Container, Flex, Heading, Input, Link, Stack, Text } from "@/design-system";
 import { useLanguage } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
-import { authErrorMessage, resetPassword } from "@/app/auth/auth-api";
+import { authErrorMessage, passwordPolicyError, resetPassword } from "@/app/auth/auth-api";
 import { PublicShell } from "@/shells/PublicShell";
 import { useTheme } from "@/theme/hooks";
 import darkLogo from "@/assets/brand/zoobusiness.dark.png.png";
@@ -78,7 +78,7 @@ export function ResetPasswordPage() {
               </Stack>
               <Stack spacing={theme.spacing.inline}>
                 <Text>{t("password")}</Text>
-                <Input name="password" type="password" autoComplete="new-password" required minLength={8} value={password} onChange={(event) => setPassword(event.target.value)} fullWidth />
+                <Input name="password" type="password" autoComplete="new-password" required minLength={12} value={password} onChange={(event) => setPassword(event.target.value)} fullWidth />\n                <Text color={theme.colors.textSecondary} size="sm">{language === "sw" ? "Herufi 12 au zaidi, herufi kubwa na ndogo, namba na alama maalum." : "Use 12+ characters with uppercase, lowercase, a number and a special character."}</Text>
               </Stack>
               {error ? <Text color={theme.colors.danger} role="alert">{error}</Text> : null}
               {notice ? <Text color={theme.colors.primary} role="status">{notice}</Text> : null}

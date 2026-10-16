@@ -33,7 +33,11 @@ export interface DashboardSummary {
 }
 
 export class DashboardService {
-  constructor(private readonly api: ApiClientContract) {}
+  private readonly api: ApiClientContract;
+
+  constructor(api: ApiClientContract) {
+    this.api = api;
+  }
 
   getSummary(workspaceId: string, currency = "TZS"): Promise<DashboardSummary> {
     const query = new URLSearchParams({ currency });

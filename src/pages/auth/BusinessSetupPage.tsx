@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Button, Container, Flex, Heading, Input, Link, Stack, Text } from "@/design-system";
+import { Button, Container, Flex, Heading, Input, Stack, Text } from "@/design-system";
 import { useLanguage } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
 import { authErrorMessage, completeBusinessSetup, createWorkspace, getBusinessCategories, getCurrentWorkspace, type BusinessCategory, type Workspace } from "@/app/auth/auth-api";

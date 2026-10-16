@@ -8,6 +8,7 @@ import { TopBar } from "@/components/layout/top-bar";
 import { TopBarProvider } from "@/components/layout/top-bar/context";
 
 import type { DashboardLayoutProps } from "./dashboard-layout.types";
+import "./dashboard-layout.css";
 import { dashboardLayoutStyles } from "./dashboard-layout.styles";
 
 function DashboardLayoutContent({ children }: DashboardLayoutProps) {
@@ -18,10 +19,24 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
 
   return (
     <div
+      className="dashboard-layout-root"
+      data-sidebar-mode={state.mode}
       style={{
         ...dashboardLayoutStyles.root,
       }}
     >
+      {state.mode !== "hidden" ? (
+        <button
+          className="dashboard-layout-backdrop"
+          type="button"
+          aria-label="Close navigation"
+          onClick={() => {
+            if (window.matchMedia("(max-width: 767px)").matches) {
+              window.dispatchEvent(new CustomEvent("zoobusiness:close-sidebar"));
+            }
+          }}
+        />
+      ) : null}
       <Sidebar />
 
       <main

@@ -27,3 +27,116 @@
     background: rgba(15, 23, 42, 0.38);
   }
 }
+
+
+/* Dashboard shell and sidebar navigation */
+.dashboard-layout-root {
+  color: #142018;
+  background: #f6faf6;
+}
+.dashboard-layout-root aside[aria-label="Application sidebar"] {
+  display: flex;
+  flex-direction: column;
+  color: #1b2a20;
+  background: #fff;
+  border-right: 1px solid #e4ebe5;
+}
+.zb-sidebar-nav {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 18px;
+  overflow-y: auto;
+  padding: 16px 12px 24px;
+}
+.zb-sidebar-group {
+  min-width: 0;
+}
+.zb-sidebar-group-toggle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #8a968d;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: .09em;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.zb-sidebar-items {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.zb-sidebar-link {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  border-radius: 12px;
+  color: #647168;
+  font-size: 14px;
+  font-weight: 550;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: color 150ms ease, background 150ms ease;
+}
+.zb-sidebar-link svg {
+  flex: 0 0 auto;
+}
+.zb-sidebar-link:hover {
+  color: #166534;
+  background: #f0faf1;
+}
+.zb-sidebar-link.is-active {
+  color: #166534;
+  background: #e6f8e9;
+  font-weight: 750;
+}
+.dashboard-layout-root .dashboard-topbar {
+  background: rgba(255, 255, 255, .94);
+  border-bottom-color: #e4ebe5;
+  backdrop-filter: blur(14px);
+}
+.dashboard-layout-root .dashboard-topbar button {
+  display: inline-flex;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dce8de;
+  border-radius: 13px;
+  background: #fff;
+  color: #166534;
+  box-shadow: 0 2px 6px rgba(15, 50, 24, .04);
+}
+.dashboard-layout-root .dashboard-topbar button svg {
+  width: 20px;
+  height: 20px;
+}
+.dashboard-layout-root main {
+  min-width: 0;
+}
+@media (max-width: 767px) {
+  .dashboard-layout-root aside[aria-label="Application sidebar"] {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .zb-sidebar-nav {
+    padding: 12px 12px 24px;
+  }
+  .zb-sidebar-link {
+    min-height: 48px;
+    font-size: 15px;
+  }
+}

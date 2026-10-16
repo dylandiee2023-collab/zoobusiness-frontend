@@ -1,14 +1,6 @@
-import {
-  Bell,
-  Monitor,
-  Moon,
-  Search,
-  Sun,
-  Store,
-  UserRound,
-} from "lucide-react";
+import { Bell, Monitor, Moon, Search, Sun, UserRound } from "lucide-react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useLanguage } from "@/app/language/use-language";
 import { useTheme } from "@/theme/hooks";
@@ -23,20 +15,17 @@ export function TopBar() {
   const { mode, setMode } = useTheme();
   const { isMobile } = useResponsive();
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchOpen, setSearchOpen] = useState(false);
   const cycleTheme = () => setMode(mode === "system" ? "light" : mode === "light" ? "dark" : "system");
   const ThemeIcon = mode === "system" ? Monitor : mode === "light" ? Sun : Moon;
 
   return (
-    <header className="dashboard-topbar" style={topBarStyles.root}>
+    <header className={`dashboard-topbar${isMobile ? " is-mobile" : ""}`} style={topBarStyles.root}>
       <div className="zb-topbar-start">
-        {isMobile ? (
-          <div className="zb-mobile-brand" aria-label="ZooBusiness">
-            <BrandLogo size={124} />
-          </button>
-        ) : null}
+        {isMobile ? <div className="zb-mobile-brand" aria-label="ZooBusiness"><BrandLogo size={124} /></div> : null}
         <label className={`zb-topbar-search${searchOpen ? " is-open" : ""}`}>
-          <button type="button" aria-label="Open search" onClick={() => setSearchOpen((open) => !open)}><Search size={18} aria-hidden="true" /></button>
+          <button type="button" aria-label="Open search" onClick={() => setSearchOpen((open) => !open)}><Search size={20} aria-hidden="true" /></button>
           <input
             type="search"
             placeholder={language === "sw" ? "Tafuta bidhaa, oda..." : "Search products, orders..."}
@@ -52,31 +41,16 @@ export function TopBar() {
         </label>
       </div>
       <nav className="zb-topbar-actions" aria-label="Quick actions">
-        <Link className="zb-topbar-icon-link" to="/pos" aria-label="Open POS" title="POS">
-          <ShoppingCart size={19} />
-          <span>POS</span>
-        </Link>
-        <Link className="zb-topbar-icon-link zb-marketplace-link" to="/marketplace" aria-label="Marketplace" title="Marketplace">
-          <Store size={19} />
-          <span>Market</span>
-        </Link>
-        <button type="button" className="zb-topbar-icon-button zb-theme-button" aria-label="Toggle theme preference" title={`Theme: ${mode}`} onClick={cycleTheme}>
-          <ThemeIcon size={19} />
-        </button>
-        <label className="zb-language-switcher" title="Language">
-          <Globe2 size={17} aria-hidden="true" />
-          <select aria-label="Language" value={language} onChange={(event) => setLanguage(event.target.value as "en" | "sw")}>
-            <option value="en">EN</option>
-            <option value="sw">SW</option>
-          </select>
-        </label>
+        {!isMobile ? (
+          <button type="button" className="zb-topbar-icon-button zb-theme-button" aria-label="Toggle theme preference" title={`Theme: ${mode}`} onClick={cycleTheme}>
+            <ThemeIcon size={19} />
+          </button>
+        ) : null}
         <button type="button" className="zb-topbar-icon-button zb-notification-button" aria-label="Notifications" title="Notifications" onClick={actions.openNotifications}>
-          <Bell size={19} />
+          <Bell size={20} />
           {state.unreadNotifications > 0 ? <span className="zb-notification-dot" /> : null}
         </button>
-        <button type="button" className="zb-topbar-icon-button zb-profile-button" aria-label="Open profile" title="Profile" onClick={() => navigate("/profile")}>
-          <UserRound size={19} />
-        </button>
+        {!isMobile ? <button type="button" className="zb-topbar-icon-button zb-profile-button" aria-label="Open profile" title="Profile" onClick={() => navigate("/profile")}><UserRound size={19} /></button> : null}
       </nav>
     </header>
   );

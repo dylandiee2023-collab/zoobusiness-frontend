@@ -11,7 +11,7 @@ interface OtpCodeInputProps {
 export function OtpCodeInput({ value, onChange, disabled = false, label }: OtpCodeInputProps) {
   const baseId = useId().replace(/:/g, "");
   const { theme } = useTheme();
-  const digits = Array.from({ length: 6 }, (_, index) => value[index] ?? "");
+  const digits = Array.from({ length: 6 }, (_, index) => (value[index] ?? "").trim());
 
   function focusDigit(index: number) {
     document.getElementById(baseId + "-" + index)?.focus();

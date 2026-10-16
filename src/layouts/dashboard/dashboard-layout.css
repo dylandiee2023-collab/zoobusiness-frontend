@@ -118,7 +118,6 @@
   .zb-topbar-icon-link, .zb-topbar-icon-button, .zb-language-switcher { min-width: 34px; height: 36px; gap: 4px; padding: 0 6px; border-radius: 10px; }
   .zb-language-switcher select { max-width: 28px; }
   .zb-marketplace-link { display: none; }
-  .zb-profile-button { display: none; }
   .zb-floating-support { right: 12px; bottom: max(82px, calc(env(safe-area-inset-bottom) + 72px)); }
   .zb-floating-support a { width: 46px; height: 46px; min-height: 46px; justify-content: center; padding: 0; }
   .zb-floating-support a span { display: none; }

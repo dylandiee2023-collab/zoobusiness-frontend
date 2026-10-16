@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Container, Flex, Heading, Input, Stack, Text } from "@/design-system";
 import { useLanguage } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
-import { authErrorMessage, completeBusinessSetup, createWorkspace, getBusinessCategories, getCurrentWorkspace, type BusinessCategory, type Workspace } from "@/app/auth/auth-api";
+import { authErrorMessage, AuthApiError, completeBusinessSetup, createWorkspace, getBusinessCategories, getCurrentWorkspace, type BusinessCategory, type Workspace } from "@/app/auth/auth-api";
 import { PublicShell } from "@/shells/PublicShell";
 import { useTheme } from "@/theme/hooks";
 
@@ -36,10 +36,13 @@ export function BusinessSetupPage() {
         return;
       }
       try {
-        const categoryPromise = getBusinessCategories(language);
+        const available = await getBusinessCategories(language);
         let current: Workspace | null = null;
-        try { current = await getCurrentWorkspace(language); } catch { /* No workspace yet; create it after form submission. */ }
-        const available = await categoryPromise;
+        try {
+          current = await getCurrentWorkspace(language);
+        } catch (caught) {
+          if (!(caught instanceof AuthApiError) || caught.status !== 404) throw caught;
+        }
         if (!active) return;
         setCategories(available);
         setWorkspace(current);
@@ -66,7 +69,7 @@ export function BusinessSetupPage() {
         current = await createWorkspace(businessName.trim(), slug, language);
         setWorkspace(current);
       }
-      await completeBusinessSetup(current.id, {
+      const completedWorkspace = await completeBusinessSetup(current.id, {
         businessCategoryId: categoryId,
         ...(description.trim() ? { description: description.trim() } : {}),
         ...(address.trim() ? { address: address.trim() } : {}),
@@ -74,6 +77,7 @@ export function BusinessSetupPage() {
         ...(region.trim() ? { region: region.trim() } : {}),
         ...(country.trim() ? { country: country.trim() } : {}),
       }, language);
+      setWorkspace(completedWorkspace);
       setSetupComplete(true);
     } catch (caught) {
       setError(authErrorMessage(caught, language));
@@ -91,13 +95,20 @@ export function BusinessSetupPage() {
           </Stack>
           {setupComplete ? (
             <Stack spacing={theme.spacing.inline}>
-              <Heading level={2}>{sw ? "Biashara yako iko tayari" : "Your business is ready"}</Heading>
+              <Heading level={2}>{sw ? "Taarifa za biashara zimethibitishwa" : "Business setup is already complete"}</Heading>
               <Text color={theme.colors.textSecondary}>
-                {sw
-                  ? "Usanidi umekamilika. Hatua inayofuata ni kuunganisha dashboard ya biashara yako."
-                  : "Setup is complete. The next step is connecting your business dashboard."}
+                {sw ? "Taarifa hizi zimerudishwa kutoka kwenye workspace yako ya AutoBots:" : "These details were loaded from your saved AutoBots workspace:"}
               </Text>
-              <Button onClick={() => navigate("/", { replace: true })}>{sw ? "Rudi mwanzo" : "Return home"}</Button>
+              <Stack spacing={theme.spacing.inline} style={{ border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.input, padding: theme.spacing.card }}>
+                <Text weight={700}>{workspace?.name ?? "—"}</Text>
+                <Text color={theme.colors.textSecondary}>
+                  {categories.find((category) => category.id === workspace?.business_category_id)?.name ?? (sw ? "Aina ya biashara haijarudishwa" : "Business category not returned")}
+                </Text>
+              </Stack>
+              <Text color={theme.colors.textSecondary}>
+                {sw ? "Hakuna taarifa mpya zilizotumwa. Unaweza kurudi mwanzo; dashboard ya biashara itafunguliwa itakapounganishwa kwenye frontend." : "No new setup data was submitted. You can return home; the business dashboard will be available once its frontend route is connected."}
+              </Text>
+              <Button onClick={() => navigate("/", { replace: true })}>{sw ? "Rudi mwanzo" : "Back to home"}</Button>
             </Stack>
           ) : busy ? <Text color={theme.colors.textSecondary}>{t("loading")}</Text> : (
             <form onSubmit={submit}>
@@ -117,7 +128,7 @@ export function BusinessSetupPage() {
                   <Stack spacing={theme.spacing.inline} style={{ flex: "1 1 10rem" }}><Text>{sw ? "Mkoa" : "Region"}</Text><Input value={region} onChange={(event) => setRegion(event.target.value)} fullWidth /></Stack>
                 </Flex>
                 <Stack spacing={theme.spacing.inline}><Text>{sw ? "Nchi" : "Country"}</Text><Input required value={country} onChange={(event) => setCountry(event.target.value)} fullWidth /></Stack>
-                {error ? <Text color={theme.colors.danger}>{error}</Text> : null}
+                {error ? <Text color={theme.colors.danger} role="alert">{error}</Text> : null}
                 <Button type="submit" fullWidth loading={saving}>{saving ? t("loading") : (sw ? "Kamilisha usanidi" : "Complete setup")}</Button>
               </Stack>
             </form>

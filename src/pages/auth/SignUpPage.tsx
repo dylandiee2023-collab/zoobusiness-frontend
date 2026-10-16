@@ -39,7 +39,9 @@ export function SignUpPage() {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setError("");
     if (!name.trim() || !email.trim() || !password || !confirmPassword) { setError(t("requiredFields")); return; }
-    const passwordError = passwordPolicyError(password, language);\n    if (passwordError) { setError(passwordError); return; }\n    if (password !== confirmPassword) { setError(t("passwordMismatch")); return; }
+    const passwordError = passwordPolicyError(password, language);
+    if (passwordError) { setError(passwordError); return; }
+    if (password !== confirmPassword) { setError(t("passwordMismatch")); return; }
     setBusy(true);
     try {
       await register(name.trim(), email.trim(), password, language);

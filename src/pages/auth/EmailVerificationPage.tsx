@@ -47,10 +47,18 @@ export function EmailVerificationPage() {
   );
 
   function setCodeAt(index: number, value: string) {
-    const digit = value.replace(/\D/g, "").slice(-1);
-    setDigits((current) => current.map((item, position) => position === index ? digit : item));
+    const entered = value.replace(/\D/g, "").slice(0, 6 - index).split("");
+    if (!entered.length) {
+      setDigits((current) => current.map((item, position) => position === index ? "" : item));
+      setError("");
+      return;
+    }
+    setDigits((current) => current.map((item, position) => {
+      const enteredIndex = position - index;
+      return enteredIndex >= 0 && enteredIndex < entered.length ? entered[enteredIndex] : item;
+    }));
     setError("");
-    if (digit && index < 5) inputs.current[index + 1]?.focus();
+    inputs.current[Math.min(index + entered.length, 5)]?.focus();
   }
 
   function onDigitKeyDown(index: number, event: KeyboardEvent<HTMLInputElement>) {

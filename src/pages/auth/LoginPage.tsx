@@ -50,7 +50,8 @@ export function LoginPage() {
     } catch (caught) {
       const message = authErrorMessage(caught, language);
       if (message.toLowerCase().includes("email verification is required")) {
-        navigate(`/verify-email?email=${encodeURIComponent(email.trim())}`, { replace: true });
+        window.sessionStorage.setItem("zoobusiness.pendingVerificationEmail", email.trim());
+        navigate("/verify-email", { replace: true });
         return;
       }
       setError(message);

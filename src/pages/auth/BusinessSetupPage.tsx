@@ -38,7 +38,11 @@ export function BusinessSetupPage() {
       try {
         const categoryPromise = getBusinessCategories(language);
         let current: Workspace | null = null;
-        try {\n          current = await getCurrentWorkspace(language);\n        } catch (caught) {\n          if (!(caught instanceof AuthApiError) || caught.status !== 404) throw caught;\n        }
+        try {
+          current = await getCurrentWorkspace(language);
+        } catch (caught) {
+          if (!(caught instanceof AuthApiError) || caught.status !== 404) throw caught;
+        }
         const available = await categoryPromise;
         if (!active) return;
         setCategories(available);

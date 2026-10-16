@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";\nimport "./welcome-responsive.css";
 
 import { Button, Container, Flex, Heading, Link, Stack, Text } from "@/design-system";
 import { AppIcon } from "@/design-system/icons";
@@ -63,7 +63,7 @@ function LandingPageContent() {
         />
       </Link>
 
-      <Flex align="center" justify="center" gap={theme.spacing.inline} wrap="wrap">
+      <Flex className="welcome-nav-links" align="center" justify="center" gap={theme.spacing.inline} wrap="wrap">
         <Link href="/" aria-current="page">{t("navHome")}</Link>
         <Link href="/features">{t("navFeatures")}</Link>
         <Link
@@ -79,7 +79,7 @@ function LandingPageContent() {
         <Link href="/academy">Academy</Link>
       </Flex>
 
-      <Flex align="center" gap={theme.spacing.inline} wrap="wrap">
+      <Flex className="welcome-header-actions" align="center" gap={theme.spacing.inline} wrap="wrap">
         <label
           style={{
             display: "inline-flex",

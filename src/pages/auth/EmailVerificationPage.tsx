@@ -52,10 +52,10 @@ export function EmailVerificationPage() {
     setError("");
     setNotice("");
     if (!email) { setError(sw ? "Barua pepe haipo kwenye kiungo hiki." : "Email address is missing from this link."); return; }
-    if (!/^\d{6}$/.test(code)) { setError(sw ? "Weka msimbo wa tarakimu 6." : "Enter the 6-digit code."); return; }
+    if (code.replace(/\D/g, "").length !== 6) { setError(sw ? "Weka msimbo wa tarakimu 6." : "Enter the 6-digit code."); return; }
     setBusy(true);
     try {
-      const session = await verifyEmail(email.trim(), code, language);
+      const session = await verifyEmail(email.trim(), code.replace(/\D/g, ""), language);
       saveAuthSession(session);
       window.sessionStorage.removeItem("zoobusiness.pendingVerificationEmail");
       navigate("/business-setup", { replace: true });

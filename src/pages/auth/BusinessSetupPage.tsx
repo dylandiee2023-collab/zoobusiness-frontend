@@ -95,13 +95,20 @@ export function BusinessSetupPage() {
           </Stack>
           {setupComplete ? (
             <Stack spacing={theme.spacing.inline}>
-              <Heading level={2}>{sw ? "Biashara yako iko tayari" : "Your business is ready"}</Heading>
+              <Heading level={2}>{sw ? "Taarifa za biashara zimethibitishwa" : "Business setup is already complete"}</Heading>
               <Text color={theme.colors.textSecondary}>
-                {sw
-                  ? "Usanidi umekamilika. Hatua inayofuata ni kuunganisha dashboard ya biashara yako."
-                  : "Setup is complete. The next step is connecting your business dashboard."}
+                {sw ? "Taarifa hizi zimerudishwa kutoka kwenye workspace yako ya AutoBots:" : "These details were loaded from your saved AutoBots workspace:"}
               </Text>
-              <Button onClick={() => navigate("/", { replace: true })}>{sw ? "Rudi mwanzo" : "Return home"}</Button>
+              <Stack spacing={theme.spacing.inline} style={{ border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.input, padding: theme.spacing.card }}>
+                <Text weight={700}>{workspace?.name ?? "—"}</Text>
+                <Text color={theme.colors.textSecondary}>
+                  {categories.find((category) => category.id === workspace?.business_category_id)?.name ?? (sw ? "Aina ya biashara haijarudishwa" : "Business category not returned")}
+                </Text>
+              </Stack>
+              <Text color={theme.colors.textSecondary}>
+                {sw ? "Hakuna taarifa mpya zilizotumwa. Unaweza kurudi mwanzo; dashboard ya biashara itafunguliwa itakapounganishwa kwenye frontend." : "No new setup data was submitted. You can return home; the business dashboard will be available once its frontend route is connected."}
+              </Text>
+              <Button onClick={() => navigate("/", { replace: true })}>{sw ? "Rudi mwanzo" : "Back to home"}</Button>
             </Stack>
           ) : busy ? <Text color={theme.colors.textSecondary}>{t("loading")}</Text> : (
             <form onSubmit={submit}>

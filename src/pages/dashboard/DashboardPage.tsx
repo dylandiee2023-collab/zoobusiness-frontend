@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   AlertTriangle,
@@ -19,7 +19,6 @@ import { usePlatform } from "@/platform/providers/use-platform";
 import { useWorkspace } from "@/workspace/providers/workspace-provider";
 import {
   DashboardService,
-  type DashboardMetric,
   type DashboardSummary,
 } from "@/dashboard/services/dashboard-service";
 
@@ -65,8 +64,8 @@ function MetricCard({
 }: {
   title: string;
   value: string;
-  change: number | null;
-  icon: React.ReactNode;
+  change?: number | null;
+  icon: ReactNode;
   tone: "green" | "blue" | "orange" | "purple";
 }) {
   return (
@@ -74,7 +73,7 @@ function MetricCard({
       <div className={`dashboard-metric-icon tone-${tone}`}>{icon}</div>
       <p className="dashboard-metric-title">{title}</p>
       <p className="dashboard-metric-value">{value}</p>
-      <MetricChange value={change} />
+      {change !== undefined ? <MetricChange value={change} /> : null}
     </article>
   );
 }
@@ -249,7 +248,7 @@ export function DashboardPage() {
               <MetricCard
                 title="Products tracked"
                 value={formatNumber(summary.inventory.products)}
-                change={null}
+                change={undefined}
                 icon={<Package size={23} />}
                 tone="orange"
               />

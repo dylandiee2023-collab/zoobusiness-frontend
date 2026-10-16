@@ -25,8 +25,11 @@
   .welcome-header > * {
     max-width: 100%;
   }
+  .welcome-header > a:first-child {
+    order: 1;
+  }
   .welcome-nav {
-    order: 3;
+    order: 2;
     width: 100%;
     justify-content: flex-start !important;
     gap: 0.9rem !important;
@@ -36,6 +39,7 @@
     scrollbar-width: thin;
   }
   .welcome-actions {
+    order: 3;
     width: 100%;
     justify-content: flex-start !important;
     gap: 0.5rem !important;

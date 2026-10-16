@@ -1,4 +1,5 @@
 import { getStoredTheme } from "@/theme/storage";
+import { getSystemTheme } from "@/theme/system";
 import { darkTheme, lightTheme } from "@/theme/themes";
 import type { Theme, ThemeMode } from "@/theme/types";
 

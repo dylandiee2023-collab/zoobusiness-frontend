@@ -31,14 +31,5 @@ jobs:
       - name: Typecheck and build
         run: npm run build
 
-      - name: Capture formatted source snapshot (temporary)
-        run: |
-          npx prettier --write docs/frontend-foundation.md src/app/router/routes.tsx src/components/layout/sidebar/context/sidebar-provider.tsx src/dashboard/navigation/navigation.types.ts src/design-system/components/button/Button.types.ts src/design-system/components/button/index.ts src/index.css src/layouts/dashboard/dashboard-layout.css src/pages/dashboard/DashboardPage.css src/pages/dashboard/DashboardPage.tsx
-          for file in "docs/frontend-foundation.md" "src/app/router/routes.tsx" "src/components/layout/sidebar/context/sidebar-provider.tsx" "src/dashboard/navigation/navigation.types.ts" "src/design-system/components/button/Button.types.ts" "src/design-system/components/button/index.ts" "src/index.css" "src/layouts/dashboard/dashboard-layout.css" "src/pages/dashboard/DashboardPage.css" "src/pages/dashboard/DashboardPage.tsx"; do
-            printf '\n<<<FORMAT_FILE_START:%s>>>\n' "$file"
-            cat "$file"
-            printf '\n<<<FORMAT_FILE_END:%s>>>\n' "$file"
-          done
-
       - name: Prettier check
         run: npm run format:check

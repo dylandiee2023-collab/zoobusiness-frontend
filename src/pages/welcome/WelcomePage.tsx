@@ -68,7 +68,7 @@ function LandingPageContent() {
         <Link href="/features">{t("navFeatures")}</Link>
         <Link
           href="#solutions"
-          onClick={(event) => {
+          onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
             event.preventDefault();
             jumpTo("solutions");
           }}

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Container, Flex, Heading, Input, Stack, Text } from "@/design-system";
 import { useLanguage } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
-import { authErrorMessage, completeBusinessSetup, createWorkspace, getBusinessCategories, getCurrentWorkspace, type BusinessCategory, type Workspace } from "@/app/auth/auth-api";
+import { authErrorMessage, AuthApiError, completeBusinessSetup, createWorkspace, getBusinessCategories, getCurrentWorkspace, type BusinessCategory, type Workspace } from "@/app/auth/auth-api";
 import { PublicShell } from "@/shells/PublicShell";
 import { useTheme } from "@/theme/hooks";
 
@@ -38,7 +38,7 @@ export function BusinessSetupPage() {
       try {
         const categoryPromise = getBusinessCategories(language);
         let current: Workspace | null = null;
-        try { current = await getCurrentWorkspace(language); } catch { /* No workspace yet; create it after form submission. */ }
+        try {\n          current = await getCurrentWorkspace(language);\n        } catch (caught) {\n          if (!(caught instanceof AuthApiError) || caught.status !== 404) throw caught;\n        }
         const available = await categoryPromise;
         if (!active) return;
         setCategories(available);

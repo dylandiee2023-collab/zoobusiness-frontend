@@ -3,13 +3,7 @@ import type { RouteObject } from "react-router-dom";
 import { DashboardPage } from "@/pages/dashboard/DashboardPage";
 
 export type AppShellName =
-  | "auth"
-  | "dashboard"
-  | "blank"
-  | "error"
-  | "pos"
-  | "marketplace"
-  | "public";
+  "auth" | "dashboard" | "blank" | "error" | "pos" | "marketplace" | "public";
 
 export interface AppRouteHandle {
   readonly title?: string;

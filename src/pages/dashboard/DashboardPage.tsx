@@ -33,7 +33,9 @@ function formatMoney(value: number, currency: string): string {
 }
 
 function formatNumber(value: number): string {
-  return new Intl.NumberFormat("en-TZ", { maximumFractionDigits: 0 }).format(value);
+  return new Intl.NumberFormat("en-TZ", { maximumFractionDigits: 0 }).format(
+    value,
+  );
 }
 
 function formatChange(value: number | null): string {
@@ -47,7 +49,9 @@ function MetricChange({ value }: { value: number | null }) {
   const Icon = positive ? ArrowUpRight : ArrowDownRight;
 
   return (
-    <span className={`dashboard-change ${positive ? "is-positive" : "is-negative"}`}>
+    <span
+      className={`dashboard-change ${positive ? "is-positive" : "is-negative"}`}
+    >
       <Icon size={16} aria-hidden="true" />
       {formatChange(value)}
       <span className="dashboard-change-caption">vs yesterday</span>
@@ -109,17 +113,9 @@ export function DashboardPage() {
       return;
     }
 
-    if (workspaceLoading) return;
-    if (!workspace?.id) {
-      setLoading(false);
-      setError("No active business workspace is available.");
-      return;
-    }
+    if (workspaceLoading || !workspace?.id) return;
 
     let active = true;
-    setLoading(true);
-    setError(null);
-
     dashboardService
       .getSummary(workspace.id)
       .then((data) => {
@@ -150,10 +146,22 @@ export function DashboardPage() {
     workspaceLoading,
   ]);
 
-  const maxTrend = Math.max(1, ...(summary?.sales.trend.map((point) => point.amount) ?? []));
+  const workspaceUnavailable =
+    !workspaceLoading &&
+    platform.authentication.ready &&
+    platform.authentication.authenticated &&
+    !workspace?.id;
+  const maxTrend = Math.max(
+    1,
+    ...(summary?.sales.trend.map((point) => point.amount) ?? []),
+  );
   const currency = summary?.currency ?? "TZS";
 
-  if (workspaceLoading || !platform.authentication.ready || loading && !summary) {
+  if (
+    workspaceLoading ||
+    !platform.authentication.ready ||
+    (loading && !summary && !workspaceUnavailable)
+  ) {
     return (
       <DashboardLayout>
         <div className="dashboard-page">
@@ -171,27 +179,42 @@ export function DashboardPage() {
             <p className="dashboard-eyebrow">BUSINESS OVERVIEW</p>
             <h1>Good business starts with a clear view.</h1>
             <p className="dashboard-subtitle">
-              Track sales, orders, stock and expenses for {workspace?.name ?? "your business"}.
+              Track sales, orders, stock and expenses for{" "}
+              {workspace?.name ?? "your business"}.
             </p>
           </div>
           <button
             className="dashboard-refresh-button"
             type="button"
-            onClick={() => setReloadKey((key) => key + 1)}
+            onClick={() => {
+              setError(null);
+              setLoading(true);
+              setReloadKey((key) => key + 1);
+            }}
             disabled={loading}
           >
-            <RefreshCw size={16} className={loading ? "dashboard-spinner" : ""} />
+            <RefreshCw
+              size={16}
+              className={loading ? "dashboard-spinner" : ""}
+            />
             Refresh
           </button>
         </header>
 
-        {error ? (
+        {error || workspaceUnavailable ? (
           <div className="dashboard-error" role="alert">
             <AlertTriangle size={20} />
             <div>
               <strong>Dashboard data couldn't be loaded</strong>
-              <p>{error}</p>
-              <button type="button" onClick={() => setReloadKey((key) => key + 1)}>
+              <p>{error ?? "No active business workspace is available."}</p>
+              <button
+                type="button"
+                onClick={() => {
+                  setError(null);
+                  setLoading(true);
+                  setReloadKey((key) => key + 1);
+                }}
+              >
                 Try again
               </button>
             </div>
@@ -200,12 +223,17 @@ export function DashboardPage() {
 
         {summary ? (
           <>
-            <section className="dashboard-sales-panel" aria-labelledby="dashboard-sales-title">
+            <section
+              className="dashboard-sales-panel"
+              aria-labelledby="dashboard-sales-title"
+            >
               <div className="dashboard-sales-top">
                 <div>
                   <p className="dashboard-section-kicker">TODAY</p>
                   <h2 id="dashboard-sales-title">Total sales</h2>
-                  <p className="dashboard-sales-total">{formatMoney(summary.sales.today, currency)}</p>
+                  <p className="dashboard-sales-total">
+                    {formatMoney(summary.sales.today, currency)}
+                  </p>
                   <MetricChange value={summary.sales.changePercent} />
                 </div>
                 <div className="dashboard-period-chip">
@@ -213,9 +241,15 @@ export function DashboardPage() {
                   Last 7 days
                 </div>
               </div>
-              <div className="dashboard-chart" role="img" aria-label="Sales trend for the last seven days">
+              <div
+                className="dashboard-chart"
+                role="img"
+                aria-label="Sales trend for the last seven days"
+              >
                 {summary.sales.trend.map((point) => {
-                  const day = new Date(`${point.date}T12:00:00`).toLocaleDateString("en-TZ", { weekday: "short" });
+                  const day = new Date(
+                    `${point.date}T12:00:00`,
+                  ).toLocaleDateString("en-TZ", { weekday: "short" });
                   const isToday = point.date === summary.period.end;
                   const height = Math.max(5, (point.amount / maxTrend) * 100);
 
@@ -228,14 +262,19 @@ export function DashboardPage() {
                           title={`${point.date}: ${formatMoney(point.amount, currency)}`}
                         />
                       </div>
-                      <span className={isToday ? "is-today-label" : ""}>{isToday ? "Today" : day}</span>
+                      <span className={isToday ? "is-today-label" : ""}>
+                        {isToday ? "Today" : day}
+                      </span>
                     </div>
                   );
                 })}
               </div>
             </section>
 
-            <section className="dashboard-metrics-grid" aria-label="Business metrics">
+            <section
+              className="dashboard-metrics-grid"
+              aria-label="Business metrics"
+            >
               <MetricCard
                 title="Sales"
                 value={formatMoney(summary.sales.today, currency)}
@@ -268,35 +307,61 @@ export function DashboardPage() {
             <section className="dashboard-detail-grid">
               <article className="dashboard-detail-card">
                 <div className="dashboard-detail-heading">
-                  <span className="dashboard-detail-icon"><Boxes size={20} /></span>
+                  <span className="dashboard-detail-icon">
+                    <Boxes size={20} />
+                  </span>
                   <div>
                     <h2>Inventory health</h2>
                     <p>Current stock snapshot</p>
                   </div>
                 </div>
                 <div className="dashboard-stock-stats">
-                  <div><span>Tracked items</span><strong>{formatNumber(summary.inventory.trackedItems)}</strong></div>
-                  <div><span>Available units</span><strong>{formatNumber(summary.inventory.availableUnits)}</strong></div>
-                  <div className={summary.inventory.lowStockItems > 0 ? "is-warning" : ""}>
+                  <div>
+                    <span>Tracked items</span>
+                    <strong>
+                      {formatNumber(summary.inventory.trackedItems)}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>Available units</span>
+                    <strong>
+                      {formatNumber(summary.inventory.availableUnits)}
+                    </strong>
+                  </div>
+                  <div
+                    className={
+                      summary.inventory.lowStockItems > 0 ? "is-warning" : ""
+                    }
+                  >
                     <span>Low-stock items</span>
-                    <strong>{formatNumber(summary.inventory.lowStockItems)}</strong>
+                    <strong>
+                      {formatNumber(summary.inventory.lowStockItems)}
+                    </strong>
                   </div>
                 </div>
               </article>
               <article className="dashboard-detail-card dashboard-expense-card">
                 <div className="dashboard-detail-heading">
-                  <span className="dashboard-detail-icon"><CircleDollarSign size={20} /></span>
+                  <span className="dashboard-detail-icon">
+                    <CircleDollarSign size={20} />
+                  </span>
                   <div>
                     <h2>Expense snapshot</h2>
                     <p>Active expenses recorded today</p>
                   </div>
                 </div>
-                <strong className="dashboard-detail-total">{formatMoney(summary.expenses.today, currency)}</strong>
+                <strong className="dashboard-detail-total">
+                  {formatMoney(summary.expenses.today, currency)}
+                </strong>
                 <MetricChange value={summary.expenses.changePercent} />
               </article>
             </section>
             <p className="dashboard-data-note">
-              Data from AutoBots · Updated {new Date(summary.generatedAt).toLocaleTimeString("en-TZ", { hour: "2-digit", minute: "2-digit" })}
+              Data from AutoBots · Updated{" "}
+              {new Date(summary.generatedAt).toLocaleTimeString("en-TZ", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
             </p>
           </>
         ) : loading ? (

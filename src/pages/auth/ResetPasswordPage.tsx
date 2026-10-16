@@ -55,11 +55,11 @@ export function ResetPasswordPage() {
     setError("");
     setNotice("");
     if (!email) { setError(sw ? "Barua pepe haipo kwenye kiungo hiki. Omba msimbo mpya." : "Email address is missing from this link. Request a new reset code."); return; }
-    if (!/^\d{6}$/.test(code)) { setError(sw ? "Weka msimbo wa tarakimu 6." : "Enter the 6-digit code."); return; }
+    if (code.replace(/\D/g, "").length !== 6) { setError(sw ? "Weka msimbo wa tarakimu 6." : "Enter the 6-digit code."); return; }
     if (password.length < 8) { setError(sw ? "Nenosiri liwe na angalau herufi 8." : "Password must be at least 8 characters."); return; }
     setBusy(true);
     try {
-      await resetPassword(email.trim(), code, password, language);
+      await resetPassword(email.trim(), code.replace(/\D/g, ""), password, language);
       window.sessionStorage.removeItem("zoobusiness.pendingPasswordResetEmail");
       setCompleted(true);
       setNotice(sw ? "Nenosiri limebadilishwa. Sasa unaweza kuingia." : "Password updated. You can now log in.");
@@ -119,7 +119,7 @@ export function ResetPasswordPage() {
                 </Stack>
                 {error ? <Text color={theme.colors.danger} role="alert">{error}</Text> : null}
                 {notice ? <Text color={theme.colors.primary} role="status">{notice}</Text> : null}
-                <Button type="submit" fullWidth loading={busy} disabled={!email || !/^\d{6}$/.test(code)}>{busy ? t("loading") : (sw ? "Hifadhi nenosiri jipya" : "Save new password")}</Button>
+                <Button type="submit" fullWidth loading={busy} disabled={!email || code.replace(/\D/g, "").length !== 6}>{busy ? t("loading") : (sw ? "Hifadhi nenosiri jipya" : "Save new password")}</Button>
                 <Button type="button" variant="outline" fullWidth disabled={busy || resending || secondsLeft > 0 || !email} onClick={resendCode}>{resending ? t("loading") : secondsLeft > 0 ? (sw ? "Tuma tena baada ya " + secondsLeft + "s" : "Resend code in " + secondsLeft + "s") : (sw ? "Tuma msimbo mpya" : "Resend reset code")}</Button>
               </Stack>
             </form>

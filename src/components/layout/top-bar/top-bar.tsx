@@ -1,6 +1,6 @@
 import { Bell, Monitor, Moon, Search, Sun, UserRound } from "lucide-react";
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { useLanguage } from "@/app/language/use-language";
 import { useTheme } from "@/theme/hooks";
@@ -15,7 +15,6 @@ export function TopBar() {
   const { mode, setMode } = useTheme();
   const { isMobile } = useResponsive();
   const navigate = useNavigate();
-  const location = useLocation();
   const [searchOpen, setSearchOpen] = useState(false);
   const cycleTheme = () => setMode(mode === "system" ? "light" : mode === "light" ? "dark" : "system");
   const ThemeIcon = mode === "system" ? Monitor : mode === "light" ? Sun : Moon;

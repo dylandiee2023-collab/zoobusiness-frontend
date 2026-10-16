@@ -9,7 +9,8 @@ import { buildMenu, MENU_REGISTRY } from "../menu";
 
 export function SidebarProvider({ children }: PropsWithChildren) {
   const [mode, setMode] = useState<SidebarContract["state"]["mode"]>(() =>
-    typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches
+    typeof window !== "undefined" &&
+    window.matchMedia("(max-width: 767px)").matches
       ? "hidden"
       : "expanded",
   );

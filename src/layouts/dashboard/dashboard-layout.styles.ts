@@ -15,7 +15,7 @@ export const dashboardLayoutStyles = {
   },
 
   main: {
-    paddingTop: 92,
+    paddingTop: 24,
     minWidth: 0,
   },
 } as const;

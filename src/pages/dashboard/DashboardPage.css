@@ -419,3 +419,74 @@
     text-align: left;
   }
 }
+
+
+/* Match the agreed white-and-green business dashboard surface. */
+.dashboard-page {
+  min-height: calc(100dvh - 72px);
+  background: #f6faf6;
+  color: #101a13;
+}
+.dashboard-page-header h1 {
+  color: #102016;
+}
+.dashboard-sales-panel {
+  box-shadow: 0 8px 28px rgba(22, 101, 52, .045);
+}
+.dashboard-metric-card,
+.dashboard-detail-card {
+  box-shadow: 0 4px 16px rgba(16, 40, 22, .035);
+}
+.dashboard-metric-card {
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.dashboard-metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(16, 40, 22, .07);
+}
+.dashboard-error {
+  margin-bottom: 18px;
+  box-shadow: 0 4px 16px rgba(127, 29, 29, .035);
+}
+@media (max-width: 767px) {
+  .dashboard-page {
+    padding: 18px 14px calc(24px + env(safe-area-inset-bottom));
+  }
+  .dashboard-page-header {
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .dashboard-page-header h1 {
+    font-size: clamp(23px, 6vw, 29px);
+    line-height: 1.12;
+  }
+  .dashboard-sales-top {
+    flex-wrap: wrap;
+  }
+  .dashboard-period-chip {
+    margin-left: auto;
+  }
+  .dashboard-error {
+    padding: 14px;
+  }
+  .dashboard-error strong {
+    font-size: 14px;
+  }
+}
+@media (max-width: 380px) {
+  .dashboard-page {
+    padding-inline: 10px;
+  }
+  .dashboard-metrics-grid {
+    gap: 8px;
+  }
+  .dashboard-metric-card {
+    padding: 11px;
+  }
+  .dashboard-metric-value {
+    font-size: 15px;
+  }
+  .dashboard-chart {
+    gap: 3px;
+  }
+}

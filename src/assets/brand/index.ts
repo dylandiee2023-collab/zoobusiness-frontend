@@ -1,3 +1,5 @@
-import logo from "@/assets/logo.png";
+import lightLogo from "./zoobusiness.light.png.png";
+import darkLogo from "./zoobusiness.dark.png.png";
+import sidebarLogo from "./zoobusiness.sidebar.png.png";
 
-export { logo };
+export { lightLogo, darkLogo, sidebarLogo };

@@ -109,7 +109,12 @@ export function DashboardPage() {
       return;
     }
 
-    if (workspaceLoading || !workspace?.id) return;
+    if (workspaceLoading) return;
+    if (!workspace?.id) {
+      setLoading(false);
+      setError("No active business workspace is available.");
+      return;
+    }
 
     let active = true;
     setLoading(true);

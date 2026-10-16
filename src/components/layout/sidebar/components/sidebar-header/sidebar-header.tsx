@@ -29,7 +29,7 @@ export function SidebarHeader({ showLogo = true }: SidebarHeaderProps) {
           </button>
         ) : (
           <div className="zb-sidebar-brand">
-            <BrandLogo size={theme.componentSizes.sidebarLogo ?? 148} />
+            <BrandLogo size={theme.iconSizes.avatar * 4} />
           </div>
         )
       ) : null}

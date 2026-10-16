@@ -42,13 +42,25 @@ export function LoginPage() {
     setNotice("");
     if (!email.trim() || !password) { setError(t("requiredFields")); return; }
     setBusy(true);
+    console.info("[ZooBusiness Login] Submit handler started");
     try {
       const session = await login(email.trim(), password, language);
+      console.info("[ZooBusiness Login] API returned success", {
+        hasAccessToken: Boolean(session?.accessToken),
+        hasRefreshToken: Boolean(session?.refreshToken),
+        hasUser: Boolean(session?.user),
+        emailVerified: session?.user?.emailVerified,
+      });
+      if (!session?.accessToken || !session?.refreshToken || !session?.user) {
+        throw new Error("LOGIN_RESPONSE_INVALID");
+      }
       saveAuthSession(session);
       setNotice(session.user.emailVerified ? t("welcomeBack") : t("verifyNotice"));
+      console.info("[ZooBusiness Login] Navigating to /business-setup");
       navigate("/business-setup", { replace: true });
     } catch (caught) {
       const message = authErrorMessage(caught, language);
+      console.error("[ZooBusiness Login] Login flow failed", { message });
       if (message.toLowerCase().includes("email verification is required")) {
         window.sessionStorage.setItem("zoobusiness.pendingVerificationEmail", email.trim());
         navigate("/verify-email", { replace: true });

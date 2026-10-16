@@ -77,6 +77,7 @@ export function BusinessSetupPage() {
         ...(region.trim() ? { region: region.trim() } : {}),
         ...(country.trim() ? { country: country.trim() } : {}),
       }, language);
+      setWorkspace(completedWorkspace);
       setSetupComplete(true);
     } catch (caught) {
       setError(authErrorMessage(caught, language));

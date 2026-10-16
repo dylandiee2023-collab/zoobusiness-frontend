@@ -1,17 +1,11 @@
-import { DEFAULT_THEME } from "@/theme/constants";
 import { getStoredTheme } from "@/theme/storage";
-import { getSystemTheme } from "@/theme/system";
 import { darkTheme, lightTheme } from "@/theme/themes";
 import type { Theme, ThemeMode } from "@/theme/types";
 
 export function resolveInitialTheme(): ThemeMode {
-  const storedTheme = getStoredTheme();
-
-  if (storedTheme !== DEFAULT_THEME) {
-    return storedTheme;
-  }
-
-  return getSystemTheme() ?? DEFAULT_THEME;
+  // Keep "system" as the selected preference when no explicit user choice
+  // exists, so the theme provider can continue following OS appearance changes.
+  return getStoredTheme();
 }
 
 export function resolveTheme(mode: ThemeMode): Theme {

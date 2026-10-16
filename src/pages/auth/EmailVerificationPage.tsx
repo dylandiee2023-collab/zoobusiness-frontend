@@ -51,10 +51,10 @@ export function EmailVerificationPage() {
   function applyDigits(startIndex: number, value: string) {
     const digits = value.replace(/\D/g, "");
     if (!digits) {
-      setCode((previous) => previous.slice(0, startIndex) + previous.slice(startIndex + 1));
+      setCode((previous) => Array.from({ length: 6 }, (_, index) => index === startIndex ? "" : (previous[index] ?? "")).join(""));
       return;
     }
-    const next = code.split("");
+    const next = Array.from({ length: 6 }, (_, index) => code[index] ?? "");
     digits.slice(0, 6 - startIndex).split("").forEach((digit, offset) => { next[startIndex + offset] = digit; });
     const nextCode = next.join("").slice(0, 6);
     setCode(nextCode);
@@ -129,7 +129,7 @@ export function EmailVerificationPage() {
   return (
     <PublicShell header={header}>
       <Container maxWidth="34rem" padding={theme.spacing.page} center style={{ paddingBlock: theme.spacing.section }}>
-        <Stack spacing={theme.spacing.section} style={{ border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.card, background: theme.colors.surface, padding: "clamp(1.25rem, 4vw, ${theme.spacing.section})", boxShadow: theme.shadows.card, minWidth: 0 }}>
+        <Stack spacing={theme.spacing.section} style={{ border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.card, background: theme.colors.surface, padding: "clamp(1.25rem, 4vw, 2.5rem)", boxShadow: theme.shadows.card, minWidth: 0 }}>
           <Stack spacing={theme.spacing.inline}>
             <Text color={theme.colors.primary} weight={700} transform="uppercase">{sw ? "UTHIBITISHO WA BARUA PEPE" : "EMAIL VERIFICATION"}</Text>
             <Heading level={1}>{t("verifyTitle")}</Heading>
@@ -139,7 +139,7 @@ export function EmailVerificationPage() {
             <Stack spacing={theme.spacing.form}>
               <Stack spacing={theme.spacing.inline}>
                 <Text>{t("verificationCode")}</Text>
-                <Flex gap="0.5rem" justify="center" onPaste={handlePaste} style={{ width: "100%" }}>
+                <div onPaste={handlePaste} style={{ display: "flex", gap: "clamp(0.35rem, 2vw, 0.5rem)", justifyContent: "center", width: "100%" }}>
                   {Array.from({ length: 6 }, (_, index) => (
                     <input
                       key={index}
@@ -157,7 +157,7 @@ export function EmailVerificationPage() {
                       style={{ width: "min(3rem, 13vw)", height: "3.5rem", minWidth: 0, padding: 0, textAlign: "center", fontSize: "1.4rem", fontWeight: 700, color: theme.colors.text, background: theme.colors.surface, border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.input, outlineColor: theme.colors.primary }}
                     />
                   ))}
-                </Flex>
+                </div>
               </Stack>
               {error ? <Text color={theme.colors.danger} role="alert">{error}</Text> : null}
               {notice ? <Text color={theme.colors.primary} role="status">{notice}</Text> : null}

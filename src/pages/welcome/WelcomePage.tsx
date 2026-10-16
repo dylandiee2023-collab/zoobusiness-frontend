@@ -195,7 +195,7 @@ function LandingPageContent() {
             </section>
 
             <section aria-labelledby="home-capabilities-title" style={sectionStyle}>
-              <Flex align="end" justify="space-between" gap={theme.spacing.section} wrap="wrap" style={{ marginBottom: theme.spacing.section }}>
+              <Flex align="flex-end" justify="space-between" gap={theme.spacing.section} wrap="wrap" style={{ marginBottom: theme.spacing.section }}>
                 <Stack spacing={theme.spacing.inline} style={{ maxWidth: "42rem" }}>
                   <Text color={theme.colors.primary} weight={700} transform="uppercase">{sw ? "JUKWAA MOJA" : "ONE BUSINESS WORKSPACE"}</Text>
                   <Heading id="home-capabilities-title" level={2} style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", letterSpacing: "-0.04em" }}>
@@ -301,7 +301,7 @@ function LandingPageContent() {
 
             <section aria-labelledby="pricing-title" style={sectionStyle}>
               <Flex
-                align="end"
+                align="flex-end"
                 justify="space-between"
                 gap={theme.spacing.section}
                 wrap="wrap"

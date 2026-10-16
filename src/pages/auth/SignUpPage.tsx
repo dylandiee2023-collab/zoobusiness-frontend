@@ -31,7 +31,7 @@ export function SignUpPage() {
         <select aria-label={t("language")} value={language} onChange={(event) => setLanguage(event.target.value as "en" | "sw")} style={{ color: theme.colors.text, background: theme.colors.surface, border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.input, padding: theme.spacing.inline }}>
           <option value="en">EN</option><option value="sw">SW</option>
         </select>
-        <Button variant="ghost" size="sm" aria-label={mode === "dark" ? t("themeLight") : t("themeDark")} onClick={toggleMode}><AppIcon name="moon" size={theme.iconSizes.toolbar} /></Button>
+        <Button variant="ghost" size="0.875rem" aria-label={mode === "dark" ? t("themeLight") : t("themeDark")} onClick={toggleMode}><AppIcon name="moon" size={theme.iconSizes.toolbar} /></Button>
       </Flex>
     </Flex>
   );
@@ -64,7 +64,7 @@ export function SignUpPage() {
             <Stack spacing={theme.spacing.form}>
               <Stack spacing={theme.spacing.inline}><Text>{t("fullName")}</Text><Input name="name" autoComplete="name" required value={name} onChange={(event) => setName(event.target.value)} fullWidth /></Stack>
               <Stack spacing={theme.spacing.inline}><Text>{t("emailAddress")}</Text><Input type="email" name="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} fullWidth /></Stack>
-              <Stack spacing={theme.spacing.inline}><Text>{t("password")}</Text><Input type="password" name="password" autoComplete="new-password" required minLength={12} value={password} onChange={(event) => setPassword(event.target.value)} fullWidth /><Text color={theme.colors.textSecondary} size="sm">{language === "sw" ? "Herufi 12 au zaidi, herufi kubwa na ndogo, namba na alama maalum." : "Use 12+ characters with uppercase, lowercase, a number and a special character."}</Text></Stack>
+              <Stack spacing={theme.spacing.inline}><Text>{t("password")}</Text><Input type="password" name="password" autoComplete="new-password" required minLength={12} value={password} onChange={(event) => setPassword(event.target.value)} fullWidth /><Text color={theme.colors.textSecondary} size="0.875rem">{language === "sw" ? "Herufi 12 au zaidi, herufi kubwa na ndogo, namba na alama maalum." : "Use 12+ characters with uppercase, lowercase, a number and a special character."}</Text></Stack>
               <Stack spacing={theme.spacing.inline}><Text>{t("confirmPassword")}</Text><Input type="password" name="confirmPassword" autoComplete="new-password" required minLength={8} value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} fullWidth /></Stack>
               {error ? <Text color={theme.colors.danger} role="alert">{error}</Text> : null}
               <Button type="submit" fullWidth loading={busy}>{busy ? t("loading") : t("submitSignup")}</Button>

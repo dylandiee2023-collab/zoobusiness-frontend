@@ -43,7 +43,7 @@ export function SignUpPage() {
     setBusy(true);
     try {
       await register(name.trim(), email.trim(), password, language);
-      navigate(`/verify-email?email=${encodeURIComponent(email.trim())}`);
+      navigate(`/verify-email?emailAddress=${encodeURIComponent(email.trim())}`, { replace: true });
     } catch (caught) {
       setError(authErrorMessage(caught, language));
     } finally { setBusy(false); }

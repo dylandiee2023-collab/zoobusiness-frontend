@@ -24,6 +24,8 @@ import {
 
 import "./DashboardPage.css";
 
+// Temporary CI formatting snapshot trigger.
+
 function formatMoney(value: number, currency: string): string {
   return new Intl.NumberFormat("en-TZ", {
     style: "currency",

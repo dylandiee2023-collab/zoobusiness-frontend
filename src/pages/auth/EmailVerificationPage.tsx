@@ -17,7 +17,7 @@ export function EmailVerificationPage() {
   const { language, setLanguage } = useLanguage();
   const t = (key: Parameters<typeof resolvePublicCopy>[1]) => resolvePublicCopy(language, key);
   const [email] = useState(params.get("emailAddress") ?? params.get("email") ?? "");
-  const [code, setCode] = useState("");
+  const [digits, setDigits] = useState<string[]>(Array.from({ length: 6 }, () => ""));\n  const code = digits.join("");
   const [secondsLeft, setSecondsLeft] = useState(60);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -51,7 +51,7 @@ export function EmailVerificationPage() {
   function applyDigits(startIndex: number, value: string) {
     const digits = value.replace(/\D/g, "");
     if (!digits) {
-      setCode((previous) => Array.from({ length: 6 }, (_, index) => index === startIndex ? "" : (previous[index] ?? "")).join(""));
+      setDigits((previous) => previous.map((digit, index) => index === startIndex ? "" : digit));
       return;
     }
     const next = Array.from({ length: 6 }, (_, index) => code[index] ?? "");
@@ -65,12 +65,12 @@ export function EmailVerificationPage() {
   function handlePaste(event: ClipboardEvent<HTMLDivElement>) {
     event.preventDefault();
     const digits = event.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
-    setCode(digits);
+    setDigits(Array.from({ length: 6 }, (_, index) => digits[index] ?? ""));
     codeInputs.current[Math.min(digits.length, 5)]?.focus();
   }
 
   function handleKeyDown(index: number, event: KeyboardEvent<HTMLInputElement>) {
-    if (event.key === "Backspace" && !code[index] && index > 0) {
+    if (event.key === "Backspace" && !digits[index] && index > 0) {
       codeInputs.current[index - 1]?.focus();
     } else if (event.key === "ArrowLeft" && index > 0) {
       event.preventDefault();
@@ -91,7 +91,7 @@ export function EmailVerificationPage() {
     }
     if (!/^\d{6}$/.test(code)) {
       setError(sw ? "Weka msimbo wote wa tarakimu 6." : "Enter all 6 digits of the code.");
-      codeInputs.current[code.length]?.focus();
+      codeInputs.current[digits.findIndex((digit) => !digit)]?.focus();
       return;
     }
     setBusy(true);
@@ -114,7 +114,7 @@ export function EmailVerificationPage() {
     try {
       await resendVerification(email.trim(), language);
       setSecondsLeft(60);
-      setCode("");
+      setDigits(Array.from({ length: 6 }, () => ""));
       codeInputs.current[0]?.focus();
       setNotice(sw
         ? "Ikiwa akaunti inahitaji uthibitisho, msimbo mpya umetumwa."
@@ -150,7 +150,7 @@ export function EmailVerificationPage() {
                       autoComplete={index === 0 ? "one-time-code" : "off"}
                       pattern="[0-9]*"
                       maxLength={1}
-                      value={code[index] ?? ""}
+                      value={digits[index] ?? ""}
                       onChange={(event) => applyDigits(index, event.target.value)}
                       onKeyDown={(event) => handleKeyDown(index, event)}
                       disabled={busy || !email}

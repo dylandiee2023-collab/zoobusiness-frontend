@@ -19,7 +19,6 @@ export function ResetPasswordPage() {
   const [email, setEmail] = useState(searchParams.get("emailAddress") ?? "");
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
@@ -37,7 +36,6 @@ export function ResetPasswordPage() {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setError(""); setNotice("");
     if (!/^\d{6}$/.test(code)) { setError(language === "sw" ? "Weka msimbo wa tarakimu 6." : "Enter the 6-digit code."); return; }
-    if (password !== confirmPassword) { setError(t("passwordMismatch")); return; }
     setBusy(true);
     try {
       await resetPassword(email.trim(), code, password, language);
@@ -50,7 +48,7 @@ export function ResetPasswordPage() {
 
   return (
     <PublicShell header={header}>
-      <Container maxWidth="34rem" padding={theme.spacing.page} center style={{ paddingBlock: theme.spacing.section }}>
+      <Container maxWidth="34rem" padding={theme.spacing.page} center style={{ paddingBlock: theme.spacing.section, minWidth: 0 }}>
         <Stack spacing={theme.spacing.section} style={{ border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.card, background: theme.colors.surface, padding: theme.spacing.section, boxShadow: theme.shadows.card }}>
           <Stack spacing={theme.spacing.inline}>
             <Text color={theme.colors.primary} weight={700} transform="uppercase">{language === "sw" ? "WEKA NENOSIRI JIPYA" : "SET A NEW PASSWORD"}</Text>
@@ -62,8 +60,7 @@ export function ResetPasswordPage() {
               <Stack spacing={theme.spacing.inline}><Text>{t("emailAddress")}</Text><Input type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} fullWidth /></Stack>
               <Stack spacing={theme.spacing.inline}><Text>{language === "sw" ? "Msimbo wa tarakimu 6" : "6-digit code"}</Text><Input inputMode="numeric" autoComplete="one-time-code" required minLength={6} maxLength={6} value={code} onChange={(event) => setCode(event.target.value.replace(/\D/g, "").slice(0, 6))} fullWidth /></Stack>
               <Stack spacing={theme.spacing.inline}><Text>{t("password")}</Text><Input type="password" autoComplete="new-password" required minLength={8} value={password} onChange={(event) => setPassword(event.target.value)} fullWidth /></Stack>
-              <Stack spacing={theme.spacing.inline}><Text>{t("confirmPassword")}</Text><Input type="password" autoComplete="new-password" required minLength={8} value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} fullWidth /></Stack>
-              {error ? <Text color={theme.colors.danger}>{error}</Text> : null}
+                            {error ? <Text color={theme.colors.danger}>{error}</Text> : null}
               {notice ? <Text color={theme.colors.primary}>{notice}</Text> : null}
               <Button type="submit" fullWidth loading={busy}>{busy ? t("loading") : (language === "sw" ? "Hifadhi nenosiri jipya" : "Save new password")}</Button>
             </Stack>

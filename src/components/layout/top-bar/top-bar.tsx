@@ -15,7 +15,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLanguage } from "@/app/language/use-language";
 import { useTheme } from "@/theme/hooks";
 import { useResponsive } from "@/responsive";
-import { MenuButton } from "./components/menu-button";
+import { BrandLogo } from "@/components/brand/components/brand-logo/brand-logo";
+import { useSidebar } from "@/components/layout/sidebar/context";
 import { useTopBar } from "./context";
 import { topBarStyles } from "./top-bar.styles";
 
@@ -24,9 +25,10 @@ export function TopBar() {
   const { language, setLanguage } = useLanguage();
   const { mode, setMode } = useTheme();
   const { isMobile } = useResponsive();
+  const { actions: sidebarActions } = useSidebar();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
-  const left = isMobile ? 0 : state.sidebarMode === "expanded" ? 296 : state.sidebarMode === "collapsed" ? 88 : 16;
+  const left = isMobile ? 8 : state.sidebarMode === "expanded" ? 312 : state.sidebarMode === "collapsed" ? 104 : 16;
   const cycleTheme = () => setMode(mode === "system" ? "light" : mode === "light" ? "dark" : "system");
   const ThemeIcon = mode === "system" ? Monitor : mode === "light" ? Sun : Moon;
 

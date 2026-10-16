@@ -60,6 +60,9 @@ export function ResetPasswordPage() {
     setBusy(true);
     try {
       await resetPassword(email.trim(), code.replace(/\D/g, ""), password, language);
+      window.sessionStorage.removeItem("zoobusiness.accessToken");
+      window.sessionStorage.removeItem("zoobusiness.refreshToken");
+      window.sessionStorage.removeItem("zoobusiness.user");
       window.sessionStorage.removeItem("zoobusiness.pendingPasswordResetEmail");
       setCompleted(true);
       setNotice(sw ? "Nenosiri limebadilishwa. Sasa unaweza kuingia." : "Password updated. You can now log in.");

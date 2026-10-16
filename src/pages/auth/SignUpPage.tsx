@@ -23,7 +23,6 @@ export function SignUpPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const logo = mode === "dark" ? lightLogo : darkLogo;
-  const sw = language === "sw";
 
   const header = (
     <Flex align="center" justify="space-between" gap={theme.spacing.inline} style={{ minHeight: theme.componentSizes.topbarHeight }}>
@@ -62,7 +61,7 @@ export function SignUpPage() {
           <form onSubmit={submit}>
             <Stack spacing={theme.spacing.form}>
               <Stack spacing={theme.spacing.inline}><Text>{t("fullName")}</Text><Input name="name" autoComplete="name" required value={name} onChange={(event) => setName(event.target.value)} fullWidth /></Stack>
-              <Stack spacing={theme.spacing.inline}><Text>{t("email")}</Text><Input type="email" name="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} fullWidth /></Stack>
+              <Stack spacing={theme.spacing.inline}><Text>{t("emailAddress")}</Text><Input type="email" name="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} fullWidth /></Stack>
               <Stack spacing={theme.spacing.inline}><Text>{t("password")}</Text><Input type="password" name="password" autoComplete="new-password" required minLength={8} value={password} onChange={(event) => setPassword(event.target.value)} fullWidth /></Stack>
               <Stack spacing={theme.spacing.inline}><Text>{t("confirmPassword")}</Text><Input type="password" name="confirmPassword" autoComplete="new-password" required minLength={8} value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} fullWidth /></Stack>
               {error ? <Text color={theme.colors.danger}>{error}</Text> : null}

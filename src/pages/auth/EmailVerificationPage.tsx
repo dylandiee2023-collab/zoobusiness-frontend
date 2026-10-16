@@ -17,7 +17,7 @@ export function EmailVerificationPage() {
   const { theme, mode } = useTheme();
   const { language, setLanguage } = useLanguage();
   const t = (key: Parameters<typeof resolvePublicCopy>[1]) => resolvePublicCopy(language, key);
-  const email = params.get("email") ?? params.get("emailAddress") ?? "";
+  const email = window.sessionStorage.getItem("zoobusiness.pendingVerificationEmail") ?? params.get("email") ?? params.get("emailAddress") ?? "";
   const [code, setCode] = useState("");
   const [secondsLeft, setSecondsLeft] = useState(60);
   const [busy, setBusy] = useState(false);
@@ -57,6 +57,7 @@ export function EmailVerificationPage() {
     try {
       const session = await verifyEmail(email.trim(), code, language);
       saveAuthSession(session);
+      window.sessionStorage.removeItem("zoobusiness.pendingVerificationEmail");
       navigate("/business-setup", { replace: true });
     } catch (caught) {
       setError(authErrorMessage(caught, language));

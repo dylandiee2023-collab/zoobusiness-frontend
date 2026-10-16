@@ -1,9 +1,6 @@
 import {
   Bell,
-  Bot,
   Globe2,
-  LayoutGrid,
-  MessageCircle,
   Monitor,
   Moon,
   Search,

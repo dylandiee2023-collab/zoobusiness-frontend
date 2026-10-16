@@ -102,7 +102,7 @@
 }
 @media (max-width: 767px) {
   .dashboard-layout-root { height: 100dvh; }
-  .dashboard-layout-root main { margin-left: 0 !important; width: 100%; padding-top: 88px !important; }
+  .dashboard-layout-root main { margin-left: 0 !important; width: 100%; }
   .dashboard-layout-root aside[aria-label="Application sidebar"] { width: min(290px, 86vw) !important; z-index: 70; box-shadow: 16px 0 36px rgba(15,23,42,.18); }
   .dashboard-layout-root .dashboard-topbar {
     top: 8px !important; left: 8px !important; right: 8px !important; min-height: 60px;
@@ -117,13 +117,13 @@
   .zb-topbar-actions { flex: 1; justify-content: flex-end; gap: 5px; }
   .zb-topbar-icon-link, .zb-topbar-icon-button, .zb-language-switcher { min-width: 34px; height: 36px; gap: 4px; padding: 0 6px; border-radius: 10px; }
   .zb-language-switcher select { max-width: 28px; }
-  .zb-marketplace-link { display: none; }
   .zb-floating-support { right: 12px; bottom: max(82px, calc(env(safe-area-inset-bottom) + 72px)); }
   .zb-floating-support a { width: 46px; height: 46px; min-height: 46px; justify-content: center; padding: 0; }
   .zb-floating-support a span { display: none; }
 }
 @media (max-width: 380px) {
   .zb-topbar-actions { gap: 3px; }
-  .zb-topbar-icon-link, .zb-topbar-icon-button, .zb-language-switcher { min-width: 30px; padding-inline: 4px; }
-  .zb-topbar-search { width: 30px; min-width: 30px; }
+  .zb-topbar-icon-link, .zb-topbar-icon-button, .zb-language-switcher { min-width: 28px; padding-inline: 3px; }
+  .zb-topbar-search { width: 28px; min-width: 28px; }
+  .zb-topbar-start, .zb-topbar-actions { gap: 2px; }
 }

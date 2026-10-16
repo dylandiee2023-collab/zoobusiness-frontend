@@ -69,7 +69,7 @@ export function BusinessSetupPage() {
         current = await createWorkspace(businessName.trim(), slug, language);
         setWorkspace(current);
       }
-      await completeBusinessSetup(current.id, {
+      const completedWorkspace = await completeBusinessSetup(current.id, {
         businessCategoryId: categoryId,
         ...(description.trim() ? { description: description.trim() } : {}),
         ...(address.trim() ? { address: address.trim() } : {}),

@@ -49,16 +49,19 @@ export function EmailVerificationPage() {
   );
 
   function applyDigits(startIndex: number, value: string) {
-    const digits = value.replace(/\D/g, "");
-    if (!digits) {
+    const enteredDigits = value.replace(/\D/g, "");
+    if (!enteredDigits) {
       setDigits((previous) => previous.map((digit, index) => index === startIndex ? "" : digit));
       return;
     }
-    const next = Array.from({ length: 6 }, (_, index) => code[index] ?? "");
-    digits.slice(0, 6 - startIndex).split("").forEach((digit, offset) => { next[startIndex + offset] = digit; });
-    const nextCode = next.join("").slice(0, 6);
-    setCode(nextCode);
-    const nextIndex = Math.min(startIndex + digits.length, 5);
+    setDigits((previous) => {
+      const next = [...previous];
+      enteredDigits.slice(0, 6 - startIndex).split("").forEach((digit, offset) => {
+        next[startIndex + offset] = digit;
+      });
+      return next;
+    });
+    const nextIndex = Math.min(startIndex + enteredDigits.length, 5);
     codeInputs.current[nextIndex]?.focus();
   }
 

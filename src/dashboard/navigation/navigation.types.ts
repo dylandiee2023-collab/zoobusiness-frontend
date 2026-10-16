@@ -2,11 +2,7 @@ import type { AppIconName } from "@/design-system/icons";
 
 export type PermissionCode = string;
 
-export type NavigationPlacement =
-  | "sidebar"
-  | "topbar"
-  | "mobile"
-  | "user-menu";
+export type NavigationPlacement = "sidebar" | "topbar" | "mobile" | "user-menu";
 
 export interface NavigationItem {
   readonly id: string;

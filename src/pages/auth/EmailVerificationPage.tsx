@@ -42,9 +42,9 @@ export function EmailVerificationPage() {
   );
 
   function maskEmail(value: string) {
-    const parts = value.split("@");
-    if (parts.length !== 2) return value;
-    return parts[0].slice(0, 1) + "•••@" + parts[1];
+    const [localPart, domainPart, ...extraParts] = value.split("@");
+    if (!localPart || !domainPart || extraParts.length > 0) return value;
+    return localPart.slice(0, 1) + "•••@" + domainPart;
   }
 
   async function submit(event: FormEvent<HTMLFormElement>) {

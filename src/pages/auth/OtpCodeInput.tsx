@@ -1,4 +1,5 @@
 import { useId, type ClipboardEvent, type KeyboardEvent } from "react";
+import { useTheme } from "@/theme/hooks";
 
 interface OtpCodeInputProps {
   value: string;
@@ -9,27 +10,24 @@ interface OtpCodeInputProps {
 
 export function OtpCodeInput({ value, onChange, disabled = false, label }: OtpCodeInputProps) {
   const baseId = useId().replace(/:/g, "");
+  const { theme } = useTheme();
   const digits = Array.from({ length: 6 }, (_, index) => value[index] ?? "");
 
   function focusDigit(index: number) {
-    document.getElementById(`${baseId}-${index}`)?.focus();
+    document.getElementById(baseId + "-" + index)?.focus();
   }
 
   function updateDigit(index: number, raw: string) {
     const incoming = raw.replace(/\D/g, "");
     if (!incoming) {
-      const next = value.split("");
-      next[index] = "";
-      onChange(next.join("").slice(0, 6));
+      if (index < value.length) onChange(value.slice(0, index) + value.slice(index + 1));
       return;
     }
-    const next = value.split("");
-    incoming.split("").forEach((digit, offset) => {
-      if (index + offset < 6) next[index + offset] = digit;
-    });
-    const result = next.join("").slice(0, 6);
+    const start = Math.min(index, value.length);
+    const next = value.slice(0, start) + incoming + value.slice(start + incoming.length);
+    const result = next.slice(0, 6);
     onChange(result);
-    focusDigit(Math.min(index + incoming.length, 5));
+    focusDigit(Math.min(start + incoming.length, 5));
   }
 
   function handlePaste(event: ClipboardEvent<HTMLInputElement>) {
@@ -41,7 +39,9 @@ export function OtpCodeInput({ value, onChange, disabled = false, label }: OtpCo
 
   function handleKeyDown(event: KeyboardEvent<HTMLInputElement>, index: number) {
     if (event.key === "Backspace" && !digits[index] && index > 0) {
-      focusDigit(index - 1);
+      event.preventDefault();
+      onChange(value.slice(0, -1));
+      focusDigit(Math.min(value.length - 1, index - 1));
     } else if (event.key === "ArrowLeft" && index > 0) {
       event.preventDefault();
       focusDigit(index - 1);
@@ -56,8 +56,8 @@ export function OtpCodeInput({ value, onChange, disabled = false, label }: OtpCo
       {digits.map((digit, index) => (
         <input
           key={index}
-          id={`${baseId}-${index}`}
-          aria-label={`${label}, ${index + 1} of 6`}
+          id={baseId + "-" + index}
+          aria-label={label + ", " + (index + 1) + " of 6"}
           type="text"
           inputMode="numeric"
           autoComplete={index === 0 ? "one-time-code" : "off"}
@@ -70,7 +70,7 @@ export function OtpCodeInput({ value, onChange, disabled = false, label }: OtpCo
           onChange={(event) => updateDigit(index, event.target.value)}
           onKeyDown={(event) => handleKeyDown(event, index)}
           onPaste={handlePaste}
-          style={{ boxSizing: "border-box", width: "100%", minWidth: 0, height: "clamp(3.25rem, 12vw, 4rem)", textAlign: "center", fontSize: "clamp(1.25rem, 5vw, 1.75rem)", fontWeight: 700, color: "var(--color-text, inherit)", background: "var(--color-surface, transparent)", border: "1px solid var(--color-border, currentColor)", borderRadius: "0.75rem", outlineOffset: "2px" }}
+          style={{ boxSizing: "border-box", width: "100%", minWidth: 0, height: "clamp(3.25rem, 12vw, 4rem)", textAlign: "center", fontSize: "clamp(1.25rem, 5vw, 1.75rem)", fontWeight: 700, color: theme.colors.text, background: theme.colors.surface, border: "1px solid " + theme.colors.border, borderRadius: theme.radius.input, outlineOffset: "2px" }}
         />
       ))}
     </div>

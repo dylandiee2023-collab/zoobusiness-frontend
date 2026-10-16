@@ -93,12 +93,12 @@ export function EmailVerificationPage() {
           <form onSubmit={submit}>
             <Stack spacing={theme.spacing.form}>
               <Text color={theme.colors.textSecondary}>{sw ? "Msimbo wa uthibitisho umetumwa kwa" : "We sent a verification code to"}{" "}<strong>{email ? maskEmail(email) : (sw ? "barua pepe uliyotumia kujisajili" : "the email used during sign-up")}</strong></Text>
-              {!email ? <Text color={theme.colors.danger}>{sw ? "Kiungo hiki hakina barua pepe. Rudi kwenye usajili uanze tena." : "The verification link is missing the email address. Return to sign-up and try again."}</Text> : null}
+              {!email ? <Text color={theme.colors.danger} role="alert">{sw ? "Kiungo hiki hakina barua pepe. Rudi kwenye usajili uanze tena." : "The verification link is missing the email address. Return to sign-up and try again."}</Text> : null}
               <Stack spacing={theme.spacing.inline}>
                 <Text>{t("verificationCode")}</Text>
                 <OtpCodeInput value={code} onChange={setCode} disabled={busy} label={t("verificationCode")} />
               </Stack>
-              {error ? <Text color={theme.colors.danger}>{error}</Text> : null}
+              {error ? <Text color={theme.colors.danger} role="alert">{error}</Text> : null}
               {notice ? <Text color={theme.colors.primary}>{notice}</Text> : null}
               <Button type="submit" fullWidth loading={busy} disabled={!email}>{busy ? t("loading") : t("verifyButton")}</Button>
               <Button type="button" variant="outline" fullWidth disabled={busy || secondsLeft > 0 || !email} onClick={resend}>{busy ? t("loading") : secondsLeft > 0 ? (sw ? "Tuma tena baada ya " + secondsLeft + "s" : "Resend code in " + secondsLeft + "s") : t("resendCode")}</Button>

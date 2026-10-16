@@ -43,7 +43,8 @@ export function SignUpPage() {
     setBusy(true);
     try {
       await register(name.trim(), email.trim(), password, language);
-      navigate(`/verify-email?email=${encodeURIComponent(email.trim())}`);
+      window.sessionStorage.setItem("zoobusiness.pendingVerificationEmail", email.trim());
+      navigate("/verify-email");
     } catch (caught) {
       setError(authErrorMessage(caught, language));
     } finally { setBusy(false); }

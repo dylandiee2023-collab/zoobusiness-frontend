@@ -34,7 +34,8 @@ export function ForgotPasswordPage() {
     event.preventDefault(); setError(""); setNotice(""); setBusy(true);
     try {
       await requestPasswordReset(email.trim(), language);
-      navigate(`/reset-password?email=${encodeURIComponent(email.trim())}`);
+      window.sessionStorage.setItem("zoobusiness.pendingPasswordResetEmail", email.trim());
+      navigate("/reset-password");
     } catch (caught) {
       setError(authErrorMessage(caught, language));
     } finally { setBusy(false); }

@@ -139,3 +139,17 @@
   .zb-topbar-search { width: 28px; min-width: 28px; }
   .zb-topbar-start, .zb-topbar-actions { gap: 2px; }
 }
+
+@media (max-width: 420px) {
+  .zb-mobile-brand { max-width: 104px; }
+  .zb-mobile-brand img { max-width: 104px; }
+  .zb-topbar-actions { gap: 3px; }
+}
+
+@media (max-width: 380px) {
+  .zb-topbar-icon-link[aria-label="Open POS"],
+  .zb-topbar-icon-button[aria-label="Toggle theme preference"] { display: none; }
+  .zb-topbar-icon-link, .zb-topbar-icon-button, .zb-language-switcher { min-width: 28px; padding-inline: 3px; }
+  .zb-topbar-search { width: 28px; min-width: 28px; }
+  .zb-topbar-start, .zb-topbar-actions { gap: 2px; }
+}

@@ -1,0 +1,81 @@
+@media (max-width: 640px) {
+  .welcome-header {
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 0.75rem !important;
+    padding-block: 0.75rem;
+  }
+
+  .welcome-header > a:first-child {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .welcome-nav-links {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding-block: 0.25rem 0.5rem;
+    scrollbar-width: thin;
+  }
+
+  .welcome-nav-links > * {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .welcome-header-actions {
+    order: 2;
+    width: 100%;
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+  }
+
+  .welcome-header-actions > * {
+    flex: 0 0 auto;
+  }
+
+  .welcome-hero {
+    min-height: auto !important;
+    padding: 1.25rem !important;
+    background-position: 62% center !important;
+    align-items: flex-start !important;
+  }
+
+  .welcome-hero-title {
+    font-size: clamp(2.35rem, 10vw, 3.5rem) !important;
+    line-height: 0.99 !important;
+    letter-spacing: -0.045em !important;
+    max-width: 10ch !important;
+    overflow-wrap: anywhere;
+  }
+
+  .welcome-hero-actions {
+    align-items: stretch !important;
+    flex-direction: column !important;
+    width: 100%;
+  }
+
+  .welcome-hero-actions > * {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .welcome-hero-actions button {
+    min-height: 3.25rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 900px) {
+  .welcome-header {
+    justify-content: center !important;
+  }
+
+  .welcome-hero-title {
+    font-size: clamp(2.75rem, 6vw, 4rem) !important;
+  }
+}

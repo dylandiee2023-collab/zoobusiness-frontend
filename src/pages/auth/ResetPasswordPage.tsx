@@ -45,8 +45,11 @@ export function ResetPasswordPage() {
   );
 
   function maskEmail(value: string) {
-    const [localPart, domainPart, ...extraParts] = value.split("@");
-    if (!localPart || !domainPart || extraParts.length > 0) return value;
+    const parts = value.split("@");
+    if (parts.length !== 2 || !parts[0] || !parts[1]) return value;
+
+    const localPart = parts[0];
+    const domainPart = parts[1];
     return localPart.slice(0, 1) + "•••@" + domainPart;
   }
 

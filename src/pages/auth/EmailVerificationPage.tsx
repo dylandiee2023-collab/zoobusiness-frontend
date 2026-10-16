@@ -50,6 +50,7 @@ export function EmailVerificationPage() {
   );
 
   function applyDigits(startIndex: number, value: string) {
+    setError("");
     const enteredDigits = value.replace(/\D/g, "");
     if (!enteredDigits) {
       setDigits((previous) => previous.map((digit, index) => index === startIndex ? "" : digit));
@@ -68,6 +69,7 @@ export function EmailVerificationPage() {
 
   function handlePaste(event: ClipboardEvent<HTMLDivElement>) {
     event.preventDefault();
+    setError("");
     const digits = event.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
     setDigits(Array.from({ length: 6 }, (_, index) => digits[index] ?? ""));
     codeInputs.current[Math.min(digits.length, 5)]?.focus();

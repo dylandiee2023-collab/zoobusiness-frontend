@@ -1,10 +1,8 @@
 import {
   Bell,
-  Globe2,
   Monitor,
   Moon,
   Search,
-  ShoppingCart,
   Sun,
   Store,
   UserRound,
@@ -16,27 +14,24 @@ import { useLanguage } from "@/app/language/use-language";
 import { useTheme } from "@/theme/hooks";
 import { useResponsive } from "@/responsive";
 import { BrandLogo } from "@/components/brand/components/brand-logo/brand-logo";
-import { useSidebar } from "@/components/layout/sidebar/context";
 import { useTopBar } from "./context";
 import { topBarStyles } from "./top-bar.styles";
 
 export function TopBar() {
   const { state, actions } = useTopBar();
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
   const { mode, setMode } = useTheme();
   const { isMobile } = useResponsive();
-  const { actions: sidebarActions } = useSidebar();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
-  const left = isMobile ? 8 : state.sidebarMode === "expanded" ? 312 : state.sidebarMode === "collapsed" ? 104 : 16;
   const cycleTheme = () => setMode(mode === "system" ? "light" : mode === "light" ? "dark" : "system");
   const ThemeIcon = mode === "system" ? Monitor : mode === "light" ? Sun : Moon;
 
   return (
-    <header className="dashboard-topbar" style={{ ...topBarStyles.root, left }}>
+    <header className="dashboard-topbar" style={topBarStyles.root}>
       <div className="zb-topbar-start">
         {isMobile ? (
-          <button type="button" className="zb-mobile-brand" aria-label="Open navigation" title="Open navigation" onClick={sidebarActions.expand}>
+          <div className="zb-mobile-brand" aria-label="ZooBusiness">
             <BrandLogo size={124} />
           </button>
         ) : null}
@@ -65,7 +60,7 @@ export function TopBar() {
           <Store size={19} />
           <span>Market</span>
         </Link>
-        <button type="button" className="zb-topbar-icon-button" aria-label="Toggle theme preference" title={`Theme: ${mode}`} onClick={cycleTheme}>
+        <button type="button" className="zb-topbar-icon-button zb-theme-button" aria-label="Toggle theme preference" title={`Theme: ${mode}`} onClick={cycleTheme}>
           <ThemeIcon size={19} />
         </button>
         <label className="zb-language-switcher" title="Language">

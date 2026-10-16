@@ -112,9 +112,6 @@ export function DashboardPage() {
     if (workspaceLoading || !workspace?.id) return;
 
     let active = true;
-    setLoading(true);
-    setError(null);
-
     dashboardService
       .getSummary(workspace.id)
       .then((data) => {
@@ -181,7 +178,11 @@ export function DashboardPage() {
           <button
             className="dashboard-refresh-button"
             type="button"
-            onClick={() => setReloadKey((key) => key + 1)}
+            onClick={() => {
+              setError(null);
+              setLoading(true);
+              setReloadKey((key) => key + 1);
+            }}
             disabled={loading}
           >
             <RefreshCw size={16} className={loading ? "dashboard-spinner" : ""} />
@@ -195,7 +196,14 @@ export function DashboardPage() {
             <div>
               <strong>Dashboard data couldn't be loaded</strong>
               <p>{error ?? "No active business workspace is available."}</p>
-              <button type="button" onClick={() => setReloadKey((key) => key + 1)}>
+              <button
+                type="button"
+                onClick={() => {
+                  setError(null);
+                  setLoading(true);
+                  setReloadKey((key) => key + 1);
+                }}
+              >
                 Try again
               </button>
             </div>

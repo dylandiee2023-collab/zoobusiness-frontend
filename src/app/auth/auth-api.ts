@@ -137,7 +137,7 @@ async function authorizedRequest<T>(
   const payload = (await response.json().catch(() => ({}))) as T & { message?: string | string[] };
   if (!response.ok) {
     const message = Array.isArray(payload.message) ? payload.message.join(" ") : payload.message;
-    throw new Error(message || resolvePublicCopy(language, "genericError"));
+    throw new ApiRequestError(message || resolvePublicCopy(language, "genericError"), response.status);
   }
   return payload;
 }

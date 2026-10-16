@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom";\nimport "./welcome-responsive.css";
+import { useNavigate } from "react-router-dom";
+import "./welcome-responsive.css";
 
 import { Button, Container, Flex, Heading, Link, Stack, Text } from "@/design-system";
 import { AppIcon } from "@/design-system/icons";
@@ -43,6 +44,7 @@ function LandingPageContent() {
       justify="space-between"
       gap={theme.spacing.inline}
       wrap="wrap"
+      className="welcome-header"
       style={{ minHeight: theme.componentSizes.topbarHeight }}
     >
       <Link
@@ -128,6 +130,7 @@ function LandingPageContent() {
         <Container maxWidth={dimensions.maxContentWidth} padding={theme.spacing.page} center>
           <Stack spacing={0}>
             <section
+              className="welcome-hero"
               aria-labelledby="home-hero-title"
               style={{
                 position: "relative",
@@ -159,6 +162,7 @@ function LandingPageContent() {
                 </Text>
                 <Heading
                   id="home-hero-title"
+                  className="welcome-hero-title"
                   level={1}
                   style={{
                     color: "#FFFFFF",
@@ -180,7 +184,7 @@ function LandingPageContent() {
                     ? "Simamia bidhaa, stock, oda, malipo na wateja sehemu moja. Pata mwonekano wa shughuli zako na uelekeze timu yako kwa urahisi."
                     : "Manage products, inventory, orders, payments and customers in one workspace. Get a clearer view of daily operations and keep your team moving."}
                 </Text>
-                <Flex align="center" gap={theme.spacing.inline} wrap="wrap">
+                <Flex className="welcome-hero-actions" align="center" gap={theme.spacing.inline} wrap="wrap">
                   <Button size="lg" onClick={() => navigate("/signup")} rightIcon={<AppIcon name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" />}>
                     {t("getStarted")}
                   </Button>

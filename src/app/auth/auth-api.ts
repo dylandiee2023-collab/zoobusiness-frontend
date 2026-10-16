@@ -1,7 +1,16 @@
 import type { Language } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
 
-type ApiEnvelope<T> = T & { message?: string };\n\nexport class AuthApiError extends Error {\n  constructor(message: string, readonly status: number) {\n    super(message);\n    this.name = "AuthApiError";\n  }\n}\n\nlet refreshInFlight: Promise<AuthSession> | null = null;
+type ApiEnvelope<T> = T & { message?: string };
+
+export class AuthApiError extends Error {
+  constructor(message: string, readonly status: number) {
+    super(message);
+    this.name = "AuthApiError";
+  }
+}
+
+let refreshInFlight: Promise<AuthSession> | null = null;
 
 export interface AuthUser {
   id: string;
@@ -54,12 +63,18 @@ export async function login(email: string, password: string, language: Language)
   return post<AuthSession>("login", { email, password }, language);
 }
 
-export async function refreshAuthSession(language: Language) {
+export async function refreshAuthSession(language: Language): Promise<AuthSession> {
+  if (refreshInFlight) return refreshInFlight;
   const refreshToken = window.sessionStorage.getItem("zoobusiness.refreshToken");
   if (!refreshToken) throw new Error(resolvePublicCopy(language, "genericError"));
-  const session = await post<AuthSession>("refresh", { refreshToken }, language);
-  saveAuthSession(session);
-  return session;
+  const pending = post<AuthSession>("refresh", { refreshToken }, language)
+    .then((session) => {
+      saveAuthSession(session);
+      return session;
+    })
+    .finally(() => { refreshInFlight = null; });
+  refreshInFlight = pending;
+  return pending;
 }
 
 export async function logout(language: Language) {
@@ -129,8 +144,13 @@ async function authorizedRequest<T>(
   }
   const payload = (await response.json().catch(() => ({}))) as T & { message?: string | string[] };
   if (!response.ok) {
+    if (response.status === 401) {
+      window.sessionStorage.removeItem("zoobusiness.accessToken");
+      window.sessionStorage.removeItem("zoobusiness.refreshToken");
+      window.sessionStorage.removeItem("zoobusiness.user");
+    }
     const message = Array.isArray(payload.message) ? payload.message.join(" ") : payload.message;
-    throw new Error(message || resolvePublicCopy(language, "genericError"));
+    throw new AuthApiError(message || resolvePublicCopy(language, "genericError"), response.status);
   }
   return payload;
 }

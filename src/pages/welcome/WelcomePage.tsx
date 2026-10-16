@@ -327,39 +327,7 @@ function LandingPageContent() {
               <PricingSection compact />
             </section>
 
-            <section id="contact" aria-labelledby="contact-title" style={sectionStyle}>
-              <Flex
-                align="center"
-                justify="space-between"
-                gap={theme.spacing.section}
-                wrap="wrap"
-                style={{
-                  padding: "clamp(1.5rem, 4vw, 3rem)",
-                  border: `1px solid ${theme.colors.border}`,
-                  borderRadius: theme.radius.card,
-                }}
-              >
-                <Stack spacing={theme.spacing.inline} style={{ flex: "1 1 20rem" }}>
-                  <Heading id="contact-title" level={2}>
-                    {sw ? "Tuanze pamoja." : "Ready to get started?"}
-                  </Heading>
-                  <Text color={theme.colors.textSecondary} style={{ lineHeight: 1.7 }}>
-                    {sw
-                      ? "Fungua akaunti au wasiliana na timu ya AvatraTech kwa msaada."
-                      : "Create an account or contact the AvatraTech team for help getting started."}
-                  </Text>
-                  <Link href="mailto:support@avatratech.com" color={theme.colors.primary}>
-                    support@avatratech.com
-                  </Link>
-                </Stack>
-                <Flex gap={theme.spacing.inline} wrap="wrap">
-                  <Button size="lg" onClick={() => navigate("/signup")}>{t("getStarted")}</Button>
-                  <Button size="lg" variant="outline" onClick={() => navigate("/features")}>
-                    {sw ? "Vipengele vyote" : "All features"}
-                  </Button>
-                </Flex>
-              </Flex>
-            </section>
+
           </Stack>
         </Container>
       </main>

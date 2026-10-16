@@ -9,6 +9,7 @@ import {
   Store,
   UserRound,
 } from "lucide-react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useLanguage } from "@/app/language/use-language";
@@ -24,6 +25,7 @@ export function TopBar() {
   const { mode, setMode } = useTheme();
   const { isMobile } = useResponsive();
   const navigate = useNavigate();
+  const [searchOpen, setSearchOpen] = useState(false);
   const left = isMobile ? 0 : state.sidebarMode === "expanded" ? 280 : state.sidebarMode === "collapsed" ? 72 : 0;
   const cycleTheme = () => setMode(mode === "system" ? "light" : mode === "light" ? "dark" : "system");
   const ThemeIcon = mode === "system" ? Monitor : mode === "light" ? Sun : Moon;
@@ -32,8 +34,8 @@ export function TopBar() {
     <header className="dashboard-topbar" style={{ ...topBarStyles.root, left }}>
       <div className="zb-topbar-start">
         <MenuButton />
-        <label className="zb-topbar-search">
-          <Search size={18} aria-hidden="true" />
+        <label className={`zb-topbar-search${searchOpen ? " is-open" : ""}`}>
+          <button type="button" aria-label="Open search" onClick={() => setSearchOpen((open) => !open)}><Search size={18} aria-hidden="true" /></button>
           <input
             type="search"
             placeholder={language === "sw" ? "Tafuta bidhaa, oda..." : "Search products, orders..."}
@@ -41,6 +43,7 @@ export function TopBar() {
             onKeyDown={(event) => {
               if (event.key === "Enter" && event.currentTarget.value.trim()) {
                 navigate(`/search?q=${encodeURIComponent(event.currentTarget.value.trim())}`);
+                setSearchOpen(false);
               }
             }}
           />

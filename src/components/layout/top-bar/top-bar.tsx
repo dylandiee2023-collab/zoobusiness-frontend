@@ -26,7 +26,6 @@ export function TopBar() {
   const { mode, setMode } = useTheme();
   const { isMobile } = useResponsive();
   const { actions: sidebarActions } = useSidebar();
-  const { actions: sidebarActions } = useSidebar();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const left = isMobile ? 8 : state.sidebarMode === "expanded" ? 312 : state.sidebarMode === "collapsed" ? 104 : 16;

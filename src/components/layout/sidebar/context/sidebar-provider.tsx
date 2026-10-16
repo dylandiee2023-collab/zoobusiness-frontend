@@ -1,5 +1,6 @@
 import type { PropsWithChildren } from "react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useResponsive } from "@/responsive";
 
 import { SidebarContext } from "./sidebar.context";
 
@@ -8,12 +9,21 @@ import type { SidebarContract, SidebarGroup } from "../contracts";
 import { buildMenu, MENU_REGISTRY } from "../menu";
 
 export function SidebarProvider({ children }: PropsWithChildren) {
+  const { isMobile } = useResponsive();
   const [mode, setMode] = useState<SidebarContract["state"]["mode"]>(() =>
     typeof window !== "undefined" &&
     window.matchMedia("(max-width: 767px)").matches
       ? "hidden"
       : "expanded",
   );
+
+  useEffect(() => {
+    setMode((current) => {
+      if (isMobile && current !== "hidden") return "hidden";
+      if (!isMobile && current === "hidden") return "expanded";
+      return current;
+    });
+  }, [isMobile]);
 
   const [groups, setGroups] = useState<readonly SidebarGroup[]>(() =>
     buildMenu(MENU_REGISTRY).map((group) => ({

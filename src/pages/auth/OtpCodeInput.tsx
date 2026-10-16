@@ -19,29 +19,36 @@ export function OtpCodeInput({ value, onChange, disabled = false, label }: OtpCo
 
   function updateDigit(index: number, raw: string) {
     const incoming = raw.replace(/\D/g, "");
+    const next = Array.from({ length: 6 }, (_, position) => value[position] ?? "");
     if (!incoming) {
-      if (index < value.length) onChange(value.slice(0, index) + value.slice(index + 1));
+      next[index] = "";
+      onChange(next.join(""));
       return;
     }
-    const start = Math.min(index, value.length);
-    const next = value.slice(0, start) + incoming + value.slice(start + incoming.length);
-    const result = next.slice(0, 6);
-    onChange(result);
-    focusDigit(Math.min(start + incoming.length, 5));
+    incoming.split("").forEach((digit, offset) => {
+      if (index + offset < 6) next[index + offset] = digit;
+    });
+    onChange(next.join(""));
+    focusDigit(Math.min(index + incoming.length, 5));
   }
 
   function handlePaste(event: ClipboardEvent<HTMLInputElement>) {
     event.preventDefault();
     const pasted = event.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
-    onChange(pasted);
+    if (!pasted) return;
+    const next = Array.from({ length: 6 }, () => "");
+    pasted.split("").forEach((digit, index) => { next[index] = digit; });
+    onChange(next.join(""));
     focusDigit(Math.min(pasted.length, 5));
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLInputElement>, index: number) {
     if (event.key === "Backspace" && !digits[index] && index > 0) {
       event.preventDefault();
-      onChange(value.slice(0, -1));
-      focusDigit(Math.min(value.length - 1, index - 1));
+      const next = Array.from({ length: 6 }, (_, position) => value[position] ?? "");
+      next[index - 1] = "";
+      onChange(next.join(""));
+      focusDigit(index - 1);
     } else if (event.key === "ArrowLeft" && index > 0) {
       event.preventDefault();
       focusDigit(index - 1);
@@ -66,7 +73,7 @@ export function OtpCodeInput({ value, onChange, disabled = false, label }: OtpCo
           required
           disabled={disabled}
           autoFocus={index === 0}
-          value={digit}
+          value={digit.trim()}
           onChange={(event) => updateDigit(index, event.target.value)}
           onKeyDown={(event) => handleKeyDown(event, index)}
           onPaste={handlePaste}

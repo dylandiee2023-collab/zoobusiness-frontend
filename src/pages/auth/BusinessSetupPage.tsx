@@ -38,7 +38,11 @@ export function BusinessSetupPage() {
       try {
         const categoryPromise = getBusinessCategories(language);
         let current: Workspace | null = null;
-        try { current = await getCurrentWorkspace(language); } catch { /* No workspace yet; create it after form submission. */ }
+        try {
+          current = await getCurrentWorkspace(language);
+        } catch (caught) {
+          if (!(caught instanceof Error && "status" in caught && caught.status === 404)) throw caught;
+        }
         const available = await categoryPromise;
         if (!active) return;
         setCategories(available);

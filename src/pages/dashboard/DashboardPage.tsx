@@ -253,7 +253,6 @@ export function DashboardPage() {
               <MetricCard
                 title="Products tracked"
                 value={formatNumber(summary.inventory.products)}
-                change={undefined}
                 icon={<Package size={23} />}
                 tone="orange"
               />

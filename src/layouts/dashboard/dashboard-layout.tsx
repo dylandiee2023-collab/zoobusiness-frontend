@@ -1,3 +1,5 @@
+import { MessageCircle, Bot } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Sidebar } from "@/components/layout/sidebar";
 import {
   SidebarProvider,
@@ -48,6 +50,14 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
         <TopBar />
 
         <div style={dashboardLayoutStyles.main}>{children}</div>
+        <nav className="zb-floating-support" aria-label="Customer support and AI">
+          <Link to="/customers/messages" aria-label="Customer chats" title="Customer chats">
+            <MessageCircle size={20} aria-hidden="true" /><span>Customer chats</span>
+          </Link>
+          <Link to="/ai-assistant" aria-label="AI assistant" title="AI assistant">
+            <Bot size={20} aria-hidden="true" /><span>AI assistant</span>
+          </Link>
+        </nav>
       </main>
     </div>
   );

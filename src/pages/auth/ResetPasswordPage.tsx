@@ -17,7 +17,7 @@ export function ResetPasswordPage() {
   const { theme, mode } = useTheme();
   const { language, setLanguage } = useLanguage();
   const t = (key: Parameters<typeof resolvePublicCopy>[1]) => resolvePublicCopy(language, key);
-  const email = searchParams.get("email") ?? searchParams.get("emailAddress") ?? "";
+  const email = window.sessionStorage.getItem("zoobusiness.pendingPasswordResetEmail") ?? searchParams.get("email") ?? searchParams.get("emailAddress") ?? "";
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -60,6 +60,7 @@ export function ResetPasswordPage() {
     setBusy(true);
     try {
       await resetPassword(email.trim(), code, password, language);
+      window.sessionStorage.removeItem("zoobusiness.pendingPasswordResetEmail");
       setCompleted(true);
       setNotice(sw ? "Nenosiri limebadilishwa. Sasa unaweza kuingia." : "Password updated. You can now log in.");
     } catch (caught) {

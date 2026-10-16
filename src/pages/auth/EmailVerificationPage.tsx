@@ -1,7 +1,8 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { Link as RouterLink, useNavigate, useSearchParams } from "react-router-dom";
 
-import { Button, Container, Flex, Heading, Input, Link, Stack, Text } from "@/design-system";
+import { Button, Container, Flex, Heading, Link, Stack, Text } from "@/design-system";
+import { OtpCodeInput } from "@/pages/auth/OtpCodeInput";
 import { useLanguage } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
 import { authErrorMessage, resendVerification, saveAuthSession, verifyEmail } from "@/app/auth/auth-api";
@@ -16,7 +17,7 @@ export function EmailVerificationPage() {
   const { theme, mode } = useTheme();
   const { language, setLanguage } = useLanguage();
   const t = (key: Parameters<typeof resolvePublicCopy>[1]) => resolvePublicCopy(language, key);
-  const [email, setEmail] = useState(params.get("emailAddress") ?? "");
+  const email = window.sessionStorage.getItem("zoobusiness.pendingVerificationEmail") ?? params.get("email") ?? params.get("emailAddress") ?? "";
   const [code, setCode] = useState("");
   const [secondsLeft, setSecondsLeft] = useState(60);
   const [busy, setBusy] = useState(false);
@@ -24,10 +25,6 @@ export function EmailVerificationPage() {
   const [notice, setNotice] = useState("");
   const logo = mode === "dark" ? lightLogo : darkLogo;
   const sw = language === "sw";
-
-  useEffect(() => {
-    document.querySelector<HTMLInputElement>('input[autocomplete="one-time-code"]')?.focus();
-  }, []);
 
   useEffect(() => {
     if (secondsLeft <= 0) return;
@@ -38,42 +35,60 @@ export function EmailVerificationPage() {
   const header = (
     <Flex align="center" justify="space-between" gap={theme.spacing.inline} style={{ minHeight: theme.componentSizes.topbarHeight }}>
       <RouterLink to="/" aria-label="ZooBusiness home"><img src={logo} alt="ZooBusiness" style={{ maxWidth: "9rem", maxHeight: "2.4rem", objectFit: "contain" }} /></RouterLink>
-      <select aria-label={t("language")} value={language} onChange={(event) => setLanguage(event.target.value as "en" | "sw")} style={{ color: theme.colors.text, background: theme.colors.surface, border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.input, padding: theme.spacing.inline }}>
+      <select aria-label={t("language")} value={language} onChange={(event) => setLanguage(event.target.value as "en" | "sw")} style={{ color: theme.colors.text, background: theme.colors.surface, border: "1px solid " + theme.colors.border, borderRadius: theme.radius.input, padding: theme.spacing.inline }}>
         <option value="en">EN</option><option value="sw">SW</option>
       </select>
     </Flex>
   );
 
+  function maskEmail(value: string) {
+    const parts = value.split("@");
+    if (parts.length !== 2 || !parts[0] || !parts[1]) return value;
+
+    const localPart = parts[0];
+    const domainPart = parts[1];
+    return localPart.slice(0, 1) + "•••@" + domainPart;
+  }
+
   async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault(); setError(""); setNotice("");
-    if (!/^\d{6}$/.test(code)) { setError(sw ? "Weka msimbo wa tarakimu 6." : "Enter the 6-digit code."); return; }
+    event.preventDefault();
+    setError("");
+    setNotice("");
+    if (!email) { setError(sw ? "Barua pepe haipo kwenye kiungo hiki." : "Email address is missing from this link."); return; }
+    if (code.replace(/\D/g, "").length !== 6) { setError(sw ? "Weka msimbo wa tarakimu 6." : "Enter the 6-digit code."); return; }
     setBusy(true);
     try {
-      const session = await verifyEmail(email.trim(), code, language);
+      const session = await verifyEmail(email.trim(), code.replace(/\D/g, ""), language);
       saveAuthSession(session);
+      window.sessionStorage.removeItem("zoobusiness.pendingVerificationEmail");
       navigate("/business-setup", { replace: true });
     } catch (caught) {
       setError(authErrorMessage(caught, language));
-    } finally { setBusy(false); }
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function resend() {
-    setError(""); setNotice(""); setBusy(true);
+    setError("");
+    setNotice("");
+    setBusy(true);
     try {
       await resendVerification(email.trim(), language);
       setSecondsLeft(60);
       setCode("");
-      document.querySelector<HTMLInputElement>('input[autocomplete="one-time-code"]')?.focus();
       setNotice(sw ? "Ikiwa akaunti inahitaji uthibitisho, msimbo mpya umetumwa." : "If the account needs verification, a new code has been sent.");
     } catch (caught) {
       setError(authErrorMessage(caught, language));
-    } finally { setBusy(false); }
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
     <PublicShell header={header}>
       <Container maxWidth="34rem" padding={theme.spacing.page} center style={{ paddingBlock: theme.spacing.section }}>
-        <Stack spacing={theme.spacing.section} style={{ border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.card, background: theme.colors.surface, padding: theme.spacing.section, boxShadow: theme.shadows.card }}>
+        <Stack spacing={theme.spacing.section} style={{ border: "1px solid " + theme.colors.border, borderRadius: theme.radius.card, background: theme.colors.surface, padding: theme.spacing.section, boxShadow: theme.shadows.card }}>
           <Stack spacing={theme.spacing.inline}>
             <Text color={theme.colors.primary} weight={700} transform="uppercase">{sw ? "UTHIBITISHO WA BARUA PEPE" : "EMAIL VERIFICATION"}</Text>
             <Heading level={1}>{t("verifyTitle")}</Heading>
@@ -81,12 +96,16 @@ export function EmailVerificationPage() {
           </Stack>
           <form onSubmit={submit}>
             <Stack spacing={theme.spacing.form}>
-              <Stack spacing={theme.spacing.inline}><Text>{t("email")}</Text><Input type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} fullWidth /></Stack>
-              <Stack spacing={theme.spacing.inline}><Text>{t("verificationCode")}</Text><Input autoFocus inputMode="numeric" autoComplete="one-time-code" required minLength={6} maxLength={6} value={code} onChange={(event) => setCode(event.target.value.replace(/\D/g, "").slice(0, 6))} fullWidth /></Stack>
-              {error ? <Text color={theme.colors.danger}>{error}</Text> : null}
+              <Text color={theme.colors.textSecondary}>{sw ? "Msimbo wa uthibitisho umetumwa kwa" : "We sent a verification code to"}{" "}<strong>{email ? maskEmail(email) : (sw ? "barua pepe uliyotumia kujisajili" : "the email used during sign-up")}</strong></Text>
+              {!email ? <Text color={theme.colors.danger} role="alert">{sw ? "Kiungo hiki hakina barua pepe. Rudi kwenye usajili uanze tena." : "The verification link is missing the email address. Return to sign-up and try again."}</Text> : null}
+              <Stack spacing={theme.spacing.inline}>
+                <Text>{t("verificationCode")}</Text>
+                <OtpCodeInput value={code} onChange={setCode} disabled={busy} label={t("verificationCode")} />
+              </Stack>
+              {error ? <Text color={theme.colors.danger} role="alert">{error}</Text> : null}
               {notice ? <Text color={theme.colors.primary}>{notice}</Text> : null}
-              <Button type="submit" fullWidth loading={busy}>{busy ? t("loading") : t("verifyButton")}</Button>
-              <Button type="button" variant="outline" fullWidth disabled={busy || secondsLeft > 0 || !email.trim()} onClick={resend}>{busy ? t("loading") : secondsLeft > 0 ? (sw ? `Tuma tena baada ya ${secondsLeft}s` : `Resend code in ${secondsLeft}s`) : t("resendCode")}</Button>
+              <Button type="submit" fullWidth loading={busy} disabled={!email}>{busy ? t("loading") : t("verifyButton")}</Button>
+              <Button type="button" variant="outline" fullWidth disabled={busy || secondsLeft > 0 || !email} onClick={resend}>{busy ? t("loading") : secondsLeft > 0 ? (sw ? "Tuma tena baada ya " + secondsLeft + "s" : "Resend code in " + secondsLeft + "s") : t("resendCode")}</Button>
             </Stack>
           </form>
           <Text color={theme.colors.textSecondary}><Link href="/login" color={theme.colors.primary}>{sw ? "Rudi kuingia" : "Back to login"}</Link></Text>

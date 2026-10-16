@@ -9,6 +9,7 @@ import { PublicShell } from "@/shells/PublicShell";
 import { PricingSection } from "@/pages/pricing/PricingSection";
 import { Footer } from "./components/Footer";
 import { useTheme } from "@/theme/hooks";
+import "./WelcomePage.css";
 import darkLogo from "@/assets/brand/zoobusiness.dark.png.png";
 import lightLogo from "@/assets/brand/zoobusiness.light.png.png";
 import aiSalesAgent from "@/assets/images/ai-sales-agent.webp";
@@ -39,6 +40,7 @@ function LandingPageContent() {
 
   const header = (
     <Flex
+      className="welcome-header"
       align="center"
       justify="space-between"
       gap={theme.spacing.inline}
@@ -63,7 +65,7 @@ function LandingPageContent() {
         />
       </Link>
 
-      <Flex align="center" justify="center" gap={theme.spacing.inline} wrap="wrap">
+      <Flex className="welcome-nav" align="center" justify="center" gap={theme.spacing.inline} wrap="wrap">
         <Link href="/" aria-current="page">{t("navHome")}</Link>
         <Link href="/features">{t("navFeatures")}</Link>
         <Link
@@ -79,7 +81,7 @@ function LandingPageContent() {
         <Link href="/academy">Academy</Link>
       </Flex>
 
-      <Flex align="center" gap={theme.spacing.inline} wrap="wrap">
+      <Flex className="welcome-actions" align="center" gap={theme.spacing.inline} wrap="wrap">
         <label
           style={{
             display: "inline-flex",
@@ -128,6 +130,7 @@ function LandingPageContent() {
         <Container maxWidth={dimensions.maxContentWidth} padding={theme.spacing.page} center>
           <Stack spacing={0}>
             <section
+              className="welcome-hero"
               aria-labelledby="home-hero-title"
               style={{
                 position: "relative",
@@ -153,11 +156,12 @@ function LandingPageContent() {
                   background: "linear-gradient(90deg, rgba(7, 15, 12, 0.9) 0%, rgba(7, 15, 12, 0.72) 48%, rgba(7, 15, 12, 0.16) 100%)",
                 }}
               />
-              <Stack spacing={theme.spacing.section} style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: "48rem", alignItems: "flex-start" }}>
+              <Stack className="welcome-hero-content" spacing={theme.spacing.section} style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: "48rem", alignItems: "flex-start" }}>
                 <Text color="#FFFFFF" weight={700} transform="uppercase" letterSpacing={theme.typography.caption.letterSpacing}>
                   Z O O B U S I N E S S · AVATRATECH
                 </Text>
                 <Heading
+                  className="welcome-hero-title"
                   id="home-hero-title"
                   level={1}
                   style={{
@@ -180,7 +184,7 @@ function LandingPageContent() {
                     ? "Simamia bidhaa, stock, oda, malipo na wateja sehemu moja. Pata mwonekano wa shughuli zako na uelekeze timu yako kwa urahisi."
                     : "Manage products, inventory, orders, payments and customers in one workspace. Get a clearer view of daily operations and keep your team moving."}
                 </Text>
-                <Flex align="center" gap={theme.spacing.inline} wrap="wrap">
+                <Flex className="welcome-hero-actions" align="center" gap={theme.spacing.inline} wrap="wrap">
                   <Button size="lg" onClick={() => navigate("/signup")} rightIcon={<AppIcon name="chevronRight" size={theme.iconSizes.toolbar} aria-hidden="true" />}>
                     {t("getStarted")}
                   </Button>

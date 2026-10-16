@@ -38,7 +38,7 @@ export function BusinessSetupPage() {
       try {
         const categoryPromise = getBusinessCategories(language);
         let current: Workspace | null = null;
-        try { current = await getCurrentWorkspace(language); } catch { /* No workspace yet; create it after form submission. */ }
+        try { current = await getCurrentWorkspace(language); } catch (caught) { if (!(caught instanceof Error) || !caught.message.includes("No active workspace found")) throw caught; }
         const available = await categoryPromise;
         if (!active) return;
         setCategories(available);
@@ -91,11 +91,12 @@ export function BusinessSetupPage() {
           </Stack>
           {setupComplete ? (
             <Stack spacing={theme.spacing.inline}>
-              <Heading level={2}>{sw ? "Biashara yako iko tayari" : "Your business is ready"}</Heading>
+              <Heading level={2}>{sw ? "Usanidi wa biashara umekamilika" : "Business setup complete"}</Heading>
+              {workspace?.name ? <Heading level={3}>{workspace.name}</Heading> : null}
               <Text color={theme.colors.textSecondary}>
                 {sw
-                  ? "Usanidi umekamilika. Hatua inayofuata ni kuunganisha dashboard ya biashara yako."
-                  : "Setup is complete. The next step is connecting your business dashboard."}
+                  ? "Taarifa za workspace hii zimehifadhiwa na kuthibitishwa na mfumo."
+                  : "This workspace has been saved and confirmed by the business platform."}
               </Text>
               <Button onClick={() => navigate("/", { replace: true })}>{sw ? "Rudi mwanzo" : "Return home"}</Button>
             </Stack>
@@ -117,7 +118,7 @@ export function BusinessSetupPage() {
                   <Stack spacing={theme.spacing.inline} style={{ flex: "1 1 10rem" }}><Text>{sw ? "Mkoa" : "Region"}</Text><Input value={region} onChange={(event) => setRegion(event.target.value)} fullWidth /></Stack>
                 </Flex>
                 <Stack spacing={theme.spacing.inline}><Text>{sw ? "Nchi" : "Country"}</Text><Input required value={country} onChange={(event) => setCountry(event.target.value)} fullWidth /></Stack>
-                {error ? <Text color={theme.colors.danger}>{error}</Text> : null}
+                {error ? <Text color={theme.colors.danger} role="alert">{error}</Text> : null}
                 <Button type="submit" fullWidth loading={saving}>{saving ? t("loading") : (sw ? "Kamilisha usanidi" : "Complete setup")}</Button>
               </Stack>
             </form>

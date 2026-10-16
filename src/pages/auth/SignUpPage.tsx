@@ -43,7 +43,8 @@ export function SignUpPage() {
     setBusy(true);
     try {
       await register(name.trim(), email.trim(), password, language);
-      navigate(`/verify-email?email=${encodeURIComponent(email.trim())}`);
+      window.sessionStorage.setItem("zoobusiness.pendingVerificationEmail", email.trim());
+      navigate("/verify-email");
     } catch (caught) {
       setError(authErrorMessage(caught, language));
     } finally { setBusy(false); }
@@ -64,7 +65,7 @@ export function SignUpPage() {
               <Stack spacing={theme.spacing.inline}><Text>{t("emailAddress")}</Text><Input type="email" name="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} fullWidth /></Stack>
               <Stack spacing={theme.spacing.inline}><Text>{t("password")}</Text><Input type="password" name="password" autoComplete="new-password" required minLength={8} value={password} onChange={(event) => setPassword(event.target.value)} fullWidth /></Stack>
               <Stack spacing={theme.spacing.inline}><Text>{t("confirmPassword")}</Text><Input type="password" name="confirmPassword" autoComplete="new-password" required minLength={8} value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} fullWidth /></Stack>
-              {error ? <Text color={theme.colors.danger}>{error}</Text> : null}
+              {error ? <Text color={theme.colors.danger} role="alert">{error}</Text> : null}
               <Button type="submit" fullWidth loading={busy}>{busy ? t("loading") : t("submitSignup")}</Button>
             </Stack>
           </form>

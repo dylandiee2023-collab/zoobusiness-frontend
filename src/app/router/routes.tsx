@@ -10,6 +10,7 @@ import { WelcomePage } from "@/pages/welcome/WelcomePage";
 import { AcademyPage } from "@/pages/academy/AcademyPage";
 import { FeaturesPage } from "@/pages/features/FeaturesPage";
 import { PricingPage } from "@/pages/pricing/PricingPage";
+import { DashboardPage } from "@/pages/dashboard/DashboardPage";
 
 export type AppShellName =
   | "auth"
@@ -32,6 +33,16 @@ export type AppRouteObject = RouteObject & {
 };
 
 export const routes: AppRouteObject[] = [
+  {
+    path: "/dashboard",
+    element: <DashboardPage />,
+    handle: {
+      title: "Dashboard | ZooBusiness",
+      shell: "dashboard",
+      requiresAuthentication: true,
+      permissions: ["report.view"],
+    },
+  },
   {
     path: "/",
     element: <WelcomePage />,

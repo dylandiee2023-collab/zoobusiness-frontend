@@ -34,7 +34,8 @@ export function ForgotPasswordPage() {
     event.preventDefault(); setError(""); setNotice(""); setBusy(true);
     try {
       await requestPasswordReset(email.trim(), language);
-      navigate(`/reset-password?email=${encodeURIComponent(email.trim())}`);
+      window.sessionStorage.setItem("zoobusiness.pendingPasswordResetEmail", email.trim());
+      navigate("/reset-password");
     } catch (caught) {
       setError(authErrorMessage(caught, language));
     } finally { setBusy(false); }
@@ -55,7 +56,7 @@ export function ForgotPasswordPage() {
                 <Text>{t("emailAddress")}</Text>
                 <Input type="email" name="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} fullWidth />
               </Stack>
-              {error ? <Text color={theme.colors.danger}>{error}</Text> : null}
+              {error ? <Text color={theme.colors.danger} role="alert">{error}</Text> : null}
               {notice ? <Text color={theme.colors.primary}>{notice}</Text> : null}
               <Button type="submit" fullWidth loading={busy}>{busy ? t("loading") : (language === "sw" ? "Tuma msimbo" : "Send reset code")}</Button>
             </Stack>

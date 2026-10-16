@@ -1,0 +1,29 @@
+.dashboard-layout-root {
+  min-height: 100dvh;
+  width: 100%;
+}
+.dashboard-layout-backdrop {
+  display: none;
+}
+@media (max-width: 767px) {
+  .dashboard-layout-root main {
+    margin-left: 0 !important;
+    width: 100%;
+  }
+  .dashboard-layout-root aside[aria-label="Application sidebar"] {
+    width: min(280px, 84vw) !important;
+    box-shadow: 16px 0 36px rgba(15, 23, 42, 0.18);
+  }
+  .dashboard-layout-root .dashboard-topbar {
+    left: 0 !important;
+    padding-inline: 16px !important;
+  }
+  .dashboard-layout-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 35;
+    border: 0;
+    background: rgba(15, 23, 42, 0.38);
+  }
+}

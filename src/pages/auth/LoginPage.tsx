@@ -81,7 +81,7 @@ export function LoginPage() {
                 </Flex>
                 <Input type="password" name="password" autoComplete="current-password" required minLength={8} value={password} onChange={(event) => setPassword(event.target.value)} fullWidth />
               </Stack>
-              {error ? <Text color={theme.colors.danger}>{error}</Text> : null}
+              {error ? <Text color={theme.colors.danger} role="alert">{error}</Text> : null}
               {notice ? <Text color={theme.colors.primary}>{notice}</Text> : null}
               <Button type="submit" fullWidth loading={busy}>{busy ? t("loading") : t("submitLogin")}</Button>
             </Stack>

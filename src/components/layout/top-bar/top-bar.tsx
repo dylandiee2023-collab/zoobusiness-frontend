@@ -1,6 +1,6 @@
-import { Bell, Monitor, Moon, Search, Sun, UserRound } from "lucide-react";
+import { Bell, Monitor, Moon, Search, ShoppingCart, Sun, UserRound } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useLanguage } from "@/app/language/use-language";
 import { useTheme } from "@/theme/hooks";
@@ -40,6 +40,7 @@ export function TopBar() {
         </label>
       </div>
       <nav className="zb-topbar-actions" aria-label="Quick actions">
+        {!isMobile ? <Link className="zb-topbar-icon-link zb-pos-link" to="/pos" aria-label="Open POS" title="POS"><ShoppingCart size={19} /></Link> : null}
         {!isMobile ? (
           <button type="button" className="zb-topbar-icon-button zb-theme-button" aria-label="Toggle theme preference" title={`Theme: ${mode}`} onClick={cycleTheme}>
             <ThemeIcon size={19} />

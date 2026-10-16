@@ -8,8 +8,11 @@ import type { SidebarContract, SidebarGroup } from "../contracts";
 import { buildMenu, MENU_REGISTRY } from "../menu";
 
 export function SidebarProvider({ children }: PropsWithChildren) {
-  const [mode, setMode] =
-    useState<SidebarContract["state"]["mode"]>("expanded");
+  const [mode, setMode] = useState<SidebarContract["state"]["mode"]>(() =>
+    typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches
+      ? "hidden"
+      : "expanded",
+  );
 
   const [groups, setGroups] = useState<readonly SidebarGroup[]>(() =>
     buildMenu(MENU_REGISTRY).map((group) => ({

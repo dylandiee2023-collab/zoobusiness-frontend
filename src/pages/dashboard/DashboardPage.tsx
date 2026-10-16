@@ -109,12 +109,7 @@ export function DashboardPage() {
       return;
     }
 
-    if (workspaceLoading) return;
-    if (!workspace?.id) {
-      setLoading(false);
-      setError("No active business workspace is available.");
-      return;
-    }
+    if (workspaceLoading || !workspace?.id) return;
 
     let active = true;
     setLoading(true);
@@ -150,10 +145,19 @@ export function DashboardPage() {
     workspaceLoading,
   ]);
 
+  const workspaceUnavailable =
+    !workspaceLoading &&
+    platform.authentication.ready &&
+    platform.authentication.authenticated &&
+    !workspace?.id;
   const maxTrend = Math.max(1, ...(summary?.sales.trend.map((point) => point.amount) ?? []));
   const currency = summary?.currency ?? "TZS";
 
-  if (workspaceLoading || !platform.authentication.ready || loading && !summary) {
+  if (
+    workspaceLoading ||
+    !platform.authentication.ready ||
+    (loading && !summary && !workspaceUnavailable)
+  ) {
     return (
       <DashboardLayout>
         <div className="dashboard-page">
@@ -185,12 +189,12 @@ export function DashboardPage() {
           </button>
         </header>
 
-        {error ? (
+        {error || workspaceUnavailable ? (
           <div className="dashboard-error" role="alert">
             <AlertTriangle size={20} />
             <div>
               <strong>Dashboard data couldn't be loaded</strong>
-              <p>{error}</p>
+              <p>{error ?? "No active business workspace is available."}</p>
               <button type="button" onClick={() => setReloadKey((key) => key + 1)}>
                 Try again
               </button>

@@ -45,6 +45,8 @@ export function ResetPasswordPage() {
       setError(language === "sw" ? "Weka msimbo wa tarakimu 6." : "Enter the 6-digit code.");
       return;
     }
+    const passwordError = passwordPolicyError(password, language);
+    if (passwordError) { setError(passwordError); return; }
     setBusy(true);
     try {
       await resetPassword(email.trim(), code, password, language);
@@ -78,7 +80,8 @@ export function ResetPasswordPage() {
               </Stack>
               <Stack spacing={theme.spacing.inline}>
                 <Text>{t("password")}</Text>
-                <Input name="password" type="password" autoComplete="new-password" required minLength={12} value={password} onChange={(event) => setPassword(event.target.value)} fullWidth />\n                <Text color={theme.colors.textSecondary} size="sm">{language === "sw" ? "Herufi 12 au zaidi, herufi kubwa na ndogo, namba na alama maalum." : "Use 12+ characters with uppercase, lowercase, a number and a special character."}</Text>
+                <Input name="password" type="password" autoComplete="new-password" required minLength={12} value={password} onChange={(event) => setPassword(event.target.value)} fullWidth />
+                <Text color={theme.colors.textSecondary} size="sm">{language === "sw" ? "Herufi 12 au zaidi, herufi kubwa na ndogo, namba na alama maalum." : "Use 12+ characters with uppercase, lowercase, a number and a special character."}</Text>
               </Stack>
               {error ? <Text color={theme.colors.danger} role="alert">{error}</Text> : null}
               {notice ? <Text color={theme.colors.primary} role="status">{notice}</Text> : null}

@@ -50,7 +50,7 @@ export function LoginPage() {
     } catch (caught) {
       const message = authErrorMessage(caught, language);
       if (message.toLowerCase().includes("email verification is required")) {
-        navigate(`/verify-email?email=${encodeURIComponent(email.trim())}`, { replace: true });
+        navigate(`/verify-email?emailAddress=${encodeURIComponent(email.trim())}`, { replace: true });
         return;
       }
       setError(message);

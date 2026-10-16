@@ -6,6 +6,7 @@ import { ForgotPasswordPage } from "@/pages/auth/ForgotPasswordPage";
 import { ResetPasswordPage } from "@/pages/auth/ResetPasswordPage";
 import { EmailVerificationPage } from "@/pages/auth/EmailVerificationPage";
 import { BusinessSetupPage } from "@/pages/auth/BusinessSetupPage";
+import { DashboardPage } from "@/pages/dashboard/DashboardPage";
 import { WelcomePage } from "@/pages/welcome/WelcomePage";
 import { AcademyPage } from "@/pages/academy/AcademyPage";
 import { FeaturesPage } from "@/pages/features/FeaturesPage";
@@ -77,6 +78,11 @@ export const routes: AppRouteObject[] = [
     path: "/reset-password",
     element: <ResetPasswordPage />,
     handle: { title: "Reset password", shell: "blank" },
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardPage />,
+    handle: { title: "Business dashboard", shell: "dashboard", requiresAuthentication: true },
   },
   {
     path: "/business-setup",

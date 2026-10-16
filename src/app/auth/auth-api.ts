@@ -3,6 +3,13 @@ import { resolvePublicCopy } from "@/app/language/public-copy";
 
 type ApiEnvelope<T> = T & { message?: string };
 
+class ApiRequestError extends Error {
+  constructor(message: string, readonly status: number) {
+    super(message);
+    this.name = "ApiRequestError";
+  }
+}
+
 export interface AuthUser {
   id: string;
   name: string;
@@ -45,7 +52,7 @@ async function post<T>(path: string, body: unknown, language: Language): Promise
   const payload = (await response.json().catch(() => ({}))) as ApiEnvelope<T> & { message?: string | string[] };
   if (!response.ok) {
     const message = Array.isArray(payload.message) ? payload.message.join(" ") : payload.message;
-    throw new Error(message || resolvePublicCopy(language, "genericError"));
+    throw new ApiRequestError(message || resolvePublicCopy(language, "genericError"), response.status);
   }
   return payload;
 }
@@ -130,7 +137,7 @@ async function authorizedRequest<T>(
   const payload = (await response.json().catch(() => ({}))) as T & { message?: string | string[] };
   if (!response.ok) {
     const message = Array.isArray(payload.message) ? payload.message.join(" ") : payload.message;
-    throw new Error(message || resolvePublicCopy(language, "genericError"));
+    throw new ApiRequestError(message || resolvePublicCopy(language, "genericError"), response.status);
   }
   return payload;
 }

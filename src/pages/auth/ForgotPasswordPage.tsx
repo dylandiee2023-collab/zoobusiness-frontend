@@ -34,7 +34,7 @@ export function ForgotPasswordPage() {
     event.preventDefault(); setError(""); setNotice(""); setBusy(true);
     try {
       await requestPasswordReset(email.trim(), language);
-      navigate(`/reset-password?email=${encodeURIComponent(email.trim())}`);
+      navigate(`/reset-password?emailAddress=${encodeURIComponent(email.trim())}`);
     } catch (caught) {
       setError(authErrorMessage(caught, language));
     } finally { setBusy(false); }

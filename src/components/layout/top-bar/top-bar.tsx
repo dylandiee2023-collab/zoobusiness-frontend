@@ -43,8 +43,8 @@ export function TopBar() {
   const routeContext = routeKey ? ROUTE_CONTEXT[routeKey as keyof typeof ROUTE_CONTEXT] : { groupKey: "groupZooBusiness" as const, titleKey: "pageWorkspace" as const };
   const pageTitle = t(routeContext.titleKey);
   const pageGroup = t(routeContext.groupKey);
-  const canGoBack = !isHome;
   const isHome = location.pathname === "/" || location.pathname === "/dashboard";
+  const canGoBack = !isHome;
   const mobilePrimaryRoutes = ["/dashboard", "/inventory", "/ai-assistant", "/profile", "/settings"];
   const isMobilePrimaryRoute = mobilePrimaryRoutes.includes(location.pathname);
   const mobileHeaderConfig = useMemo(() => {

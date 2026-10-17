@@ -55,7 +55,7 @@ export function WorkspaceSettingsPage() {
 
   return (
     <DashboardLayout>
-      <main className="zb-settings-page">
+      <div className="zb-settings-page">
         <header className="zb-settings-hero">
           <div className="zb-settings-brand-row">
             <div className="zb-settings-shop-avatar" aria-label={`${shopName} shop avatar`}>
@@ -100,7 +100,7 @@ export function WorkspaceSettingsPage() {
             </section>
           ))}
         </div>
-      </main>
+      </div>
     </DashboardLayout>
   );
 }

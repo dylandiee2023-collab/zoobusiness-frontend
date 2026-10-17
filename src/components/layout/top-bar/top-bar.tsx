@@ -104,7 +104,7 @@ export function TopBar() {
               <button type="button" className="zb-mobile-back-button" aria-label={t("back")} title={t("back")} onClick={() => {
                 if (typeof window !== "undefined" && window.history.state?.idx > 0) navigate(-1);
                 else navigate("/dashboard");
-              }} style={{ border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.button, background: theme.colors.surface, color: theme.colors.text, fontWeight: 400 }}>
+              }} style={{ border: 0, borderRadius: theme.radius.button, background: theme.colors.surface, color: theme.colors.text, fontWeight: 400, boxShadow: "none", transition: "box-shadow 160ms ease" }} onMouseEnter={(event) => { event.currentTarget.style.boxShadow = "0 2px 8px rgba(15, 23, 42, 0.16)"; }} onMouseLeave={(event) => { event.currentTarget.style.boxShadow = "none"; }} onTouchStart={(event) => { event.currentTarget.style.boxShadow = "0 2px 8px rgba(15, 23, 42, 0.16)"; }} onTouchEnd={(event) => { event.currentTarget.style.boxShadow = "none"; }}>
                 <ArrowLeft size={20} aria-hidden="true" />
               </button>
             ) : null}
@@ -112,7 +112,6 @@ export function TopBar() {
           </div>
         ) : (
           <div className="zb-topbar-location" aria-live="polite" style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            {canGoBack ? <button type="button" aria-label={t("back")} title={t("back")} onClick={() => { if (typeof window !== "undefined" && window.history.state?.idx > 0) navigate(-1); else navigate("/dashboard"); }} style={{ display: "inline-flex", alignItems: "center", gap: 7, minHeight: 36, padding: "0 11px", border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.button, background: theme.colors.surface, color: theme.colors.textSecondary, font: "inherit", fontSize: 13, fontWeight: 400, cursor: "pointer" }}><ArrowLeft size={17} aria-hidden="true" /><span>{t("back")}</span></button> : null}
             <div style={{ display: "grid", gap: 2 }}><span>{pageGroup}</span><span style={{ fontWeight: 400, color: theme.colors.text }}>{pageTitle}</span></div>
           </div>
         )}
@@ -123,18 +122,18 @@ export function TopBar() {
         </button> : null}
       </div>
       <nav className="zb-topbar-actions" aria-label="Quick actions">
-        {!isMobile ? <Link className="zb-topbar-icon-link zb-pos-link" to="/pos" aria-label="Open POS" title="POS"><ShoppingCart size={19} /></Link> : null}
+        
         {!isMobile ? (
-          <button type="button" className="zb-topbar-icon-button zb-theme-button" aria-label="Toggle theme preference" title={`Theme: ${mode}`} onClick={cycleTheme}>
+          <button type="button" className="zb-topbar-icon-button zb-theme-button" aria-label="Toggle theme preference" title={`Theme: ${mode}`} onClick={cycleTheme} style={{ border: 0, boxShadow: "none", transition: "box-shadow 160ms ease" }} onMouseEnter={(event) => { event.currentTarget.style.boxShadow = "0 2px 8px rgba(15, 23, 42, 0.16)"; }} onMouseLeave={(event) => { event.currentTarget.style.boxShadow = "none"; }} onTouchStart={(event) => { event.currentTarget.style.boxShadow = "0 2px 8px rgba(15, 23, 42, 0.16)"; }} onTouchEnd={(event) => { event.currentTarget.style.boxShadow = "none"; }}>
             <ThemeIcon size={19} />
           </button>
         ) : null}
-        {(!isMobile || mobileHeaderConfig.notifications) ? <button type="button" className="zb-topbar-icon-button zb-notification-button" aria-label="Notifications" title="Notifications" onClick={actions.openNotifications}>
+        {(!isMobile || mobileHeaderConfig.notifications) ? <button type="button" className="zb-topbar-icon-button zb-notification-button" aria-label="Notifications" title="Notifications" onClick={actions.openNotifications} style={{ border: 0, boxShadow: "none", transition: "box-shadow 160ms ease" }} onMouseEnter={(event) => { event.currentTarget.style.boxShadow = "0 2px 8px rgba(15, 23, 42, 0.16)"; }} onMouseLeave={(event) => { event.currentTarget.style.boxShadow = "none"; }} onTouchStart={(event) => { event.currentTarget.style.boxShadow = "0 2px 8px rgba(15, 23, 42, 0.16)"; }} onTouchEnd={(event) => { event.currentTarget.style.boxShadow = "none"; }}>
           <Bell size={20} />
           {state.unreadNotifications > 0 ? <span className="zb-notification-dot" /> : null}
         </button> : null}
-        {!isMobile ? <button type="button" className="zb-topbar-icon-button zb-profile-button" aria-label="Open profile" title="Profile" onClick={() => navigate("/settings")}><UserRound size={19} /></button> : mobileHeaderConfig.more ? (
-          <button type="button" className="zb-topbar-icon-button zb-mobile-more-button" aria-label="More options" title="More options" aria-expanded={mobileActionsOpen} onClick={() => setMobileActionsOpen((open) => !open)}>
+        {!isMobile ? <button type="button" className="zb-topbar-icon-button zb-profile-button" aria-label="Open profile" title="Profile" onClick={() => navigate("/settings")} style={{ border: 0, boxShadow: "none", transition: "box-shadow 160ms ease" }} onMouseEnter={(event) => { event.currentTarget.style.boxShadow = "0 2px 8px rgba(15, 23, 42, 0.16)"; }} onMouseLeave={(event) => { event.currentTarget.style.boxShadow = "none"; }} onTouchStart={(event) => { event.currentTarget.style.boxShadow = "0 2px 8px rgba(15, 23, 42, 0.16)"; }} onTouchEnd={(event) => { event.currentTarget.style.boxShadow = "none"; }}><UserRound size={19} /></button> : mobileHeaderConfig.more ? (
+          <button type="button" className="zb-topbar-icon-button zb-mobile-more-button" aria-label="More options" title="More options" aria-expanded={mobileActionsOpen} onClick={() => setMobileActionsOpen((open) => !open)} style={{ border: 0, boxShadow: "none", transition: "box-shadow 160ms ease" }} onMouseEnter={(event) => { event.currentTarget.style.boxShadow = "0 2px 8px rgba(15, 23, 42, 0.16)"; }} onMouseLeave={(event) => { event.currentTarget.style.boxShadow = "none"; }} onTouchStart={(event) => { event.currentTarget.style.boxShadow = "0 2px 8px rgba(15, 23, 42, 0.16)"; }} onTouchEnd={(event) => { event.currentTarget.style.boxShadow = "none"; }}>
             <MoreVertical size={21} aria-hidden="true" />
           </button>
         ) : null}

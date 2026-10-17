@@ -459,8 +459,6 @@ export function ProductsPage() {
               icon={<Package size={28} />}
               heading={appliedSearch || categoryId || status || productType ? t("noMatchingProducts") : t("noProductsYet")}
               description={appliedSearch || categoryId || status || productType ? "Try changing the search or filters." : "Add your first product to start building the catalogue for this workspace."}
-              action={
-              }
             />
           ) : (
             <DataGrid<ProductRecord>

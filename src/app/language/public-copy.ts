@@ -2,6 +2,9 @@ import type { Language } from "./language-provider";
 
 export const publicCopy = {
   en: {
+    groupMain: "Main", groupOperations: "Operations", groupInsights: "Insights", groupWorkspace: "Workspace", groupTools: "Tools & communication", groupZooBusiness: "ZooBusiness",
+    pageDashboard: "Dashboard", pageProducts: "Products", pageAddProduct: "Add product", pageInventory: "Inventory", pageSales: "Sales", pagePos: "Point of sale", pageCustomers: "Customers", pageChats: "Customer chats", pageOrders: "Orders", pagePurchasing: "Purchasing", pageWarehouses: "Warehouses", pageExpenses: "Expenses", pageReports: "Reports", pageAi: "AI assistant", pageTeam: "Team & permissions", pageIntegrations: "Integrations", pageSettings: "Settings", pageWorkspace: "Workspace",
+    back: "Back", searchWorkspace: "Search anything in ZooBusiness...", searchProductsOrdersCustomers: "Search products, orders, customers, pages...", openPos: "Open POS", profileSettings: "Profile & settings", changeAppearance: "Change appearance", matchingDestinations: "MATCHING DESTINATIONS", quickAccess: "QUICK ACCESS", noMatchingDestinations: "No matching destinations. Live business-record search will be available once the AutoBots global-search API is connected.",
     navHome: "Home", navSolutions: "Solutions", navFeatures: "Features", navPricing: "Pricing",
     navSupport: "Help & Support", navContact: "Contact", login: "Log in", signup: "Sign up",
     eyebrow: "A clearer way to run your business",
@@ -37,6 +40,9 @@ export const publicCopy = {
     genericError: "Something went wrong. Please try again.", loading: "Please wait…", verifyTitle: "Verify your email", verifyInstructions: "Enter the 6-digit code sent to your email address.", verificationCode: "Verification code", verifyButton: "Verify email", resendCode: "Resend code",
   },
   sw: {
+    groupMain: "Kuu", groupOperations: "Uendeshaji", groupInsights: "Taarifa", groupWorkspace: "Workspace", groupTools: "Zana na mawasiliano", groupZooBusiness: "ZooBusiness",
+    pageDashboard: "Dashibodi", pageProducts: "Bidhaa", pageAddProduct: "Ongeza bidhaa", pageInventory: "Stoo", pageSales: "Mauzo", pagePos: "Sehemu ya mauzo", pageCustomers: "Wateja", pageChats: "Mazungumzo ya wateja", pageOrders: "Oda", pagePurchasing: "Ununuzi", pageWarehouses: "Maghala", pageExpenses: "Matumizi", pageReports: "Ripoti", pageAi: "Msaidizi wa AI", pageTeam: "Timu na ruhusa", pageIntegrations: "Miunganisho", pageSettings: "Mipangilio", pageWorkspace: "Workspace",
+    back: "Rudi nyuma", searchWorkspace: "Tafuta chochote kwenye ZooBusiness...", searchProductsOrdersCustomers: "Tafuta bidhaa, oda, wateja na kurasa...", openPos: "Fungua POS", profileSettings: "Wasifu na mipangilio", changeAppearance: "Badili mwonekano", matchingDestinations: "MATOKEO YANAYOLINGANA", quickAccess: "NJIA ZA HARAKA", noMatchingDestinations: "Hakuna ukurasa unaolingana. Utafutaji wa rekodi za biashara utaunganishwa hapa baada ya API ya AutoBots global search kuunganishwa.",
     navHome: "Nyumbani", navSolutions: "Suluhisho", navFeatures: "Vipengele", navPricing: "Bei",
     navSupport: "Msaada", navContact: "Wasiliana", login: "Ingia", signup: "Jisajili",
     eyebrow: "Njia bora ya kuendesha biashara yako",

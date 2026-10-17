@@ -58,7 +58,7 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
           <UserRound size={22} aria-hidden="true" /><span>Profile</span>
         </Link>
       </nav>
-      <nav className="zb-floating-support" aria-label="Customer support and AI">
+      <nav className="zb-floating-support" aria-label="Customer chats and point of sale">
           <Link to="/customers/messages" aria-label="Customer chats" title="Customer chats">
             <MessageCircle size={20} aria-hidden="true" /><span>Customer chats</span>
           </Link>

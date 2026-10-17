@@ -1,4 +1,4 @@
-import { ArrowLeft, Bell, Menu, Monitor, Moon, Search, ShoppingCart, Sun, UserRound } from "lucide-react";
+import { Bell, MoreVertical, Monitor, Moon, Search, ShoppingCart, Sun, UserRound } from "lucide-react";
 import { useMemo, useRef, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -7,7 +7,6 @@ import { useTheme } from "@/theme/hooks";
 import { useResponsive } from "@/responsive";
 import { BrandLogo } from "@/components/brand/components/brand-logo/brand-logo";
 import { useTopBar } from "./context";
-import { useSidebar } from "@/components/layout/sidebar/context";
 import { topBarStyles } from "./top-bar.styles";
 
 const ROUTE_CONTEXT: Record<string, { group: string; title: string }> = {
@@ -32,14 +31,16 @@ const ROUTE_CONTEXT: Record<string, { group: string; title: string }> = {
 
 export function TopBar() {
   const { state, actions } = useTopBar();
-  const sidebar = useSidebar();
   const { language } = useLanguage();
   const { mode, setMode } = useTheme();
   const { isMobile } = useResponsive();
   const navigate = useNavigate();
   const location = useLocation();
-  const routeContext = ROUTE_CONTEXT[location.pathname] ?? { group: "ZooBusiness", title: "Workspace" };
+  const routeKey = Object.keys(ROUTE_CONTEXT).sort((a, b) => b.length - a.length).find((path) => location.pathname === path || location.pathname.startsWith(path + "/"));
+  const routeContext = routeKey ? ROUTE_CONTEXT[routeKey] : { group: "ZooBusiness", title: "Workspace" };
+  const isHome = location.pathname === "/" || location.pathname === "/dashboard";
   const [searchOpen, setSearchOpen] = useState(false);
+  const [mobileActionsOpen, setMobileActionsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchItems = useMemo(() => [
@@ -79,21 +80,9 @@ export function TopBar() {
     <header className={`dashboard-topbar${isMobile ? " is-mobile" : ""}`} style={topBarStyles.root}>
       <div className="zb-topbar-start">
         {isMobile ? (
-          <>
-            <button
-              type="button"
-              className="zb-mobile-back-button"
-              aria-label="Go back"
-              title="Go back"
-              onClick={() => {
-                if (window.history.state?.idx > 0) navigate(-1);
-                else navigate("/dashboard", { replace: true });
-              }}
-            >
-              <ArrowLeft size={20} aria-hidden="true" />
-            </button>
-            <div className="zb-mobile-brand" aria-label="ZooBusiness"><BrandLogo size={148} /></div>
-          </>
+          <div className="zb-mobile-page-identity" aria-live="polite">
+            {isHome ? <div className="zb-mobile-brand" aria-label="ZooBusiness"><BrandLogo size={148} /></div> : <strong className="zb-mobile-page-title">{routeContext.title}</strong>}
+          </div>
         ) : (
           <div className="zb-topbar-location" aria-live="polite">
             <span>{routeContext.group}</span>
@@ -118,20 +107,20 @@ export function TopBar() {
           {state.unreadNotifications > 0 ? <span className="zb-notification-dot" /> : null}
         </button>
         {!isMobile ? <button type="button" className="zb-topbar-icon-button zb-profile-button" aria-label="Open profile" title="Profile" onClick={() => navigate("/settings")}><UserRound size={19} /></button> : (
-          <button
-            type="button"
-            className="zb-mobile-menu-button"
-            aria-label={sidebar.state.mode === "expanded" ? "Close navigation menu" : "Open navigation menu"}
-            title="Navigation menu"
-            onClick={() => {
-              if (sidebar.state.mode === "expanded") sidebar.actions.hide();
-              else sidebar.actions.expand();
-            }}
-          >
-            <Menu size={20} aria-hidden="true" />
+          <button type="button" className="zb-topbar-icon-button zb-mobile-more-button" aria-label="More options" title="More options" aria-expanded={mobileActionsOpen} onClick={() => setMobileActionsOpen((open) => !open)}>
+            <MoreVertical size={21} aria-hidden="true" />
           </button>
         )}
       </nav>
+      {isMobile && mobileActionsOpen ? (
+        <div className="zb-mobile-actions-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setMobileActionsOpen(false); }}>
+          <div className="zb-mobile-actions-menu" role="menu" aria-label="More options">
+            <Link role="menuitem" to="/pos" onClick={() => setMobileActionsOpen(false)}><ShoppingCart size={18} /> Open POS</Link>
+            <Link role="menuitem" to="/settings" onClick={() => setMobileActionsOpen(false)}><UserRound size={18} /> Profile & settings</Link>
+            <button role="menuitem" type="button" onClick={() => { cycleTheme(); setMobileActionsOpen(false); }}><ThemeIcon size={18} /> Change appearance</button>
+          </div>
+        </div>
+      ) : null}
       {searchOpen ? (
         <div className="zb-global-search-backdrop" role="presentation" onMouseDown={(event) => {
           if (event.target === event.currentTarget) setSearchOpen(false);

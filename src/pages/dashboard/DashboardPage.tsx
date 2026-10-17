@@ -237,10 +237,10 @@ export function DashboardPage() {
 
             <section className="dashboard-metrics-grid" aria-label="Business metrics">
               <MetricCard title="Total sales" value={summary ? formatMoney(summary.sales.today, currency) : "—"} change={summary?.sales.changePercent} icon={<CircleDollarSign size={23} />} tone="green" />
-              <MetricCard title="Available sales" value="—" icon={<ShoppingCart size={23} />} tone="blue" />
+              <MetricCard title="Orders today" value={summary ? formatNumber(summary.orders.today) : "—"} icon={<ShoppingCart size={23} />} tone="blue" />
               <MetricCard title="Total products" value={summary ? formatNumber(summary.inventory.products) : "—"} icon={<Package size={23} />} tone="orange" />
-              <MetricCard title="Customers" value="—" icon={<Users size={23} />} tone="purple" />
-              <MetricCard title="Out of stock" value="—" icon={<Boxes size={23} />} tone="orange" />
+              <MetricCard title="Customers" value={summary ? formatNumber(summary.customers.total) : "—"} icon={<Users size={23} />} tone="purple" />
+              <MetricCard title="Out of stock" value={summary ? formatNumber(summary.inventory.outOfStockItems) : "—"} icon={<Boxes size={23} />} tone="orange" />
               <MetricCard title="Expenses" value={summary ? formatMoney(summary.expenses.today, currency) : "—"} change={summary?.expenses.changePercent} icon={<ClipboardList size={23} />} tone="purple" />
             </section>
 

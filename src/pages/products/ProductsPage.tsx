@@ -269,10 +269,7 @@ export function ProductsPage() {
   ];
 
   function openCreate() {
-    setEditingProduct(null);
-    setForm(EMPTY_FORM);
-    setFormError(null);
-    setDrawerOpen(true);
+    navigate("/products/new");
   }
 
   function openEdit(product: ProductRecord) {

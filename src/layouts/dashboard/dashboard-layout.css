@@ -310,3 +310,89 @@
   .dashboard-layout-root .zb-mobile-brand { max-width: 128px !important; }
   .dashboard-layout-root .zb-mobile-brand img { max-width: 128px !important; height: 40px !important; max-height: 42px !important; }
 }
+
+
+/* Workspace identity and settings pinned to the bottom of the sidebar. */
+.zb-sidebar-workspace-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--zb-colors-border);
+  background: var(--zb-colors-surface);
+}
+.zb-sidebar-settings-link,
+.zb-sidebar-workspace-link {
+  display: flex;
+  min-width: 0;
+  min-height: 42px;
+  align-items: center;
+  gap: 11px;
+  padding: 7px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--zb-radius-lg, 12px);
+  background: transparent;
+  color: var(--zb-colors-textSecondary);
+  text-decoration: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.zb-sidebar-settings-link:hover,
+.zb-sidebar-workspace-link:hover {
+  border-color: var(--zb-colors-border);
+  background: var(--zb-colors-surfaceSecondary);
+  color: var(--zb-colors-text);
+}
+.zb-sidebar-settings-link svg { flex: 0 0 auto; color: var(--zb-colors-textMuted); }
+.zb-sidebar-workspace-link { border-color: var(--zb-colors-border); background: var(--zb-colors-background); }
+.zb-sidebar-workspace-avatar {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  place-items: center;
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--zb-colors-primary) 15%, var(--zb-colors-surface));
+  color: var(--zb-colors-primary);
+  font-size: 11px;
+  font-weight: 850;
+}
+.zb-sidebar-workspace-copy { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 3px; }
+.zb-sidebar-workspace-copy strong { overflow: hidden; color: var(--zb-colors-text); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.zb-sidebar-workspace-copy small { color: var(--zb-colors-textMuted); font-size: 10px; }
+.zb-sidebar-workspace-store { flex: 0 0 auto; color: var(--zb-colors-textMuted); }
+.zb-sidebar-group-toggle svg { transition: transform 150ms ease; }
+.zb-sidebar-group-toggle svg.is-collapsed { transform: rotate(-90deg); }
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .zb-sidebar-nav { gap: 12px; padding-right: 8px; padding-left: 8px; }
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .zb-sidebar-items { gap: 7px; }
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .zb-sidebar-link { justify-content: center; gap: 0; padding: 0; }
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .zb-sidebar-workspace-footer { align-items: center; padding: 10px 6px; }
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .zb-sidebar-settings-link,
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .zb-sidebar-workspace-link { justify-content: center; width: 48px; padding: 6px; }
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .zb-sidebar-workspace-link { border-color: transparent; background: transparent; }
+.zb-topbar-location { display: flex; min-width: 0; flex-direction: column; justify-content: center; gap: 3px; padding-right: 12px; }
+.zb-topbar-location span { color: var(--zb-colors-textMuted); font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.zb-topbar-location strong { overflow: hidden; color: var(--zb-colors-text); font-size: 14px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+.zb-mobile-back-button { display: none; }
+@media (max-width: 767px) {
+  .zb-mobile-back-button {
+    display: inline-flex;
+    width: 36px;
+    height: 40px;
+    flex: 0 0 36px;
+    align-items: center;
+    justify-content: center;
+    margin-right: 6px;
+    border: 1px solid var(--zb-colors-border);
+    border-radius: 11px;
+    background: var(--zb-colors-surface);
+    color: var(--zb-colors-text);
+    cursor: pointer;
+  }
+  .dashboard-layout-root .zb-topbar-start { gap: 5px !important; }
+  .dashboard-layout-root .zb-mobile-brand { max-width: 135px !important; }
+  .dashboard-layout-root .zb-mobile-brand img { max-width: 135px !important; }
+  .dashboard-layout-root .zb-sidebar-workspace-footer { display: none; }
+}

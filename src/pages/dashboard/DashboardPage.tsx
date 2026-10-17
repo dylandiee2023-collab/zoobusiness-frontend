@@ -169,6 +169,7 @@ export function DashboardPage() {
       <div className="dashboard-page">
 {summary ? (
           <>
+            <div className="dashboard-insights-grid">
             <section
               className="dashboard-sales-panel"
               aria-labelledby="dashboard-sales-title"
@@ -214,8 +215,22 @@ export function DashboardPage() {
                     </div>
                   );
                 })}
+</div>
+            </section>
+            <section className="dashboard-health-card" aria-labelledby="dashboard-health-title">
+              <div className="dashboard-health-copy">
+                <p className="dashboard-section-kicker">BUSINESS HEALTH</p>
+                <h2 id="dashboard-health-title">Stock availability</h2>
+                <p>Share of tracked items not currently flagged as low stock.</p>
+              </div>
+              <div className="dashboard-health-visual">
+                <div className="dashboard-health-ring" style={{ "--health-score": `${Math.max(0, Math.min(100, Math.round(((summary.inventory.trackedItems - summary.inventory.lowStockItems) / Math.max(1, summary.inventory.trackedItems)) * 100)))}%` } as React.CSSProperties}>
+                  <div><strong>{summary.inventory.trackedItems > 0 ? `${Math.max(0, Math.min(100, Math.round(((summary.inventory.trackedItems - summary.inventory.lowStockItems) / Math.max(1, summary.inventory.trackedItems)) * 100)))}%` : "—"}</strong><span>in stock</span></div>
+                </div>
+                <div className="dashboard-health-legend"><span><i className="health-good" />Healthy stock</span><span><i className="health-watch" />Low stock</span><span><i className="health-risk" />Needs review</span></div>
               </div>
             </section>
+            </div>
 
             <section className="dashboard-metrics-grid" aria-label="Business metrics">
               <MetricCard title="Total sales" value={summary ? formatMoney(summary.sales.today, currency) : "—"} change={summary?.sales.changePercent} icon={<CircleDollarSign size={23} />} tone="green" />
@@ -290,6 +305,7 @@ export function DashboardPage() {
           <SummaryLoading />
         ) : (
           <section className="dashboard-summary-shell" aria-label="Dashboard summary layout">
+            <div className="dashboard-insights-grid">
             <section className="dashboard-sales-panel dashboard-shell-sales">
               <div className="dashboard-sales-top">
                 <div>
@@ -309,6 +325,18 @@ export function DashboardPage() {
                 ))}
               </div>
             </section>
+            <section className="dashboard-health-card" aria-labelledby="dashboard-health-title">
+              <div className="dashboard-health-copy">
+                <p className="dashboard-section-kicker">BUSINESS HEALTH</p>
+                <h2 id="dashboard-health-title">Stock availability</h2>
+                <p>Health indicators will populate when summary data is available.</p>
+              </div>
+              <div className="dashboard-health-visual">
+                <div className="dashboard-health-ring dashboard-health-ring-empty"><div><strong>—</strong><span>pending data</span></div></div>
+                <div className="dashboard-health-legend"><span><i className="health-good" />Healthy stock</span><span><i className="health-watch" />Low stock</span><span><i className="health-risk" />Needs review</span></div>
+              </div>
+            </section>
+            </div>
             <section className="dashboard-metrics-grid" aria-label="Business metrics">
               <MetricCard title="Total sales" value="—" icon={<CircleDollarSign size={23} />} tone="green" />
               <MetricCard title="Available sales" value="—" icon={<ShoppingCart size={23} />} tone="blue" />

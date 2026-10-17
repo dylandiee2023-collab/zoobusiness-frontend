@@ -158,7 +158,7 @@ export function TopBar() {
               <input ref={searchInputRef} value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} type="search" placeholder={t("searchProductsOrdersCustomers")} />
               <button type="button" onClick={() => setSearchOpen(false)} aria-label="Close search">Esc</button>
             </div>
-            <p className="zb-global-search-caption">{searchQuery.trim() ? (language === "sw" ? "MATOKEO YANAYOLINGANA" : "MATCHING DESTINATIONS") : (language === "sw" ? "HARAKA KUFIKIA" : "QUICK ACCESS")}</p>
+            <p className="zb-global-search-caption">{searchQuery.trim() ? t("matchingDestinations") : t("quickAccess")}</p>
             <div className="zb-global-search-results">
               {filteredSearchItems.map((item) => (
                 <button type="button" className="zb-global-search-result" key={item.path} onClick={() => { navigate(item.path); setSearchOpen(false); setSearchQuery(""); }}>

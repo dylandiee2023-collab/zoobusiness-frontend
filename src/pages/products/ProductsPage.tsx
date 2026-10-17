@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   Archive,
   Package,
-  PackagePlus,
   Pencil,
   RefreshCw,
   Search,
@@ -461,9 +460,6 @@ export function ProductsPage() {
               heading={appliedSearch || categoryId || status || productType ? t("noMatchingProducts") : t("noProductsYet")}
               description={appliedSearch || categoryId || status || productType ? "Try changing the search or filters." : "Add your first product to start building the catalogue for this workspace."}
               action={
-                <Button type="button" leftIcon={<PackagePlus size={16} />} onClick={openCreate}>
-                  {t("addProduct")}
-                </Button>
               }
             />
           ) : (

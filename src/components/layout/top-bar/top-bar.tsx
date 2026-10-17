@@ -1,4 +1,4 @@
-import { ArrowLeft, Bell, Monitor, Moon, Search, ShoppingCart, Sun, UserRound } from "lucide-react";
+import { ArrowLeft, Bell, Menu, Monitor, Moon, Search, ShoppingCart, Sun, UserRound } from "lucide-react";
 import { useMemo, useRef, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -7,6 +7,7 @@ import { useTheme } from "@/theme/hooks";
 import { useResponsive } from "@/responsive";
 import { BrandLogo } from "@/components/brand/components/brand-logo/brand-logo";
 import { useTopBar } from "./context";
+import { useSidebar } from "@/components/layout/sidebar/context";
 import { topBarStyles } from "./top-bar.styles";
 
 const ROUTE_CONTEXT: Record<string, { group: string; title: string }> = {
@@ -31,6 +32,7 @@ const ROUTE_CONTEXT: Record<string, { group: string; title: string }> = {
 
 export function TopBar() {
   const { state, actions } = useTopBar();
+  const sidebar = useSidebar();
   const { language } = useLanguage();
   const { mode, setMode } = useTheme();
   const { isMobile } = useResponsive();
@@ -115,7 +117,20 @@ export function TopBar() {
           <Bell size={20} />
           {state.unreadNotifications > 0 ? <span className="zb-notification-dot" /> : null}
         </button>
-        {!isMobile ? <button type="button" className="zb-topbar-icon-button zb-profile-button" aria-label="Open profile" title="Profile" onClick={() => navigate("/settings")}><UserRound size={19} /></button> : null}
+        {!isMobile ? <button type="button" className="zb-topbar-icon-button zb-profile-button" aria-label="Open profile" title="Profile" onClick={() => navigate("/settings")}><UserRound size={19} /></button> : (
+          <button
+            type="button"
+            className="zb-mobile-menu-button"
+            aria-label={sidebar.state.mode === "expanded" ? "Close navigation menu" : "Open navigation menu"}
+            title="Navigation menu"
+            onClick={() => {
+              if (sidebar.state.mode === "expanded") sidebar.actions.hide();
+              else sidebar.actions.expand();
+            }}
+          >
+            <Menu size={20} aria-hidden="true" />
+          </button>
+        )}
       </nav>
       {searchOpen ? (
         <div className="zb-global-search-backdrop" role="presentation" onMouseDown={(event) => {

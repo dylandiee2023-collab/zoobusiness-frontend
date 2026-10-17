@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { ArrowLeft, BadgePercent, Boxes, CalendarDays, Check, ImagePlus, Package, Plus, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -71,7 +71,7 @@ function parseAttributes(value: string): Array<{ name: string; value: string }> 
   }).filter((pair) => pair.name && pair.value);
 }
 
-function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
+function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
   return <label className="flex min-w-0 flex-col gap-2"><span className="text-sm font-semibold">{label}</span>{children}{hint ? <span className="text-xs opacity-65">{hint}</span> : null}</label>;
 }
 
@@ -194,6 +194,7 @@ export function ProductCreatePage() {
     setWarning(null);
     const base = `/api/workspaces/${encodeURIComponent(workspace.id)}`;
     const completed: string[] = [];
+    let productWasCreated = Boolean(createdProduct);
     try {
       let product = createdProduct;
       if (!product) {
@@ -208,6 +209,7 @@ export function ProductCreatePage() {
           status,
         });
         setCreatedProduct(product);
+        productWasCreated = true;
         completed.push("product");
       }
 
@@ -291,7 +293,7 @@ export function ProductCreatePage() {
       if (completed.length) setWarning(`Saved: ${completed.join(", ")}.`);
       navigate("/products", { state: { createdProductId: product.id } });
     } catch (caught) {
-      const partial = createdProduct ? "The product record already exists. Correct the issue and submit again to continue configuring it without creating another product. " : "";
+      const partial = productWasCreated ? "The product record already exists. Correct the issue and submit again to continue configuring it without creating another product. " : "";
       setError(partial + messageOf(caught));
     } finally {
       setSaving(false);

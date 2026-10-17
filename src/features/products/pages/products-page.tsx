@@ -23,9 +23,11 @@ type Product = {
   name: string;
   sku?: string | null;
   image_url?: string | null;
-  selling_price?: number | string | null;
+  slug?: string | null;
+  product_type?: string | null;
   currency?: string | null;
   available_quantity?: number | string | null;
+  quantity_available?: number | string | null;
   stock_quantity?: number | string | null;
   category?: { name?: string } | string | null;
   status?: string | null;
@@ -67,7 +69,7 @@ export function ProductsPage() {
   const { theme } = useTheme();
   const { workspace, loading: workspaceLoading } = useWorkspace();
   const [products, setProducts] = useState<Product[]>([]);
-  const [summary, setSummary] = useState<ProductSummary | null>(null);
+  const [summary, setSummary] = useState<ProductSummary | null>(null);\n  const [prices, setPrices] = useState<Price[]>([]);\n  const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
@@ -218,7 +220,7 @@ export function ProductsPage() {
           <div className="products-grid">
             {visibleProducts.map((product) => {
               const category = typeof product.category === "string" ? product.category : product.category?.name;
-              const stock = product.available_quantity ?? product.stock_quantity;
+              const stock = inventoryItem?.quantity_available ?? inventoryItem?.available_quantity ?? product.available_quantity ?? product.quantity_available ?? product.stock_quantity;
               return (
                 <article className="product-card" key={product.id}>
                   <div className="product-image">
@@ -230,7 +232,7 @@ export function ProductsPage() {
                     <h3 title={product.name}>{product.name}</h3>
                     {product.sku && <p className="product-sku">SKU: {product.sku}</p>}
                     <div className="product-card-bottom">
-                      <div><strong>{money(product.selling_price, product.currency ?? "TZS")}</strong><span>{stock == null ? "Stock not available" : `Stock: ${stock}`}</span></div>
+                      <div><strong>{sellingPrice ? money(sellingPrice.amount, sellingPrice.currency ?? "TZS") : "Price not set"}</strong><span>{stock == null ? "Stock not available" : `Stock: ${stock}`}</span></div>
                       <button type="button" className="product-add-cart" aria-label={`Add ${product.name} to cart`} title="Add to cart" onClick={() => window.dispatchEvent(new CustomEvent("zoobusiness:add-to-cart", { detail: { productId: product.id } }))}><CirclePlus size={22} /></button>
                     </div>
                   </div>

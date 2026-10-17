@@ -43,7 +43,6 @@ const selectOptions = {
     { value: "PERCENT_DISCOUNT", label: "Percentage discount" },
     { value: "AMOUNT_DISCOUNT", label: "Fixed amount discount" },
     { value: "FIXED_PRICE", label: "Fixed offer price" },
-    { value: "QUANTITY_BREAK", label: "Quantity break" },
   ],
 };
 
@@ -187,7 +186,7 @@ export function ProductCreatePage() {
     if (!name.trim() || !slug.trim()) { setError("Product name and URL slug are required."); return; }
     if ((buyingPrice.trim() && Number(buyingPrice) < 0) || (sellingPrice.trim() && Number(sellingPrice) < 0)) { setError("Prices cannot be negative."); return; }
     if ((buyingPrice.trim() && !Number.isFinite(Number(buyingPrice))) || (sellingPrice.trim() && !Number.isFinite(Number(sellingPrice)))) { setError("Enter valid numeric prices."); return; }
-    if (receiveOpeningStock && (!destinationId || !Number.isFinite(Number(stockQuantity)) || Number(stockQuantity) <= 0 || !purchaseDate)) { setError("Choose a destination, purchase date and a stock quantity greater than zero."); return; }
+    if (receiveOpeningStock && (!destinationId || !Number.isFinite(Number(stockQuantity)) || Number(stockQuantity) <= 0 || !purchaseDate || !buyingPrice.trim() || !sellingPrice.trim())) { setError("Choose a destination, purchase date and a stock quantity greater than zero."); return; }
     if (offerEnabled && (!offerName.trim() || !offerCode.trim() || !offerValue.trim() || Number(offerValue) < 0)) { setError("Complete the offer name, code and valid discount/price value."); return; }
 
     setSaving(true);
@@ -249,6 +248,7 @@ export function ProductCreatePage() {
           if (!attribute) {
             attribute = await platform.api.post<AttributeOption>(`${base}/attributes`, { name: pair.name, code: codeify(pair.name), attributeType: "SELECT", isRequired: false, status: "ACTIVE" });
             attributeCache.push(attribute);
+            setAttributes((current) => current.some((item) => item.id === attribute!.id) ? current : [...current, attribute!]);
           }
           const values = await platform.api.get<Row<AttributeValueOption>>(`${base}/attributes/${encodeURIComponent(attribute.id)}/values?page=1&limit=100&status=ACTIVE`).catch(() => [] as AttributeValueOption[]);
           let value = rowsOf(values).find((item) => item.value.toLowerCase() === pair.value.toLowerCase());
@@ -284,23 +284,26 @@ export function ProductCreatePage() {
       }
 
       if (receiveOpeningStock) {
+        if (!buyingPrice.trim() || !sellingPrice.trim()) throw new Error("Enter both buying and selling prices before recording opening stock.");
         const existingPurchases = await platform.api.get<Row<{ id: string; notes?: string; status: string }>>(`${base}/purchases?page=1&limit=100&from=${encodeURIComponent(purchaseDate)}&to=${encodeURIComponent(purchaseDate)}`).catch(() => [] as { id: string; notes?: string; status: string }[]);
         const existingOpening = rowsOf(existingPurchases).find((item) => item.notes?.startsWith(`Product setup: ${product!.id}`));
-        if (!existingOpening) {
-          const purchase = await platform.api.post<{ id: string }>(`${base}/purchases`, {
-            orderDate: purchaseDate,
-            destinationType,
-            ...(destinationType === "WAREHOUSE" ? { destinationWarehouseId: destinationId } : { destinationShopId: destinationId }),
-            currency,
-            notes: `Product setup: ${product.id}${notes.trim() ? ` — ${notes.trim()}` : ""}`,
-            paymentStatus,
-            items: [{ productId: product.id, quantity: Number(stockQuantity), buyingPrice: Number(buyingPrice || 0), sellingPrice: Number(sellingPrice || 0) }],
-          });
-          completed.push("opening purchase");
-          if (purchaseStatus === "CONFIRMED" || purchaseStatus === "RECEIVED") await platform.api.post(`${base}/purchases/${encodeURIComponent(purchase.id)}/confirm`, {});
-          if (purchaseStatus === "RECEIVED") await platform.api.post(`${base}/purchases/${encodeURIComponent(purchase.id)}/receive`, { receivedDate: purchaseDate });
-          if (purchaseStatus === "CANCELLED") await platform.api.post(`${base}/purchases/${encodeURIComponent(purchase.id)}/cancel`, {});
+        const purchase = existingOpening ?? await platform.api.post<{ id: string; status?: string }>(`${base}/purchases`, {
+          orderDate: purchaseDate,
+          destinationType,
+          ...(destinationType === "WAREHOUSE" ? { destinationWarehouseId: destinationId } : { destinationShopId: destinationId }),
+          currency,
+          notes: `Product setup: ${product.id}${notes.trim() ? ` — ${notes.trim()}` : ""}`,
+          paymentStatus,
+          items: [{ productId: product.id, quantity: Number(stockQuantity), buyingPrice: Number(buyingPrice), sellingPrice: Number(sellingPrice) }],
+        });
+        if (!existingOpening) completed.push("opening purchase");
+        const currentStatus = purchase.status ?? "DRAFT";
+        if (purchaseStatus === "CONFIRMED" && currentStatus === "DRAFT") await platform.api.post(`${base}/purchases/${encodeURIComponent(purchase.id)}/confirm`, {});
+        if (purchaseStatus === "RECEIVED") {
+          if (currentStatus === "DRAFT") await platform.api.post(`${base}/purchases/${encodeURIComponent(purchase.id)}/confirm`, {});
+          if (currentStatus !== "RECEIVED") await platform.api.post(`${base}/purchases/${encodeURIComponent(purchase.id)}/receive`, { receivedDate: purchaseDate });
         }
+        if (purchaseStatus === "CANCELLED" && currentStatus === "DRAFT") await platform.api.post(`${base}/purchases/${encodeURIComponent(purchase.id)}/cancel`, {});
       }
 
       if (completed.length) setWarning(`Saved: ${completed.join(", ")}.`);

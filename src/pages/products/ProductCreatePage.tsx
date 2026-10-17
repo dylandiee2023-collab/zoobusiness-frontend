@@ -117,7 +117,6 @@ export function ProductCreatePage() {
   const [loadingOptions, setLoadingOptions] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [warning, setWarning] = useState<string | null>(null);
   const [createdProduct, setCreatedProduct] = useState<ProductRecord | null>(null);
 
   useEffect(() => {
@@ -191,7 +190,6 @@ export function ProductCreatePage() {
 
     setSaving(true);
     setError(null);
-    setWarning(null);
     const base = `/api/workspaces/${encodeURIComponent(workspace.id)}`;
     const completed: string[] = [];
     let productWasCreated = Boolean(createdProduct);
@@ -306,8 +304,7 @@ export function ProductCreatePage() {
         if (purchaseStatus === "CANCELLED" && currentStatus === "DRAFT") await platform.api.post(`${base}/purchases/${encodeURIComponent(purchase.id)}/cancel`, {});
       }
 
-      if (completed.length) setWarning(`Saved: ${completed.join(", ")}.`);
-      navigate("/products", { state: { createdProductId: product.id } });
+      navigate("/products", { state: { createdProductId: product.id, productSetupNotice: completed.length ? `Saved successfully: ${completed.join(", ")}.` : "Product setup is complete." } });
     } catch (caught) {
       const partial = productWasCreated ? "The product record already exists. Correct the issue and submit again to continue configuring it without creating another product. " : "";
       setError(partial + messageOf(caught));
@@ -339,7 +336,6 @@ export function ProductCreatePage() {
         </header>
 
         {error ? <Alert variant="danger" title="Could not complete product setup">{error}</Alert> : null}
-        {warning ? <Alert variant="success" title="Product setup updated">{warning}</Alert> : null}
         {loadingOptions ? <p className="text-sm opacity-65" role="status">Loading categories, units and locations…</p> : null}
 
         <form className="grid min-w-0 grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,1.65fr)_minmax(320px,0.85fr)]" onSubmit={(event) => void saveProduct(event)}>

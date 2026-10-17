@@ -1,6 +1,6 @@
 export const topBarStyles = {
   root: {
-    position: "sticky",
+    position: "fixed",
     top: 0,
     right: 0,
     left: 0,
@@ -13,9 +13,10 @@ export const topBarStyles = {
     gap: 16,
     padding: 0,
     boxSizing: "border-box",
-    background: "transparent",
+    background: "var(--zb-colors-surface)",
     color: "var(--zb-colors-text)",
     border: 0,
+    borderBottom: "1px solid var(--zb-colors-border)",
     borderRadius: 0,
     boxShadow: "none",
   },

@@ -44,6 +44,10 @@ export function SidebarContent() {
   const { isMobile } = useResponsive();
   const location = useLocation();
   const collapsed = state.mode === "collapsed";
+  const activeRoute = state.groups
+    .flatMap((group) => group.items)
+    .filter((item) => location.pathname === item.route || location.pathname.startsWith(item.route + "/"))
+    .sort((left, right) => right.route.length - left.route.length)[0]?.route;
 
   if (state.mode === "hidden") return null;
 
@@ -67,9 +71,7 @@ export function SidebarContent() {
             <div className="zb-sidebar-items">
               {group.items.map((item) => {
                 const Icon = itemIcons[item.icon as keyof typeof itemIcons] ?? LayoutDashboard;
-                const active =
-                  location.pathname === item.route ||
-                  (item.route !== "/" && location.pathname.startsWith(item.route + "/"));
+                const active = item.route === activeRoute;
 
                 return (
                   <Link

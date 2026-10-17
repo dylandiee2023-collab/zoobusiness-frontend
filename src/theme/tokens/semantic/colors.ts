@@ -68,7 +68,7 @@ export const semanticColors = {
   },
 
   dark: {
-    background: primitiveColors.forest[900],
+    background: "#1E1F21",
 
     surface: primitiveColors.forest[800],
 

@@ -2,6 +2,7 @@ import type { RouteObject } from "react-router-dom";
 import { Navigate, useLocation } from "react-router-dom";
 
 import { ProductsPage } from "@/features/products";
+import { ProductCreatePage } from "@/features/products/pages/product-create-page";
 
 export type AppShellName =
   | "auth"
@@ -68,6 +69,15 @@ export const routes: AppRouteObject[] = [
   {
     path: "/",
     element: <Navigate to="/products" replace />,
+  },
+  {
+    path: "/products/new",
+    element: <ProductCreatePage />,
+    handle: {
+      title: "New product",
+      shell: "dashboard",
+      requiresAuthentication: true,
+    },
   },
   {
     path: "/products",

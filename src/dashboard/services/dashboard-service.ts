@@ -28,7 +28,12 @@ export interface DashboardSummary {
     readonly products: number;
     readonly trackedItems: number;
     readonly lowStockItems: number;
+    readonly outOfStockItems: number;
     readonly availableUnits: number;
+  };
+  readonly customers: {
+    readonly total: number;
+    readonly newToday: number;
   };
 }
 

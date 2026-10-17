@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import {
   AlertTriangle,
   Bot,
@@ -7,7 +7,6 @@ import {
   PackageX,
   Plus,
   Search,
-  ShoppingCart,
   Wallet,
   X,
   TrendingUp,
@@ -21,47 +20,67 @@ import "./products-page.css";
 type Product = {
   id: string;
   name: string;
+  slug?: string | null;
   sku?: string | null;
   image_url?: string | null;
-  slug?: string | null;
   product_type?: string | null;
-  currency?: string | null;
-  available_quantity?: number | string | null;
-  quantity_available?: number | string | null;
-  stock_quantity?: number | string | null;
-  category?: { name?: string } | string | null;
   status?: string | null;
+  category?: { name?: string } | string | null;
 };
 
-type ProductSummary = {
-  stock_cost_value?: number | string | null;
-  retail_value?: number | string | null;
-  total_products?: number | null;
-  out_of_stock?: number | null;
-  low_stock?: number | null;
-  damaged_stock?: number | null;
-  currency?: string | null;
+type Price = {
+  product_id?: string | null;
+  variant_id?: string | null;
+  price_type?: "BUYING" | "SELLING";
+  amount?: number | string;
+  currency?: string;
+  status?: string;
+};
+
+type InventoryItem = {
+  product_id?: string;
+  quantity_available?: number | string;
+  available_quantity?: number | string;
+  reorder_level?: number | string;
+};
+
+type DashboardSummary = {
+  currency?: string;
+  inventory?: {
+    products?: number;
+    lowStockItems?: number;
+    outOfStockItems?: number;
+    availableUnits?: number;
+  };
 };
 
 function recordsFrom<T>(payload: unknown): T[] {
   if (Array.isArray(payload)) return payload as T[];
   if (typeof payload === "object" && payload !== null) {
     const value = payload as Record<string, unknown>;
-    for (const key of ["items", "data", "products", "results"]) {
+    for (const key of ["data", "items", "products", "results"]) {
       if (Array.isArray(value[key])) return value[key] as T[];
     }
   }
   return [];
 }
 
-function money(value: number | string | null | undefined, currency = "TZS") {
-  const amount = Number(value ?? 0);
-  if (!Number.isFinite(amount)) return "—";
+function money(value: number, currency = "TZS") {
+  if (!Number.isFinite(value)) return "—";
   return new Intl.NumberFormat("en-TZ", {
     style: "currency",
     currency,
     maximumFractionDigits: 0,
-  }).format(amount);
+  }).format(value);
+}
+
+function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 }
 
 export function ProductsPage() {
@@ -69,7 +88,9 @@ export function ProductsPage() {
   const { theme } = useTheme();
   const { workspace, loading: workspaceLoading } = useWorkspace();
   const [products, setProducts] = useState<Product[]>([]);
-  const [summary, setSummary] = useState<ProductSummary | null>(null);\n  const [prices, setPrices] = useState<Price[]>([]);\n  const [inventory, setInventory] = useState<InventoryItem[]>([]);
+  const [prices, setPrices] = useState<Price[]>([]);
+  const [inventory, setInventory] = useState<InventoryItem[]>([]);
+  const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
@@ -77,25 +98,38 @@ export function ProductsPage() {
   const [saving, setSaving] = useState(false);
   const [name, setName] = useState("");
   const [sku, setSku] = useState("");
-  const [price, setPrice] = useState("");
-  const [costPrice, setCostPrice] = useState("");
-  const [currency, setCurrency] = useState("TZS");
+  const [description, setDescription] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
-
   const colors = theme.colors;
+
   const load = useCallback(async () => {
     if (!workspace?.id) return;
     setLoading(true);
     setError(null);
     try {
-      const [productResult, summaryResult] = await Promise.all([
-        platform.api.get<unknown>(`/api/workspaces/${workspace.id}/products`),
-        platform.api.get<ProductSummary>(
-          `/api/workspaces/${workspace.id}/products/summary?currency=TZS`,
-        ).catch(() => null),
-      ]);
+      const [productResult, priceResult, inventoryResult, dashboardResult] =
+        await Promise.all([
+          platform.api.get<unknown>(
+            `/api/workspaces/${workspace.id}/products?page=1&limit=100`,
+          ),
+          platform.api
+            .get<unknown>(
+              `/api/workspaces/${workspace.id}/prices?page=1&limit=100`,
+            )
+            .catch(() => []),
+          platform.api
+            .get<unknown>(`/api/workspaces/${workspace.id}/inventory`)
+            .catch(() => []),
+          platform.api
+            .get<DashboardSummary>(
+              `/api/workspaces/${workspace.id}/dashboard/summary?currency=TZS`,
+            )
+            .catch(() => null),
+        ]);
       setProducts(recordsFrom<Product>(productResult));
-      setSummary(summaryResult);
+      setPrices(recordsFrom<Price>(priceResult));
+      setInventory(recordsFrom<InventoryItem>(inventoryResult));
+      setSummary(dashboardResult);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not load products.");
     } finally {
@@ -111,71 +145,152 @@ export function ProductsPage() {
     const needle = query.trim().toLowerCase();
     if (!needle) return products;
     return products.filter((product) =>
-      [product.name, product.sku, typeof product.category === "string" ? product.category : product.category?.name]
+      [product.name, product.sku, product.slug]
         .filter(Boolean)
         .some((value) => String(value).toLowerCase().includes(needle)),
     );
   }, [products, query]);
 
-  const createProduct = async (event: React.FormEvent<HTMLFormElement>) => {
+  const inventoryQuantity = (item: InventoryItem) =>
+    Number(item.quantity_available ?? item.available_quantity ?? 0);
+
+  const stockValue = (type: "BUYING" | "SELLING") => {
+    if (inventory.length === 0 || prices.length === 0) return null;
+    return inventory.reduce((total, item) => {
+      const price = prices.find(
+        (entry) =>
+          entry.product_id === item.product_id &&
+          !entry.variant_id &&
+          entry.price_type === type &&
+          entry.status === "ACTIVE",
+      );
+      if (!price) return total;
+      return total + inventoryQuantity(item) * Number(price.amount ?? 0);
+    }, 0);
+  };
+
+  const createProduct = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormError(null);
     if (!workspace?.id) {
       setFormError("Choose or set up a workspace before adding products.");
       return;
     }
-    if (!name.trim() || !price || Number(price) < 0 || Number(costPrice || 0) < 0) {
-      setFormError("Enter a product name and valid non-negative prices.");
+    if (!name.trim()) {
+      setFormError("Enter a product name.");
       return;
     }
     setSaving(true);
     try {
       await platform.api.post(`/api/workspaces/${workspace.id}/products`, {
         name: name.trim(),
+        slug: slugify(name),
         sku: sku.trim() || undefined,
-        selling_price: Number(price),
-        cost_price: costPrice ? Number(costPrice) : undefined,
-        currency,
+        description: description.trim() || undefined,
+        productType: "PHYSICAL",
+        status: "ACTIVE",
       });
       setShowCreate(false);
       setName("");
       setSku("");
-      setPrice("");
-      setCostPrice("");
+      setDescription("");
       await load();
     } catch (err) {
-      setFormError(err instanceof Error ? err.message : "Product could not be saved.");
+      setFormError(
+        err instanceof Error ? err.message : "Product could not be saved.",
+      );
     } finally {
       setSaving(false);
     }
   };
 
+  const buyingValue = stockValue("BUYING");
+  const retailValue = stockValue("SELLING");
   const metrics = [
-    { label: "Stock cost value", value: summary ? money(summary.stock_cost_value, summary.currency ?? "TZS") : "—", icon: Wallet, className: "metric-primary" },
-    { label: "Retail value", value: summary ? money(summary.retail_value, summary.currency ?? "TZS") : "—", icon: TrendingUp, className: "metric-primary" },
-    { label: "Total products", value: summary?.total_products == null ? String(products.length) : String(summary.total_products), icon: Package, className: "metric-primary" },
-    { label: "Out of stock", value: summary?.out_of_stock == null ? "—" : String(summary.out_of_stock), icon: PackageX, className: "metric-warning" },
-    { label: "Low stock", value: summary?.low_stock == null ? "—" : String(summary.low_stock), icon: AlertTriangle, className: "metric-warning" },
-    { label: "Damaged stock", value: summary?.damaged_stock == null ? "—" : String(summary.damaged_stock), icon: PackageX, className: "metric-danger" },
+    {
+      label: "Stock cost value",
+      value: buyingValue === null ? "—" : money(buyingValue),
+      icon: Wallet,
+      className: "metric-primary",
+    },
+    {
+      label: "Retail value",
+      value: retailValue === null ? "—" : money(retailValue),
+      icon: TrendingUp,
+      className: "metric-primary",
+    },
+    {
+      label: "Total products",
+      value: String(summary?.inventory?.products ?? products.length),
+      icon: Package,
+      className: "metric-primary",
+    },
+    {
+      label: "Out of stock",
+      value:
+        summary?.inventory?.outOfStockItems == null
+          ? "—"
+          : String(summary.inventory.outOfStockItems),
+      icon: PackageX,
+      className: "metric-warning",
+    },
+    {
+      label: "Low stock",
+      value:
+        summary?.inventory?.lowStockItems == null
+          ? "—"
+          : String(summary.inventory.lowStockItems),
+      icon: AlertTriangle,
+      className: "metric-warning",
+    },
+    {
+      label: "Damaged stock",
+      value: "—",
+      icon: PackageX,
+      className: "metric-danger",
+    },
   ];
 
   if (workspaceLoading) {
-    return <main className="products-page"><div className="products-state">Loading your workspace…</div></main>;
+    return (
+      <main className="products-page">
+        <div className="products-state">Loading your workspace…</div>
+      </main>
+    );
   }
 
   return (
-    <main className="products-page" style={{ color: colors.text, background: colors.background }}>
+    <main
+      className="products-page"
+      style={{ color: colors.text, background: colors.background }}
+    >
       <header className="products-header">
         <div>
           <p className="products-eyebrow">INVENTORY</p>
           <h1>Products</h1>
-          <p className="products-subtitle">Manage your catalogue, pricing and stock across locations.</p>
+          <p className="products-subtitle">
+            Manage your catalogue, pricing and stock across locations.
+          </p>
         </div>
         <div className="products-header-actions">
-          <button type="button" className="products-ai-button" onClick={() => window.dispatchEvent(new CustomEvent("zoobusiness:open-ai-assistant", { detail: { context: "products" } }))}>
+          <button
+            type="button"
+            className="products-ai-button"
+            onClick={() =>
+              window.dispatchEvent(
+                new CustomEvent("zoobusiness:open-ai-assistant", {
+                  detail: { context: "products" },
+                }),
+              )
+            }
+          >
             <Bot size={18} /> <span>AI Assistant</span>
           </button>
-          <button type="button" className="products-primary-button" onClick={() => setShowCreate(true)}>
+          <button
+            type="button"
+            className="products-primary-button"
+            onClick={() => setShowCreate(true)}
+          >
             <Plus size={18} /> <span>Add Product</span>
           </button>
         </div>
@@ -183,8 +298,14 @@ export function ProductsPage() {
 
       <section className="products-metrics" aria-label="Inventory summary">
         {metrics.map(({ label, value, icon: Icon, className }, index) => (
-          <article className={`products-metric ${className} ${index > 2 ? "desktop-only-metric" : ""}`} key={label}>
-            <div className="products-metric-top"><span>{label}</span><Icon size={19} aria-hidden="true" /></div>
+          <article
+            className={`products-metric ${className} ${index > 2 ? "desktop-only-metric" : ""}`}
+            key={label}
+          >
+            <div className="products-metric-top">
+              <span>{label}</span>
+              <Icon size={19} aria-hidden="true" />
+            </div>
             <strong>{value}</strong>
           </article>
         ))}
@@ -198,42 +319,133 @@ export function ProductsPage() {
           </div>
           <label className="products-search">
             <Search size={18} aria-hidden="true" />
-            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search products or SKU" aria-label="Search products or SKU" />
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search products or SKU"
+              aria-label="Search products or SKU"
+            />
           </label>
         </div>
 
         {error ? (
           <div className="products-state products-error" role="alert">
             <AlertTriangle size={22} />
-            <div><strong>Could not load products</strong><p>{error}</p><button type="button" className="products-secondary-button" onClick={() => void load()}>Try again</button></div>
+            <div>
+              <strong>Could not load products</strong>
+              <p>{error}</p>
+              <button
+                type="button"
+                className="products-secondary-button"
+                onClick={() => void load()}
+              >
+                Try again
+              </button>
+            </div>
           </div>
         ) : loading ? (
           <div className="products-state">Loading catalogue…</div>
         ) : visibleProducts.length === 0 ? (
           <div className="products-empty">
-            <div className="products-empty-icon"><Package size={28} /></div>
-            <h3>{query ? "No matching products" : "Your catalogue is ready for its first product"}</h3>
-            <p>{query ? "Try another name or SKU." : "Add a product to start building your catalogue. Receiving stock is handled separately through purchasing and stock receiving."}</p>
-            {!query && <button type="button" className="products-primary-button" onClick={() => setShowCreate(true)}><Plus size={18} /> Add Product</button>}
+            <div className="products-empty-icon">
+              <Package size={28} />
+            </div>
+            <h3>
+              {query
+                ? "No matching products"
+                : "Your catalogue is ready for its first product"}
+            </h3>
+            <p>
+              {query
+                ? "Try another name or SKU."
+                : "Add a product to start building your catalogue. Stock is added separately through purchasing and receiving."}
+            </p>
+            {!query && (
+              <button
+                type="button"
+                className="products-primary-button"
+                onClick={() => setShowCreate(true)}
+              >
+                <Plus size={18} /> Add Product
+              </button>
+            )}
           </div>
         ) : (
           <div className="products-grid">
             {visibleProducts.map((product) => {
-              const category = typeof product.category === "string" ? product.category : product.category?.name;
-              const stock = inventoryItem?.quantity_available ?? inventoryItem?.available_quantity ?? product.available_quantity ?? product.quantity_available ?? product.stock_quantity;
+              const sellingPrice = prices.find(
+                (entry) =>
+                  entry.product_id === product.id &&
+                  !entry.variant_id &&
+                  entry.price_type === "SELLING" &&
+                  entry.status === "ACTIVE",
+              );
+              const inventoryItem = inventory.find(
+                (entry) => entry.product_id === product.id,
+              );
+              const category =
+                typeof product.category === "string"
+                  ? product.category
+                  : product.category?.name;
+              const stock =
+                inventoryItem?.quantity_available ??
+                inventoryItem?.available_quantity;
+
               return (
                 <article className="product-card" key={product.id}>
                   <div className="product-image">
-                    {product.image_url ? <img src={product.image_url} alt={product.name} loading="lazy" /> : <Package size={34} aria-hidden="true" />}
-                    {product.status && <span className="product-status">{product.status.replaceAll("_", " ")}</span>}
+                    {product.image_url ? (
+                      <img
+                        src={product.image_url}
+                        alt={product.name}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <Package size={34} aria-hidden="true" />
+                    )}
+                    {product.status && (
+                      <span className="product-status">
+                        {product.status.replaceAll("_", " ")}
+                      </span>
+                    )}
                   </div>
                   <div className="product-card-content">
-                    <p className="product-category">{category || "Uncategorised"}</p>
+                    <p className="product-category">
+                      {category || "Uncategorised"}
+                    </p>
                     <h3 title={product.name}>{product.name}</h3>
-                    {product.sku && <p className="product-sku">SKU: {product.sku}</p>}
+                    {product.sku && (
+                      <p className="product-sku">SKU: {product.sku}</p>
+                    )}
                     <div className="product-card-bottom">
-                      <div><strong>{sellingPrice ? money(sellingPrice.amount, sellingPrice.currency ?? "TZS") : "Price not set"}</strong><span>{stock == null ? "Stock not available" : `Stock: ${stock}`}</span></div>
-                      <button type="button" className="product-add-cart" aria-label={`Add ${product.name} to cart`} title="Add to cart" onClick={() => window.dispatchEvent(new CustomEvent("zoobusiness:add-to-cart", { detail: { productId: product.id } }))}><CirclePlus size={22} /></button>
+                      <div>
+                        <strong>
+                          {sellingPrice
+                            ? money(
+                                Number(sellingPrice.amount),
+                                sellingPrice.currency ?? "TZS",
+                              )
+                            : "Price not set"}
+                        </strong>
+                        <span>
+                          {stock == null ? "Stock not available" : `Stock: ${stock}`}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        className="product-add-cart"
+                        aria-label={`Add ${product.name} to cart`}
+                        title="Add to cart"
+                        onClick={() =>
+                          window.dispatchEvent(
+                            new CustomEvent("zoobusiness:add-to-cart", {
+                              detail: { productId: product.id },
+                            }),
+                          )
+                        }
+                      >
+                        <CirclePlus size={22} />
+                      </button>
                     </div>
                   </div>
                 </article>
@@ -243,22 +455,99 @@ export function ProductsPage() {
         )}
       </section>
 
-      <button type="button" className="products-mobile-add" onClick={() => setShowCreate(true)}><Plus size={20} /> Add Product</button>
+      <button
+        type="button"
+        className="products-mobile-add"
+        onClick={() => setShowCreate(true)}
+      >
+        <Plus size={20} /> Add Product
+      </button>
 
       {showCreate && (
-        <div className="products-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setShowCreate(false); }}>
-          <section className="products-modal" role="dialog" aria-modal="true" aria-labelledby="add-product-title">
-            <header className="products-modal-header"><div><h2 id="add-product-title">Add product</h2><p>Create catalogue details first. Stock is added through receiving.</p></div><button type="button" className="products-icon-button" aria-label="Close" onClick={() => setShowCreate(false)}><X size={20} /></button></header>
-            <form onSubmit={(event) => void createProduct(event)}>
-              <label>Product name <input required value={name} onChange={(event) => setName(event.target.value)} placeholder="e.g. Fertilizer 50kg" autoFocus /></label>
-              <label>SKU / barcode <input value={sku} onChange={(event) => setSku(event.target.value)} placeholder="Optional product code" /></label>
-              <div className="products-form-row">
-                <label>Cost price <input type="number" min="0" step="0.01" value={costPrice} onChange={(event) => setCostPrice(event.target.value)} placeholder="0.00" /></label>
-                <label>Selling price <input required type="number" min="0" step="0.01" value={price} onChange={(event) => setPrice(event.target.value)} placeholder="0.00" /></label>
+        <div
+          className="products-modal-backdrop"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setShowCreate(false);
+          }}
+        >
+          <section
+            className="products-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="add-product-title"
+          >
+            <header className="products-modal-header">
+              <div>
+                <h2 id="add-product-title">Add product</h2>
+                <p>
+                  Create the catalogue record first. Prices and stock are
+                  managed in their respective workflows.
+                </p>
               </div>
-              <label>Currency <select value={currency} onChange={(event) => setCurrency(event.target.value)}><option value="TZS">TZS — Tanzanian Shilling</option><option value="USD">USD — US Dollar</option></select></label>
-              {formError && <p className="products-form-error" role="alert">{formError}</p>}
-              <footer className="products-modal-footer"><button type="button" className="products-secondary-button" onClick={() => setShowCreate(false)} disabled={saving}>Cancel</button><button type="submit" className="products-primary-button" disabled={saving}>{saving ? "Saving…" : "Save product"}</button></footer>
+              <button
+                type="button"
+                className="products-icon-button"
+                aria-label="Close"
+                onClick={() => setShowCreate(false)}
+              >
+                <X size={20} />
+              </button>
+            </header>
+            <form onSubmit={(event) => void createProduct(event)}>
+              <label>
+                Product name
+                <input
+                  required
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  placeholder="e.g. Fertilizer 50kg"
+                  autoFocus
+                />
+              </label>
+              <label>
+                SKU / barcode
+                <input
+                  value={sku}
+                  onChange={(event) => setSku(event.target.value)}
+                  placeholder="Optional product code"
+                />
+              </label>
+              <label>
+                Description
+                <textarea
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
+                  placeholder="Product details (optional)"
+                  rows={3}
+                />
+              </label>
+              <p className="products-form-note">
+                Adding a product does not create stock. Use purchasing and
+                receiving to record stock at a shop or warehouse.
+              </p>
+              {formError && (
+                <p className="products-form-error" role="alert">
+                  {formError}
+                </p>
+              )}
+              <footer className="products-modal-footer">
+                <button
+                  type="button"
+                  className="products-secondary-button"
+                  onClick={() => setShowCreate(false)}
+                  disabled={saving}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="products-primary-button"
+                  disabled={saving}
+                >
+                  {saving ? "Saving…" : "Save product"}
+                </button>
+              </footer>
             </form>
           </section>
         </div>

@@ -5,7 +5,7 @@ import { Button, Container, Flex, Heading, Input, Link, Stack, Text } from "@/de
 import { AppIcon } from "@/design-system/icons";
 import { useLanguage } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
-import { authErrorMessage, login, saveAuthSession } from "@/app/auth/auth-api";
+import { authErrorMessage, getCurrentWorkspace, login, saveAuthSession } from "@/app/auth/auth-api";
 import { PublicShell } from "@/shells/PublicShell";
 import { useTheme } from "@/theme/hooks";
 import darkLogo from "@/assets/brand/zoobusiness.dark.png.png";
@@ -45,8 +45,27 @@ export function LoginPage() {
     try {
       const session = await login(email.trim(), password, language);
       saveAuthSession(session);
-      setNotice(session.user.emailVerified ? t("welcomeBack") : t("verifyNotice"));
-      navigate("/business-setup", { replace: true });
+      if (!session.user.emailVerified) {
+        setNotice(t("verifyNotice"));
+        return;
+      }
+
+      // Returning users go to their workspace; only incomplete accounts need onboarding.
+      try {
+        const workspace = await getCurrentWorkspace(language);
+        if (workspace.business_category_id) {
+          navigate("/dashboard", { replace: true });
+        } else {
+          navigate("/business-setup", { replace: true });
+        }
+      } catch (workspaceError) {
+        const message = workspaceError instanceof Error ? workspaceError.message : "";
+        if (message.toLowerCase().includes("no active workspace found")) {
+          navigate("/business-setup", { replace: true });
+          return;
+        }
+        throw workspaceError;
+      }
     } catch (caught) {
       const message = authErrorMessage(caught, language);
       if (message.toLowerCase().includes("email verification is required")) {

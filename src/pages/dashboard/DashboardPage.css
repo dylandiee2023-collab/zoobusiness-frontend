@@ -3,7 +3,7 @@
   max-width: 1440px;
   margin: 0 auto;
   padding: 24px;
-  color: #142018;
+  color: var(--zb-colors-text, #142018);
 }
 
 .dashboard-page-header,
@@ -35,7 +35,7 @@
 }
 .dashboard-subtitle {
   margin: 10px 0 0;
-  color: #647067;
+  color: var(--zb-colors-text-muted, #647067);
   font-size: 14px;
   line-height: 1.5;
 }
@@ -60,7 +60,7 @@
   cursor: wait;
 }
 
-.dashboard-sales-panel {
+ .dashboard-sales-panel {\n  color: #142018;
   overflow: hidden;
   padding: 24px;
   border: 1px solid #bde8c4;
@@ -164,7 +164,7 @@
   gap: 14px;
   margin-top: 18px;
 }
-.dashboard-metric-card {
+.dashboard-metric-card {\n  color: #142018;
   min-width: 0;
   padding: 18px;
   border: 1px solid #e2e8e3;
@@ -216,7 +216,7 @@
   gap: 16px;
   margin-top: 18px;
 }
-.dashboard-detail-card {
+.dashboard-detail-card {\n  color: #142018;
   padding: 22px;
   border: 1px solid #e0e8e1;
   border-radius: 18px;

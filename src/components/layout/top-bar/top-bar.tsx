@@ -1,6 +1,6 @@
-import { Bell, Monitor, Moon, Search, ShoppingCart, Sun, UserRound } from "lucide-react";
+import { ArrowLeft, Bell, Monitor, Moon, Search, ShoppingCart, Sun, UserRound } from "lucide-react";
 import { useMemo, useRef, useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { useLanguage } from "@/app/language/use-language";
 import { useTheme } from "@/theme/hooks";
@@ -9,12 +9,34 @@ import { BrandLogo } from "@/components/brand/components/brand-logo/brand-logo";
 import { useTopBar } from "./context";
 import { topBarStyles } from "./top-bar.styles";
 
+const ROUTE_CONTEXT: Record<string, { group: string; title: string }> = {
+  "/dashboard": { group: "Main", title: "Dashboard" },
+  "/products": { group: "Main", title: "Products" },
+  "/inventory": { group: "Main", title: "Inventory" },
+  "/sales": { group: "Main", title: "Sales" },
+  "/pos": { group: "Main", title: "Point of sale" },
+  "/customers": { group: "Main", title: "Customers" },
+  "/customers/messages": { group: "Tools & communication", title: "Customer chats" },
+  "/orders": { group: "Operations", title: "Orders" },
+  "/purchases": { group: "Operations", title: "Purchasing" },
+  "/warehouses": { group: "Operations", title: "Warehouses" },
+  "/expenses": { group: "Operations", title: "Expenses" },
+  "/reports": { group: "Insights", title: "Reports" },
+  "/ai-assistant": { group: "Tools & communication", title: "AI assistant" },
+  "/team": { group: "Workspace", title: "Team & permissions" },
+  "/integrations": { group: "Workspace", title: "Integrations" },
+  "/settings": { group: "Workspace", title: "Settings" },
+  "/profile": { group: "Workspace", title: "Settings" },
+};
+
 export function TopBar() {
   const { state, actions } = useTopBar();
   const { language } = useLanguage();
   const { mode, setMode } = useTheme();
   const { isMobile } = useResponsive();
   const navigate = useNavigate();
+  const location = useLocation();
+  const routeContext = ROUTE_CONTEXT[location.pathname] ?? { group: "ZooBusiness", title: "Workspace" };
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -54,7 +76,28 @@ export function TopBar() {
   return (
     <header className={`dashboard-topbar${isMobile ? " is-mobile" : ""}`} style={topBarStyles.root}>
       <div className="zb-topbar-start">
-        {isMobile ? <div className="zb-mobile-brand" aria-label="ZooBusiness"><BrandLogo size={166} /></div> : null}
+        {isMobile ? (
+          <>
+            <button
+              type="button"
+              className="zb-mobile-back-button"
+              aria-label="Go back"
+              title="Go back"
+              onClick={() => {
+                if (window.history.state?.idx > 0) navigate(-1);
+                else navigate("/dashboard", { replace: true });
+              }}
+            >
+              <ArrowLeft size={20} aria-hidden="true" />
+            </button>
+            <div className="zb-mobile-brand" aria-label="ZooBusiness"><BrandLogo size={148} /></div>
+          </>
+        ) : (
+          <div className="zb-topbar-location" aria-live="polite">
+            <span>{routeContext.group}</span>
+            <strong>{routeContext.title}</strong>
+          </div>
+        )}
         <button type="button" className="zb-topbar-search-trigger" aria-label="Open global search" title="Search ZooBusiness" onClick={() => setSearchOpen(true)}>
           <Search size={20} aria-hidden="true" />
           {!isMobile ? <span>{language === "sw" ? "Tafuta bidhaa, oda, wateja..." : "Search anything in ZooBusiness..."}</span> : null}
@@ -72,7 +115,7 @@ export function TopBar() {
           <Bell size={20} />
           {state.unreadNotifications > 0 ? <span className="zb-notification-dot" /> : null}
         </button>
-        {!isMobile ? <button type="button" className="zb-topbar-icon-button zb-profile-button" aria-label="Open profile" title="Profile" onClick={() => navigate("/profile")}><UserRound size={19} /></button> : null}
+        {!isMobile ? <button type="button" className="zb-topbar-icon-button zb-profile-button" aria-label="Open profile" title="Profile" onClick={() => navigate("/settings")}><UserRound size={19} /></button> : null}
       </nav>
       {searchOpen ? (
         <div className="zb-global-search-backdrop" role="presentation" onMouseDown={(event) => {

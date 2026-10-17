@@ -374,7 +374,8 @@ export function DashboardPage() {
       <section className="dashboard-task-card dashboard-detail-card">
           <div className="dashboard-detail-heading">
             <span className="dashboard-detail-icon"><ClipboardCheck size={20} /></span>
-            <div><h2>Your next best actions</h2><p>Tasks and recommendations tailored to your workspace</p></div>
+            <div><h2>Your best actions</h2><p>Recommended tasks to help you run and grow your business.</p></div>
+            <button className="dashboard-task-see-more" type="button" onClick={() => navigate("/tasks")}>See more <ChevronDown size={15} /></button>
           </div>
           <div className="dashboard-task-list">
             <button type="button" onClick={() => navigate("/orders")}><span><strong>Review pending orders</strong><small>Keep customer orders moving</small></span><ChevronDown size={17} /></button>

@@ -30,10 +30,38 @@ function endpoint(path: string): string {
   return apiUrl("/auth/" + path);
 }
 
+const API_REQUEST_TIMEOUT_MS = 15_000;
+
+/**
+ * Bound API requests so a stalled connection or CORS/network failure cannot
+ * leave authentication UI waiting forever. Never logs request bodies/tokens.
+ */
+async function fetchWithTimeout(url: string, init: RequestInit): Promise<Response> {
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), API_REQUEST_TIMEOUT_MS);
+
+  try {
+    return await fetch(url, { ...init, signal: controller.signal });
+  } catch (error) {
+    const reason = controller.signal.aborted ? "timeout" : "network";
+    console.error("[ZooBusiness API] Request failed", {
+      url,
+      method: init.method ?? "GET",
+      reason,
+    });
+    if (controller.signal.aborted) {
+      throw new Error("API_REQUEST_TIMEOUT");
+    }
+    throw error;
+  } finally {
+    window.clearTimeout(timeoutId);
+  }
+}
+
 async function post<T>(path: string, body: unknown, language: Language): Promise<ApiEnvelope<T>> {
   let response: Response;
   try {
-    response = await fetch(endpoint(path), {
+    response = await fetchWithTimeout(endpoint(path), {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept-Language": language },
       body: JSON.stringify(body),
@@ -112,14 +140,14 @@ async function authorizedRequest<T>(
   });
   let response: Response;
   try {
-    response = await fetch(requestUrl, makeInit(window.sessionStorage.getItem("zoobusiness.accessToken")));
+    response = await fetchWithTimeout(requestUrl, makeInit(window.sessionStorage.getItem("zoobusiness.accessToken")));
   } catch {
     throw new Error(resolvePublicCopy(language, "genericError"));
   }
   if (response.status === 401 && window.sessionStorage.getItem("zoobusiness.refreshToken")) {
     try {
       const refreshed = await refreshAuthSession(language);
-      response = await fetch(requestUrl, makeInit(refreshed.accessToken));
+      response = await fetchWithTimeout(requestUrl, makeInit(refreshed.accessToken));
     } catch {
       window.sessionStorage.removeItem("zoobusiness.accessToken");
       window.sessionStorage.removeItem("zoobusiness.refreshToken");

@@ -1,17 +1,18 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  AlertTriangle,
   ArrowDownRight,
   ArrowUpRight,
   BarChart3,
   Boxes,
+  Bot,
   CircleDollarSign,
   ClipboardList,
   LoaderCircle,
   Package,
   RefreshCw,
   ShoppingCart,
+  Users,
 } from "lucide-react";
 
 import { DashboardLayout } from "@/layouts/dashboard";
@@ -97,8 +98,6 @@ export function DashboardPage() {
   const navigate = useNavigate();
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [reloadKey, setReloadKey] = useState(0);
 
   const dashboardService = useMemo(
     () => new DashboardService(platform.api),
@@ -121,13 +120,8 @@ export function DashboardPage() {
       .then((data) => {
         if (active) setSummary(data);
       })
-      .catch((caught: unknown) => {
-        if (!active) return;
-        setError(
-          caught instanceof Error
-            ? caught.message
-            : "We couldn't load your business summary.",
-        );
+      .catch(() => {
+        if (active) setSummary(null);
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -141,7 +135,6 @@ export function DashboardPage() {
     navigate,
     platform.authentication.authenticated,
     platform.authentication.ready,
-    reloadKey,
     workspace?.id,
     workspaceLoading,
   ]);
@@ -156,6 +149,9 @@ export function DashboardPage() {
     ...(summary?.sales.trend.map((point) => point.amount) ?? []),
   );
   const currency = summary?.currency ?? "TZS";
+  const stockAvailability = summary && summary.inventory.trackedItems > 0
+    ? Math.max(0, Math.min(100, Math.round(((summary.inventory.trackedItems - summary.inventory.lowStockItems) / summary.inventory.trackedItems) * 100)))
+    : null;
 
   if (
     workspaceLoading ||
@@ -174,55 +170,9 @@ export function DashboardPage() {
   return (
     <DashboardLayout>
       <div className="dashboard-page">
-        <header className="dashboard-page-header">
-          <div>
-            <p className="dashboard-eyebrow">BUSINESS OVERVIEW</p>
-            <h1>Good business starts with a clear view.</h1>
-            <p className="dashboard-subtitle">
-              Track sales, orders, stock and expenses for{" "}
-              {workspace?.name ?? "your business"}.
-            </p>
-          </div>
-          <button
-            className="dashboard-refresh-button"
-            type="button"
-            onClick={() => {
-              setError(null);
-              setLoading(true);
-              setReloadKey((key) => key + 1);
-            }}
-            disabled={loading}
-          >
-            <RefreshCw
-              size={16}
-              className={loading ? "dashboard-spinner" : ""}
-            />
-            Refresh
-          </button>
-        </header>
-
-        {error || workspaceUnavailable ? (
-          <div className="dashboard-error" role="alert">
-            <AlertTriangle size={20} />
-            <div>
-              <strong>Dashboard data couldn't be loaded</strong>
-              <p>{error ?? "No active business workspace is available."}</p>
-              <button
-                type="button"
-                onClick={() => {
-                  setError(null);
-                  setLoading(true);
-                  setReloadKey((key) => key + 1);
-                }}
-              >
-                Try again
-              </button>
-            </div>
-          </div>
-        ) : null}
-
-        {summary ? (
+{summary ? (
           <>
+            <div className="dashboard-insights-grid">
             <section
               className="dashboard-sales-panel"
               aria-labelledby="dashboard-sales-title"
@@ -268,40 +218,30 @@ export function DashboardPage() {
                     </div>
                   );
                 })}
+</div>
+            </section>
+            <section className="dashboard-health-card" aria-labelledby="dashboard-health-title">
+              <div className="dashboard-health-copy">
+                <p className="dashboard-section-kicker">BUSINESS HEALTH</p>
+                <h2 id="dashboard-health-title">Stock availability</h2>
+                <p>Share of tracked items not currently flagged as low stock.</p>
+              </div>
+              <div className="dashboard-health-visual">
+                <div className="dashboard-health-ring" style={{ "--health-score": `${stockAvailability ?? 0}%` } as CSSProperties}>
+                  <div><strong>{stockAvailability === null ? "—" : `${stockAvailability}%`}</strong><span>not low-stock</span></div>
+                </div>
+                <div className="dashboard-health-legend"><span><i className="health-good" />Not flagged low-stock</span><span><i className="health-watch" />Low-stock items</span></div>
               </div>
             </section>
+            </div>
 
-            <section
-              className="dashboard-metrics-grid"
-              aria-label="Business metrics"
-            >
-              <MetricCard
-                title="Sales"
-                value={formatMoney(summary.sales.today, currency)}
-                change={summary.sales.changePercent}
-                icon={<CircleDollarSign size={23} />}
-                tone="green"
-              />
-              <MetricCard
-                title="Orders"
-                value={formatNumber(summary.orders.today)}
-                change={summary.orders.changePercent}
-                icon={<ShoppingCart size={23} />}
-                tone="blue"
-              />
-              <MetricCard
-                title="Products tracked"
-                value={formatNumber(summary.inventory.products)}
-                icon={<Package size={23} />}
-                tone="orange"
-              />
-              <MetricCard
-                title="Expenses"
-                value={formatMoney(summary.expenses.today, currency)}
-                change={summary.expenses.changePercent}
-                icon={<ClipboardList size={23} />}
-                tone="purple"
-              />
+            <section className="dashboard-metrics-grid" aria-label="Business metrics">
+              <MetricCard title="Total sales" value={summary ? formatMoney(summary.sales.today, currency) : "—"} change={summary?.sales.changePercent} icon={<CircleDollarSign size={23} />} tone="green" />
+              <MetricCard title="Orders today" value={summary ? formatNumber(summary.orders.today) : "—"} icon={<ShoppingCart size={23} />} tone="blue" />
+              <MetricCard title="Total products" value={summary ? formatNumber(summary.inventory.products) : "—"} icon={<Package size={23} />} tone="orange" />
+              <MetricCard title="Customers" value={summary ? formatNumber(summary.customers.total) : "—"} icon={<Users size={23} />} tone="purple" />
+              <MetricCard title="Out of stock" value={summary ? formatNumber(summary.inventory.outOfStockItems) : "—"} icon={<Boxes size={23} />} tone="orange" />
+              <MetricCard title="Expenses" value={summary ? formatMoney(summary.expenses.today, currency) : "—"} change={summary?.expenses.changePercent} icon={<ClipboardList size={23} />} tone="purple" />
             </section>
 
             <section className="dashboard-detail-grid">
@@ -366,7 +306,63 @@ export function DashboardPage() {
           </>
         ) : loading ? (
           <SummaryLoading />
-        ) : null}
+        ) : (
+          <section className="dashboard-summary-shell" aria-label="Dashboard summary layout">
+            <div className="dashboard-insights-grid">
+            <section className="dashboard-sales-panel dashboard-shell-sales">
+              <div className="dashboard-sales-top">
+                <div>
+                  <p className="dashboard-section-kicker">TODAY</p>
+                  <h2>Total sales</h2>
+                  <p className="dashboard-sales-total">—</p>
+                  <p className="dashboard-shell-note">Business figures will appear here when the summary API is connected.</p>
+                </div>
+                <div className="dashboard-period-chip"><BarChart3 size={16} />Last 7 days</div>
+              </div>
+              <p className="dashboard-shell-note">Sales trend is unavailable until AutoBots returns summary data.</p>
+            </section>
+            <section className="dashboard-health-card" aria-labelledby="dashboard-health-title">
+              <div className="dashboard-health-copy">
+                <p className="dashboard-section-kicker">BUSINESS HEALTH</p>
+                <h2 id="dashboard-health-title">Stock availability</h2>
+                <p>Health indicators will populate when summary data is available.</p>
+              </div>
+              <div className="dashboard-health-visual">
+                <div className="dashboard-health-ring dashboard-health-ring-empty"><div><strong>—</strong><span>awaiting data</span></div></div>
+                <div className="dashboard-health-legend"><span><i className="health-good" />Not flagged low-stock</span><span><i className="health-watch" />Low-stock items</span></div>
+              </div>
+            </section>
+            </div>
+            <section className="dashboard-metrics-grid" aria-label="Business metrics">
+              <MetricCard title="Total sales" value="—" icon={<CircleDollarSign size={23} />} tone="green" />
+              <MetricCard title="Available sales" value="—" icon={<ShoppingCart size={23} />} tone="blue" />
+              <MetricCard title="Total products" value="—" icon={<Package size={23} />} tone="orange" />
+              <MetricCard title="Customers" value="—" icon={<Users size={23} />} tone="purple" />
+              <MetricCard title="Out of stock" value="—" icon={<Boxes size={23} />} tone="orange" />
+              <MetricCard title="Expenses" value="—" icon={<ClipboardList size={23} />} tone="purple" />
+            </section>
+            
+          </section>
+        )}
+<section className="dashboard-quick-actions">
+          <div className="dashboard-quick-actions-heading"><h2>Quick actions</h2><span>See all</span></div>
+          <div className="dashboard-quick-actions-grid">
+            <button type="button" onClick={() => navigate("/products")}><Package size={26} /><strong>Add product</strong><span>Manage your catalogue</span></button>
+            <button type="button" onClick={() => navigate("/ai-assistant")}><Bot size={26} /><strong>AI assistant</strong><span>Get business insights</span></button>
+            <button type="button" onClick={() => navigate("/pos")}><ShoppingCart size={26} /><strong>New sale</strong><span>Open point of sale</span></button>
+            <button type="button" onClick={() => navigate("/customers")}><Users size={26} /><strong>Customers</strong><span>Manage customer records</span></button>
+            <button type="button" onClick={() => navigate("/orders")}><ClipboardList size={26} /><strong>Orders</strong><span>Review and fulfil orders</span></button>
+            <button type="button" onClick={() => navigate("/reports")}><BarChart3 size={26} /><strong>Reports</strong><span>Review business activity</span></button>
+          </div>
+        </section>
+        <section className="dashboard-detail-card dashboard-recent-activity">
+          <div className="dashboard-detail-heading"><span className="dashboard-detail-icon"><RefreshCw size={20} /></span><div><h2>Recent activity</h2><p>Latest business events will appear here</p></div></div>
+          <p className="dashboard-placeholder-copy">Activity feed will be connected when the AutoBots activity endpoint is available.</p>
+        </section>
+        <section className="dashboard-detail-card dashboard-analytics-placeholder">
+          <div className="dashboard-detail-heading"><span className="dashboard-detail-icon"><BarChart3 size={20} /></span><div><h2>Business analytics</h2><p>Sales, customer and inventory insights</p></div></div>
+          <p className="dashboard-placeholder-copy">Additional analytics will appear here when their data services are connected.</p>
+        </section>
       </div>
     </DashboardLayout>
   );

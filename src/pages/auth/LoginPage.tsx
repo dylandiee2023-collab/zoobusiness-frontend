@@ -5,7 +5,9 @@ import { Button, Container, Flex, Heading, Input, Link, Stack, Text } from "@/de
 import { AppIcon } from "@/design-system/icons";
 import { useLanguage } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
-import { authErrorMessage, login, saveAuthSession } from "@/app/auth/auth-api";
+import { authErrorMessage } from "@/app/auth/auth-api";
+import { ApiError } from "@/platform/api";
+import { usePlatform } from "@/platform/providers/use-platform";
 import { PublicShell } from "@/shells/PublicShell";
 import { useTheme } from "@/theme/hooks";
 import darkLogo from "@/assets/brand/zoobusiness.dark.png.png";
@@ -13,6 +15,7 @@ import lightLogo from "@/assets/brand/zoobusiness.light.png.png";
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const platform = usePlatform();
   const { theme, mode, toggleMode } = useTheme();
   const { language, setLanguage } = useLanguage();
   const t = (key: Parameters<typeof resolvePublicCopy>[1]) => resolvePublicCopy(language, key);
@@ -42,13 +45,41 @@ export function LoginPage() {
     setNotice("");
     if (!email.trim() || !password) { setError(t("requiredFields")); return; }
     setBusy(true);
+    console.info("[ZooBusiness Login] Submit handler started");
     try {
-      const session = await login(email.trim(), password, language);
-      saveAuthSession(session);
-      setNotice(session.user.emailVerified ? t("welcomeBack") : t("verifyNotice"));
-      navigate("/business-setup", { replace: true });
+      // Use the platform authentication service so protected routes, the API
+      // client, and workspace providers receive the same authenticated state.
+      await platform.authentication.login(email.trim(), password);
+      const user = platform.authentication.user;
+      if (!user) throw new Error("LOGIN_USER_MISSING");
+
+      if (!user.emailVerified) {
+        window.sessionStorage.setItem("zoobusiness.pendingVerificationEmail", email.trim());
+        navigate("/verify-email", { replace: true });
+        return;
+      }
+
+      let setupComplete = false;
+      try {
+        const workspace = await platform.api.get<{ business_category_id: string | null }>(
+          "/api/workspaces/current",
+        );
+        setupComplete = Boolean(workspace.business_category_id);
+      } catch (caught) {
+        // A user without a workspace has not completed setup yet.
+        if (!(caught instanceof ApiError) || caught.status !== 404) throw caught;
+      }
+
+      const destination = setupComplete ? "/dashboard" : "/business-setup";
+      console.info("[ZooBusiness Login] Redirecting after login", {
+        emailVerified: user.emailVerified,
+        setupComplete,
+        destination,
+      });
+      navigate(destination, { replace: true });
     } catch (caught) {
       const message = authErrorMessage(caught, language);
+      console.error("[ZooBusiness Login] Login flow failed", { message });
       if (message.toLowerCase().includes("email verification is required")) {
         window.sessionStorage.setItem("zoobusiness.pendingVerificationEmail", email.trim());
         navigate("/verify-email", { replace: true });

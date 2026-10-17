@@ -29,6 +29,10 @@ export function BusinessSetupPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    if (setupComplete) navigate("/dashboard", { replace: true });
+  }, [setupComplete, navigate]);
+
+  useEffect(() => {
     let active = true;
     async function load() {
       if (!window.sessionStorage.getItem("zoobusiness.accessToken")) {
@@ -98,7 +102,7 @@ export function BusinessSetupPage() {
                   ? "Taarifa za workspace hii zimehifadhiwa na kuthibitishwa na mfumo."
                   : "This workspace has been saved and confirmed by the business platform."}
               </Text>
-              <Button onClick={() => navigate("/", { replace: true })}>{sw ? "Rudi mwanzo" : "Return home"}</Button>
+              <Button onClick={() => navigate("/dashboard", { replace: true })}>{sw ? "Fungua dashibodi" : "Go to dashboard"}</Button>
             </Stack>
           ) : busy ? <Text color={theme.colors.textSecondary}>{t("loading")}</Text> : (
             <form onSubmit={submit}>

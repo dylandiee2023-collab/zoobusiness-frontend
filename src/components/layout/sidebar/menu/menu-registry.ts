@@ -12,7 +12,7 @@ export const MENU_REGISTRY: readonly MenuGroup[] = [
         id: "dashboard",
         title: "Dashboard",
         icon: "layout-dashboard",
-        route: "/",
+        route: "/dashboard",
       },
       {
         id: "products",

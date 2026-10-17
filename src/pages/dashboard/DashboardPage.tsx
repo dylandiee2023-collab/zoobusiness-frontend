@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowDownRight,
@@ -224,7 +224,7 @@ export function DashboardPage() {
                 <p>Share of tracked items not currently flagged as low stock.</p>
               </div>
               <div className="dashboard-health-visual">
-                <div className="dashboard-health-ring" style={{ "--health-score": `${Math.max(0, Math.min(100, Math.round(((summary.inventory.trackedItems - summary.inventory.lowStockItems) / Math.max(1, summary.inventory.trackedItems)) * 100)))}%` } as React.CSSProperties}>
+                <div className="dashboard-health-ring" style={{ "--health-score": `${Math.max(0, Math.min(100, Math.round(((summary.inventory.trackedItems - summary.inventory.lowStockItems) / Math.max(1, summary.inventory.trackedItems)) * 100)))}%` } as CSSProperties}>
                   <div><strong>{summary.inventory.trackedItems > 0 ? `${Math.max(0, Math.min(100, Math.round(((summary.inventory.trackedItems - summary.inventory.lowStockItems) / Math.max(1, summary.inventory.trackedItems)) * 100)))}%` : "—"}</strong><span>in stock</span></div>
                 </div>
                 <div className="dashboard-health-legend"><span><i className="health-good" />Healthy stock</span><span><i className="health-watch" />Low stock</span><span><i className="health-risk" />Needs review</span></div>

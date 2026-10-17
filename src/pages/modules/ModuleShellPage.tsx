@@ -3,6 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 
 import { DashboardLayout } from "@/layouts/dashboard";
 
+import "./ModuleShellPage.css";
+
 const MODULES: Record<string, { title: string; group: string; description: string; tasks: string[] }> = {
   "/inventory": { title: "Inventory", group: "Main", description: "Track stock, stock movements, low-stock alerts and stock health.", tasks: ["Stock overview", "Stock movements", "Low-stock monitoring"] },
   "/sales": { title: "Sales", group: "Main", description: "Review sales transactions, receipts, returns and payment status.", tasks: ["Sales register", "Returns and adjustments", "Payment status"] },

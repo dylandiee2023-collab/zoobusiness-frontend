@@ -34,8 +34,7 @@ export function TopBar() {
     (item.title + " " + item.detail + " " + item.keywords).toLowerCase().includes(searchQuery.trim().toLowerCase())
   );
   useEffect(() => {
-    if (!searchOpen) return;
-    const timer = window.setTimeout(() => searchInputRef.current?.focus(), 0);
+    const timer = searchOpen ? window.setTimeout(() => searchInputRef.current?.focus(), 0) : undefined;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setSearchOpen(false);
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
@@ -44,7 +43,10 @@ export function TopBar() {
       }
     };
     window.addEventListener("keydown", onKeyDown);
-    return () => { window.clearTimeout(timer); window.removeEventListener("keydown", onKeyDown); };
+    return () => {
+      if (timer !== undefined) window.clearTimeout(timer);
+      window.removeEventListener("keydown", onKeyDown);
+    };
   }, [searchOpen]);
   const cycleTheme = () => setMode(mode === "system" ? "light" : mode === "light" ? "dark" : "system");
   const ThemeIcon = mode === "system" ? Monitor : mode === "light" ? Sun : Moon;

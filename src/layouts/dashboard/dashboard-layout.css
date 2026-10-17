@@ -262,3 +262,34 @@
   .zb-mobile-bottom-nav .zb-pos-bottom-link.is-active { background: var(--zb-colors-primary); color: var(--zb-colors-onPrimary); }
   .zb-mobile-bottom-nav .zb-pos-bottom-link span { font-size: 10px; font-weight: 800; }
 }
+
+
+/* Final dashboard shell alignment: keep the desktop sidebar above the content
+   header and reserve the header's horizontal space for the sidebar. */
+@media (min-width: 768px) {
+  .dashboard-layout-root aside[aria-label="Application sidebar"] {
+    z-index: 70 !important;
+  }
+  .dashboard-layout-root .dashboard-topbar {
+    left: 280px !important;
+    right: 0 !important;
+    width: auto !important;
+    z-index: 60 !important;
+  }
+  .dashboard-layout-root[data-sidebar-mode="collapsed"] .dashboard-topbar {
+    left: 72px !important;
+  }
+  .dashboard-layout-root[data-sidebar-mode="hidden"] .dashboard-topbar {
+    left: 0 !important;
+  }
+}
+
+/* POS remains visually prominent in the mobile dock without a white border. */
+@media (max-width: 767px) {
+  .zb-mobile-bottom-nav .zb-pos-bottom-link,
+  .zb-mobile-bottom-nav .zb-pos-bottom-link.is-active {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+  }
+}

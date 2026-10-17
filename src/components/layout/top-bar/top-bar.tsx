@@ -1,4 +1,4 @@
-import { Bell, MoreVertical, Monitor, Moon, Search, ShoppingCart, Sun, UserRound } from "lucide-react";
+import { ArrowLeft, Bell, MoreVertical, Monitor, Moon, Search, ShoppingCart, Sun, UserRound } from "lucide-react";
 import { useMemo, useRef, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -39,6 +39,19 @@ export function TopBar() {
   const routeKey = Object.keys(ROUTE_CONTEXT).sort((a, b) => b.length - a.length).find((path) => location.pathname === path || location.pathname.startsWith(path + "/"));
   const routeContext = routeKey ? ROUTE_CONTEXT[routeKey] : { group: "ZooBusiness", title: "Workspace" };
   const isHome = location.pathname === "/" || location.pathname === "/dashboard";
+  const mobilePrimaryRoutes = ["/dashboard", "/inventory", "/ai-assistant", "/profile", "/settings"];
+  const isMobilePrimaryRoute = mobilePrimaryRoutes.includes(location.pathname);
+  const mobileHeaderConfig = useMemo(() => {
+    if (isHome) return { search: true, notifications: true, more: false, back: false };
+    if (location.pathname === "/inventory") return { search: true, notifications: false, more: true, back: false };
+    if (location.pathname === "/products") return { search: true, notifications: false, more: true, back: true };
+    if (location.pathname === "/sales" || location.pathname === "/customers") return { search: true, notifications: false, more: true, back: true };
+    if (location.pathname === "/customers/messages") return { search: true, notifications: false, more: true, back: true };
+    if (location.pathname === "/pos") return { search: false, notifications: false, more: false, back: true };
+    if (location.pathname === "/profile" || location.pathname === "/settings") return { search: false, notifications: false, more: false, back: false };
+    if (location.pathname === "/ai-assistant") return { search: false, notifications: false, more: true, back: false };
+    return { search: false, notifications: false, more: false, back: !isMobilePrimaryRoute };
+  }, [isHome, isMobilePrimaryRoute, location.pathname]);
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileActionsOpen, setMobileActionsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -81,6 +94,14 @@ export function TopBar() {
       <div className="zb-topbar-start">
         {isMobile ? (
           <div className="zb-mobile-page-identity" aria-live="polite">
+            {mobileHeaderConfig.back ? (
+              <button type="button" className="zb-mobile-back-button" aria-label="Go back" title="Go back" onClick={() => {
+                if (typeof window !== "undefined" && window.history.state?.idx > 0) navigate(-1);
+                else navigate("/dashboard");
+              }}>
+                <ArrowLeft size={20} aria-hidden="true" />
+              </button>
+            ) : null}
             {isHome ? <div className="zb-mobile-brand" aria-label="ZooBusiness"><BrandLogo size={148} /></div> : <strong className="zb-mobile-page-title">{routeContext.title}</strong>}
           </div>
         ) : (
@@ -89,11 +110,11 @@ export function TopBar() {
             <strong>{routeContext.title}</strong>
           </div>
         )}
-        <button type="button" className="zb-topbar-search-trigger" aria-label="Open global search" title="Search ZooBusiness" onClick={() => setSearchOpen(true)}>
+        {(!isMobile || mobileHeaderConfig.search) ? <button type="button" className="zb-topbar-search-trigger" aria-label="Open global search" title="Search ZooBusiness" onClick={() => setSearchOpen(true)}>
           <Search size={20} aria-hidden="true" />
           {!isMobile ? <span>{language === "sw" ? "Tafuta bidhaa, oda, wateja..." : "Search anything in ZooBusiness..."}</span> : null}
           {!isMobile ? <kbd>Ctrl K</kbd> : null}
-        </button>
+        </button> : null}
       </div>
       <nav className="zb-topbar-actions" aria-label="Quick actions">
         {!isMobile ? <Link className="zb-topbar-icon-link zb-pos-link" to="/pos" aria-label="Open POS" title="POS"><ShoppingCart size={19} /></Link> : null}
@@ -102,17 +123,17 @@ export function TopBar() {
             <ThemeIcon size={19} />
           </button>
         ) : null}
-        <button type="button" className="zb-topbar-icon-button zb-notification-button" aria-label="Notifications" title="Notifications" onClick={actions.openNotifications}>
+        {(!isMobile || mobileHeaderConfig.notifications) ? <button type="button" className="zb-topbar-icon-button zb-notification-button" aria-label="Notifications" title="Notifications" onClick={actions.openNotifications}>
           <Bell size={20} />
           {state.unreadNotifications > 0 ? <span className="zb-notification-dot" /> : null}
-        </button>
-        {!isMobile ? <button type="button" className="zb-topbar-icon-button zb-profile-button" aria-label="Open profile" title="Profile" onClick={() => navigate("/settings")}><UserRound size={19} /></button> : (
+        </button> : null}
+        {!isMobile ? <button type="button" className="zb-topbar-icon-button zb-profile-button" aria-label="Open profile" title="Profile" onClick={() => navigate("/settings")}><UserRound size={19} /></button> : mobileHeaderConfig.more ? (
           <button type="button" className="zb-topbar-icon-button zb-mobile-more-button" aria-label="More options" title="More options" aria-expanded={mobileActionsOpen} onClick={() => setMobileActionsOpen((open) => !open)}>
             <MoreVertical size={21} aria-hidden="true" />
           </button>
-        )}
+        ) : null}
       </nav>
-      {isMobile && mobileActionsOpen ? (
+      {isMobile && mobileHeaderConfig.more && mobileActionsOpen ? (
         <div className="zb-mobile-actions-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setMobileActionsOpen(false); }}>
           <div className="zb-mobile-actions-menu" role="menu" aria-label="More options">
             <Link role="menuitem" to="/pos" onClick={() => setMobileActionsOpen(false)}><ShoppingCart size={18} /> Open POS</Link>

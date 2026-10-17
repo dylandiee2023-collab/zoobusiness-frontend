@@ -2,14 +2,16 @@ import { SidebarHeader } from "./components/sidebar-header";
 import { SidebarContent } from "./components/sidebar-content";
 import { SidebarWorkspaceFooter } from "./components/sidebar-workspace-footer";
 import { useSidebar } from "./context";
+import { useResponsive } from "@/responsive";
 
 import { sidebarStyles } from "./sidebar.styles";
 import type { SidebarProps } from "./sidebar.types";
 
 export function Sidebar({ className }: SidebarProps) {
   const { state } = useSidebar();
+  const { isMobile } = useResponsive();
 
-  if (state.mode === "hidden") {
+  if (isMobile || state.mode === "hidden") {
     return null;
   }
 

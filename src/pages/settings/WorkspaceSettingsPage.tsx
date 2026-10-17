@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 
 import { DashboardLayout } from "@/layouts/dashboard";
+import { useLanguage } from "@/app/language";
+import { resolvePublicCopy } from "@/app/language/public-copy";
 import { BrandLogo } from "@/components/brand/components/brand-logo/brand-logo";
 import { useWorkspace } from "@/workspace/providers/workspace-provider";
 
@@ -18,32 +20,32 @@ import "./WorkspaceSettingsPage.css";
 
 const settingsGroups = [
   {
-    title: "Business",
-    description: "How your shop appears across ZooBusiness.",
+    titleKey: "settingsBusiness",
+    descriptionKey: "settingsBusinessDescription",
     items: [
-      { title: "Business profile", description: "Shop name, logo, contacts and address.", icon: Building2 },
-      { title: "Workspace locations", description: "Shops, branches and warehouses.", icon: Globe2 },
-      { title: "Team & permissions", description: "Staff accounts, roles and access.", icon: Users },
+      { titleKey: "settingsBusinessProfile", descriptionKey: "settingsBusinessProfileDescription", icon: Building2 },
+      { titleKey: "settingsLocations", descriptionKey: "settingsLocationsDescription", icon: Globe2 },
+      { titleKey: "settingsTeam", descriptionKey: "settingsTeamDescription", icon: Users },
     ],
   },
   {
-    title: "Account & privacy",
-    description: "Control access to your account and business data.",
+    titleKey: "settingsAccountPrivacy",
+    descriptionKey: "settingsAccountPrivacyDescription",
     items: [
-      { title: "Privacy & security", description: "Sessions, sign-in security and data access.", icon: ShieldCheck },
-      { title: "Password & sign-in", description: "Authentication and recovery options.", icon: LockKeyhole },
-      { title: "Notifications", description: "Choose which business events alert you.", icon: Bell },
+      { titleKey: "settingsPrivacy", descriptionKey: "settingsPrivacyDescription", icon: ShieldCheck },
+      { titleKey: "settingsPassword", descriptionKey: "settingsPasswordDescription", icon: LockKeyhole },
+      { titleKey: "settingsNotifications", descriptionKey: "settingsNotificationsDescription", icon: Bell },
     ],
   },
   {
-    title: "Preferences & billing",
-    description: "Make ZooBusiness work the way you do.",
+    titleKey: "settingsPreferences",
+    descriptionKey: "settingsPreferencesDescription",
     items: [
-      { title: "Appearance", description: "Theme, density and display preferences.", icon: Palette },
-      { title: "Payments & subscriptions", description: "Payment methods, plan and billing history.", icon: CreditCard },
+      { titleKey: "settingsAppearance", descriptionKey: "settingsAppearanceDescription", icon: Palette },
+      { titleKey: "settingsPayments", descriptionKey: "settingsPaymentsDescription", icon: CreditCard },
     ],
   },
-];
+] as const;
 
 function shopInitials(name: string): string {
   return name.trim().split(/\s+/).slice(0, 2).map((part) => part[0]?.toUpperCase() ?? "").join("") || "ZB";
@@ -51,6 +53,8 @@ function shopInitials(name: string): string {
 
 export function WorkspaceSettingsPage() {
   const { workspace } = useWorkspace();
+  const { language } = useLanguage();
+  const t = (key: Parameters<typeof resolvePublicCopy>[1]) => resolvePublicCopy(language, key);
   const shopName = workspace?.name || "Your shop";
 
   return (
@@ -63,9 +67,9 @@ export function WorkspaceSettingsPage() {
               <i aria-hidden="true">✦</i>
             </div>
             <div className="zb-settings-shop-copy">
-              <span className="zb-settings-eyebrow">WORKSPACE SETTINGS</span>
+              <span className="zb-settings-eyebrow">{t("settingsHeroTitle")}</span>
               <h1>{shopName}</h1>
-              <p>One place to manage your shop, your team and your preferences.</p>
+              <p>{t("settingsHeroDescription")}</p>
             </div>
           </div>
           <div className="zb-settings-brand-mark"><BrandLogo size={132} /></div>
@@ -74,23 +78,23 @@ export function WorkspaceSettingsPage() {
 
         <div className="zb-settings-groups">
           {settingsGroups.map((group) => (
-            <section className="zb-settings-group" key={group.title}>
+            <section className="zb-settings-group" key={group.titleKey}>
               <div className="zb-settings-group-heading">
                 <div>
-                  <h2>{group.title}</h2>
-                  <p>{group.description}</p>
+                  <h2>{t(group.titleKey)}</h2>
+                  <p>{t(group.descriptionKey)}</p>
                 </div>
               </div>
               <div className="zb-settings-options">
                 {group.items.map((item) => {
                   const Icon = item.icon;
                   return (
-                    <button className="zb-settings-option" type="button" key={item.title} disabled>
+                    <button className="zb-settings-option" type="button" key={item.titleKey} disabled>
                       <span className="zb-settings-option-icon"><Icon size={20} aria-hidden="true" /></span>
                       <span className="zb-settings-option-copy">
-                        <strong>{item.title}</strong>
+                        <strong>{t(item.titleKey)}</strong>
                         <small>{item.description}</small>
-                        <em>Coming soon</em>
+                        <em>{t("settingsComingSoon")}</em>
                       </span>
                       <ArrowRight size={18} className="zb-settings-option-arrow" aria-hidden="true" />
                     </button>

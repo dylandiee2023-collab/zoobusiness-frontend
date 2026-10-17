@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Archive,
   Package,
@@ -82,6 +82,8 @@ export function ProductsPage() {
   const platform = usePlatform();
   const { workspace, loading: workspaceLoading } = useWorkspace();
   const navigate = useNavigate();
+  const location = useLocation();
+  const setupNotice = (location.state as { productSetupNotice?: string } | null)?.productSetupNotice;
 
   const service = useMemo(() => new ProductService(platform.api), [platform.api]);
   const [products, setProducts] = useState<ProductRecord[]>([]);
@@ -386,6 +388,8 @@ export function ProductsPage() {
             </Button>
           </div>
         </header>
+
+        {setupNotice ? <Alert variant="success" title="Product setup completed">{setupNotice}</Alert> : null}
 
         {error ? (
           <Alert variant="danger" title="Products could not be loaded">

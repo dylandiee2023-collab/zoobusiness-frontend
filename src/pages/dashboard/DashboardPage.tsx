@@ -270,12 +270,12 @@ export function DashboardPage() {
             </section>
 
             <section className="dashboard-metrics-grid" aria-label="Business metrics">
-              <MetricCard title="Total sales" value="—" icon={<CircleDollarSign size={23} />} tone="green" />
+              <MetricCard title="Total sales" value={summary ? formatMoney(summary.sales.today, currency) : "—"} change={summary?.sales.changePercent} icon={<CircleDollarSign size={23} />} tone="green" />
               <MetricCard title="Available sales" value="—" icon={<ShoppingCart size={23} />} tone="blue" />
-              <MetricCard title="Total products" value="—" icon={<Package size={23} />} tone="orange" />
+              <MetricCard title="Total products" value={summary ? formatNumber(summary.inventory.products) : "—"} icon={<Package size={23} />} tone="orange" />
               <MetricCard title="Customers" value="—" icon={<Users size={23} />} tone="purple" />
               <MetricCard title="Out of stock" value="—" icon={<Boxes size={23} />} tone="orange" />
-              <MetricCard title="Expenses" value="—" icon={<ClipboardList size={23} />} tone="purple" />
+              <MetricCard title="Expenses" value={summary ? formatMoney(summary.expenses.today, currency) : "—"} change={summary?.expenses.changePercent} icon={<ClipboardList size={23} />} tone="purple" />
             </section>
 
             <section className="dashboard-detail-grid">
@@ -362,9 +362,11 @@ export function DashboardPage() {
               </div>
             </section>
             <section className="dashboard-metrics-grid" aria-label="Business metrics">
-              <MetricCard title="Sales" value="—" icon={<CircleDollarSign size={23} />} tone="green" />
-              <MetricCard title="Orders" value="—" icon={<ShoppingCart size={23} />} tone="blue" />
-              <MetricCard title="Products tracked" value="—" icon={<Package size={23} />} tone="orange" />
+              <MetricCard title="Total sales" value="—" icon={<CircleDollarSign size={23} />} tone="green" />
+              <MetricCard title="Available sales" value="—" icon={<ShoppingCart size={23} />} tone="blue" />
+              <MetricCard title="Total products" value="—" icon={<Package size={23} />} tone="orange" />
+              <MetricCard title="Customers" value="—" icon={<Users size={23} />} tone="purple" />
+              <MetricCard title="Out of stock" value="—" icon={<Boxes size={23} />} tone="orange" />
               <MetricCard title="Expenses" value="—" icon={<ClipboardList size={23} />} tone="purple" />
             </section>
             

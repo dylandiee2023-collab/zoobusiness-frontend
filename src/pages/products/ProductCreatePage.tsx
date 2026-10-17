@@ -183,6 +183,7 @@ export function ProductCreatePage() {
     event.preventDefault();
     if (!workspace?.id) return;
     if (!name.trim() || !slug.trim()) { setError("Product name and URL slug are required."); return; }
+    if (!buyingPrice.trim() || !sellingPrice.trim()) { setError("Enter both the buying and selling prices before creating this product."); return; }
     if ((buyingPrice.trim() && Number(buyingPrice) < 0) || (sellingPrice.trim() && Number(sellingPrice) < 0)) { setError("Prices cannot be negative."); return; }
     if ((buyingPrice.trim() && !Number.isFinite(Number(buyingPrice))) || (sellingPrice.trim() && !Number.isFinite(Number(sellingPrice)))) { setError("Enter valid numeric prices."); return; }
     if (receiveOpeningStock && (!destinationId || !Number.isFinite(Number(stockQuantity)) || Number(stockQuantity) <= 0 || !purchaseDate || !buyingPrice.trim() || !sellingPrice.trim())) { setError("Choose a destination, purchase date and a stock quantity greater than zero."); return; }
@@ -367,8 +368,8 @@ export function ProductCreatePage() {
                 <div><h2 className="text-lg font-bold">Buying and selling prices</h2><p className="text-sm opacity-65">Prices are saved to the workspace price list, separately from purchase receiving.</p></div>
               </div>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <Field label="Buying price (TZS)"><Input type="number" min="0" step="0.01" value={buyingPrice} onChange={(event) => setBuyingPrice(event.target.value)} placeholder="0.00" fullWidth /></Field>
-                <Field label="Selling price (TZS)"><Input type="number" min="0" step="0.01" value={sellingPrice} onChange={(event) => setSellingPrice(event.target.value)} placeholder="0.00" fullWidth /></Field>
+                <Field label="Buying price (TZS)"><Input required type="number" min="0" step="0.01" value={buyingPrice} onChange={(event) => setBuyingPrice(event.target.value)} placeholder="0.00" fullWidth /></Field>
+                <Field label="Selling price (TZS)"><Input required type="number" min="0" step="0.01" value={sellingPrice} onChange={(event) => setSellingPrice(event.target.value)} placeholder="0.00" fullWidth /></Field>
                 <Field label="Currency"><Select value={currency} options={[{ value: "TZS", label: "TZS · Tanzanian shilling" }, { value: "USD", label: "USD · US dollar" }]} onChange={(event) => setCurrency(event.target.value)} /></Field>
               </div>
               {buyingPrice && sellingPrice && Number(sellingPrice) >= Number(buyingPrice) ? <p className="mt-4 rounded-lg bg-green-500/10 p-3 text-sm text-green-700">Gross margin estimate: {Number(sellingPrice) - Number(buyingPrice)} {currency} per unit, before other costs.</p> : null}

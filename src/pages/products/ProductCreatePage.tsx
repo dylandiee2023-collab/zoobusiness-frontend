@@ -10,8 +10,8 @@ import { ProductService, type ProductOption, type ProductRecord, type ProductTyp
 
 type Row<T> = { data: T[]; meta?: { total?: number; totalPages?: number } } | T[];
 type PriceList = { id: string; name: string; code: string; currency: string; is_default?: boolean; isDefault?: boolean; status: string };
-type WarehouseOption = { id: string; name: string; code?: string; status?: string };
-type ShopOption = { id: string; name: string; code?: string; status?: string };
+type WarehouseOption = { id: string; name: string; code?: string; branch_id?: string | null; status?: string };
+type ShopOption = { id: string; name: string; code?: string; branch_id?: string | null; status?: string };
 type AttributeOption = { id: string; name: string; code: string; status?: string };
 type AttributeValueOption = { id: string; value: string; display_name?: string; displayName?: string; status?: string };
 type VariantDraft = { key: string; name: string; sku: string; barcode: string; description: string; attributes: string };
@@ -188,6 +188,8 @@ export function ProductCreatePage() {
     if ((buyingPrice.trim() && !Number.isFinite(Number(buyingPrice))) || (sellingPrice.trim() && !Number.isFinite(Number(sellingPrice)))) { setError("Enter valid numeric prices."); return; }
     if (receiveOpeningStock && (!destinationId || !Number.isFinite(Number(stockQuantity)) || Number(stockQuantity) <= 0 || !purchaseDate || !buyingPrice.trim() || !sellingPrice.trim())) { setError("Choose a destination, purchase date and a stock quantity greater than zero."); return; }
     if (offerEnabled && (!offerName.trim() || !offerCode.trim() || !offerValue.trim() || Number(offerValue) < 0)) { setError("Complete the offer name, code and valid discount/price value."); return; }
+    const selectedDestination = (destinationType === "WAREHOUSE" ? warehouses : shops).find((item) => item.id === destinationId);
+    if (receiveOpeningStock && !selectedDestination?.branch_id) { setError("The selected location is not linked to a branch. Choose a location linked to an active branch before creating a purchase."); return; }
 
     setSaving(true);
     setError(null);
@@ -287,6 +289,7 @@ export function ProductCreatePage() {
         const existingPurchases = await platform.api.get<Row<{ id: string; notes?: string; status: string }>>(`${base}/purchases?page=1&limit=100&from=${encodeURIComponent(purchaseDate)}&to=${encodeURIComponent(purchaseDate)}`).catch(() => [] as { id: string; notes?: string; status: string }[]);
         const existingOpening = rowsOf(existingPurchases).find((item) => item.notes?.startsWith(`Product setup: ${product!.id}`));
         const purchase = existingOpening ?? await platform.api.post<{ id: string; status?: string }>(`${base}/purchases`, {
+          branchId: selectedDestination?.branch_id,
           orderDate: purchaseDate,
           destinationType,
           ...(destinationType === "WAREHOUSE" ? { destinationWarehouseId: destinationId } : { destinationShopId: destinationId }),

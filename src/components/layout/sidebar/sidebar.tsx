@@ -1,5 +1,6 @@
 import { SidebarHeader } from "./components/sidebar-header";
 import { SidebarContent } from "./components/sidebar-content";
+import { SidebarWorkspaceFooter } from "./components/sidebar-workspace-footer";
 import { useSidebar } from "./context";
 
 import { sidebarStyles } from "./sidebar.styles";
@@ -31,7 +32,7 @@ export function Sidebar({ className }: SidebarProps) {
 
       <SidebarContent />
 
-      <footer aria-label="Sidebar footer" />
+      <SidebarWorkspaceFooter />
     </aside>
   );
 }

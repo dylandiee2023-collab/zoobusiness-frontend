@@ -1,23 +1,18 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  AlertTriangle,
   ArrowDownRight,
   ArrowUpRight,
   BarChart3,
   Boxes,
   Bot,
-  CalendarDays,
-  ChevronDown,
   CircleDollarSign,
   ClipboardList,
   LoaderCircle,
   Package,
   RefreshCw,
   ShoppingCart,
-  Store,
   Users,
-  ClipboardCheck,
 } from "lucide-react";
 
 import { DashboardLayout } from "@/layouts/dashboard";
@@ -103,8 +98,6 @@ export function DashboardPage() {
   const navigate = useNavigate();
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [reloadKey, setReloadKey] = useState(0);
 
   const dashboardService = useMemo(
     () => new DashboardService(platform.api),
@@ -127,13 +120,8 @@ export function DashboardPage() {
       .then((data) => {
         if (active) setSummary(data);
       })
-      .catch((caught: unknown) => {
-        if (!active) return;
-        setError(
-          caught instanceof Error
-            ? caught.message
-            : "We couldn't load your business summary.",
-        );
+      .catch(() => {
+        if (active) setSummary(null);
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -147,7 +135,6 @@ export function DashboardPage() {
     navigate,
     platform.authentication.authenticated,
     platform.authentication.ready,
-    reloadKey,
     workspace?.id,
     workspaceLoading,
   ]);
@@ -180,45 +167,7 @@ export function DashboardPage() {
   return (
     <DashboardLayout>
       <div className="dashboard-page">
-        <section className="dashboard-context-controls" aria-label="Dashboard filters">
-          <label className="dashboard-date-filter">
-            <CalendarDays size={20} aria-hidden="true" />
-            <select aria-label="Dashboard date range" defaultValue="today">
-              <option value="today">Today</option>
-              <option value="yesterday">Yesterday</option>
-              <option value="7-days">Last 7 days</option>
-              <option value="30-days">Last 30 days</option>
-              <option value="this-month">This month</option>
-            </select>
-            <ChevronDown size={17} aria-hidden="true" />
-          </label>
-          <button className="dashboard-shop-switcher" type="button" onClick={() => navigate("/settings")} title="Manage business workspace">
-            <Store size={20} aria-hidden="true" />
-            <span>{workspace?.name ?? "Your business"}</span>
-            <ChevronDown size={17} aria-hidden="true" />
-          </button>
-        </section>
-{error || workspaceUnavailable ? (
-          <div className="dashboard-error" role="alert">
-            <AlertTriangle size={20} />
-            <div>
-              <strong>Dashboard data couldn't be loaded</strong>
-              <p>{error ?? "No active business workspace is available."}</p>
-              <button
-                type="button"
-                onClick={() => {
-                  setError(null);
-                  setLoading(true);
-                  setReloadKey((key) => key + 1);
-                }}
-              >
-                Try again
-              </button>
-            </div>
-          </div>
-        ) : null}
-
-        {summary ? (
+{summary ? (
           <>
             <section
               className="dashboard-sales-panel"
@@ -371,20 +320,7 @@ export function DashboardPage() {
             
           </section>
         )}
-      <section className="dashboard-task-card dashboard-detail-card">
-          <div className="dashboard-detail-heading">
-            <span className="dashboard-detail-icon"><ClipboardCheck size={20} /></span>
-            <div><h2>Your best actions</h2><p>Recommended tasks to help you run and grow your business.</p></div>
-            <button className="dashboard-task-see-more" type="button" onClick={() => navigate("/tasks")}>See more <ChevronDown size={15} /></button>
-          </div>
-          <div className="dashboard-task-list">
-            <button type="button" onClick={() => navigate("/orders")}><span><strong>Review pending orders</strong><small>Keep customer orders moving</small></span><ChevronDown size={17} /></button>
-            <button type="button" onClick={() => navigate("/inventory")}><span><strong>Check stock and debts</strong><small>Review inventory and outstanding balances</small></span><ChevronDown size={17} /></button>
-            <button type="button" onClick={() => navigate("/settings")}><span><strong>Explore plan upgrades</strong><small>See tools available for your business</small></span><ChevronDown size={17} /></button>
-            <button type="button" onClick={() => navigate("/ai-assistant")}><span><strong>See what your AI agent can do</strong><small>Discover automation ideas for daily work</small></span><Bot size={18} /></button>
-          </div>
-        </section>
-        <section className="dashboard-quick-actions">
+<section className="dashboard-quick-actions">
           <div className="dashboard-quick-actions-heading"><h2>Quick actions</h2><span>See all</span></div>
           <div className="dashboard-quick-actions-grid">
             <button type="button" onClick={() => navigate("/products")}><Package size={26} /><strong>Add product</strong><span>Manage your catalogue</span></button>

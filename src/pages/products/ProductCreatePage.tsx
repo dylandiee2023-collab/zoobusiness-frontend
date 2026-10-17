@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import { Alert, Badge, Button, Card, Input, Select, Textarea } from "@/design-system/components";
 import { DashboardLayout } from "@/layouts/dashboard";
+import { useLanguage } from "@/app/language";
+import { resolvePublicCopy } from "@/app/language/public-copy";
 import { usePlatform } from "@/platform/providers/use-platform";
 import { useWorkspace } from "@/workspace/providers/workspace-provider";
 import { ProductService, type ProductOption, type ProductRecord, type ProductType } from "@/products/services/product-service";
@@ -75,6 +77,8 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
 }
 
 export function ProductCreatePage() {
+  const { language } = useLanguage();
+  const t = (key: Parameters<typeof resolvePublicCopy>[1]) => resolvePublicCopy(language, key);
   const platform = usePlatform();
   const { workspace, loading: workspaceLoading } = useWorkspace();
   const navigate = useNavigate();
@@ -318,7 +322,7 @@ export function ProductCreatePage() {
   }
 
   if (!platform.authentication.ready || workspaceLoading) {
-    return <DashboardLayout><div className="flex min-h-64 items-center justify-center" role="status">Loading product workspace…</div></DashboardLayout>;
+    return <DashboardLayout><div className="flex min-h-64 items-center justify-center" role="status">{t("loadingProductWorkspace")}</div></DashboardLayout>;
   }
   if (!workspace?.id) {
     return <DashboardLayout><Alert variant="danger" title="Workspace unavailable">Complete business setup before creating products.</Alert></DashboardLayout>;
@@ -332,7 +336,7 @@ export function ProductCreatePage() {
             <Button type="button" variant="outline" size="sm" leftIcon={<ArrowLeft size={16} />} onClick={() => navigate("/products")}>Back</Button>
             <div className="min-w-0">
               <p className="text-xs font-bold uppercase tracking-[.16em] text-green-600">Catalogue workspace</p>
-              <h1 className="text-2xl font-bold sm:text-3xl">{createdProduct ? "Continue product setup" : "Add product"}</h1>
+              <h1 className="text-2xl font-bold sm:text-3xl">{createdProduct ? t("continueProductSetup") : t("pageAddProduct")}</h1>
               <p className="mt-1 text-sm opacity-70">Product details, pricing, variants and optional opening stock in one workspace.</p>
             </div>
           </div>
@@ -340,14 +344,14 @@ export function ProductCreatePage() {
         </header>
 
         {error ? <Alert variant="danger" title="Could not complete product setup">{error}</Alert> : null}
-        {loadingOptions ? <p className="text-sm opacity-65" role="status">Loading categories, units and locations…</p> : null}
+        {loadingOptions ? <p className="text-sm opacity-65" role="status">{t("loadingProductOptions")}</p> : null}
 
         <form className="grid min-w-0 grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,1.65fr)_minmax(320px,0.85fr)]" onSubmit={(event) => void saveProduct(event)}>
           <div className="flex min-w-0 flex-col gap-5">
             <Card padding="lg">
               <div className="mb-5 flex items-start gap-3">
                 <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-green-500/10 text-green-600"><Package size={21} /></span>
-                <div><h2 className="text-lg font-bold">Product information</h2><p className="text-sm opacity-65">Identity and catalogue details.</p></div>
+                <div><h2 className="text-lg font-bold">{t("productInformation")}</h2><p className="text-sm opacity-65">{t("identityCatalogueDetails")}</p></div>
               </div>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <Field label="Product name"><Input required maxLength={255} value={name} onChange={(event) => setName(event.target.value)} placeholder="e.g. Premium maize flour" fullWidth /></Field>
@@ -368,7 +372,7 @@ export function ProductCreatePage() {
             <Card padding="lg">
               <div className="mb-5 flex items-start gap-3">
                 <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-blue-500/10 text-blue-600"><BadgePercent size={21} /></span>
-                <div><h2 className="text-lg font-bold">Buying and selling prices</h2><p className="text-sm opacity-65">Prices are saved to the workspace price list, separately from purchase receiving.</p></div>
+                <div><h2 className="text-lg font-bold">{t("buyingSellingPrices")}</h2><p className="text-sm opacity-65">{t("pricesSavedDescription")}</p></div>
               </div>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <Field label="Buying price (TZS)"><Input required type="number" min="0" step="0.01" value={buyingPrice} onChange={(event) => setBuyingPrice(event.target.value)} placeholder="0.00" fullWidth /></Field>
@@ -380,7 +384,7 @@ export function ProductCreatePage() {
 
             <Card padding="lg">
               <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
-                <div className="flex items-start gap-3"><span className="grid size-10 shrink-0 place-items-center rounded-xl bg-violet-500/10 text-violet-600"><Boxes size={21} /></span><div><h2 className="text-lg font-bold">Variants and attributes</h2><p className="text-sm opacity-65">Use one variant per sellable option, such as 1 kg, 5 kg, red or large.</p></div></div>
+                <div className="flex items-start gap-3"><span className="grid size-10 shrink-0 place-items-center rounded-xl bg-violet-500/10 text-violet-600"><Boxes size={21} /></span><div><h2 className="text-lg font-bold">{t("variantsAttributes")}</h2><p className="text-sm opacity-65">{t("variantsAttributesDescription")}</p></div></div>
                 <Button type="button" variant="outline" size="sm" leftIcon={<Plus size={15} />} onClick={addVariant}>Add variant</Button>
               </div>
               {variants.length === 0 ? <div className="rounded-xl border border-dashed border-[var(--zb-colors-border)] p-5 text-sm opacity-70">No variants added. Create variants only when the product has distinct options.</div> : <div className="flex flex-col gap-4">
@@ -398,7 +402,7 @@ export function ProductCreatePage() {
             </Card>
 
             <Card padding="lg">
-              <div className="mb-4 flex items-start gap-3"><span className="grid size-10 shrink-0 place-items-center rounded-xl bg-amber-500/10 text-amber-600"><BadgePercent size={21} /></span><div><h2 className="text-lg font-bold">Offer (optional)</h2><p className="text-sm opacity-65">Add a product-level promotion now or manage offers later.</p></div></div>
+              <div className="mb-4 flex items-start gap-3"><span className="grid size-10 shrink-0 place-items-center rounded-xl bg-amber-500/10 text-amber-600"><BadgePercent size={21} /></span><div><h2 className="text-lg font-bold">{t("offerOptional")}</h2><p className="text-sm opacity-65">{t("offerDescription")}</p></div></div>
               <label className="mb-4 flex items-center gap-3 text-sm font-semibold"><input type="checkbox" checked={offerEnabled} onChange={(event) => setOfferEnabled(event.target.checked)} /> Add an offer for this product</label>
               {offerEnabled ? <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <Field label="Offer name"><Input required value={offerName} onChange={(event) => setOfferName(event.target.value)} placeholder="Weekend discount" fullWidth /></Field>
@@ -411,7 +415,7 @@ export function ProductCreatePage() {
             </Card>
 
             <Card padding="lg">
-              <div className="mb-4 flex items-start gap-3"><span className="grid size-10 shrink-0 place-items-center rounded-xl bg-orange-500/10 text-orange-600"><CalendarDays size={21} /></span><div><h2 className="text-lg font-bold">Opening purchase and stock (optional)</h2><p className="text-sm opacity-65">This creates a purchase order. Stock changes only when the order is received.</p></div></div>
+              <div className="mb-4 flex items-start gap-3"><span className="grid size-10 shrink-0 place-items-center rounded-xl bg-orange-500/10 text-orange-600"><CalendarDays size={21} /></span><div><h2 className="text-lg font-bold">{t("openingPurchaseStock")}</h2><p className="text-sm opacity-65">{t("openingPurchaseDescription")}</p></div></div>
               <label className="mb-4 flex items-center gap-3 text-sm font-semibold"><input type="checkbox" checked={receiveOpeningStock} onChange={(event) => setReceiveOpeningStock(event.target.checked)} /> Record an opening purchase for this product</label>
               {receiveOpeningStock ? <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <Field label="Purchase date"><Input type="date" required value={purchaseDate} onChange={(event) => setPurchaseDate(event.target.value)} fullWidth /></Field>
@@ -430,7 +434,7 @@ export function ProductCreatePage() {
             <Card padding="lg">
               <p className="text-xs font-bold uppercase tracking-[.15em] text-green-600">Live preview</p>
               <div className="mt-4 grid aspect-[16/9] place-items-center rounded-2xl border border-dashed border-[var(--zb-colors-border)] bg-[var(--zb-colors-surfaceSecondary)]"><ImagePlus size={38} className="opacity-40" /></div>
-              <h2 className="mt-4 text-xl font-bold">{name.trim() || "Product name"}</h2>
+              <h2 className="mt-4 text-xl font-bold">{name.trim() || t("productName")}</h2>
               <p className="mt-1 break-all text-sm opacity-65">{sku.trim() || "SKU not assigned"} · {productType.toLowerCase()}</p>
               <div className="mt-4 flex items-baseline justify-between gap-3"><span className="text-sm opacity-65">Selling price</span><strong className="text-xl">{sellingPrice ? `${Number(sellingPrice).toLocaleString("en-TZ")} ${currency}` : "—"}</strong></div>
               <div className="mt-2 flex items-baseline justify-between gap-3"><span className="text-sm opacity-65">Buying price</span><strong>{buyingPrice ? `${Number(buyingPrice).toLocaleString("en-TZ")} ${currency}` : "—"}</strong></div>
@@ -438,7 +442,7 @@ export function ProductCreatePage() {
               {description.trim() ? <p className="mt-4 line-clamp-4 text-sm opacity-75">{description}</p> : null}
             </Card>
             <Card padding="lg">
-              <h2 className="font-bold">Before creating</h2>
+              <h2 className="font-bold">{t("beforeCreating")}</h2>
               <ul className="mt-3 flex flex-col gap-3 text-sm">
                 <li className="flex items-start gap-2"><Check size={17} className="mt-0.5 shrink-0 text-green-600" /><span>Product identity is saved first.</span></li>
                 <li className="flex items-start gap-2"><Check size={17} className="mt-0.5 shrink-0 text-green-600" /><span>Prices, variants, attributes and offer are separate AutoBots records.</span></li>
@@ -446,7 +450,7 @@ export function ProductCreatePage() {
               </ul>
             </Card>
             <div className="flex flex-col gap-2 rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-4 shadow-sm">
-              <Button type="submit" loading={saving} disabled={saving || loadingOptions || !name.trim() || !slug.trim() || (receiveOpeningStock && !destinationId)} leftIcon={<Check size={17} />}>{saving ? "Creating product…" : createdProduct ? "Continue setup" : "Create product"}</Button>
+              <Button type="submit" loading={saving} disabled={saving || loadingOptions || !name.trim() || !slug.trim() || (receiveOpeningStock && !destinationId)} leftIcon={<Check size={17} />}>{saving ? t("creatingProduct") : createdProduct ? t("continueProductSetup") : t("createProduct")}</Button>
               <Button type="button" variant="outline" disabled={saving} onClick={() => navigate("/products")}>Cancel</Button>
               <p className="text-center text-xs opacity-60">You can continue setup if a later step fails; the product won't be duplicated.</p>
             </div>

@@ -316,14 +316,7 @@ export function DashboardPage() {
                 </div>
                 <div className="dashboard-period-chip"><BarChart3 size={16} />Last 7 days</div>
               </div>
-              <div className="dashboard-shell-chart" aria-hidden="true">
-                {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Today"].map((day) => (
-                  <div className="dashboard-shell-chart-column" key={day}>
-                    <div className="dashboard-shell-chart-track"><span /></div>
-                    <small>{day}</small>
-                  </div>
-                ))}
-              </div>
+              <p className="dashboard-shell-note">Sales trend is unavailable until AutoBots returns summary data.</p>
             </section>
             <section className="dashboard-health-card" aria-labelledby="dashboard-health-title">
               <div className="dashboard-health-copy">
@@ -332,7 +325,7 @@ export function DashboardPage() {
                 <p>Health indicators will populate when summary data is available.</p>
               </div>
               <div className="dashboard-health-visual">
-                <div className="dashboard-health-ring dashboard-health-ring-empty"><div><strong>—</strong><span>pending data</span></div></div>
+                <div className="dashboard-health-ring dashboard-health-ring-empty"><div><strong>—</strong><span>awaiting data</span></div></div>
                 <div className="dashboard-health-legend"><span><i className="health-good" />Healthy stock</span><span><i className="health-watch" />Low stock</span><span><i className="health-risk" />Needs review</span></div>
               </div>
             </section>

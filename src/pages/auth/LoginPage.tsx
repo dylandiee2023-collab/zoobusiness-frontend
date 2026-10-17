@@ -46,7 +46,8 @@ export function LoginPage() {
       const session = await login(email.trim(), password, language);
       saveAuthSession(session);
       if (!session.user.emailVerified) {
-        setNotice(t("verifyNotice"));
+        window.sessionStorage.setItem("zoobusiness.pendingVerificationEmail", email.trim());
+        navigate("/verify-email", { replace: true });
         return;
       }
 

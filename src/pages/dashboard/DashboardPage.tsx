@@ -366,7 +366,44 @@ export function DashboardPage() {
           </>
         ) : loading ? (
           <SummaryLoading />
-        ) : null}
+        ) : (
+          <section className="dashboard-summary-shell" aria-label="Dashboard summary layout">
+            <section className="dashboard-sales-panel dashboard-shell-sales">
+              <div className="dashboard-sales-top">
+                <div>
+                  <p className="dashboard-section-kicker">TODAY</p>
+                  <h2>Total sales</h2>
+                  <p className="dashboard-sales-total">—</p>
+                  <p className="dashboard-shell-note">Business figures will appear here when the summary API is connected.</p>
+                </div>
+                <div className="dashboard-period-chip"><BarChart3 size={16} />Last 7 days</div>
+              </div>
+              <div className="dashboard-shell-chart" aria-hidden="true">
+                {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Today"].map((day) => (
+                  <div className="dashboard-shell-chart-column" key={day}>
+                    <div className="dashboard-shell-chart-track"><span /></div>
+                    <small>{day}</small>
+                  </div>
+                ))}
+              </div>
+            </section>
+            <section className="dashboard-metrics-grid" aria-label="Business metrics">
+              <MetricCard title="Sales" value="—" icon={<CircleDollarSign size={23} />} tone="green" />
+              <MetricCard title="Orders" value="—" icon={<ShoppingCart size={23} />} tone="blue" />
+              <MetricCard title="Products tracked" value="—" icon={<Package size={23} />} tone="orange" />
+              <MetricCard title="Expenses" value="—" icon={<ClipboardList size={23} />} tone="purple" />
+            </section>
+            <section className="dashboard-quick-actions">
+              <div className="dashboard-quick-actions-heading"><h2>Quick actions</h2><span>Shortcuts</span></div>
+              <div className="dashboard-quick-actions-grid">
+                <button type="button" onClick={() => navigate("/products")}><Package size={24} /><strong>Add product</strong><span>Manage your catalogue</span></button>
+                <button type="button" onClick={() => navigate("/pos")}><ShoppingCart size={24} /><strong>New sale</strong><span>Open point of sale</span></button>
+                <button type="button" onClick={() => navigate("/customers")}><ClipboardList size={24} /><strong>Customers</strong><span>View customer records</span></button>
+                <button type="button" onClick={() => navigate("/reports")}><BarChart3 size={24} /><strong>Reports</strong><span>Review business activity</span></button>
+              </div>
+            </section>
+          </section>
+        )}
       </div>
     </DashboardLayout>
   );

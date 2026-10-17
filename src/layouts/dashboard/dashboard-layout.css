@@ -293,3 +293,20 @@
     box-shadow: none !important;
   }
 }
+
+
+/* Slightly larger brand mark in the mobile dashboard header. */
+@media (max-width: 767px) {
+  .dashboard-layout-root .zb-mobile-brand { max-width: 158px !important; }
+  .dashboard-layout-root .zb-mobile-brand img {
+    width: auto !important;
+    max-width: 158px !important;
+    max-height: 48px !important;
+    height: 44px !important;
+    object-fit: contain !important;
+  }
+}
+@media (max-width: 420px) {
+  .dashboard-layout-root .zb-mobile-brand { max-width: 128px !important; }
+  .dashboard-layout-root .zb-mobile-brand img { max-width: 128px !important; height: 40px !important; max-height: 42px !important; }
+}

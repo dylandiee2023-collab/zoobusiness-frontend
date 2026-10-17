@@ -5,7 +5,6 @@ import {
   Package,
   PackagePlus,
   Pencil,
-  Plus,
   RefreshCw,
   Search,
 } from "lucide-react";
@@ -274,10 +273,6 @@ export function ProductsPage() {
       },
   ];
 
-  function openCreate() {
-    navigate("/products/new");
-  }
-
   function openEdit(product: ProductRecord) {
     setEditingProduct(product);
     setForm({
@@ -386,9 +381,6 @@ export function ProductsPage() {
           <div className="flex flex-wrap gap-2">
             <Button type="button" variant="outline" leftIcon={<RefreshCw size={16} />} onClick={() => setReloadVersion((version) => version + 1)}>
               Refresh
-            </Button>
-            <Button type="button" leftIcon={<Plus size={16} />} onClick={openCreate}>
-              {t("addProduct")}
             </Button>
           </div>
         </header>

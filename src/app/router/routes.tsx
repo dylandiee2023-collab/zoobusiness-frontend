@@ -12,7 +12,6 @@ import { FeaturesPage } from "@/pages/features/FeaturesPage";
 import { PricingPage } from "@/pages/pricing/PricingPage";
 import { DashboardPage } from "@/pages/dashboard/DashboardPage";
 import { ProductsPage } from "@/pages/products/ProductsPage";
-import { ProductCreatePage } from "@/pages/products/ProductCreatePage";
 import { WorkspaceSettingsPage } from "@/pages/settings/WorkspaceSettingsPage";
 import { ModuleShellPage } from "@/pages/modules/ModuleShellPage";
 
@@ -37,11 +36,6 @@ export type AppRouteObject = RouteObject & {
 };
 
 export const routes: AppRouteObject[] = [
-  {
-    path: "/products/new",
-    element: <ProductCreatePage />,
-    handle: { title: "Add product | ZooBusiness", shell: "dashboard", requiresAuthentication: true, permissions: ["product.create"] },
-  },
   {
     path: "/products",
     element: <ProductsPage />,

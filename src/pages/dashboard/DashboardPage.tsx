@@ -6,12 +6,19 @@ import {
   ArrowUpRight,
   BarChart3,
   Boxes,
+  Bot,
+  CalendarDays,
+  ChevronDown,
+  CircleAlert,
   CircleDollarSign,
   ClipboardList,
   LoaderCircle,
   Package,
   RefreshCw,
   ShoppingCart,
+  Store,
+  Users,
+  ClipboardCheck,
 } from "lucide-react";
 
 import { DashboardLayout } from "@/layouts/dashboard";
@@ -174,34 +181,25 @@ export function DashboardPage() {
   return (
     <DashboardLayout>
       <div className="dashboard-page">
-        <header className="dashboard-page-header">
-          <div>
-            <p className="dashboard-eyebrow">BUSINESS OVERVIEW</p>
-            <h1>Good business starts with a clear view.</h1>
-            <p className="dashboard-subtitle">
-              Track sales, orders, stock and expenses for{" "}
-              {workspace?.name ?? "your business"}.
-            </p>
-          </div>
-          <button
-            className="dashboard-refresh-button"
-            type="button"
-            onClick={() => {
-              setError(null);
-              setLoading(true);
-              setReloadKey((key) => key + 1);
-            }}
-            disabled={loading}
-          >
-            <RefreshCw
-              size={16}
-              className={loading ? "dashboard-spinner" : ""}
-            />
-            Refresh
+        <section className="dashboard-context-controls" aria-label="Dashboard filters">
+          <label className="dashboard-date-filter">
+            <CalendarDays size={20} aria-hidden="true" />
+            <select aria-label="Dashboard date range" defaultValue="today">
+              <option value="today">Today</option>
+              <option value="yesterday">Yesterday</option>
+              <option value="7-days">Last 7 days</option>
+              <option value="30-days">Last 30 days</option>
+              <option value="this-month">This month</option>
+            </select>
+            <ChevronDown size={17} aria-hidden="true" />
+          </label>
+          <button className="dashboard-shop-switcher" type="button" onClick={() => navigate("/settings")} title="Manage business workspace">
+            <Store size={20} aria-hidden="true" />
+            <span>{workspace?.name ?? "Your business"}</span>
+            <ChevronDown size={17} aria-hidden="true" />
           </button>
-        </header>
-
-        {error || workspaceUnavailable ? (
+        </section>
+{error || workspaceUnavailable ? (
           <div className="dashboard-error" role="alert">
             <AlertTriangle size={20} />
             <div>
@@ -271,37 +269,13 @@ export function DashboardPage() {
               </div>
             </section>
 
-            <section
-              className="dashboard-metrics-grid"
-              aria-label="Business metrics"
-            >
-              <MetricCard
-                title="Sales"
-                value={formatMoney(summary.sales.today, currency)}
-                change={summary.sales.changePercent}
-                icon={<CircleDollarSign size={23} />}
-                tone="green"
-              />
-              <MetricCard
-                title="Orders"
-                value={formatNumber(summary.orders.today)}
-                change={summary.orders.changePercent}
-                icon={<ShoppingCart size={23} />}
-                tone="blue"
-              />
-              <MetricCard
-                title="Products tracked"
-                value={formatNumber(summary.inventory.products)}
-                icon={<Package size={23} />}
-                tone="orange"
-              />
-              <MetricCard
-                title="Expenses"
-                value={formatMoney(summary.expenses.today, currency)}
-                change={summary.expenses.changePercent}
-                icon={<ClipboardList size={23} />}
-                tone="purple"
-              />
+            <section className="dashboard-metrics-grid" aria-label="Business metrics">
+              <MetricCard title="Total sales" value="—" icon={<CircleDollarSign size={23} />} tone="green" />
+              <MetricCard title="Available sales" value="—" icon={<ShoppingCart size={23} />} tone="blue" />
+              <MetricCard title="Total products" value="—" icon={<Package size={23} />} tone="orange" />
+              <MetricCard title="Customers" value="—" icon={<Users size={23} />} tone="purple" />
+              <MetricCard title="Out of stock" value="—" icon={<Boxes size={23} />} tone="orange" />
+              <MetricCard title="Expenses" value="—" icon={<ClipboardList size={23} />} tone="purple" />
             </section>
 
             <section className="dashboard-detail-grid">
@@ -393,17 +367,40 @@ export function DashboardPage() {
               <MetricCard title="Products tracked" value="—" icon={<Package size={23} />} tone="orange" />
               <MetricCard title="Expenses" value="—" icon={<ClipboardList size={23} />} tone="purple" />
             </section>
-            <section className="dashboard-quick-actions">
-              <div className="dashboard-quick-actions-heading"><h2>Quick actions</h2><span>Shortcuts</span></div>
-              <div className="dashboard-quick-actions-grid">
-                <button type="button" onClick={() => navigate("/products")}><Package size={24} /><strong>Add product</strong><span>Manage your catalogue</span></button>
-                <button type="button" onClick={() => navigate("/pos")}><ShoppingCart size={24} /><strong>New sale</strong><span>Open point of sale</span></button>
-                <button type="button" onClick={() => navigate("/customers")}><ClipboardList size={24} /><strong>Customers</strong><span>View customer records</span></button>
-                <button type="button" onClick={() => navigate("/reports")}><BarChart3 size={24} /><strong>Reports</strong><span>Review business activity</span></button>
-              </div>
-            </section>
+            
           </section>
         )}
+      <section className="dashboard-task-card dashboard-detail-card">
+          <div className="dashboard-detail-heading">
+            <span className="dashboard-detail-icon"><ClipboardCheck size={20} /></span>
+            <div><h2>Your next best actions</h2><p>Tasks and recommendations tailored to your workspace</p></div>
+          </div>
+          <div className="dashboard-task-list">
+            <button type="button" onClick={() => navigate("/orders")}><span><strong>Review pending orders</strong><small>Keep customer orders moving</small></span><ChevronDown size={17} /></button>
+            <button type="button" onClick={() => navigate("/inventory")}><span><strong>Check stock and debts</strong><small>Review inventory and outstanding balances</small></span><ChevronDown size={17} /></button>
+            <button type="button" onClick={() => navigate("/settings")}><span><strong>Explore plan upgrades</strong><small>See tools available for your business</small></span><ChevronDown size={17} /></button>
+            <button type="button" onClick={() => navigate("/ai-assistant")}><span><strong>See what your AI agent can do</strong><small>Discover automation ideas for daily work</small></span><Bot size={18} /></button>
+          </div>
+        </section>
+        <section className="dashboard-quick-actions">
+          <div className="dashboard-quick-actions-heading"><h2>Quick actions</h2><span>See all</span></div>
+          <div className="dashboard-quick-actions-grid">
+            <button type="button" onClick={() => navigate("/products")}><Package size={26} /><strong>Add product</strong><span>Manage your catalogue</span></button>
+            <button type="button" onClick={() => navigate("/ai-assistant")}><Bot size={26} /><strong>AI assistant</strong><span>Get business insights</span></button>
+            <button type="button" onClick={() => navigate("/pos")}><ShoppingCart size={26} /><strong>New sale</strong><span>Open point of sale</span></button>
+            <button type="button" onClick={() => navigate("/customers")}><Users size={26} /><strong>Customers</strong><span>Manage customer records</span></button>
+            <button type="button" onClick={() => navigate("/orders")}><ClipboardList size={26} /><strong>Orders</strong><span>Review and fulfil orders</span></button>
+            <button type="button" onClick={() => navigate("/reports")}><BarChart3 size={26} /><strong>Reports</strong><span>Review business activity</span></button>
+          </div>
+        </section>
+        <section className="dashboard-detail-card dashboard-recent-activity">
+          <div className="dashboard-detail-heading"><span className="dashboard-detail-icon"><RefreshCw size={20} /></span><div><h2>Recent activity</h2><p>Latest business events will appear here</p></div></div>
+          <p className="dashboard-placeholder-copy">Activity feed will be connected when the AutoBots activity endpoint is available.</p>
+        </section>
+        <section className="dashboard-detail-card dashboard-analytics-placeholder">
+          <div className="dashboard-detail-heading"><span className="dashboard-detail-icon"><BarChart3 size={20} /></span><div><h2>Business analytics</h2><p>Sales, customer and inventory insights</p></div></div>
+          <p className="dashboard-placeholder-copy">Additional analytics will appear here when their data services are connected.</p>
+        </section>
       </div>
     </DashboardLayout>
   );

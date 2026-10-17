@@ -27,7 +27,7 @@ export function ModuleShellPage() {
 
   return (
     <DashboardLayout>
-      <main className="zb-module-shell-page">
+      <div className="zb-module-shell-page">
         <div className="zb-module-shell-heading">
           <div>
             <p className="zb-module-shell-eyebrow">{module.group}</p>
@@ -52,7 +52,7 @@ export function ModuleShellPage() {
           ))}
         </div>
         <Link className="zb-module-shell-back" to="/dashboard">Return to dashboard <ArrowUpRight size={16} /></Link>
-      </main>
+      </div>
     </DashboardLayout>
   );
 }

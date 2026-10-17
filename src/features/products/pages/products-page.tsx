@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   AlertTriangle,
   Bot,
@@ -84,6 +85,7 @@ function slugify(value: string) {
 }
 
 export function ProductsPage() {
+  const navigate = useNavigate();
   const platform = usePlatform();
   const { theme } = useTheme();
   const { workspace, loading: workspaceLoading } = useWorkspace();
@@ -289,7 +291,7 @@ export function ProductsPage() {
           <button
             type="button"
             className="products-primary-button"
-            onClick={() => setShowCreate(true)}
+            onClick={() => navigate("/products/new")}
           >
             <Plus size={18} /> <span>Add Product</span>
           </button>
@@ -364,7 +366,7 @@ export function ProductsPage() {
               <button
                 type="button"
                 className="products-primary-button"
-                onClick={() => setShowCreate(true)}
+                onClick={() => navigate("/products/new")}
               >
                 <Plus size={18} /> Add Product
               </button>
@@ -458,7 +460,7 @@ export function ProductsPage() {
       <button
         type="button"
         className="products-mobile-add"
-        onClick={() => setShowCreate(true)}
+        onClick={() => navigate("/products/new")}
       >
         <Plus size={20} /> Add Product
       </button>

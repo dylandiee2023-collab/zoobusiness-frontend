@@ -177,6 +177,7 @@ export function ProductCreatePage() {
       isDefault: priceLists.length === 0,
       status: "ACTIVE",
     });
+    setPriceLists((current) => [...current, created]);
     return created.id;
   }
 
@@ -271,7 +272,7 @@ export function ProductCreatePage() {
       }
 
       if (receiveOpeningStock) {
-        const existingPurchases = await platform.api.get<Row<{ id: string; notes?: string; status: string }>>(`${base}/purchases?page=1&limit=100&from=${encodeURIComponent(purchaseDate)}&to=${encodeURIComponent(purchaseDate)}&status=DRAFT`).catch(() => [] as { id: string; notes?: string; status: string }[]);
+        const existingPurchases = await platform.api.get<Row<{ id: string; notes?: string; status: string }>>(`${base}/purchases?page=1&limit=100&from=${encodeURIComponent(purchaseDate)}&to=${encodeURIComponent(purchaseDate)}`).catch(() => [] as { id: string; notes?: string; status: string }[]);
         const existingOpening = rowsOf(existingPurchases).find((item) => item.notes === `Product setup: ${product!.id}`);
         if (!existingOpening) {
           const purchase = await platform.api.post<{ id: string }>(`${base}/purchases`, {

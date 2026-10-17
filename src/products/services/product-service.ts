@@ -90,6 +90,34 @@ export class ProductService {
     );
   }
 
+  update(
+    workspaceId: string,
+    productId: string,
+    payload: Partial<CreateProductPayload>,
+  ): Promise<ProductRecord> {
+    return this.api.patch<ProductRecord>(
+      `/api/workspaces/${encodeURIComponent(workspaceId)}/products/${encodeURIComponent(productId)}`,
+      payload,
+    );
+  }
+
+  updateStatus(
+    workspaceId: string,
+    productId: string,
+    status: ProductStatus,
+  ): Promise<ProductRecord> {
+    return this.api.patch<ProductRecord>(
+      `/api/workspaces/${encodeURIComponent(workspaceId)}/products/${encodeURIComponent(productId)}/status`,
+      { status },
+    );
+  }
+
+  remove(workspaceId: string, productId: string): Promise<{ message: string; productId: string }> {
+    return this.api.delete<{ message: string; productId: string }>(
+      `/api/workspaces/${encodeURIComponent(workspaceId)}/products/${encodeURIComponent(productId)}`,
+    );
+  }
+
   create(
     workspaceId: string,
     payload: CreateProductPayload,

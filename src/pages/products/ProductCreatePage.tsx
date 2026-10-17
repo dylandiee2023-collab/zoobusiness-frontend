@@ -227,28 +227,40 @@ export function ProductCreatePage() {
       }
 
       const existingVariants = await platform.api.get<Row<{ id: string; name: string }>>(`${base}/products/${encodeURIComponent(product.id)}/variants?page=1&limit=100`).catch(() => [] as { id: string; name: string }[]);
-      const knownVariantNames = new Set(rowsOf(existingVariants).map((item) => item.name.toLowerCase()));
-      for (const variant of variants.filter((item) => item.name.trim() && !knownVariantNames.has(item.name.trim().toLowerCase()))) {
-        const createdVariant = await platform.api.post<{ id: string }>(`${base}/products/${encodeURIComponent(product.id)}/variants`, {
-          name: variant.name.trim(),
-          sku: variant.sku.trim() || undefined,
-          barcode: variant.barcode.trim() || undefined,
-          description: variant.description.trim() || undefined,
-          status: "ACTIVE",
-        });
-        completed.push(`variant ${variant.name.trim()}`);
+      const knownVariants = rowsOf(existingVariants);
+      const attributeCache = [...attributes];
+      for (const variant of variants.filter((item) => item.name.trim())) {
+        let savedVariant = knownVariants.find((item) => item.name.toLowerCase() === variant.name.trim().toLowerCase());
+        if (!savedVariant) {
+          savedVariant = await platform.api.post<{ id: string; name: string }>(`${base}/products/${encodeURIComponent(product.id)}/variants`, {
+            name: variant.name.trim(),
+            sku: variant.sku.trim() || undefined,
+            barcode: variant.barcode.trim() || undefined,
+            description: variant.description.trim() || undefined,
+            status: "ACTIVE",
+          });
+          knownVariants.push(savedVariant);
+          completed.push(`variant ${variant.name.trim()}`);
+        }
+        const assignments = await platform.api.get<Row<{ attribute_id?: string; attributeId?: string; attribute_value_id?: string; attributeValueId?: string }>>(`${base}/products/${encodeURIComponent(product.id)}/variants/${encodeURIComponent(savedVariant.id)}/attributes`).catch(() => [] as { attribute_id?: string; attributeId?: string; attribute_value_id?: string; attributeValueId?: string }[]);
+        const existingAssignments = rowsOf(assignments);
         for (const pair of parseAttributes(variant.attributes)) {
-          let attribute = attributes.find((item) => item.name.toLowerCase() === pair.name.toLowerCase() || item.code.toLowerCase() === codeify(pair.name).toLowerCase());
+          let attribute = attributeCache.find((item) => item.name.toLowerCase() === pair.name.toLowerCase() || item.code.toLowerCase() === codeify(pair.name).toLowerCase());
           if (!attribute) {
             attribute = await platform.api.post<AttributeOption>(`${base}/attributes`, { name: pair.name, code: codeify(pair.name), attributeType: "SELECT", isRequired: false, status: "ACTIVE" });
-            setAttributes((current) => [...current, attribute!]);
+            attributeCache.push(attribute);
           }
           const values = await platform.api.get<Row<AttributeValueOption>>(`${base}/attributes/${encodeURIComponent(attribute.id)}/values?page=1&limit=100&status=ACTIVE`).catch(() => [] as AttributeValueOption[]);
           let value = rowsOf(values).find((item) => item.value.toLowerCase() === pair.value.toLowerCase());
           if (!value) value = await platform.api.post<AttributeValueOption>(`${base}/attributes/${encodeURIComponent(attribute.id)}/values`, { value: pair.value, displayName: pair.value, status: "ACTIVE" });
-          await platform.api.post(`${base}/products/${encodeURIComponent(product.id)}/variants/${encodeURIComponent(createdVariant.id)}/attributes`, { attributeId: attribute.id, attributeValueId: value.id });
+          const alreadyAssigned = existingAssignments.some((item) => (item.attribute_value_id ?? item.attributeValueId) === value!.id);
+          if (!alreadyAssigned) {
+            await platform.api.post(`${base}/products/${encodeURIComponent(product.id)}/variants/${encodeURIComponent(savedVariant.id)}/attributes`, { attributeId: attribute.id, attributeValueId: value.id });
+            existingAssignments.push({ attribute_id: attribute.id, attribute_value_id: value.id });
+          }
         }
       }
+      setAttributes(attributeCache);
 
       if (offerEnabled && !completed.includes("offer")) {
         const existingOffers = await platform.api.get<Row<{ id: string; code: string }>>(`${base}/offers?page=1&limit=100&productId=${encodeURIComponent(product.id)}&status=ACTIVE`).catch(() => [] as { id: string; code: string }[]);
@@ -273,7 +285,7 @@ export function ProductCreatePage() {
 
       if (receiveOpeningStock) {
         const existingPurchases = await platform.api.get<Row<{ id: string; notes?: string; status: string }>>(`${base}/purchases?page=1&limit=100&from=${encodeURIComponent(purchaseDate)}&to=${encodeURIComponent(purchaseDate)}`).catch(() => [] as { id: string; notes?: string; status: string }[]);
-        const existingOpening = rowsOf(existingPurchases).find((item) => item.notes === `Product setup: ${product!.id}`);
+        const existingOpening = rowsOf(existingPurchases).find((item) => item.notes?.startsWith(`Product setup: ${product!.id}`));
         if (!existingOpening) {
           const purchase = await platform.api.post<{ id: string }>(`${base}/purchases`, {
             orderDate: purchaseDate,

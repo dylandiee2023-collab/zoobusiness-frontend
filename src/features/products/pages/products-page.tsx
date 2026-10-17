@@ -457,13 +457,30 @@ export function ProductsPage() {
         )}
       </section>
 
-      <button
-        type="button"
-        className="products-mobile-add"
-        onClick={() => navigate("/products/new")}
-      >
-        <Plus size={20} /> Add Product
-      </button>
+      <div className="products-mobile-actions">
+        <button
+          type="button"
+          className="products-mobile-ai"
+          aria-label="Open AI Assistant"
+          onClick={() =>
+            window.dispatchEvent(
+              new CustomEvent("zoobusiness:open-ai-assistant", {
+                detail: { context: "products" },
+              }),
+            )
+          }
+        >
+          <Bot size={21} />
+        </button>
+        <button
+          type="button"
+          className="products-mobile-add"
+          aria-label="Add product"
+          onClick={() => navigate("/products/new")}
+        >
+          <Plus size={23} />
+        </button>
+      </div>
 
       {showCreate && (
         <div

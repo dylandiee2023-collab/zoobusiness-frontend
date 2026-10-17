@@ -2,6 +2,8 @@ import { ArrowUpRight, Construction } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 import { DashboardLayout } from "@/layouts/dashboard";
+import { useLanguage } from "@/app/language";
+import { resolvePublicCopy } from "@/app/language/public-copy";
 
 import "./ModuleShellPage.css";
 
@@ -23,22 +25,26 @@ const MODULES: Record<string, { title: string; group: string; description: strin
 
 export function ModuleShellPage() {
   const location = useLocation();
-  const module = MODULES[location.pathname] ?? MODULES["/dashboard"];
+  const { language } = useLanguage();
+  const t = (key: Parameters<typeof resolvePublicCopy>[1]) => resolvePublicCopy(language, key);
+  const module = MODULES[location.pathname] ?? MODULES["/inventory"];
+  const titleKeys: Record<string, Parameters<typeof resolvePublicCopy>[1]> = { "/inventory": "pageInventory", "/sales": "pageSales", "/pos": "pagePos", "/customers": "pageCustomers", "/customers/messages": "pageChats", "/orders": "pageOrders", "/purchases": "pagePurchasing", "/warehouses": "pageWarehouses", "/expenses": "pageExpenses", "/reports": "pageReports", "/ai-assistant": "pageAi", "/team": "pageTeam", "/integrations": "pageIntegrations" };
+  const groupKeys: Record<string, Parameters<typeof resolvePublicCopy>[1]> = { Main: "groupMain", Operations: "groupOperations", Insights: "groupInsights", Workspace: "groupWorkspace", "Tools & communication": "groupTools" };
 
   return (
     <DashboardLayout>
       <div className="zb-module-shell-page">
         <div className="zb-module-shell-heading">
           <div>
-            <p className="zb-module-shell-eyebrow">{module.group}</p>
-            <h1>{module.title}</h1>
+            <p className="zb-module-shell-eyebrow">{t(groupKeys[module.group] ?? "groupWorkspace")}</p>
+            <h1>{t(titleKeys[location.pathname] ?? "pageWorkspace")}</h1>
             <p>{module.description}</p>
           </div>
           <span className="zb-module-shell-mark"><Construction size={22} aria-hidden="true" /></span>
         </div>
         <section className="zb-module-shell-notice">
           <span className="zb-module-shell-notice-icon"><Construction size={18} aria-hidden="true" /></span>
-          <div><strong>Module shell is ready</strong><p>This area is reserved for the module implementation. It uses the existing ZooBusiness navigation, theme and responsive layout.</p></div>
+          <div><strong>{t("moduleShellReady")}</strong><p>{t("moduleShellBody")}</p></div>
         </section>
         <div className="zb-module-shell-grid">
           {module.tasks.map((task, index) => (
@@ -51,7 +57,7 @@ export function ModuleShellPage() {
             </article>
           ))}
         </div>
-        <Link className="zb-module-shell-back" to="/dashboard">Return to dashboard <ArrowUpRight size={16} /></Link>
+        <Link className="zb-module-shell-back" to="/dashboard">{t("returnDashboard")} <ArrowUpRight size={16} /></Link>
       </div>
     </DashboardLayout>
   );

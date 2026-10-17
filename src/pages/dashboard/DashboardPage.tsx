@@ -149,6 +149,9 @@ export function DashboardPage() {
     ...(summary?.sales.trend.map((point) => point.amount) ?? []),
   );
   const currency = summary?.currency ?? "TZS";
+  const stockAvailability = summary && summary.inventory.trackedItems > 0
+    ? Math.max(0, Math.min(100, Math.round(((summary.inventory.trackedItems - summary.inventory.lowStockItems) / summary.inventory.trackedItems) * 100)))
+    : null;
 
   if (
     workspaceLoading ||
@@ -224,10 +227,10 @@ export function DashboardPage() {
                 <p>Share of tracked items not currently flagged as low stock.</p>
               </div>
               <div className="dashboard-health-visual">
-                <div className="dashboard-health-ring" style={{ "--health-score": `${Math.max(0, Math.min(100, Math.round(((summary.inventory.trackedItems - summary.inventory.lowStockItems) / Math.max(1, summary.inventory.trackedItems)) * 100)))}%` } as CSSProperties}>
-                  <div><strong>{summary.inventory.trackedItems > 0 ? `${Math.max(0, Math.min(100, Math.round(((summary.inventory.trackedItems - summary.inventory.lowStockItems) / Math.max(1, summary.inventory.trackedItems)) * 100)))}%` : "—"}</strong><span>in stock</span></div>
+                <div className="dashboard-health-ring" style={{ "--health-score": `${stockAvailability ?? 0}%` } as CSSProperties}>
+                  <div><strong>{stockAvailability === null ? "—" : `${stockAvailability}%`}</strong><span>not low-stock</span></div>
                 </div>
-                <div className="dashboard-health-legend"><span><i className="health-good" />Healthy stock</span><span><i className="health-watch" />Low stock</span><span><i className="health-risk" />Needs review</span></div>
+                <div className="dashboard-health-legend"><span><i className="health-good" />Not flagged low-stock</span><span><i className="health-watch" />Low-stock items</span></div>
               </div>
             </section>
             </div>
@@ -326,7 +329,7 @@ export function DashboardPage() {
               </div>
               <div className="dashboard-health-visual">
                 <div className="dashboard-health-ring dashboard-health-ring-empty"><div><strong>—</strong><span>awaiting data</span></div></div>
-                <div className="dashboard-health-legend"><span><i className="health-good" />Healthy stock</span><span><i className="health-watch" />Low stock</span><span><i className="health-risk" />Needs review</span></div>
+                <div className="dashboard-health-legend"><span><i className="health-good" />Not flagged low-stock</span><span><i className="health-watch" />Low-stock items</span></div>
               </div>
             </section>
             </div>

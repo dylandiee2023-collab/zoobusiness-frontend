@@ -12,6 +12,8 @@ import { FeaturesPage } from "@/pages/features/FeaturesPage";
 import { PricingPage } from "@/pages/pricing/PricingPage";
 import { DashboardPage } from "@/pages/dashboard/DashboardPage";
 import { ProductsPage } from "@/pages/products/ProductsPage";
+import { WorkspaceSettingsPage } from "@/pages/settings/WorkspaceSettingsPage";
+import { ModuleShellPage } from "@/pages/modules/ModuleShellPage";
 
 export type AppShellName =
   | "auth"
@@ -44,6 +46,35 @@ export const routes: AppRouteObject[] = [
       permissions: ["product.view"],
     },
   },
+  {
+    path: "/settings",
+    element: <WorkspaceSettingsPage />,
+    handle: { title: "Settings | ZooBusiness", shell: "dashboard", requiresAuthentication: true },
+  },
+  {
+    path: "/profile",
+    element: <WorkspaceSettingsPage />,
+    handle: { title: "Workspace settings | ZooBusiness", shell: "dashboard", requiresAuthentication: true },
+  },
+  ...[
+    "/inventory",
+    "/sales",
+    "/pos",
+    "/customers",
+    "/customers/messages",
+    "/orders",
+    "/purchases",
+    "/warehouses",
+    "/expenses",
+    "/reports",
+    "/ai-assistant",
+    "/team",
+    "/integrations",
+  ].map((path): AppRouteObject => ({
+    path,
+    element: <ModuleShellPage />,
+    handle: { title: "Workspace module | ZooBusiness", shell: "dashboard", requiresAuthentication: true },
+  })),
   {
     path: "/dashboard",
     element: <DashboardPage />,

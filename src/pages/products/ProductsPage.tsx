@@ -1,11 +1,9 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Archive,
   Package,
-  PackagePlus,
   Pencil,
-  Plus,
   RefreshCw,
   Search,
 } from "lucide-react";
@@ -13,6 +11,8 @@ import {
 import { Alert, Badge, Button, Card, DataGrid, Drawer, EmptyState, Input, Select, Textarea } from "@/design-system/components";
 import type { DataGridColumn } from "@/design-system/components/data-grid";
 import { DashboardLayout } from "@/layouts/dashboard";
+import { useLanguage } from "@/app/language";
+import { resolvePublicCopy } from "@/app/language/public-copy";
 import { usePlatform } from "@/platform/providers/use-platform";
 import { useWorkspace } from "@/workspace/providers/workspace-provider";
 import {
@@ -79,9 +79,13 @@ function ProductStatusBadge({ status }: { status: ProductStatus }) {
 }
 
 export function ProductsPage() {
+  const { language } = useLanguage();
+  const t = (key: Parameters<typeof resolvePublicCopy>[1]) => resolvePublicCopy(language, key);
   const platform = usePlatform();
   const { workspace, loading: workspaceLoading } = useWorkspace();
   const navigate = useNavigate();
+  const location = useLocation();
+  const setupNotice = (location.state as { productSetupNotice?: string } | null)?.productSetupNotice;
 
   const service = useMemo(() => new ProductService(platform.api), [platform.api]);
   const [products, setProducts] = useState<ProductRecord[]>([]);
@@ -268,13 +272,6 @@ export function ProductsPage() {
       },
   ];
 
-  function openCreate() {
-    setEditingProduct(null);
-    setForm(EMPTY_FORM);
-    setFormError(null);
-    setDrawerOpen(true);
-  }
-
   function openEdit(product: ProductRecord) {
     setEditingProduct(product);
     setForm({
@@ -355,7 +352,7 @@ export function ProductsPage() {
     return (
       <DashboardLayout>
         <div className="flex min-h-64 items-center justify-center" role="status">
-          Loading product workspace…
+          {t("loadingProductWorkspace")}
         </div>
       </DashboardLayout>
     );
@@ -377,18 +374,17 @@ export function ProductsPage() {
         <header className="flex flex-wrap items-start justify-between gap-4">
           <div className="flex flex-col gap-2">
             <p className="text-sm font-semibold uppercase tracking-wider text-green-700">Catalogue</p>
-            <h1 className="text-3xl font-bold">Products</h1>
+            <h1 className="text-3xl font-bold">{t("pageProducts")}</h1>
             <p className="opacity-70">Manage your workspace catalogue, product types and active status.</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <Button type="button" variant="outline" leftIcon={<RefreshCw size={16} />} onClick={() => setReloadVersion((version) => version + 1)}>
               Refresh
             </Button>
-            <Button type="button" leftIcon={<Plus size={16} />} onClick={openCreate}>
-              Add product
-            </Button>
           </div>
         </header>
+
+        {setupNotice ? <Alert variant="success" title="Product setup completed">{setupNotice}</Alert> : null}
 
         {error ? (
           <Alert variant="danger" title="Products could not be loaded">
@@ -453,7 +449,7 @@ export function ProductsPage() {
                 }}
               />
             </div>
-            <p className="text-sm opacity-70">{loading ? "Loading catalogue…" : `${total} product${total === 1 ? "" : "s"} found`}</p>
+            <p className="text-sm opacity-70">{loading ? t("loadingCatalogue") : `${total} product${total === 1 ? "" : "s"} found`}</p>
           </form>
         </Card>
 
@@ -461,13 +457,8 @@ export function ProductsPage() {
           {products.length === 0 && !loading && !error ? (
             <EmptyState
               icon={<Package size={28} />}
-              heading={appliedSearch || categoryId || status || productType ? "No matching products" : "No products yet"}
+              heading={appliedSearch || categoryId || status || productType ? t("noMatchingProducts") : t("noProductsYet")}
               description={appliedSearch || categoryId || status || productType ? "Try changing the search or filters." : "Add your first product to start building the catalogue for this workspace."}
-              action={
-                <Button type="button" leftIcon={<PackagePlus size={16} />} onClick={openCreate}>
-                  Add product
-                </Button>
-              }
             />
           ) : (
             <DataGrid<ProductRecord>
@@ -500,7 +491,7 @@ export function ProductsPage() {
           onClose={() => {
             if (!saving) setDrawerOpen(false);
           }}
-          heading={editingProduct ? "Edit product" : "Add product"}
+          heading={editingProduct ? t("editProduct") : t("addProduct")}
           placement="right"
           size="lg"
         >
@@ -545,7 +536,7 @@ export function ProductsPage() {
             </div>
             <div className="flex flex-wrap justify-end gap-2 border-t border-[var(--color-border)] pt-4">
               <Button type="button" variant="outline" disabled={saving} onClick={() => setDrawerOpen(false)}>Cancel</Button>
-              <Button type="submit" loading={saving} disabled={saving}>{editingProduct ? "Save changes" : "Create product"}</Button>
+              <Button type="submit" loading={saving} disabled={saving}>{editingProduct ? t("saveChanges") : t("createProduct")}</Button>
             </div>
           </form>
         </Drawer>

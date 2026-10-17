@@ -11,6 +11,7 @@ import { topBarStyles } from "./top-bar.styles";
 
 const ROUTE_CONTEXT: Record<string, { group: string; title: string }> = {
   "/dashboard": { group: "Main", title: "Dashboard" },
+  "/products/new": { group: "Main", title: "Add product" },
   "/products": { group: "Main", title: "Products" },
   "/inventory": { group: "Main", title: "Inventory" },
   "/sales": { group: "Main", title: "Sales" },

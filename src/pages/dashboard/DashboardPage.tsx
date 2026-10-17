@@ -9,7 +9,6 @@ import {
   Bot,
   CalendarDays,
   ChevronDown,
-  CircleAlert,
   CircleDollarSign,
   ClipboardList,
   LoaderCircle,

@@ -10,7 +10,7 @@ import {
   Search,
 } from "lucide-react";
 
-import { Alert, Badge, Button, Card, DataGrid, Drawer, EmptyState, Input, Select } from "@/design-system/components";
+import { Alert, Badge, Button, Card, DataGrid, Drawer, EmptyState, Input, Select, Textarea } from "@/design-system/components";
 import type { DataGridColumn } from "@/design-system/components/data-grid";
 import { DashboardLayout } from "@/layouts/dashboard";
 import { usePlatform } from "@/platform/providers/use-platform";
@@ -196,8 +196,7 @@ export function ProductsPage() {
     workspaceLoading,
   ]);
 
-  const columns = useMemo<DataGridColumn<ProductRecord>[]>(
-    () => [
+  const columns: DataGridColumn<ProductRecord>[] = [
       {
         id: "product",
         field: "name",
@@ -267,9 +266,7 @@ export function ProductsPage() {
           </div>
         ),
       },
-    ],
-    [],
-  );
+  ];
 
   function openCreate() {
     setEditingProduct(null);
@@ -544,7 +541,7 @@ export function ProductsPage() {
             </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="product-description" className="font-medium">Description <span className="opacity-70">(optional)</span></label>
-              <textarea id="product-description" className="min-h-28 w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-3 text-inherit" value={form.description} onChange={(event) => setForm((value) => ({ ...value, description: event.target.value }))} />
+              <Textarea id="product-description" value={form.description} onChange={(event) => setForm((value) => ({ ...value, description: event.target.value }))} />
             </div>
             <div className="flex flex-wrap justify-end gap-2 border-t border-[var(--color-border)] pt-4">
               <Button type="button" variant="outline" disabled={saving} onClick={() => setDrawerOpen(false)}>Cancel</Button>

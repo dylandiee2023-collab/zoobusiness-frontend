@@ -166,7 +166,7 @@
   .zb-topbar-actions .zb-theme-button, .zb-topbar-actions .zb-profile-button { display: none !important; }
   .zb-topbar-icon-button { min-width: 40px; height: 40px; padding: 0; }
   .zb-mobile-bottom-nav { display: flex; }
-  .dashboard-layout-root main > div { padding-top: 12px !important; padding-bottom: calc(96px + env(safe-area-inset-bottom)) !important; }
+  .dashboard-layout-root main > div { padding-top: 60px !important; padding-bottom: calc(96px + env(safe-area-inset-bottom)) !important; }
   .zb-floating-support { right: 12px; bottom: max(82px, calc(env(safe-area-inset-bottom) + 72px)); }
   .zb-floating-support a { width: 46px; height: 46px; min-height: 46px; justify-content: center; padding: 0; }
   .zb-floating-support a span { display: none; }

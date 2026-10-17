@@ -272,3 +272,34 @@
   .dashboard-task-see-more { display: none; }
   .dashboard-context-controls { margin-bottom: 18px; }
 }
+
+/* Keep desktop content in the requested information hierarchy. */
+@media (min-width: 768px) {
+  .dashboard-page { display: flex; flex-direction: column; }
+  .dashboard-context-controls { order: 0; }
+  .dashboard-error { order: 1; }
+  .dashboard-summary-shell { display: contents; }
+  .dashboard-metrics-grid { order: 2; }
+  .dashboard-sales-panel { order: 3; }
+  .dashboard-task-card { order: 4; }
+  .dashboard-quick-actions { order: 5; }
+  .dashboard-recent-activity { order: 6; }
+  .dashboard-analytics-placeholder { order: 7; }
+  .dashboard-detail-grid { order: 8; }
+  .dashboard-data-note { order: 9; }
+  .dashboard-sales-panel { background: linear-gradient(135deg, color-mix(in srgb, var(--zb-colors-primary) 8%, var(--zb-colors-surface)), color-mix(in srgb, var(--zb-colors-primary) 15%, var(--zb-colors-surface))); }
+}
+@media (max-width: 767px) {
+  .dashboard-page { display: flex; flex-direction: column; }
+  .dashboard-context-controls { order: 0; }
+  .dashboard-error { order: 1; margin: 0 0 16px !important; padding: 12px 14px !important; border-radius: 14px !important; }
+  .dashboard-summary-shell { display: contents; }
+  .dashboard-sales-panel { order: 2; }
+  .dashboard-metrics-grid { order: 3; }
+  .dashboard-task-card { order: 4; }
+  .dashboard-quick-actions { order: 5; }
+  .dashboard-recent-activity { order: 6; }
+  .dashboard-analytics-placeholder { order: 7; }
+  .dashboard-detail-grid { order: 8; }
+  .dashboard-data-note { order: 9; }
+}

@@ -93,9 +93,9 @@ export function ContentShellViewport({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: theme.spacing[3],
+    gap: theme.spacing.inline,
     minHeight: theme.componentSizes.topbarHeight,
-    paddingInline: theme.spacing[4],
+    paddingInline: theme.spacing.card,
     borderBottom: `1px solid ${theme.colors.border}`,
     background: theme.colors.surface,
   };
@@ -105,10 +105,10 @@ export function ContentShellViewport({
     alignItems: "center",
     justifyContent: "center",
     flex: "0 0 auto",
-    width: theme.componentSizes.buttonHeight,
-    height: theme.componentSizes.buttonHeight,
+    width: theme.componentSizes.navbarHeight,
+    height: theme.componentSizes.navbarHeight,
     border: 0,
-    borderRadius: theme.radius.md,
+    borderRadius: theme.radius.button,
     background: "transparent",
     color: theme.colors.text,
     cursor: "pointer",
@@ -221,9 +221,9 @@ export function ContentShellViewport({
             insetBlock: 0,
             insetInlineEnd: 0,
             width: "min(560px, 92%)",
-            zIndex: theme.zIndex.overlay,
+            zIndex: theme.zIndex.drawer,
             borderLeft: `1px solid ${theme.colors.border}`,
-            boxShadow: theme.shadows.lg,
+            boxShadow: theme.shadows.modal,
           }}
         >
           {shell3Header}

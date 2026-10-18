@@ -58,7 +58,11 @@ export interface CreateProductPayload {
 }
 
 export class ProductService {
-  constructor(private readonly api: ApiClientContract) {}
+  private readonly api: ApiClientContract;
+
+  constructor(api: ApiClientContract) {
+    this.api = api;
+  }
 
   list(
     workspaceId: string,

@@ -18,8 +18,13 @@ export function SidebarHeader() {
         className="zb-sidebar-brand-icon"
         src={icon}
         alt="ZooBusiness"
-        width={theme.iconSizes.avatar}
-        height={theme.iconSizes.avatar}
+        style={{
+          width: theme.iconSizes.avatar,
+          height: theme.iconSizes.avatar,
+          display: "block",
+          flexShrink: 0,
+          objectFit: "contain",
+        }}
       />
     </header>
   );

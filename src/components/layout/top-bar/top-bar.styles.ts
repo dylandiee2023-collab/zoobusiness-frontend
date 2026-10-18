@@ -16,7 +16,7 @@ export const topBarStyles = {
     background: "var(--zb-colors-surface)",
     color: "var(--zb-colors-text)",
     border: 0,
-    borderBottom: "1px solid var(--zb-colors-border)",
+    borderBottom: 0,
     borderRadius: 0,
     boxShadow: "none",
   },

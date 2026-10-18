@@ -1,4 +1,4 @@
-import { ArrowLeft, Bell, MoreVertical, Monitor, Moon, Search, ShoppingCart, Sun, UserRound } from "lucide-react";
+import { Bell, MoreVertical, Monitor, Moon, Search, ShoppingCart, Sun, UserRound } from "lucide-react";
 import { useMemo, useRef, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -10,43 +10,15 @@ import { BrandLogo } from "@/components/brand/components/brand-logo/brand-logo";
 import { useTopBar } from "./context";
 import { topBarStyles } from "./top-bar.styles";
 
-const ROUTE_CONTEXT = {
-  "/dashboard": { groupKey: "groupMain", titleKey: "pageDashboard" },
-  "/products/new": { groupKey: "groupMain", titleKey: "pageAddProduct" },
-  "/products": { groupKey: "groupMain", titleKey: "pageProducts" },
-  "/inventory": { groupKey: "groupMain", titleKey: "pageInventory" },
-  "/sales": { groupKey: "groupMain", titleKey: "pageSales" },
-  "/pos": { groupKey: "groupMain", titleKey: "pagePos" },
-  "/customers": { groupKey: "groupMain", titleKey: "pageCustomers" },
-  "/customers/messages": { groupKey: "groupTools", titleKey: "pageChats" },
-  "/orders": { groupKey: "groupOperations", titleKey: "pageOrders" },
-  "/purchases": { groupKey: "groupOperations", titleKey: "pagePurchasing" },
-  "/warehouses": { groupKey: "groupOperations", titleKey: "pageWarehouses" },
-  "/expenses": { groupKey: "groupOperations", titleKey: "pageExpenses" },
-  "/reports": { groupKey: "groupInsights", titleKey: "pageReports" },
-  "/ai-assistant": { groupKey: "groupTools", titleKey: "pageAi" },
-  "/team": { groupKey: "groupWorkspace", titleKey: "pageTeam" },
-  "/integrations": { groupKey: "groupWorkspace", titleKey: "pageIntegrations" },
-  "/settings": { groupKey: "groupWorkspace", titleKey: "pageSettings" },
-  "/profile": { groupKey: "groupWorkspace", titleKey: "pageSettings" },
-} as const;
-
 export function TopBar() {
   const { state, actions } = useTopBar();
   const { language } = useLanguage();
   const t = (key: Parameters<typeof resolvePublicCopy>[1]) => resolvePublicCopy(language, key);
-  const { mode, setMode, theme } = useTheme();
+  const { mode, setMode } = useTheme();
   const { isMobile } = useResponsive();
   const navigate = useNavigate();
   const location = useLocation();
-  const routeKey = Object.keys(ROUTE_CONTEXT).sort((a, b) => b.length - a.length).find((path) => location.pathname === path || location.pathname.startsWith(path + "/"));
-  const routeContext = routeKey ? ROUTE_CONTEXT[routeKey as keyof typeof ROUTE_CONTEXT] : { groupKey: "groupZooBusiness" as const, titleKey: "pageWorkspace" as const };
-  const pageTitle = t(routeContext.titleKey);
-  const pageGroup = t(routeContext.groupKey);
   const isHome = location.pathname === "/" || location.pathname === "/dashboard";
-  const canGoBack = !isHome;
-  const mobilePrimaryRoutes = ["/dashboard", "/inventory", "/ai-assistant", "/profile", "/settings"];
-  const isMobilePrimaryRoute = mobilePrimaryRoutes.includes(location.pathname);
   const mobileHeaderConfig = useMemo(() => {
     if (isHome) return { search: true, notifications: true, more: false, back: false };
     if (location.pathname === "/inventory") return { search: true, notifications: false, more: true, back: false };
@@ -56,8 +28,8 @@ export function TopBar() {
     if (location.pathname === "/pos") return { search: false, notifications: false, more: false, back: true };
     if (location.pathname === "/profile" || location.pathname === "/settings") return { search: false, notifications: false, more: false, back: false };
     if (location.pathname === "/ai-assistant") return { search: false, notifications: false, more: true, back: false };
-    return { search: false, notifications: false, more: false, back: !isMobilePrimaryRoute };
-  }, [isHome, isMobilePrimaryRoute, location.pathname]);
+    return { search: false, notifications: false, more: false, back: false };
+  }, [isHome, location.pathname]);
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileActionsOpen, setMobileActionsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -98,23 +70,9 @@ export function TopBar() {
   return (
     <header className={`dashboard-topbar${isMobile ? " is-mobile" : ""}`} style={topBarStyles.root}>
       <div className="zb-topbar-start">
-        {isMobile ? (
-          <div className="zb-mobile-page-identity" aria-live="polite">
-            {canGoBack ? (
-              <button type="button" className="zb-mobile-back-button" aria-label={t("back")} title={t("back")} onClick={() => {
-                if (typeof window !== "undefined" && window.history.state?.idx > 0) navigate(-1);
-                else navigate("/dashboard");
-              }} style={{ border: 0, borderRadius: theme.radius.button, background: theme.colors.surface, color: theme.colors.text, fontWeight: 400, boxShadow: "none", transition: "box-shadow 160ms ease" }} onMouseEnter={(event) => { event.currentTarget.style.boxShadow = "0 2px 8px rgba(15, 23, 42, 0.16)"; }} onMouseLeave={(event) => { event.currentTarget.style.boxShadow = "none"; }} onTouchStart={(event) => { event.currentTarget.style.boxShadow = "0 2px 8px rgba(15, 23, 42, 0.16)"; }} onTouchEnd={(event) => { event.currentTarget.style.boxShadow = "none"; }}>
-                <ArrowLeft size={20} aria-hidden="true" />
-              </button>
-            ) : null}
-            {isHome ? <div className="zb-mobile-brand" aria-label="ZooBusiness"><BrandLogo size={148} /></div> : <span className="zb-mobile-page-title" style={{ fontWeight: 400, color: theme.colors.text }}>{pageTitle}</span>}
-          </div>
-        ) : (
-          <div className="zb-topbar-location" aria-live="polite" style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div style={{ display: "grid", gap: 2 }}><span>{pageGroup}</span><span style={{ fontWeight: 400, color: theme.colors.text }}>{pageTitle}</span></div>
-          </div>
-        )}
+        <div className="zb-topbar-brand" aria-label="ZooBusiness">
+          <BrandLogo size={148} />
+        </div>
         {(!isMobile || mobileHeaderConfig.search) ? <button type="button" className="zb-topbar-search-trigger" aria-label="Open global search" title="Search ZooBusiness" onClick={() => setSearchOpen(true)}>
           <Search size={20} aria-hidden="true" />
           {!isMobile ? <span>{t("searchWorkspace")}</span> : null}

@@ -27,7 +27,7 @@ export function ModuleShellPage() {
   const location = useLocation();
   const { language } = useLanguage();
   const t = (key: Parameters<typeof resolvePublicCopy>[1]) => resolvePublicCopy(language, key);
-  const module = MODULES[location.pathname] ?? MODULES["/inventory"];
+  const module = MODULES[location.pathname] ?? MODULES["/inventory"]!;
   const titleKeys: Record<string, Parameters<typeof resolvePublicCopy>[1]> = { "/inventory": "pageInventory", "/sales": "pageSales", "/pos": "pagePos", "/customers": "pageCustomers", "/customers/messages": "pageChats", "/orders": "pageOrders", "/purchases": "pagePurchasing", "/warehouses": "pageWarehouses", "/expenses": "pageExpenses", "/reports": "pageReports", "/ai-assistant": "pageAi", "/team": "pageTeam", "/integrations": "pageIntegrations" };
   const groupKeys: Record<string, Parameters<typeof resolvePublicCopy>[1]> = { Main: "groupMain", Operations: "groupOperations", Insights: "groupInsights", Workspace: "groupWorkspace", "Tools & communication": "groupTools" };
 

@@ -93,7 +93,7 @@ export function WorkspaceSettingsPage() {
                       <span className="zb-settings-option-icon"><Icon size={20} aria-hidden="true" /></span>
                       <span className="zb-settings-option-copy">
                         <strong>{t(item.titleKey)}</strong>
-                        <small>{item.description}</small>
+                        <small>{t(item.descriptionKey)}</small>
                         <em>{t("settingsComingSoon")}</em>
                       </span>
                       <ArrowRight size={18} className="zb-settings-option-arrow" aria-hidden="true" />

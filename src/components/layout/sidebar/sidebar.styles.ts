@@ -11,7 +11,7 @@ export const sidebarStyles = {
     height: "100dvh",
     overflow: "hidden",
     background: "var(--zb-colors-surface)",
-    borderRight: 0,
+    borderRight: "1px solid var(--zb-colors-border)",
     transition: "width 180ms ease",
   },
 } as const;

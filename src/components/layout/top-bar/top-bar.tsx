@@ -14,7 +14,7 @@ export function TopBar() {
   const { state, actions } = useTopBar();
   const { language } = useLanguage();
   const t = (key: Parameters<typeof resolvePublicCopy>[1]) => resolvePublicCopy(language, key);
-  const { mode, setMode, theme } = useTheme();
+  const { mode, setMode } = useTheme();
   const { isMobile } = useResponsive();
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,7 +29,7 @@ export function TopBar() {
     if (location.pathname === "/profile" || location.pathname === "/settings") return { search: false, notifications: false, more: false, back: false };
     if (location.pathname === "/ai-assistant") return { search: false, notifications: false, more: true, back: false };
     return { search: false, notifications: false, more: false, back: false };
-  }, [isHome, isMobilePrimaryRoute, location.pathname]);
+  }, [isHome, location.pathname]);
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileActionsOpen, setMobileActionsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");

@@ -44,7 +44,9 @@ export function SidebarProvider({ children }: PropsWithChildren) {
 
       actions: {
         toggle() {
-          setMode(isMobile ? "hidden" : "collapsed");
+          setMode((current) =>
+            current === "expanded" ? "collapsed" : "expanded",
+          );
         },
 
         collapse() {
@@ -52,7 +54,7 @@ export function SidebarProvider({ children }: PropsWithChildren) {
         },
 
         expand() {
-          setMode(isMobile ? "hidden" : "collapsed");
+          setMode("expanded");
         },
 
         hide() {

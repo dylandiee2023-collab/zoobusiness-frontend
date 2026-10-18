@@ -711,3 +711,86 @@
 .dashboard-layout-root .zb-topbar-page-context { max-width:42vw; }
 .dashboard-layout-root .zb-topbar-page-copy strong { max-width:28vw; }
 }
+
+
+/* Final desktop shell correction: sidebar owns column one; topbar and page
+   content share column two. Mobile keeps its existing header/navigation rules. */
+@media (min-width: 768px) {
+  .dashboard-layout-root {
+    display: grid !important;
+    grid-template-columns: 72px minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .dashboard-layout-root[data-sidebar-mode="expanded"] {
+    grid-template-columns: 280px minmax(0, 1fr);
+  }
+
+  .dashboard-layout-root[data-sidebar-mode="collapsed"] {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+
+  .dashboard-layout-root[data-sidebar-mode="hidden"] {
+    grid-template-columns: 0 minmax(0, 1fr);
+  }
+
+  .dashboard-layout-root > aside[aria-label="Application sidebar"] {
+    position: relative !important;
+    inset: auto !important;
+    grid-column: 1;
+    grid-row: 1;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 100% !important;
+    z-index: 1 !important;
+    border: 0;
+  }
+
+  .dashboard-layout-root > main {
+    grid-column: 2;
+    grid-row: 1;
+    width: auto !important;
+    min-width: 0;
+    height: 100dvh;
+    margin-left: 0 !important;
+    overflow-y: auto;
+  }
+
+  .dashboard-layout-root .dashboard-topbar {
+    position: sticky !important;
+    inset: auto !important;
+    top: 0 !important;
+    width: 100% !important;
+    min-width: 0;
+    height: 72px !important;
+    min-height: 72px !important;
+    flex: 0 0 auto;
+    z-index: 50 !important;
+  }
+
+  .dashboard-layout-root main > div {
+    padding-top: 0 !important;
+  }
+
+  .dashboard-layout-root .zb-sidebar-header {
+    justify-content: center !important;
+    padding-inline: 0 !important;
+    border: 0 !important;
+  }
+
+  .dashboard-layout-root .zb-sidebar-brand-icon {
+    display: block;
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    object-fit: contain;
+  }
+
+  .dashboard-layout-root[data-sidebar-mode="expanded"] .zb-sidebar-header {
+    justify-content: flex-start !important;
+    padding-inline: 24px !important;
+  }
+}

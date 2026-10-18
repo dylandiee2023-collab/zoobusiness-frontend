@@ -1,10 +1,26 @@
+import darkSidebarIcon from "@/assets/brand/icon/zoobusiness-icon-dark.svg";
+import lightSidebarIcon from "@/assets/brand/icon/zoobusiness-icon-white.svg";
+import { useTheme } from "@/theme/hooks";
+
 import { sidebarHeaderStyles } from "./sidebar-header.styles";
 
-/**
- * The brand now lives in the global topbar. Keep this structural header so the
- * sidebar layout remains stable, but do not render a logo or expand/collapse
- * affordance here.
- */
 export function SidebarHeader() {
-  return <header className="zb-sidebar-header" aria-hidden="true" style={sidebarHeaderStyles.root} />;
+  const { theme } = useTheme();
+  const icon = theme.mode === "dark" ? lightSidebarIcon : darkSidebarIcon;
+
+  return (
+    <header
+      className="zb-sidebar-header"
+      aria-label="ZooBusiness"
+      style={sidebarHeaderStyles.root}
+    >
+      <img
+        className="zb-sidebar-brand-icon"
+        src={icon}
+        alt="ZooBusiness"
+        width={theme.iconSizes.avatar}
+        height={theme.iconSizes.avatar}
+      />
+    </header>
+  );
 }

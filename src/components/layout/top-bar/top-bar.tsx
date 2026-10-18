@@ -24,7 +24,7 @@ export function TopBar() {
     const exact = pathTitles[location.pathname];
     if (exact) return exact;
     const segment = location.pathname.split("/").filter(Boolean).at(-1);
-    return segment ? segment.replace(/[-_]/g, " ").replace(/\\b\\w/g, (letter) => letter.toUpperCase()) : "Workspace";
+    return segment ? segment.replace(/[-_]/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase()) : "Workspace";
   }, [location.pathname]);
   const mobileHeaderConfig = useMemo(() => {
     if (isHome) return { search: true, notifications: true, more: false, back: false };

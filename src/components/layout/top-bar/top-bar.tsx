@@ -1,4 +1,4 @@
-import { Bell, MoreVertical, Monitor, Moon, Search, ShoppingCart, Sun, UserRound } from "lucide-react";
+import { ArrowLeft, Bell, MoreVertical, Monitor, Moon, Search, ShoppingCart, Sun, UserRound } from "lucide-react";
 import { useMemo, useRef, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -19,6 +19,13 @@ export function TopBar() {
   const navigate = useNavigate();
   const location = useLocation();
   const isHome = location.pathname === "/" || location.pathname === "/dashboard";
+  const pageTitle = useMemo(() => {
+    const pathTitles: Record<string, string> = { "/inventory": "Inventory", "/products": "Products", "/sales": "Sales", "/orders": "Orders", "/customers": "Customers", "/customers/messages": "Customer chats", "/pos": "Point of sale", "/reports": "Reports", "/ai-assistant": "AI assistant", "/profile": "Profile", "/settings": "Settings" };
+    const exact = pathTitles[location.pathname];
+    if (exact) return exact;
+    const segment = location.pathname.split("/").filter(Boolean).at(-1);
+    return segment ? segment.replace(/[-_]/g, " ").replace(/\\b\\w/g, (letter) => letter.toUpperCase()) : "Workspace";
+  }, [location.pathname]);
   const mobileHeaderConfig = useMemo(() => {
     if (isHome) return { search: true, notifications: true, more: false, back: false };
     if (location.pathname === "/inventory") return { search: true, notifications: false, more: true, back: false };
@@ -69,15 +76,9 @@ export function TopBar() {
 
   return (
     <header className={`dashboard-topbar${isMobile ? " is-mobile" : ""}`} style={topBarStyles.root}>
-      <div className="zb-topbar-start">
-        <div className="zb-topbar-brand" aria-label="ZooBusiness">
-          <BrandLogo size={148} />
-        </div>
-        {(!isMobile || mobileHeaderConfig.search) ? <button type="button" className="zb-topbar-search-trigger" aria-label="Open global search" title="Search ZooBusiness" onClick={() => setSearchOpen(true)}>
-          <Search size={20} aria-hidden="true" />
-          {!isMobile ? <span>{t("searchWorkspace")}</span> : null}
-          {!isMobile ? <kbd>Ctrl K</kbd> : null}
-        </button> : null}
+      <div className={`zb-topbar-start${isHome ? " is-home" : " has-page-context"}`}>
+        {isHome ? <div className="zb-topbar-brand" aria-label="ZooBusiness"><BrandLogo size="32px" /></div> : <div className="zb-topbar-page-context"><button type="button" className="zb-topbar-back-button" aria-label="Go back" title="Go back" onClick={() => navigate(-1)}><ArrowLeft size={19} aria-hidden="true" /></button><div className="zb-topbar-page-copy"><span>WORKSPACE</span><strong>{pageTitle}</strong></div></div>}
+        {(!isMobile || mobileHeaderConfig.search) ? <button type="button" className="zb-topbar-search-trigger" aria-label="Open global search" title="Search ZooBusiness" onClick={() => setSearchOpen(true)}><Search size={20} aria-hidden="true" />{!isMobile ? <span>{t("searchWorkspace")}</span> : null}{!isMobile ? <kbd>Ctrl K</kbd> : null}</button> : null}
       </div>
       <nav className="zb-topbar-actions" aria-label="Quick actions">
         

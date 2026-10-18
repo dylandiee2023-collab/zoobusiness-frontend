@@ -14,13 +14,13 @@ export function SidebarProvider({ children }: PropsWithChildren) {
     typeof window !== "undefined" &&
     window.matchMedia("(max-width: 767px)").matches
       ? "hidden"
-      : "expanded",
+      : "collapsed",
   );
 
   useEffect(() => {
     setMode((current) => {
       if (isMobile && current !== "hidden") return "hidden";
-      if (!isMobile && current === "hidden") return "expanded";
+      if (!isMobile && current === "hidden") return "collapsed";
       return current;
     });
   }, [isMobile]);

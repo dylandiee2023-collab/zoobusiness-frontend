@@ -70,9 +70,9 @@ export const semanticColors = {
   dark: {
     background: "#1E1F21",
 
-    surface: primitiveColors.forest[800],
+    surface: "#202324",
 
-    surfaceSecondary: primitiveColors.forest[700],
+    surfaceSecondary: "#292d2e",
 
     primary: primitiveColors.green[500],
 
@@ -112,9 +112,9 @@ export const semanticColors = {
 
     text: primitiveColors.white,
 
-    textSecondary: primitiveColors.forest[100],
+    textSecondary: "#c9d1cf",
 
-    textMuted: primitiveColors.forest[200],
+    textMuted: "#9aa5a2",
 
     onPrimary: primitiveColors.white,
 
@@ -128,8 +128,8 @@ export const semanticColors = {
 
     onInfo: primitiveColors.white,
 
-    border: primitiveColors.forest[700],
+    border: "#292d2e",
 
-    divider: primitiveColors.forest[800],
+    divider: "#202324",
   },
 } as const;

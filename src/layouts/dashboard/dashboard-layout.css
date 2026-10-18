@@ -604,3 +604,73 @@
     background: var(--zb-colors-surfaceSecondary);
   }
 }
+
+
+/* WhatsApp-inspired dashboard chrome: seamless, charcoal and green. */
+.dashboard-layout-root,
+.dashboard-layout-root main {
+  background: var(--zb-colors-background);
+}
+.dashboard-layout-root aside[aria-label="Application sidebar"] {
+  background: var(--zb-colors-background);
+  border: 0;
+  box-shadow: none;
+}
+.dashboard-layout-root .zb-sidebar-header {
+  border: 0;
+  min-height: 76px;
+}
+.dashboard-layout-root .zb-sidebar-brand-toggle,
+.dashboard-layout-root .zb-sidebar-collapse-button {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.dashboard-layout-root .zb-sidebar-nav {
+  padding: 14px 10px 22px;
+  gap: 14px;
+}
+.dashboard-layout-root .zb-sidebar-link {
+  justify-content: flex-start;
+  min-height: 48px;
+  border-radius: 13px;
+}
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .zb-sidebar-link {
+  justify-content: center;
+  padding: 0;
+}
+.dashboard-layout-root .zb-sidebar-link.is-active {
+  background: color-mix(in srgb, var(--zb-colors-primary) 19%, transparent);
+}
+.dashboard-layout-root .zb-sidebar-workspace-footer {
+  border: 0;
+}
+.dashboard-layout-root .dashboard-topbar {
+  background: var(--zb-colors-background) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.dashboard-layout-root .zb-topbar-search-trigger {
+  border: 0;
+  border-radius: 18px;
+  background: var(--zb-colors-surface);
+  box-shadow: none;
+}
+.dashboard-layout-root .zb-topbar-search-trigger kbd {
+  background: color-mix(in srgb, var(--zb-colors-primary) 18%, transparent);
+  color: var(--zb-colors-primary);
+}
+.dashboard-layout-root .zb-topbar-actions button,
+.dashboard-layout-root .zb-topbar-actions a {
+  border-color: transparent;
+  box-shadow: none;
+}
+.dashboard-layout-root .zb-floating-support a {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+}
+@media (max-width: 767px) {
+  .dashboard-layout-root .dashboard-topbar {
+    background: var(--zb-colors-background) !important;
+    border: 0 !important;
+  }
+}

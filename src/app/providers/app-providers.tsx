@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/theme/providers";
 import { PlatformProvider } from "@/platform/providers";
 import { WorkspaceProvider } from "@/workspace/providers/workspace-provider";
 import { WorkspaceAccessProvider } from "@/workspace/providers/workspace-access-provider";
+import { ContentShellProvider } from "@/content-shell-engine";
 
 export function AppProviders({ children }: PropsWithChildren) {
   return (
@@ -14,7 +15,9 @@ export function AppProviders({ children }: PropsWithChildren) {
         <ResponsiveProvider>
           <LanguageProvider>
             <WorkspaceProvider>
-              <WorkspaceAccessProvider>{children}</WorkspaceAccessProvider>
+              <WorkspaceAccessProvider>
+                <ContentShellProvider>{children}</ContentShellProvider>
+              </WorkspaceAccessProvider>
             </WorkspaceProvider>
           </LanguageProvider>
         </ResponsiveProvider>

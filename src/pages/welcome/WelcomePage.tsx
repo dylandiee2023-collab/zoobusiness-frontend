@@ -6,6 +6,8 @@ import { useLanguage } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
 import { LayoutProvider, useLayout } from "@/layout-engine";
 import { PublicShell } from "@/shells/PublicShell";
+import { PricingSection } from "@/pages/pricing/PricingSection";
+import { Footer } from "./components/Footer";
 import { useTheme } from "@/theme/hooks";
 import darkLogo from "@/assets/brand/zoobusiness.dark.png.png";
 import lightLogo from "@/assets/brand/zoobusiness.light.png.png";
@@ -66,7 +68,7 @@ function LandingPageContent() {
         <Link href="/features">{t("navFeatures")}</Link>
         <Link
           href="#solutions"
-          onClick={(event) => {
+          onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
             event.preventDefault();
             jumpTo("solutions");
           }}
@@ -109,7 +111,7 @@ function LandingPageContent() {
           onClick={toggleMode}
         >
           <AppIcon
-            name={mode === "dark" ? "check" : "settings"}
+            name="moon"
             size={theme.iconSizes.toolbar}
             aria-hidden="true"
           />
@@ -120,36 +122,8 @@ function LandingPageContent() {
     </Flex>
   );
 
-  const footer = (
-    <Flex
-      align="center"
-      justify="space-between"
-      gap={theme.spacing.inline}
-      wrap="wrap"
-      style={{ minHeight: theme.componentSizes.bottomNavigationHeight }}
-    >
-      <Flex align="center" gap={theme.spacing.inline}>
-        <img
-          src={logo}
-          alt="ZooBusiness"
-          style={{ width: "auto", maxWidth: "7rem", maxHeight: "1.8rem", objectFit: "contain" }}
-        />
-        <Text size={theme.typography.bodySmall.fontSize} color={theme.colors.textSecondary}>
-          {sw ? "Biashara yako, sehemu moja." : "Your business, in one workspace."}
-        </Text>
-      </Flex>
-      <Flex align="center" gap={theme.spacing.inline} wrap="wrap">
-        <Link href="/features">{t("navFeatures")}</Link>
-        <Link href="mailto:support@avatratech.com">{t("navContact")}</Link>
-        <Text size={theme.typography.bodySmall.fontSize} color={theme.colors.textSecondary}>
-          © {new Date().getFullYear()} AvatraTech
-        </Text>
-      </Flex>
-    </Flex>
-  );
-
   return (
-    <PublicShell header={header} footer={footer}>
+    <PublicShell header={header} footer={<Footer />}>
       <main id="home">
         <Container maxWidth={dimensions.maxContentWidth} padding={theme.spacing.page} center>
           <Stack spacing={0}>
@@ -160,8 +134,8 @@ function LandingPageContent() {
                 isolation: "isolate",
                 display: "flex",
                 alignItems: "center",
-                minHeight: "min(48rem, calc(100svh - 7rem))",
-                padding: "clamp(2rem, 5vw, 4.5rem)",
+                minHeight: "clamp(30rem, 72svh, 40rem)",
+                padding: "clamp(1.5rem, 4vw, 3.25rem)",
                 overflow: "hidden",
                 borderRadius: theme.radius.card,
                 backgroundImage: `url(${heroWoman})`,
@@ -188,11 +162,11 @@ function LandingPageContent() {
                   level={1}
                   style={{
                     color: "#FFFFFF",
-                    fontSize: "clamp(3rem, 6.3vw, 6.25rem)",
+                    fontSize: "clamp(2.75rem, 5.1vw, 5rem)",
                     fontWeight: 900,
                     lineHeight: 0.98,
                     letterSpacing: "-0.055em",
-                    maxWidth: "10ch",
+                    maxWidth: "12ch",
                     margin: 0,
                   }}
                 >
@@ -221,7 +195,7 @@ function LandingPageContent() {
             </section>
 
             <section aria-labelledby="home-capabilities-title" style={sectionStyle}>
-              <Flex align="end" justify="space-between" gap={theme.spacing.section} wrap="wrap" style={{ marginBottom: theme.spacing.section }}>
+              <Flex align="flex-end" justify="space-between" gap={theme.spacing.section} wrap="wrap" style={{ marginBottom: theme.spacing.section }}>
                 <Stack spacing={theme.spacing.inline} style={{ maxWidth: "42rem" }}>
                   <Text color={theme.colors.primary} weight={700} transform="uppercase">{sw ? "JUKWAA MOJA" : "ONE BUSINESS WORKSPACE"}</Text>
                   <Heading id="home-capabilities-title" level={2} style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", letterSpacing: "-0.04em" }}>
@@ -325,70 +299,35 @@ function LandingPageContent() {
               </Flex>
             </section>
 
-            <section id="pricing-preview" aria-labelledby="pricing-title" style={sectionStyle}>
+            <section aria-labelledby="pricing-title" style={sectionStyle}>
               <Flex
-                align="center"
+                align="flex-end"
                 justify="space-between"
                 gap={theme.spacing.section}
                 wrap="wrap"
-                style={{
-                  padding: "clamp(1.5rem, 4vw, 3rem)",
-                  borderRadius: theme.radius.card,
-                  background: theme.colors.surfaceSecondary,
-                }}
+                style={{ marginBottom: theme.spacing.section }}
               >
-                <Stack spacing={theme.spacing.inline} style={{ flex: "1 1 20rem" }}>
+                <Stack spacing={theme.spacing.inline} style={{ maxWidth: "42rem" }}>
                   <Text color={theme.colors.primary} weight={700} transform="uppercase">
                     {sw ? "BEI NA MIPANGO" : "PRICING"}
                   </Text>
-                  <Heading id="pricing-title" level={2}>
-                    {sw ? "Chagua mpango unaofaa biashara yako." : "Find the right plan for your business."}
+                  <Heading id="pricing-title" level={2} style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", letterSpacing: "-0.04em" }}>
+                    {sw ? "Bei zinazoendana na hatua ya biashara yako." : "Pricing that grows with your business."}
                   </Heading>
-                  <Text color={theme.colors.textSecondary} style={{ lineHeight: 1.7 }}>
+                  <Text color={theme.colors.textSecondary} style={{ lineHeight: 1.75 }}>
                     {sw
-                      ? "Taarifa za mipango na bei zinapatikana kwenye ukurasa wa bei."
-                      : "Visit the pricing page for plan information and the latest pricing details."}
+                      ? "Anza na mpango unaokufaa na badili kadri biashara inavyokua."
+                      : "Choose the plan that fits today and move up as your business grows."}
                   </Text>
                 </Stack>
                 <Button size="lg" variant="outline" onClick={() => navigate("/pricing")}>
-                  {sw ? "Angalia mipango" : "View pricing"}
+                  {sw ? "Angalia mipango yote" : "Explore all plans"} →
                 </Button>
               </Flex>
+              <PricingSection compact />
             </section>
 
-            <section id="contact" aria-labelledby="contact-title" style={sectionStyle}>
-              <Flex
-                align="center"
-                justify="space-between"
-                gap={theme.spacing.section}
-                wrap="wrap"
-                style={{
-                  padding: "clamp(1.5rem, 4vw, 3rem)",
-                  border: `1px solid ${theme.colors.border}`,
-                  borderRadius: theme.radius.card,
-                }}
-              >
-                <Stack spacing={theme.spacing.inline} style={{ flex: "1 1 20rem" }}>
-                  <Heading id="contact-title" level={2}>
-                    {sw ? "Tuanze pamoja." : "Ready to get started?"}
-                  </Heading>
-                  <Text color={theme.colors.textSecondary} style={{ lineHeight: 1.7 }}>
-                    {sw
-                      ? "Fungua akaunti au wasiliana na timu ya AvatraTech kwa msaada."
-                      : "Create an account or contact the AvatraTech team for help getting started."}
-                  </Text>
-                  <Link href="mailto:support@avatratech.com" color={theme.colors.primary}>
-                    support@avatratech.com
-                  </Link>
-                </Stack>
-                <Flex gap={theme.spacing.inline} wrap="wrap">
-                  <Button size="lg" onClick={() => navigate("/signup")}>{t("getStarted")}</Button>
-                  <Button size="lg" variant="outline" onClick={() => navigate("/features")}>
-                    {sw ? "Vipengele vyote" : "All features"}
-                  </Button>
-                </Flex>
-              </Flex>
-            </section>
+
           </Stack>
         </Container>
       </main>

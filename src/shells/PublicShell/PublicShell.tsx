@@ -8,7 +8,6 @@ import { PUBLIC_SHELL_STYLE } from "./PublicShell.styles";
 export function PublicShell({ children, header, footer }: PublicShellProps) {
   const { theme } = useTheme();
   const headerHeight = theme.componentSizes.topbarHeight;
-  const footerHeight = theme.componentSizes.bottomNavigationHeight;
 
   const fixedRegionStyle: CSSProperties = {
     position: "fixed",
@@ -47,23 +46,21 @@ export function PublicShell({ children, header, footer }: PublicShellProps) {
         style={{
           flex: 1,
           paddingTop: header ? headerHeight : 0,
-          paddingBottom: footer ? footerHeight : 0,
         }}
       >
         {children}
       </div>
 
       {footer ? (
-        <footer
+        <div
           style={{
-            ...fixedRegionStyle,
-            insetBlockEnd: 0,
-            height: footerHeight,
-            borderTop: `1px solid ${theme.colors.border}`,
+            width: "100%",
+            marginTop: "auto",
+            background: theme.colors.background,
           }}
         >
           <div style={contentWidthStyle}>{footer}</div>
-        </footer>
+        </div>
       ) : null}
     </div>
   );

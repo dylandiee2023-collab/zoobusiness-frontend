@@ -83,11 +83,11 @@ export const navigationConfig: readonly NavigationItem[] = [
     placement: "sidebar",
     children: [
       { id: "ads", label: "Ads", icon: "chart", placement: "sidebar" },
-      { id: "plugins", label: "Plugins", icon: "settings", placement: "sidebar" },
+      { id: "plugins", label: "Plugins", icon: "plug", placement: "sidebar" },
       {
         id: "channels",
         label: "Channels",
-        icon: "bell",
+        icon: "messageCircle",
         placement: "sidebar",
         children: [
           { id: "whatsapp", label: "WhatsApp", icon: "messageCircle", placement: "sidebar" },

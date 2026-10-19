@@ -869,3 +869,22 @@
     padding-top: 64px !important;
   }
 }
+
+/* Match the topbar to the sidebar surface and remove the seam between them. */
+.dashboard-layout-root aside[aria-label="Application sidebar"] {
+  background: var(--zb-colors-surface) !important;
+  border-right: 0 !important;
+  box-shadow: none !important;
+}
+.dashboard-layout-root .dashboard-topbar {
+  background: var(--zb-colors-surface) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+@media (max-width: 767px) {
+  .dashboard-layout-root .dashboard-topbar {
+    background: var(--zb-colors-surface) !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+}

@@ -5,6 +5,7 @@ import {
   ClipboardList,
   ChevronDown,
   LayoutDashboard,
+  Mail,
   MessageCircle,
   Package,
   Plug,
@@ -40,6 +41,8 @@ const itemIcons = {
   chart: BarChart3,
   bot: Bot,
   "message-circle": MessageCircle,
+  messageCircle: MessageCircle,
+  mail: Mail,
   "user-cog": UserCog,
   plug: Plug,
 } as const;

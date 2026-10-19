@@ -23,6 +23,9 @@ import "./BottomNavigation.css";
 
 const iconMap: Record<string, LucideIcon> = {
   "layout-dashboard": Home,
+  grid: Home,
+  scan: ShoppingCart,
+  shoppingBag: ShoppingCart,
   "shopping-cart": ShoppingCart,
   warehouse: Warehouse,
   users: Users,

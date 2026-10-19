@@ -13,6 +13,8 @@ export interface ContentShellEntry {
 export interface WorkspaceShellState {
   readonly shell2: ContentShellEntry | null;
   readonly shell3: ContentShellEntry | null;
+  /** Last selected Shell 1 submenu, keyed by the main menu id. */
+  readonly shell1MenuByMainMenu: Readonly<Record<string, string>>;
 }
 
 export interface ContentShellSnapshot {
@@ -32,6 +34,9 @@ export interface ContentShellEngine {
   readonly shell3: ContentShellEntry | null;
   readonly activeWorkspaceId: string;
   setActiveWorkspace(workspaceId: string): void;
+  /** Remember the selected submenu for a main menu without coupling it to page rendering. */
+  rememberShell1Menu(mainMenuId: string, submenuId: string): void;
+  getRememberedShell1Menu(mainMenuId: string): string | null;
   openShell2(entry: ContentShellEntry, options?: OpenShellOptions): void;
   openShell3(entry: ContentShellEntry): boolean;
   updateShellDirty(level: ContentShellLevel, dirty: boolean): void;

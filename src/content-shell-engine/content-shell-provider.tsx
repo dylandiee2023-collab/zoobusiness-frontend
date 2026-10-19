@@ -281,7 +281,11 @@ export function ContentShellProvider({ children }: PropsWithChildren) {
         ...current,
         workspaces: {
           ...current.workspaces,
-          [current.activeWorkspaceId]: EMPTY_WORKSPACE,
+          [current.activeWorkspaceId]: {
+            shell2: null,
+            shell3: null,
+            shell1MenuByMainMenu: currentWorkspace.shell1MenuByMainMenu,
+          },
         },
       }));
       return true;

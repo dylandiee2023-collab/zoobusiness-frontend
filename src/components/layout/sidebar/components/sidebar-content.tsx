@@ -9,6 +9,7 @@ import {
   Package,
   Plug,
   ShoppingCart,
+  Settings,
   Store,
   Truck,
   UserCog,
@@ -23,6 +24,10 @@ import { useResponsive } from "@/responsive";
 
 const itemIcons = {
   "layout-dashboard": LayoutDashboard,
+  grid: LayoutDashboard,
+  scan: ShoppingCart,
+  shoppingBag: ShoppingCart,
+  settings: Settings,
   package: Package,
   warehouse: Warehouse,
   "shopping-cart": ShoppingCart,

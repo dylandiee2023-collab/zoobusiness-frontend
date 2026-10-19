@@ -606,12 +606,6 @@
 }
 
 
-/* Menu foundation: keep account destinations separate from daily work. */
-.zb-sidebar-group[data-group-id="account"] {
-  margin-top: auto;
-  padding-top: 16px;
-  border-top: 1px solid var(--zb-colors-border);
-}
 
 
 /* Final mobile menu foundation overrides legacy dock rules. */

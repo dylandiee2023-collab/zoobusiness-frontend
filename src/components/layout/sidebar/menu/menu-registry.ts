@@ -1,15 +1,41 @@
-import type { MenuGroup } from "./menu.types";
+import { navigationConfig } from "@/dashboard/navigation/navigation.config";
+import type { MenuGroup, MenuItem } from "./menu.types";
 
-/** Keep the desktop sidebar intentionally minimal; more destinations are added with their pages. */
+function toSidebarItem(item: (typeof navigationConfig)[number]): MenuItem {
+  return {
+    id: item.id,
+    title: item.label,
+    icon: item.icon,
+    route: item.route ?? "/dashboard",
+    permissions: item.permission ? [item.permission] : undefined,
+  };
+}
+
+const dailyNavigation = navigationConfig
+  .filter((item) => item.placement === "sidebar")
+  .map(toSidebarItem);
+
+const accountNavigation = navigationConfig
+  .filter((item) => item.placement === "user-menu")
+  .map(toSidebarItem);
+
+/**
+ * The sidebar is a compact projection of the canonical navigation tree.
+ * Nested Shell 1 destinations live in navigationConfig.children.
+ */
 export const MENU_REGISTRY: readonly MenuGroup[] = [
   {
-    id: "main",
-    title: "Main",
-    icon: "layout-dashboard",
+    id: "daily",
+    title: "",
+    icon: "dashboard",
     expanded: true,
-    items: [
-      { id: "dashboard", title: "Dashboard", icon: "layout-dashboard", route: "/dashboard" },
-      { id: "products", title: "Products", icon: "package", route: "/products", permissions: ["product.view"] },
-    ],
+    items: dailyNavigation,
+  },
+  {
+    id: "account",
+    title: "",
+    icon: "users",
+    expanded: true,
+    items: accountNavigation,
   },
 ];

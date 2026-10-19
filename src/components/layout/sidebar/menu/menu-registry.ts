@@ -7,7 +7,7 @@ function toSidebarItem(item: (typeof navigationConfig)[number]): MenuItem {
     title: item.label,
     icon: item.icon,
     route: item.route ?? "/dashboard",
-    permissions: item.permission ? [item.permission] : undefined,
+    ...(item.permission ? { permissions: [item.permission] } : {}),
   };
 }
 

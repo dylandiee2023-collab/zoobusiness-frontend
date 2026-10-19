@@ -888,3 +888,47 @@
     box-shadow: none !important;
   }
 }
+
+/* Final mobile menu foundation overrides legacy dock rules. */
+@media (max-width: 767px) {
+  .dashboard-layout-root .zb-mobile-bottom-nav {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    gap: 2px !important;
+    min-height: 0 !important;
+    padding: 8px 8px calc(8px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .dashboard-layout-root .zb-mobile-bottom-nav > a,
+  .dashboard-layout-root .zb-mobile-bottom-nav > button {
+    display: flex !important;
+    min-width: 0 !important;
+    min-height: 48px !important;
+    flex: initial !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    padding: 4px 2px !important;
+    border: 0 !important;
+    border-radius: 10px !important;
+    background: transparent;
+    color: var(--zb-colors-textSecondary);
+    font-size: 10px !important;
+    box-shadow: none !important;
+  }
+
+  .dashboard-layout-root .zb-mobile-bottom-nav > a.is-active,
+  .dashboard-layout-root .zb-mobile-bottom-nav > button.is-active {
+    background: color-mix(in srgb, var(--zb-colors-primary) 12%, var(--zb-colors-surface)) !important;
+    color: var(--zb-colors-primary) !important;
+  }
+}
+
+.zb-sidebar-group[data-group-id="account"] {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--zb-colors-border);
+}

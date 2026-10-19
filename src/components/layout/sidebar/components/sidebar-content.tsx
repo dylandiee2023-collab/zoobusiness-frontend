@@ -54,8 +54,8 @@ export function SidebarContent() {
   return (
     <nav className="zb-sidebar-nav" aria-label="Sidebar navigation">
       {state.groups.map((group) => (
-        <section className="zb-sidebar-group" key={group.id}>
-          {!collapsed ? (
+        <section className="zb-sidebar-group" data-group-id={group.id} key={group.id}>
+          {!collapsed && group.title ? (
             <button
               className="zb-sidebar-group-toggle"
               type="button"

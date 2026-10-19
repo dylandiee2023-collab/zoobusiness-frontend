@@ -646,7 +646,7 @@
   border: 0;
 }
 .dashboard-layout-root .dashboard-topbar {
-  background: var(--zb-colors-background) !important;
+  background: var(--zb-colors-surface) !important;
   border: 0 !important;
   box-shadow: none !important;
 }
@@ -670,7 +670,7 @@
 }
 @media (max-width: 767px) {
   .dashboard-layout-root .dashboard-topbar {
-    background: var(--zb-colors-background) !important;
+    background: var(--zb-colors-surface) !important;
     border: 0 !important;
   }
 }
@@ -695,8 +695,8 @@
 @media (max-width:767px) {
 .dashboard-layout-root .dashboard-topbar { left:0!important;width:100%!important;height:64px!important;min-height:64px!important;padding:0 10px!important;gap:6px!important; }
 .dashboard-layout-root .zb-topbar-start { flex:1 1 auto!important;min-width:0!important;gap:8px!important; }
-.dashboard-layout-root .zb-topbar-brand { width:112px!important;max-width:112px!important;flex:0 1 112px!important; }
-.dashboard-layout-root .zb-topbar-brand img { width:auto!important;max-width:112px!important;height:27px!important;max-height:27px!important; }
+.dashboard-layout-root .zb-topbar-brand { width:132px!important;max-width:132px!important;flex:0 1 132px!important; }
+.dashboard-layout-root .zb-topbar-brand img { width:auto!important;max-width:132px!important;height:32px!important;max-height:32px!important; }
 .dashboard-layout-root .zb-topbar-page-context { gap:6px;min-width:0;max-width:46vw; }
 .dashboard-layout-root .zb-topbar-back-button { width:32px;height:36px;flex-basis:32px;background:transparent; }
 .dashboard-layout-root .zb-topbar-page-copy span { font-size:9px; }
@@ -706,8 +706,8 @@
 .dashboard-layout-root .zb-topbar-actions .zb-notification-button,.dashboard-layout-root .zb-topbar-actions .zb-mobile-more-button { width:34px!important;min-width:34px!important;height:36px!important;padding:0!important; }
 }
 @media (max-width:380px) {
-.dashboard-layout-root .zb-topbar-brand { width:94px!important;max-width:94px!important;flex-basis:94px!important; }
-.dashboard-layout-root .zb-topbar-brand img { max-width:94px!important;height:24px!important;max-height:24px!important; }
+.dashboard-layout-root .zb-topbar-brand { width:108px!important;max-width:108px!important;flex-basis:108px!important; }
+.dashboard-layout-root .zb-topbar-brand img { max-width:108px!important;height:28px!important;max-height:28px!important; }
 .dashboard-layout-root .zb-topbar-page-context { max-width:42vw; }
 .dashboard-layout-root .zb-topbar-page-copy strong { max-width:28vw; }
 }

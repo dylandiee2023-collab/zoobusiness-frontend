@@ -31,7 +31,7 @@ export const navigationConfig: readonly NavigationItem[] = [
     placement: "sidebar",
     children: [
       { id: "purchase-orders", label: "Purchase Orders", icon: "receipt", permission: "order.view", placement: "sidebar" },
-      { id: "suppliers", label: "Suppliers", icon: "store", permission: "supplier.view", placement: "sidebar" },
+      { id: "suppliers", label: "Suppliers", icon: "shoppingBag", permission: "supplier.view", placement: "sidebar" },
       { id: "receiving", label: "Receive Stock", icon: "boxes", permission: "inventory.manage", placement: "sidebar" },
     ],
   },
@@ -59,7 +59,7 @@ export const navigationConfig: readonly NavigationItem[] = [
     children: [
       { id: "customer-directory", label: "Customer Directory", icon: "users", route: "/customers", permission: "customer.view", placement: "sidebar" },
       { id: "customer-debts", label: "Debts", icon: "receipt", route: "/customers/debts", permission: "customer.view", placement: "sidebar" },
-      { id: "customer-messages", label: "Messages", icon: "message-circle", route: "/customers/messages", permission: "customer.view", placement: "sidebar" },
+      { id: "customer-messages", label: "Messages", icon: "bell", route: "/customers/messages", permission: "customer.view", placement: "sidebar" },
     ],
   },
   {
@@ -78,22 +78,22 @@ export const navigationConfig: readonly NavigationItem[] = [
   {
     id: "tools",
     label: "Tools",
-    icon: "plug",
+    icon: "settings",
     route: "/integrations",
     placement: "sidebar",
     children: [
       { id: "ads", label: "Ads", icon: "chart", placement: "sidebar" },
-      { id: "plugins", label: "Plugins", icon: "plug", placement: "sidebar" },
+      { id: "plugins", label: "Plugins", icon: "settings", placement: "sidebar" },
       {
         id: "channels",
         label: "Channels",
-        icon: "message-circle",
+        icon: "bell",
         placement: "sidebar",
         children: [
-          { id: "whatsapp", label: "WhatsApp", icon: "message-circle", placement: "sidebar" },
-          { id: "telegram", label: "Telegram", icon: "message-circle", placement: "sidebar" },
-          { id: "messenger", label: "Messenger", icon: "message-circle", placement: "sidebar" },
-          { id: "email", label: "Email", icon: "mail", placement: "sidebar" },
+          { id: "whatsapp", label: "WhatsApp", icon: "bell", placement: "sidebar" },
+          { id: "telegram", label: "Telegram", icon: "bell", placement: "sidebar" },
+          { id: "messenger", label: "Messenger", icon: "bell", placement: "sidebar" },
+          { id: "email", label: "Email", icon: "bell", placement: "sidebar" },
         ],
       },
     ],

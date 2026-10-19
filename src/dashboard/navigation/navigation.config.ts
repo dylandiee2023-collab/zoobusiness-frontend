@@ -31,7 +31,7 @@ export const navigationConfig: readonly NavigationItem[] = [
     placement: "sidebar",
     children: [
       { id: "purchase-orders", label: "Purchase Orders", icon: "receipt", permission: "order.view", placement: "sidebar" },
-      { id: "suppliers", label: "Suppliers", icon: "shoppingBag", permission: "supplier.view", placement: "sidebar" },
+      { id: "suppliers", label: "Suppliers", icon: "store", permission: "supplier.view", placement: "sidebar" },
       { id: "receiving", label: "Receive Stock", icon: "boxes", permission: "inventory.manage", placement: "sidebar" },
     ],
   },
@@ -78,7 +78,7 @@ export const navigationConfig: readonly NavigationItem[] = [
   {
     id: "tools",
     label: "Tools",
-    icon: "settings",
+    icon: "plug",
     route: "/integrations",
     placement: "sidebar",
     children: [
@@ -90,10 +90,10 @@ export const navigationConfig: readonly NavigationItem[] = [
         icon: "bell",
         placement: "sidebar",
         children: [
-          { id: "whatsapp", label: "WhatsApp", icon: "bell", placement: "sidebar" },
-          { id: "telegram", label: "Telegram", icon: "bell", placement: "sidebar" },
-          { id: "messenger", label: "Messenger", icon: "bell", placement: "sidebar" },
-          { id: "email", label: "Email", icon: "bell", placement: "sidebar" },
+          { id: "whatsapp", label: "WhatsApp", icon: "messageCircle", placement: "sidebar" },
+          { id: "telegram", label: "Telegram", icon: "messageCircle", placement: "sidebar" },
+          { id: "messenger", label: "Messenger", icon: "messageCircle", placement: "sidebar" },
+          { id: "email", label: "Email", icon: "mail", placement: "sidebar" },
         ],
       },
     ],

@@ -1,86 +1,41 @@
-import type { MenuGroup } from "./menu.types";
+import { navigationConfig } from "@/dashboard/navigation/navigation.config";
+import type { MenuGroup, MenuItem } from "./menu.types";
+
+function toSidebarItem(item: (typeof navigationConfig)[number]): MenuItem {
+  return {
+    id: item.id,
+    title: item.label,
+    icon: item.icon,
+    route: item.route ?? "/dashboard",
+    permissions: item.permission ? [item.permission] : undefined,
+  };
+}
+
+const dailyNavigation = navigationConfig
+  .filter((item) => item.placement === "sidebar")
+  .map(toSidebarItem);
+
+const accountNavigation = navigationConfig
+  .filter((item) => item.placement === "user-menu")
+  .map(toSidebarItem);
 
 /**
- * Canonical primary navigation for the authenticated workspace.
- * Feature pages remain module-owned; this registry only defines destinations
- * and the permissions required to reveal them.
+ * The sidebar is a compact projection of the canonical navigation tree.
+ * Nested Shell 1 destinations live in navigationConfig.children.
  */
 export const MENU_REGISTRY: readonly MenuGroup[] = [
   {
     id: "daily",
     title: "",
-    icon: "layout-dashboard",
+    icon: "dashboard",
     expanded: true,
-    items: [
-      {
-        id: "home",
-        title: "Home",
-        icon: "layout-dashboard",
-        route: "/dashboard",
-        permissions: ["report.view"],
-      },
-      {
-        id: "pos",
-        title: "POS",
-        icon: "shopping-cart",
-        route: "/pos",
-        permissions: ["pos.use"],
-      },
-      {
-        id: "purchases",
-        title: "Purchases",
-        icon: "shopping-cart",
-        route: "/purchases",
-        permissions: ["order.view"],
-      },
-      {
-        id: "inventory",
-        title: "Inventory",
-        icon: "warehouse",
-        route: "/inventory",
-        permissions: ["inventory.view"],
-      },
-      {
-        id: "customers",
-        title: "Customers",
-        icon: "users",
-        route: "/customers",
-        permissions: ["customer.view"],
-      },
-      {
-        id: "ai",
-        title: "AI",
-        icon: "bot",
-        route: "/ai-assistant",
-        permissions: ["ai.use"],
-      },
-      {
-        id: "tools",
-        title: "Tools",
-        icon: "plug",
-        route: "/integrations",
-      },
-    ],
+    items: dailyNavigation,
   },
   {
     id: "account",
     title: "",
-    icon: "user-cog",
+    icon: "users",
     expanded: true,
-    items: [
-      {
-        id: "profile",
-        title: "Profile",
-        icon: "user-cog",
-        route: "/profile",
-      },
-      {
-        id: "settings",
-        title: "Settings",
-        icon: "user-cog",
-        route: "/settings",
-        permissions: ["workspace.manage"],
-      },
-    ],
+    items: accountNavigation,
   },
 ];

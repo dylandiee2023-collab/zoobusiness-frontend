@@ -25,6 +25,7 @@ const DEFAULT_WORKSPACE_ID = "default";
 const EMPTY_WORKSPACE: WorkspaceShellState = {
   shell2: null,
   shell3: null,
+  shell1MenuByMainMenu: {},
 };
 
 const EMPTY_SNAPSHOT: ContentShellSnapshot = {
@@ -43,9 +44,17 @@ function isShellEntry(value: unknown): value is ContentShellEntry {
 function isWorkspaceShellState(value: unknown): value is WorkspaceShellState {
   if (typeof value !== "object" || value === null) return false;
   const state = value as Partial<WorkspaceShellState>;
+  const rememberedMenus = state.shell1MenuByMainMenu;
+  const validRememberedMenus =
+    rememberedMenus === undefined ||
+    (typeof rememberedMenus === "object" &&
+      rememberedMenus !== null &&
+      Object.values(rememberedMenus).every((value) => typeof value === "string"));
+
   return (
     (state.shell2 === null || isShellEntry(state.shell2)) &&
-    (state.shell3 === null || isShellEntry(state.shell3))
+    (state.shell3 === null || isShellEntry(state.shell3)) &&
+    validRememberedMenus
   );
 }
 
@@ -73,6 +82,7 @@ function readSnapshot(): ContentShellSnapshot {
         workspaces[workspaceId] = {
           shell2: value.shell2,
           shell3: value.shell2 ? value.shell3 : null,
+          shell1MenuByMainMenu: value.shell1MenuByMainMenu ?? {},
         };
       }
     }
@@ -140,6 +150,38 @@ export function ContentShellProvider({ children }: PropsWithChildren) {
     }));
   }, []);
 
+  const rememberShell1Menu = useCallback((mainMenuId: string, submenuId: string) => {
+    const mainId = mainMenuId.trim();
+    const subId = submenuId.trim();
+    if (!mainId || !subId) return;
+
+    setSnapshot((current) => {
+      const currentWorkspace = current.workspaces[current.activeWorkspaceId] ?? EMPTY_WORKSPACE;
+      if (currentWorkspace.shell1MenuByMainMenu[mainId] === subId) return current;
+      return {
+        ...current,
+        workspaces: {
+          ...current.workspaces,
+          [current.activeWorkspaceId]: {
+            ...currentWorkspace,
+            shell1MenuByMainMenu: {
+              ...currentWorkspace.shell1MenuByMainMenu,
+              [mainId]: subId,
+            },
+          },
+        },
+      };
+    });
+  }, []);
+
+  const getRememberedShell1Menu = useCallback(
+    (mainMenuId: string) => {
+      const currentWorkspace = snapshot.workspaces[snapshot.activeWorkspaceId] ?? EMPTY_WORKSPACE;
+      return currentWorkspace.shell1MenuByMainMenu[mainMenuId] ?? null;
+    },
+    [snapshot],
+  );
+
   const openShell2 = useCallback(
     (entry: ContentShellEntry, options?: { preserveExisting?: boolean }) => {
       setSnapshot((current) => {
@@ -155,6 +197,7 @@ export function ContentShellProvider({ children }: PropsWithChildren) {
                 ? currentWorkspace.shell2
                 : { ...entry, dirty: entry.dirty ?? false },
               shell3: preserveExisting ? currentWorkspace.shell3 : null,
+              shell1MenuByMainMenu: currentWorkspace.shell1MenuByMainMenu,
             },
           },
         };
@@ -238,7 +281,11 @@ export function ContentShellProvider({ children }: PropsWithChildren) {
         ...current,
         workspaces: {
           ...current.workspaces,
-          [current.activeWorkspaceId]: EMPTY_WORKSPACE,
+          [current.activeWorkspaceId]: {
+            shell2: null,
+            shell3: null,
+            shell1MenuByMainMenu: currentWorkspace.shell1MenuByMainMenu,
+          },
         },
       }));
       return true;
@@ -263,6 +310,8 @@ export function ContentShellProvider({ children }: PropsWithChildren) {
       shell2: activeWorkspace.shell2,
       shell3: activeWorkspace.shell3,
       setActiveWorkspace,
+      rememberShell1Menu,
+      getRememberedShell1Menu,
       openShell2,
       openShell3,
       updateShellDirty,
@@ -275,6 +324,8 @@ export function ContentShellProvider({ children }: PropsWithChildren) {
       activeWorkspaceId,
       activeWorkspace,
       setActiveWorkspace,
+      rememberShell1Menu,
+      getRememberedShell1Menu,
       openShell2,
       openShell3,
       updateShellDirty,

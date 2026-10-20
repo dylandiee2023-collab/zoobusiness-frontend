@@ -646,7 +646,7 @@
   border: 0;
 }
 .dashboard-layout-root .dashboard-topbar {
-  background: var(--zb-colors-background) !important;
+  background: var(--zb-colors-surface) !important;
   border: 0 !important;
   box-shadow: none !important;
 }
@@ -670,7 +670,7 @@
 }
 @media (max-width: 767px) {
   .dashboard-layout-root .dashboard-topbar {
-    background: var(--zb-colors-background) !important;
+    background: var(--zb-colors-surface) !important;
     border: 0 !important;
   }
 }
@@ -695,8 +695,8 @@
 @media (max-width:767px) {
 .dashboard-layout-root .dashboard-topbar { left:0!important;width:100%!important;height:64px!important;min-height:64px!important;padding:0 10px!important;gap:6px!important; }
 .dashboard-layout-root .zb-topbar-start { flex:1 1 auto!important;min-width:0!important;gap:8px!important; }
-.dashboard-layout-root .zb-topbar-brand { width:112px!important;max-width:112px!important;flex:0 1 112px!important; }
-.dashboard-layout-root .zb-topbar-brand img { width:auto!important;max-width:112px!important;height:27px!important;max-height:27px!important; }
+.dashboard-layout-root .zb-topbar-brand { width:132px!important;max-width:132px!important;flex:0 1 132px!important; }
+.dashboard-layout-root .zb-topbar-brand img { width:auto!important;max-width:132px!important;height:32px!important;max-height:32px!important; }
 .dashboard-layout-root .zb-topbar-page-context { gap:6px;min-width:0;max-width:46vw; }
 .dashboard-layout-root .zb-topbar-back-button { width:32px;height:36px;flex-basis:32px;background:transparent; }
 .dashboard-layout-root .zb-topbar-page-copy span { font-size:9px; }
@@ -706,8 +706,185 @@
 .dashboard-layout-root .zb-topbar-actions .zb-notification-button,.dashboard-layout-root .zb-topbar-actions .zb-mobile-more-button { width:34px!important;min-width:34px!important;height:36px!important;padding:0!important; }
 }
 @media (max-width:380px) {
-.dashboard-layout-root .zb-topbar-brand { width:94px!important;max-width:94px!important;flex-basis:94px!important; }
-.dashboard-layout-root .zb-topbar-brand img { max-width:94px!important;height:24px!important;max-height:24px!important; }
+.dashboard-layout-root .zb-topbar-brand { width:108px!important;max-width:108px!important;flex-basis:108px!important; }
+.dashboard-layout-root .zb-topbar-brand img { max-width:108px!important;height:28px!important;max-height:28px!important; }
 .dashboard-layout-root .zb-topbar-page-context { max-width:42vw; }
 .dashboard-layout-root .zb-topbar-page-copy strong { max-width:28vw; }
+}
+
+
+/* Final desktop shell correction: sidebar owns column one; topbar and page
+   content share column two. Mobile keeps its existing header/navigation rules. */
+@media (min-width: 768px) {
+  .dashboard-layout-root {
+    display: grid !important;
+    grid-template-columns: 72px minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .dashboard-layout-root[data-sidebar-mode="expanded"] {
+    grid-template-columns: 280px minmax(0, 1fr);
+  }
+
+  .dashboard-layout-root[data-sidebar-mode="collapsed"] {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+
+  .dashboard-layout-root[data-sidebar-mode="hidden"] {
+    grid-template-columns: 0 minmax(0, 1fr);
+  }
+
+  .dashboard-layout-root > aside[aria-label="Application sidebar"] {
+    position: relative !important;
+    inset: auto !important;
+    grid-column: 1;
+    grid-row: 1;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 100% !important;
+    z-index: 1 !important;
+    border: 0;
+  }
+
+  .dashboard-layout-root > main {
+    grid-column: 2;
+    grid-row: 1;
+    width: auto !important;
+    min-width: 0;
+    height: 100dvh;
+    margin-left: 0 !important;
+    overflow-y: auto;
+  }
+
+  .dashboard-layout-root .dashboard-topbar {
+    position: sticky !important;
+    inset: auto !important;
+    top: 0 !important;
+    width: 100% !important;
+    min-width: 0;
+    height: 72px !important;
+    min-height: 72px !important;
+    flex: 0 0 auto;
+    z-index: 50 !important;
+  }
+
+  .dashboard-layout-root main > div {
+    padding-top: 0 !important;
+  }
+
+  .dashboard-layout-root .zb-sidebar-header {
+    justify-content: center !important;
+    padding-inline: 0 !important;
+    border: 0 !important;
+  }
+
+  .dashboard-layout-root .zb-sidebar-brand-icon {
+    display: block;
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    object-fit: contain;
+  }
+
+  .dashboard-layout-root[data-sidebar-mode="expanded"] .zb-sidebar-header {
+    justify-content: flex-start !important;
+    padding-inline: 24px !important;
+  }
+}
+
+
+/* Viewport-pinned topbar and vertical-only page scrolling. */
+.dashboard-layout-root {
+  width: 100%;
+  max-width: 100%;
+  height: 100dvh;
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+.dashboard-layout-root > main {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overscroll-behavior-x: none;
+  overscroll-behavior-y: contain;
+  scrollbar-gutter: stable;
+}
+.dashboard-layout-root .dashboard-topbar {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: 280px !important;
+  width: calc(100% - 280px) !important;
+  max-width: calc(100% - 280px) !important;
+  box-sizing: border-box !important;
+  z-index: 90 !important;
+  background: var(--zb-colors-background) !important;
+  transform: none !important;
+}
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .dashboard-topbar {
+  left: 72px !important;
+  width: calc(100% - 72px) !important;
+  max-width: calc(100% - 72px) !important;
+}
+.dashboard-layout-root[data-sidebar-mode="hidden"] .dashboard-topbar {
+  left: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.dashboard-layout-root > main > div {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: clip;
+}
+@media (min-width: 768px) {
+  .dashboard-layout-root > main > div {
+    padding-top: 72px !important;
+  }
+}
+@media (max-width: 767px) {
+  .dashboard-layout-root .dashboard-topbar {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 64px !important;
+    min-height: 64px !important;
+    z-index: 90 !important;
+    background: var(--zb-colors-background) !important;
+  }
+  .dashboard-layout-root > main {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+  .dashboard-layout-root > main > div {
+    padding-top: 64px !important;
+  }
+}
+
+/* Match the topbar to the sidebar surface and remove the seam between them. */
+.dashboard-layout-root aside[aria-label="Application sidebar"] {
+  background: var(--zb-colors-surface) !important;
+  border-right: 0 !important;
+  box-shadow: none !important;
+}
+.dashboard-layout-root .dashboard-topbar {
+  background: var(--zb-colors-surface) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+@media (max-width: 767px) {
+  .dashboard-layout-root .dashboard-topbar {
+    background: var(--zb-colors-surface) !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
 }

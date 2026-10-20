@@ -5,10 +5,12 @@ import {
   ClipboardList,
   ChevronDown,
   LayoutDashboard,
+  Mail,
   MessageCircle,
   Package,
   Plug,
   ShoppingCart,
+  Settings,
   Store,
   Truck,
   UserCog,
@@ -23,6 +25,10 @@ import { useResponsive } from "@/responsive";
 
 const itemIcons = {
   "layout-dashboard": LayoutDashboard,
+  grid: LayoutDashboard,
+  scan: ShoppingCart,
+  shoppingBag: ShoppingCart,
+  settings: Settings,
   package: Package,
   warehouse: Warehouse,
   "shopping-cart": ShoppingCart,
@@ -35,6 +41,8 @@ const itemIcons = {
   chart: BarChart3,
   bot: Bot,
   "message-circle": MessageCircle,
+  messageCircle: MessageCircle,
+  mail: Mail,
   "user-cog": UserCog,
   plug: Plug,
 } as const;
@@ -54,8 +62,8 @@ export function SidebarContent() {
   return (
     <nav className="zb-sidebar-nav" aria-label="Sidebar navigation">
       {state.groups.map((group) => (
-        <section className="zb-sidebar-group" key={group.id}>
-          {!collapsed ? (
+        <section className="zb-sidebar-group" data-group-id={group.id} key={group.id}>
+          {!collapsed && group.title ? (
             <button
               className="zb-sidebar-group-toggle"
               type="button"

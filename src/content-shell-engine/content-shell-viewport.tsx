@@ -17,6 +17,8 @@ export interface ContentShellViewportProps {
   readonly className?: string;
   /** Width of Shell 1, supplied by the host layout so collapse changes the grid track. */
   readonly shell1Width?: number;
+  readonly onBackToShell1?: () => void;
+  readonly onCloseShell2?: () => void;
 }
 
 const MOBILE_WIDTH = 720;
@@ -28,6 +30,8 @@ export function ContentShellViewport({
   renderShell3,
   className,
   shell1Width = 280,
+  onBackToShell1,
+  onCloseShell2,
 }: ContentShellViewportProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const [availableWidth, setAvailableWidth] = useState(0);
@@ -161,7 +165,7 @@ export function ContentShellViewport({
               type="button"
               style={iconButtonStyle}
               aria-label="Back to main workspace"
-              onClick={() => engine.closeShell2()}
+              onClick={() => (onCloseShell2 ? onCloseShell2() : engine.closeShell2())}
             >
               <ArrowLeft size={18} aria-hidden="true" />
             </button>
@@ -172,7 +176,7 @@ export function ContentShellViewport({
               type="button"
               style={iconButtonStyle}
               aria-label={`Close ${shell2.title}`}
-              onClick={() => engine.closeShell2()}
+              onClick={() => (onBackToShell1 ? onBackToShell1() : engine.closeShell2())}
             >
               <X size={18} aria-hidden="true" />
             </button>

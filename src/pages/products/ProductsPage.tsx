@@ -10,7 +10,6 @@ import {
 
 import { Alert, Badge, Button, Card, DataGrid, Drawer, EmptyState, Input, Select, Textarea } from "@/design-system/components";
 import type { DataGridColumn } from "@/design-system/components/data-grid";
-import { DashboardLayout } from "@/layouts/dashboard";
 import { useLanguage } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
 import { usePlatform } from "@/platform/providers/use-platform";
@@ -350,27 +349,22 @@ export function ProductsPage() {
 
   if (!platform.authentication.ready || workspaceLoading) {
     return (
-      <DashboardLayout>
-        <div className="flex min-h-64 items-center justify-center" role="status">
+      <div className="flex min-h-64 items-center justify-center" role="status">
           {t("loadingProductWorkspace")}
         </div>
-      </DashboardLayout>
     );
   }
 
   if (!workspace?.id) {
     return (
-      <DashboardLayout>
-        <Alert variant="danger" title="Workspace unavailable">
+      <Alert variant="danger" title="Workspace unavailable">
           Your business workspace could not be resolved. Refresh the page or complete business setup before managing products.
         </Alert>
-      </DashboardLayout>
     );
   }
 
   return (
-    <DashboardLayout>
-      <main className="flex flex-col gap-6">
+    <main className="flex flex-col gap-6">
         <header className="flex flex-wrap items-start justify-between gap-4">
           <div className="flex flex-col gap-2">
             <p className="text-sm font-semibold uppercase tracking-wider text-green-700">Catalogue</p>
@@ -541,6 +535,5 @@ export function ProductsPage() {
           </form>
         </Drawer>
       </main>
-    </DashboardLayout>
   );
 }

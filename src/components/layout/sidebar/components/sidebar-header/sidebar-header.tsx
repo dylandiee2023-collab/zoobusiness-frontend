@@ -13,6 +13,7 @@ export function SidebarHeader() {
   const collapsed = state.mode === "collapsed";
   const icon = theme.mode === "dark" ? lightSidebarIcon : darkSidebarIcon;
   const ToggleIcon = collapsed ? PanelLeftOpen : PanelLeftClose;
+  const brandSize = collapsed ? 24 : theme.iconSizes.avatar;
 
   return (
     <header
@@ -20,7 +21,9 @@ export function SidebarHeader() {
       aria-label="ZooBusiness"
       style={{
         ...sidebarHeaderStyles.root,
-        justifyContent: collapsed ? "center" : "space-between",
+        justifyContent: "space-between",
+        paddingInline: collapsed ? 6 : 16,
+        gap: collapsed ? 4 : 12,
       }}
     >
       <img
@@ -28,8 +31,8 @@ export function SidebarHeader() {
         src={icon}
         alt="ZooBusiness"
         style={{
-          width: theme.iconSizes.avatar,
-          height: theme.iconSizes.avatar,
+          width: brandSize,
+          height: brandSize,
           display: "block",
           flexShrink: 0,
           objectFit: "contain",
@@ -44,8 +47,8 @@ export function SidebarHeader() {
         onClick={actions.toggle}
         style={{
           display: "inline-flex",
-          width: 36,
-          height: 36,
+          width: collapsed ? 28 : 36,
+          height: collapsed ? 28 : 36,
           flex: "0 0 auto",
           alignItems: "center",
           justifyContent: "center",

@@ -6,7 +6,6 @@ import { useLanguage } from "@/app/language/use-language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
 import { useTheme } from "@/theme/hooks";
 import { useResponsive } from "@/responsive";
-import { BrandLogo } from "@/components/brand/components/brand-logo/brand-logo";
 import { useTopBar } from "./context";
 import { topBarStyles } from "./top-bar.styles";
 
@@ -77,7 +76,7 @@ export function TopBar() {
   return (
     <header className={`dashboard-topbar${isMobile ? " is-mobile" : ""}`} style={topBarStyles.root}>
       <div className={`zb-topbar-start${isHome ? " is-home" : " has-page-context"}`}>
-        {isHome ? <div className="zb-topbar-brand" aria-label="ZooBusiness"><BrandLogo size="32px" /></div> : <div className="zb-topbar-page-context"><button type="button" className="zb-topbar-back-button" aria-label="Go back" title="Go back" onClick={() => navigate(-1)}><ArrowLeft size={19} aria-hidden="true" /></button><div className="zb-topbar-page-copy"><strong>{pageTitle}</strong></div></div>}
+        {isHome ? <div className="zb-topbar-home-spacer" aria-hidden="true" /> : <div className="zb-topbar-page-context"><button type="button" className="zb-topbar-back-button" aria-label="Go back" title="Go back" onClick={() => navigate(-1)}><ArrowLeft size={19} aria-hidden="true" /></button><div className="zb-topbar-page-copy"><strong>{pageTitle}</strong></div></div>}
         {(!isMobile || mobileHeaderConfig.search) ? <button type="button" className="zb-topbar-search-trigger" aria-label="Open global search" title="Search ZooBusiness" onClick={() => setSearchOpen(true)}><Search size={20} aria-hidden="true" />{!isMobile ? <span>{t("searchWorkspace")}</span> : null}{!isMobile ? <kbd>Ctrl K</kbd> : null}</button> : null}
       </div>
       <nav className="zb-topbar-actions" aria-label="Quick actions">

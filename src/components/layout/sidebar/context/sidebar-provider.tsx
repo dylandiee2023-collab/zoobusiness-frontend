@@ -1,15 +1,15 @@
 import type { PropsWithChildren } from "react";
 import { useEffect, useMemo, useState } from "react";
 
-import { useResponsive } from "@/responsive";
 import { useWorkspaceAccess } from "@/workspace/providers/workspace-access-provider";
 
 import { SidebarContext } from "./sidebar.context";
 import type { SidebarContract, SidebarGroup } from "../contracts";
 import { buildMenu, filterMenu, MENU_REGISTRY } from "../menu";
 
+const MOBILE_QUERY = "(max-width: 767px)";
+
 export function SidebarProvider({ children }: PropsWithChildren) {
-  const { isMobile } = useResponsive();
   const { access } = useWorkspaceAccess();
 
   const filteredMenu = useMemo(
@@ -18,44 +18,43 @@ export function SidebarProvider({ children }: PropsWithChildren) {
   );
 
   const [mode, setMode] = useState<SidebarContract["state"]["mode"]>(() =>
-    typeof window !== "undefined" &&
-    window.matchMedia("(max-width: 767px)").matches
+    typeof window !== "undefined" && window.matchMedia(MOBILE_QUERY).matches
       ? "hidden"
       : "collapsed",
   );
 
+  // Keep responsive mode synchronized from the browser's media-query events.
+  // The update runs only when the external viewport state changes, not during
+  // the effect's initial execution.
   useEffect(() => {
-    setMode((current) => {
-      if (isMobile && current !== "hidden") return "hidden";
-      if (!isMobile && current === "hidden") return "collapsed";
-      return current;
-    });
-  }, [isMobile]);
+    const mediaQuery = window.matchMedia(MOBILE_QUERY);
+    const handleViewportChange = (event: MediaQueryListEvent) => {
+      setMode((current) => {
+        if (event.matches && current !== "hidden") return "hidden";
+        if (!event.matches && current === "hidden") return "collapsed";
+        return current;
+      });
+    };
 
-  const [groups, setGroups] = useState<readonly SidebarGroup[]>(() =>
-    filteredMenu.map((group) => ({
-      id: group.id,
-      title: group.title,
-      icon: group.icon,
-      expanded: group.expanded ?? true,
-      items: group.items,
-    })),
-  );
+    mediaQuery.addEventListener("change", handleViewportChange);
+    return () => mediaQuery.removeEventListener("change", handleViewportChange);
+  }, []);
 
-  useEffect(() => {
-    setGroups((current) =>
+  const [expandedGroups, setExpandedGroups] = useState<
+    Readonly<Record<string, boolean>>
+  >({});
+
+  const groups = useMemo<readonly SidebarGroup[]>(
+    () =>
       filteredMenu.map((group) => ({
         id: group.id,
         title: group.title,
         icon: group.icon,
-        expanded:
-          current.find((existing) => existing.id === group.id)?.expanded ??
-          group.expanded ??
-          true,
+        expanded: expandedGroups[group.id] ?? group.expanded ?? true,
         items: group.items,
       })),
-    );
-  }, [filteredMenu]);
+    [expandedGroups, filteredMenu],
+  );
 
   const contract = useMemo<SidebarContract>(
     () => ({
@@ -76,31 +75,25 @@ export function SidebarProvider({ children }: PropsWithChildren) {
           setMode("hidden");
         },
         openGroup(id) {
-          setGroups((current) =>
-            current.map((group) =>
-              group.id === id ? { ...group, expanded: true } : group,
-            ),
+          setExpandedGroups((current) =>
+            current[id] === true ? current : { ...current, [id]: true },
           );
         },
         closeGroup(id) {
-          setGroups((current) =>
-            current.map((group) =>
-              group.id === id ? { ...group, expanded: false } : group,
-            ),
+          setExpandedGroups((current) =>
+            current[id] === false ? current : { ...current, [id]: false },
           );
         },
         toggleGroup(id) {
-          setGroups((current) =>
-            current.map((group) =>
-              group.id === id
-                ? { ...group, expanded: !group.expanded }
-                : group,
-            ),
-          );
+          setExpandedGroups((current) => {
+            const group = groups.find((item) => item.id === id);
+            const isExpanded = current[id] ?? group?.expanded ?? true;
+            return { ...current, [id]: !isExpanded };
+          });
         },
       },
     }),
-    [mode, groups],
+    [groups, mode],
   );
 
   return (

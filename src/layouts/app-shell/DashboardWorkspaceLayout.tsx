@@ -1,5 +1,5 @@
-import { useEffect, type ReactNode } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 
 import { Sidebar, SidebarProvider, useSidebar } from "@/components/layout/sidebar";
 import { ContentShellViewport, useContentShell } from "@/content-shell-engine";
@@ -28,7 +28,7 @@ function titleForPath(pathname: string): string {
   return routeTitles[pathname] ?? "Workspace";
 }
 
-function DashboardWorkspaceLayoutContent({ children }: { children: ReactNode }) {
+function DashboardWorkspaceLayoutContent() {
   const location = useLocation();
   const { theme } = useTheme();
   const { isMobile } = useResponsive();
@@ -88,7 +88,7 @@ function DashboardWorkspaceLayoutContent({ children }: { children: ReactNode }) 
           padding: theme.spacing.card,
         }}
       >
-        {children}
+        <Outlet />
       </main>
     </div>
   );
@@ -116,10 +116,10 @@ function DashboardWorkspaceLayoutContent({ children }: { children: ReactNode }) 
   );
 }
 
-export function DashboardWorkspaceLayout({ children }: { children: ReactNode }) {
+export function DashboardWorkspaceLayout() {
   return (
     <SidebarProvider>
-      <DashboardWorkspaceLayoutContent>{children}</DashboardWorkspaceLayoutContent>
+      <DashboardWorkspaceLayoutContent />
     </SidebarProvider>
   );
 }

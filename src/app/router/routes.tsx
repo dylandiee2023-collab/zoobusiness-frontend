@@ -14,6 +14,7 @@ import { DashboardPage } from "@/pages/dashboard/DashboardPage";
 import { ProductsPage } from "@/pages/products/ProductsPage";
 import { WorkspaceSettingsPage } from "@/pages/settings/WorkspaceSettingsPage";
 import { ModuleShellPage } from "@/pages/modules/ModuleShellPage";
+import { DashboardWorkspaceLayout } from "@/layouts/app-shell/DashboardWorkspaceLayout";
 
 export type AppShellName =
   | "auth"
@@ -35,7 +36,7 @@ export type AppRouteObject = RouteObject & {
   readonly handle?: AppRouteHandle;
 };
 
-export const routes: AppRouteObject[] = [
+const workspaceRoutes: AppRouteObject[] = [
   {
     path: "/products",
     element: <ProductsPage />,
@@ -49,12 +50,20 @@ export const routes: AppRouteObject[] = [
   {
     path: "/settings",
     element: <WorkspaceSettingsPage />,
-    handle: { title: "Settings | ZooBusiness", shell: "dashboard", requiresAuthentication: true },
+    handle: {
+      title: "Settings | ZooBusiness",
+      shell: "dashboard",
+      requiresAuthentication: true,
+    },
   },
   {
     path: "/profile",
     element: <WorkspaceSettingsPage />,
-    handle: { title: "Workspace settings | ZooBusiness", shell: "dashboard", requiresAuthentication: true },
+    handle: {
+      title: "Workspace settings | ZooBusiness",
+      shell: "dashboard",
+      requiresAuthentication: true,
+    },
   },
   ...[
     "/inventory",
@@ -62,9 +71,11 @@ export const routes: AppRouteObject[] = [
     "/pos",
     "/customers",
     "/customers/messages",
+    "/customers/debts",
     "/orders",
     "/purchases",
     "/warehouses",
+    "/inventory/transfers",
     "/expenses",
     "/reports",
     "/ai-assistant",
@@ -73,7 +84,11 @@ export const routes: AppRouteObject[] = [
   ].map((path): AppRouteObject => ({
     path,
     element: <ModuleShellPage />,
-    handle: { title: "Workspace module | ZooBusiness", shell: "dashboard", requiresAuthentication: true },
+    handle: {
+      title: "Workspace module | ZooBusiness",
+      shell: "dashboard",
+      requiresAuthentication: true,
+    },
   })),
   {
     path: "/dashboard",
@@ -85,13 +100,13 @@ export const routes: AppRouteObject[] = [
       permissions: ["report.view"],
     },
   },
+];
+
+const publicAndAuthRoutes: AppRouteObject[] = [
   {
     path: "/",
     element: <WelcomePage />,
-    handle: {
-      title: "ZooBusiness | AvatraTech",
-      shell: "public",
-    },
+    handle: { title: "ZooBusiness | AvatraTech", shell: "public" },
   },
   {
     path: "/features",
@@ -111,10 +126,7 @@ export const routes: AppRouteObject[] = [
   {
     path: "/signup",
     element: <SignUpPage />,
-    handle: {
-      title: "Sign up",
-      shell: "blank",
-    },
+    handle: { title: "Sign up", shell: "blank" },
   },
   {
     path: "/forgot-password",
@@ -134,14 +146,23 @@ export const routes: AppRouteObject[] = [
   {
     path: "/business-setup",
     element: <BusinessSetupPage />,
-    handle: { title: "Business setup", shell: "blank", requiresAuthentication: true },
+    handle: {
+      title: "Business setup",
+      shell: "blank",
+      requiresAuthentication: true,
+    },
   },
   {
     path: "/login",
     element: <LoginPage />,
-    handle: {
-      title: "Log in",
-      shell: "blank",
-    },
+    handle: { title: "Log in", shell: "blank" },
   },
+];
+
+export const routes: AppRouteObject[] = [
+  {
+    element: <DashboardWorkspaceLayout />,
+    children: workspaceRoutes,
+  },
+  ...publicAndAuthRoutes,
 ];

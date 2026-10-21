@@ -8,10 +8,10 @@ export const sidebarStyles = {
     top: 0,
     left: 0,
     zIndex: 40,
-    height: "100vh",
+    height: "100dvh",
     overflow: "hidden",
-    background: "white",
-    borderRight: "1px solid #E5E7EB",
+    background: "var(--zb-colors-surface)",
+    borderRight: "1px solid var(--zb-colors-border)",
     transition: "width 180ms ease",
   },
 } as const;

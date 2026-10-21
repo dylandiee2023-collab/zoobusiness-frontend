@@ -29,6 +29,15 @@ export function TopBarProvider({ children }: PropsWithChildren) {
 
       actions: {
         toggleSidebar() {
+          if (window.matchMedia("(max-width: 767px)").matches) {
+            if (sidebarState.mode === "hidden") {
+              sidebarActions.expand();
+            } else {
+              sidebarActions.hide();
+            }
+            return;
+          }
+
           sidebarActions.toggle();
         },
 

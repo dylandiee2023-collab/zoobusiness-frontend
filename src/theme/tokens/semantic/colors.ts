@@ -8,11 +8,11 @@ export const semanticColors = {
 
     surfaceSecondary: primitiveColors.slate[100],
 
-    primary: primitiveColors.blue[600],
+    primary: primitiveColors.green[600],
 
-    primaryHover: primitiveColors.blue[700],
+    primaryHover: primitiveColors.green[700],
 
-    primaryActive: primitiveColors.blue[800],
+    primaryActive: primitiveColors.green[800],
 
     secondary: primitiveColors.slate[200],
 
@@ -68,17 +68,17 @@ export const semanticColors = {
   },
 
   dark: {
-    background: primitiveColors.slate[900],
+    background: "#1E1F21",
 
-    surface: primitiveColors.slate[800],
+    surface: "#202324",
 
-    surfaceSecondary: primitiveColors.slate[700],
+    surfaceSecondary: "#292d2e",
 
-    primary: primitiveColors.blue[500],
+    primary: primitiveColors.green[500],
 
-    primaryHover: primitiveColors.blue[400],
+    primaryHover: primitiveColors.green[400],
 
-    primaryActive: primitiveColors.blue[300],
+    primaryActive: primitiveColors.green[300],
 
     secondary: primitiveColors.slate[700],
 
@@ -112,9 +112,9 @@ export const semanticColors = {
 
     text: primitiveColors.white,
 
-    textSecondary: primitiveColors.slate[300],
+    textSecondary: "#c9d1cf",
 
-    textMuted: primitiveColors.slate[400],
+    textMuted: "#9aa5a2",
 
     onPrimary: primitiveColors.white,
 
@@ -128,8 +128,8 @@ export const semanticColors = {
 
     onInfo: primitiveColors.white,
 
-    border: primitiveColors.slate[700],
+    border: "#292d2e",
 
-    divider: primitiveColors.slate[800],
+    divider: "#202324",
   },
 } as const;

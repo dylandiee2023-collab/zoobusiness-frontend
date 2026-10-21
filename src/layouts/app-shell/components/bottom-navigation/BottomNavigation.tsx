@@ -50,13 +50,16 @@ export function BottomNavigation() {
   const { access } = useWorkspaceAccess();
   const [moreOpen, setMoreOpen] = useState(false);
 
-  const menuItems = useMemo(
-    () =>
-      filterMenu(MENU_REGISTRY, access?.permissions ?? []).flatMap(
-        (group) => group.items,
-      ),
-    [access?.permissions],
-  );
+ 
+const menuItems = useMemo(
+  () =>
+    filterMenu(MENU_REGISTRY, access?.permissions ?? [])
+      .flatMap((group) => group.items)
+      .filter((item) => Boolean(item.route))
+      .map((item) => ({ ...item, route: item.route! })),
+  [access?.permissions],
+);
+
 
   const primaryItems = menuItems.filter((item) => PRIMARY_IDS.has(item.id));
   const moreItems = menuItems.filter((item) => !PRIMARY_IDS.has(item.id));

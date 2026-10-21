@@ -155,6 +155,7 @@ function SidebarMenuItem({
               />
             </button>
           ) : null}
+          </>
         ) : hasChildren ? (
           <button
             className="zb-sidebar-link zb-sidebar-parent"

@@ -1,7 +1,6 @@
 import { ArrowUpRight, Construction } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
-import { DashboardLayout } from "@/layouts/dashboard";
 import { useLanguage } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
 
@@ -32,8 +31,7 @@ export function ModuleShellPage() {
   const groupKeys: Record<string, Parameters<typeof resolvePublicCopy>[1]> = { Main: "groupMain", Operations: "groupOperations", Insights: "groupInsights", Workspace: "groupWorkspace", "Tools & communication": "groupTools" };
 
   return (
-    <DashboardLayout>
-      <div className="zb-module-shell-page">
+    <div className="zb-module-shell-page">
         <div className="zb-module-shell-heading">
           <div>
             <p className="zb-module-shell-eyebrow">{t(groupKeys[module.group] ?? "groupWorkspace")}</p>
@@ -59,6 +57,5 @@ export function ModuleShellPage() {
         </div>
         <Link className="zb-module-shell-back" to="/dashboard">{t("returnDashboard")} <ArrowUpRight size={16} /></Link>
       </div>
-    </DashboardLayout>
   );
 }

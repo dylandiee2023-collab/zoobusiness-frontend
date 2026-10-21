@@ -15,6 +15,8 @@ export interface ContentShellViewportProps {
   /** Render workflow/detail content from a stable shell descriptor. */
   readonly renderShell3: (entry: ContentShellEntry) => ReactNode;
   readonly className?: string;
+  /** Width of Shell 1, supplied by the host layout so collapse changes the grid track. */
+  readonly shell1Width?: number;
 }
 
 const MOBILE_WIDTH = 720;
@@ -25,6 +27,7 @@ export function ContentShellViewport({
   renderShell2,
   renderShell3,
   className,
+  shell1Width = 280,
 }: ContentShellViewportProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const [availableWidth, setAvailableWidth] = useState(0);
@@ -60,9 +63,9 @@ export function ContentShellViewport({
     gridTemplateColumns: mobileLayout
       ? "minmax(0, 1fr)"
       : threeColumnLayout
-        ? "minmax(240px, 0.8fr) minmax(320px, 1fr) minmax(320px, 1fr)"
+        ? `${shell1Width}px minmax(320px, 1fr) minmax(320px, 1fr)`
         : shell2
-          ? "minmax(260px, 0.8fr) minmax(320px, 1fr)"
+          ? `${shell1Width}px minmax(0, 1fr)`
           : "minmax(0, 1fr)",
     width: "100%",
     height: "100%",

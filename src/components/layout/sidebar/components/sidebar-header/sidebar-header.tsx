@@ -26,6 +26,12 @@ export function SidebarHeader() {
         <>
           <div className="zb-sidebar-brand">
             <img
+              className="zb-sidebar-brand-icon"
+              src={icon}
+              alt=""
+              draggable={false}
+            />
+            <img
               className="zb-sidebar-brand-wordmark"
               src={wordmark}
               alt="ZooBusiness"

@@ -29,6 +29,9 @@ export function SidebarHeader() {
               className="zb-sidebar-brand-icon"
               src={icon}
               alt=""
+              width={40}
+              height={40}
+              style={{ width: 40, height: 40, flexShrink: 0 }}
               draggable={false}
             />
             <img
@@ -60,6 +63,9 @@ export function SidebarHeader() {
             className="zb-sidebar-brand-icon"
             src={icon}
             alt=""
+            width={40}
+            height={40}
+            style={{ width: 40, height: 40, flexShrink: 0 }}
             draggable={false}
           />
           <PanelLeftOpen

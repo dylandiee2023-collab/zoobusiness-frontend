@@ -8,6 +8,7 @@ import { useTheme } from "@/theme/hooks";
 import { BottomNavigation } from "@/layouts/app-shell/components/bottom-navigation/BottomNavigation";
 
 import "@/layouts/dashboard/dashboard-layout.css";
+import "./dashboard-workspace-layout.css";
 
 const routeTitles: Readonly<Record<string, string>> = {
   "/dashboard": "Home",

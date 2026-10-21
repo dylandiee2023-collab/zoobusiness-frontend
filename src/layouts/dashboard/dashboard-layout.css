@@ -1041,3 +1041,85 @@
   border: 0 !important;
   box-shadow: none !important;
 }
+
+
+/* Sidebar refinement from visual QA: keep the brand mark aligned to menu icons. */
+.dashboard-layout-root aside[aria-label="Application sidebar"] {
+  background: color-mix(in srgb, var(--zb-colors-surface) 91%, var(--zb-colors-primary) 9%) !important;
+  border: 0 !important;
+  border-right: 1px solid var(--zb-colors-border) !important;
+}
+.zb-sidebar-header {
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  padding: 0 14px !important;
+}
+.zb-sidebar-brand {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+.zb-sidebar-brand .zb-sidebar-brand-icon {
+  display: block !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  max-width: 24px !important;
+  max-height: 24px !important;
+  object-fit: contain !important;
+}
+.zb-sidebar-brand .zb-sidebar-brand-wordmark {
+  display: block !important;
+  width: auto !important;
+  max-width: 138px !important;
+  height: auto !important;
+  max-height: 36px !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+}
+.zb-sidebar-collapse-button {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  margin-left: auto !important;
+  padding: 0 !important;
+  transform: translateX(2px) !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.zb-sidebar-collapse-button:hover,
+.zb-sidebar-collapse-button:focus-visible {
+  color: var(--zb-colors-primary) !important;
+  background: color-mix(in srgb, var(--zb-colors-primary) 10%, transparent) !important;
+  outline: 2px solid color-mix(in srgb, var(--zb-colors-primary) 35%, transparent);
+  outline-offset: 1px;
+}
+.zb-sidebar-brand-toggle {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  padding: 4px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.zb-sidebar-brand-toggle .zb-sidebar-brand-icon {
+  width: 24px !important;
+  height: 24px !important;
+  object-fit: contain !important;
+}
+.zb-sidebar-brand-toggle:hover,
+.zb-sidebar-brand-toggle:focus-visible {
+  background: color-mix(in srgb, var(--zb-colors-primary) 10%, transparent) !important;
+  outline: 2px solid color-mix(in srgb, var(--zb-colors-primary) 35%, transparent);
+  outline-offset: 1px;
+}
+.zb-sidebar-expand-indicator {
+  right: -5px !important;
+  bottom: -3px !important;
+}

@@ -133,13 +133,27 @@ function SidebarMenuItem({
             aria-current={active ? "page" : undefined}
             title={collapsed ? item.title : undefined}
             onClick={() => {
-              if (hasChildren) toggleItem(item.id);
               if (isMobile) onNavigate();
             }}
           >
             <Icon size={19} aria-hidden="true" />
             {!collapsed ? <span>{item.title}</span> : null}
           </Link>
+          {hasChildren && !collapsed ? (
+            <button
+              className="zb-sidebar-link zb-sidebar-parent-toggle"
+              type="button"
+              aria-label={`${expanded ? "Collapse" : "Expand"} ${item.title} submenu`}
+              aria-expanded={expanded}
+              onClick={() => toggleItem(item.id)}
+            >
+              <ChevronDown
+                className={expanded ? "" : "is-collapsed"}
+                size={15}
+                aria-hidden="true"
+              />
+            </button>
+          ) : null}
         ) : hasChildren ? (
           <button
             className="zb-sidebar-link zb-sidebar-parent"

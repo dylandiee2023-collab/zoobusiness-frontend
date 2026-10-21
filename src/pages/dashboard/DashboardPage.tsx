@@ -15,7 +15,6 @@ import {
   Users,
 } from "lucide-react";
 
-import { DashboardLayout } from "@/layouts/dashboard";
 import { useLanguage } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
 import { usePlatform } from "@/platform/providers/use-platform";
@@ -163,17 +162,14 @@ export function DashboardPage() {
     (loading && !summary && !workspaceUnavailable)
   ) {
     return (
-      <DashboardLayout>
-        <div className="dashboard-page">
+      <div className="dashboard-page">
           <SummaryLoading />
         </div>
-      </DashboardLayout>
     );
   }
 
   return (
-    <DashboardLayout>
-      <div className="dashboard-page">
+    <div className="dashboard-page">
 {summary ? (
           <>
             <div className="dashboard-insights-grid">
@@ -368,6 +364,5 @@ export function DashboardPage() {
           <p className="dashboard-placeholder-copy">{t("additionalAnalytics")}</p>
         </section>
       </div>
-    </DashboardLayout>
   );
 }

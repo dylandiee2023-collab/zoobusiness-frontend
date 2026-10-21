@@ -126,6 +126,7 @@ function SidebarMenuItem({
     <div className="zb-sidebar-item-wrapper" key={item.id}>
       <div className="zb-sidebar-item-row">
         {item.route ? (
+          <>
           <Link
             className={`zb-sidebar-link${active ? " is-active" : ""}`}
             to={item.route}

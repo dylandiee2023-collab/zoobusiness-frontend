@@ -948,3 +948,43 @@
   opacity: 1;
   transform: scale(1);
 }
+
+
+/* Single brand location: keep the logo in the sidebar, not the global top bar. */
+.zb-topbar-home-spacer {
+  display: block;
+  width: 1px;
+  min-width: 1px;
+  height: 1px;
+  flex: 0 0 1px;
+}
+.zb-sidebar-brand {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+}
+.zb-sidebar-brand .zb-sidebar-brand-icon {
+  display: block;
+  width: 25px;
+  height: 25px;
+  flex: 0 0 25px;
+  object-fit: contain;
+}
+.zb-sidebar-brand .zb-sidebar-brand-wordmark {
+  display: block;
+  width: auto;
+  max-width: min(150px, 100%);
+  max-height: 38px;
+  height: auto !important;
+  object-fit: contain;
+  object-position: left center;
+}
+.zb-sidebar-brand-toggle .zb-sidebar-brand-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

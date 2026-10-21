@@ -150,7 +150,7 @@
 }
 
 .zb-dashboard-layout-root .zb-dashboard-workspace main {
-  height: calc(100dvh - 64px) !important;
+  height: 100% !important;
   padding-top: 0 !important;
   overflow-y: auto;
 }

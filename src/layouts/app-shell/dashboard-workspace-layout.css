@@ -56,3 +56,116 @@
 .zb-dashboard-layout-root .zb-sidebar-link .is-collapsed {
   transform: rotate(-90deg);
 }
+
+
+/* The ZooBusiness brand itself is the sidebar collapse/expand control. */
+.zb-dashboard-layout-root .zb-sidebar-brand-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  width: 100%;
+  max-width: 190px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.zb-dashboard-layout-root .zb-sidebar-brand-toggle.is-expanded {
+  width: 100%;
+  max-width: 190px;
+  padding-inline: 0;
+}
+
+.zb-dashboard-layout-root .zb-sidebar-brand-toggle.is-expanded img {
+  width: auto !important;
+  max-width: 166px !important;
+  height: auto !important;
+  max-height: 42px;
+  object-fit: contain;
+}
+
+.zb-dashboard-layout-root .zb-sidebar-brand-toggle.is-collapsed {
+  width: 46px;
+  max-width: 46px;
+  height: 46px;
+  justify-content: center;
+  padding: 5px;
+}
+
+.zb-dashboard-layout-root .zb-sidebar-brand-toggle.is-collapsed img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.zb-dashboard-layout-root .zb-sidebar-brand-toggle.is-collapsed .zb-sidebar-expand-indicator {
+  opacity: 0;
+  transform: scale(.8);
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.zb-dashboard-layout-root .zb-sidebar-brand-toggle.is-collapsed:hover,
+.zb-dashboard-layout-root .zb-sidebar-brand-toggle.is-collapsed:focus-visible {
+  background: color-mix(in srgb, var(--zb-colors-primary) 14%, transparent);
+  outline: 2px solid color-mix(in srgb, var(--zb-colors-primary) 45%, transparent);
+  outline-offset: 1px;
+}
+
+.zb-dashboard-layout-root .zb-sidebar-brand-toggle.is-collapsed:hover img,
+.zb-dashboard-layout-root .zb-sidebar-brand-toggle.is-collapsed:focus-visible img {
+  opacity: .2;
+  transform: scale(.86);
+}
+
+.zb-dashboard-layout-root .zb-sidebar-brand-toggle.is-collapsed:hover .zb-sidebar-expand-indicator,
+.zb-dashboard-layout-root .zb-sidebar-brand-toggle.is-collapsed:focus-visible .zb-sidebar-expand-indicator {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.zb-dashboard-layout-root .zb-sidebar-brand-toggle .zb-sidebar-expand-indicator {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--zb-colors-primary);
+  color: var(--zb-colors-onPrimary, #fff);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.zb-dashboard-layout-root .zb-dashboard-workspace main {
+  height: calc(100dvh - 64px) !important;
+  padding-top: 0 !important;
+  overflow-y: auto;
+}
+
+.zb-dashboard-layout-root .zb-dashboard-workspace main > div {
+  padding-top: 0 !important;
+}
+
+.zb-dashboard-layout-root .dashboard-topbar {
+  left: 280px !important;
+  right: 0 !important;
+  width: auto !important;
+}
+
+.zb-dashboard-layout-root[data-sidebar-mode="collapsed"] .dashboard-topbar {
+  left: 72px !important;
+}
+
+.zb-dashboard-layout-root[data-sidebar-mode="hidden"] .dashboard-topbar {
+  left: 0 !important;
+}

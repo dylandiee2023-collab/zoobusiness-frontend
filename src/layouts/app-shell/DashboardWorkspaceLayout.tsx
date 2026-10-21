@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import { Sidebar, SidebarProvider, useSidebar } from "@/components/layout/sidebar";
 import { ContentShellViewport, useContentShell } from "@/content-shell-engine";
@@ -33,12 +33,20 @@ function titleForPath(pathname: string): string {
 
 function DashboardWorkspaceLayoutContent() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { theme } = useTheme();
   const { isMobile } = useResponsive();
   const { state } = useSidebar();
   const shell = useContentShell();
   const title = titleForPath(location.pathname);
   const sidebarWidth = state.mode === "collapsed" ? 72 : 280;
+  const returnToDashboard = () => {
+    if (location.pathname === "/dashboard") {
+      shell.openShell2({ id: "/dashboard", title: "Home", href: "/dashboard" });
+      return;
+    }
+    navigate("/dashboard");
+  };
 
   // Keep route-driven workspace content in Shell 2. The effect runs on route
   // changes, not every shell state update, so a user can intentionally close it.
@@ -112,6 +120,8 @@ function DashboardWorkspaceLayoutContent() {
       <ContentShellViewport
         shell1={<Sidebar />}
         shell1Width={sidebarWidth}
+        onBackToShell1={isMobile ? returnToDashboard : undefined}
+        onCloseShell2={isMobile ? returnToDashboard : undefined}
         renderShell2={() => renderWorkspace()}
         renderShell3={() => renderWorkspace()}
       />

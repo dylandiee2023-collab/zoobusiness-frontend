@@ -19,6 +19,7 @@ export interface ContentShellViewportProps {
   readonly shell1Width?: number;
   readonly onBackToShell1?: () => void;
   readonly onCloseShell2?: () => void;
+  readonly hideDesktopShell2Header?: boolean;
 }
 
 const MOBILE_WIDTH = 720;
@@ -32,6 +33,7 @@ export function ContentShellViewport({
   shell1Width = 280,
   onBackToShell1,
   onCloseShell2,
+  hideDesktopShell2Header = false,
 }: ContentShellViewportProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const [availableWidth, setAvailableWidth] = useState(0);
@@ -195,19 +197,21 @@ export function ContentShellViewport({
 
       {shell2 ? (
         <section aria-label={shell2.title} style={panelStyle}>
-          <div style={panelHeaderStyle}>
-            <strong style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {shell2.title}
-            </strong>
-            <button
-              type="button"
-              style={iconButtonStyle}
-              aria-label={`Close ${shell2.title}`}
-              onClick={() => engine.closeShell2()}
-            >
-              <X size={18} aria-hidden="true" />
-            </button>
-          </div>
+          {!hideDesktopShell2Header ? (
+            <div style={panelHeaderStyle}>
+              <strong style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {shell2.title}
+              </strong>
+              <button
+                type="button"
+                style={iconButtonStyle}
+                aria-label={`Close ${shell2.title}`}
+                onClick={() => engine.closeShell2()}
+              >
+                <X size={18} aria-hidden="true" />
+              </button>
+            </div>
+          ) : null}
           <div style={panelBodyStyle}>{renderShell2(shell2)}</div>
         </section>
       ) : null}

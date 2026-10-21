@@ -92,6 +92,7 @@ function DashboardWorkspaceLayoutContent() {
   return (
     <div
       className="zb-dashboard-layout-root dashboard-layout-root"
+      data-sidebar-mode={state.mode}
       style={{
         width: "100%",
         height: "100dvh",

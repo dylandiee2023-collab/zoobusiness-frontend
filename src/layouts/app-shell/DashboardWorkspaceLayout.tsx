@@ -6,6 +6,7 @@ import { ContentShellViewport, useContentShell } from "@/content-shell-engine";
 import { useResponsive } from "@/responsive";
 import { useTheme } from "@/theme/hooks";
 import { BottomNavigation } from "@/layouts/app-shell/components/bottom-navigation/BottomNavigation";
+import { TopBar, TopBarProvider } from "@/components/layout/top-bar";
 
 import "@/layouts/dashboard/dashboard-layout.css";
 import "./dashboard-workspace-layout.css";
@@ -71,24 +72,7 @@ function DashboardWorkspaceLayoutContent() {
         color: theme.colors.text,
       }}
     >
-      {!isMobile ? (
-        <header
-          className="zb-dashboard-topbar"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            minHeight: theme.componentSizes.topbarHeight,
-            paddingInline: theme.spacing.card,
-            borderBottom: `1px solid ${theme.colors.border}`,
-            background: theme.colors.surface,
-          }}
-        >
-          <strong>{title}</strong>
-          <span style={{ marginInlineStart: "auto", color: theme.colors.textSecondary, fontSize: 13 }}>
-            ZooBusiness workspace
-          </span>
-        </header>
-      ) : null}
+      {!isMobile ? <TopBar /> : null}
       <main
         className="zb-dashboard-page-content"
         style={{
@@ -107,7 +91,7 @@ function DashboardWorkspaceLayoutContent() {
 
   return (
     <div
-      className="zb-dashboard-layout-root"
+      className="zb-dashboard-layout-root dashboard-layout-root"
       style={{
         width: "100%",
         height: "100dvh",
@@ -120,6 +104,7 @@ function DashboardWorkspaceLayoutContent() {
       <ContentShellViewport
         shell1={<Sidebar />}
         shell1Width={sidebarWidth}
+        hideDesktopShell2Header={!isMobile}
         {...(isMobile
           ? {
               onBackToShell1: returnToDashboard,
@@ -137,7 +122,9 @@ function DashboardWorkspaceLayoutContent() {
 export function DashboardWorkspaceLayout() {
   return (
     <SidebarProvider>
-      <DashboardWorkspaceLayoutContent />
+      <TopBarProvider>
+        <DashboardWorkspaceLayoutContent />
+      </TopBarProvider>
     </SidebarProvider>
   );
 }

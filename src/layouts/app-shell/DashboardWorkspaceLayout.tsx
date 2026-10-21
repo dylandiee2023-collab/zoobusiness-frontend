@@ -88,6 +88,7 @@ function DashboardWorkspaceLayoutContent() {
           minHeight: 0,
           overflow: "auto",
           padding: 0,
+          paddingBottom: isMobile ? "calc(76px + env(safe-area-inset-bottom))" : 0,
         }}
       >
         <Outlet />

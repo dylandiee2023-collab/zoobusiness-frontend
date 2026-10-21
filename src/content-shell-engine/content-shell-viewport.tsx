@@ -165,7 +165,7 @@ export function ContentShellViewport({
               type="button"
               style={iconButtonStyle}
               aria-label="Back to main workspace"
-              onClick={() => (onCloseShell2 ? onCloseShell2() : engine.closeShell2())}
+              onClick={() => (onBackToShell1 ? onBackToShell1() : engine.closeShell2())}
             >
               <ArrowLeft size={18} aria-hidden="true" />
             </button>
@@ -176,7 +176,7 @@ export function ContentShellViewport({
               type="button"
               style={iconButtonStyle}
               aria-label={`Close ${shell2.title}`}
-              onClick={() => (onBackToShell1 ? onBackToShell1() : engine.closeShell2())}
+              onClick={() => (onCloseShell2 ? onCloseShell2() : engine.closeShell2())}
             >
               <X size={18} aria-hidden="true" />
             </button>

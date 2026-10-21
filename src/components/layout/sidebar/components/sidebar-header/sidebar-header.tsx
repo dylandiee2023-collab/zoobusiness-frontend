@@ -1,55 +1,80 @@
-import { ArrowLeftToLine, ArrowRightToLine } from "lucide-react";
-import { sidebarLogo } from "@/assets/brand";
-import { BrandLogo } from "@/components/brand/components/brand-logo/brand-logo";
+import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
+
+import darkLogo from "@/assets/brand/zoobusiness.dark.png.png";
+import lightLogo from "@/assets/brand/zoobusiness.light.png.png";
+import darkSidebarIcon from "@/assets/brand/icon/zoobusiness-icon-dark.svg";
+import lightSidebarIcon from "@/assets/brand/icon/zoobusiness-icon-white.svg";
 import { useTheme } from "@/theme/hooks";
+
 import { useSidebar } from "../../context";
 import { sidebarHeaderStyles } from "./sidebar-header.styles";
-import type { SidebarHeaderProps } from "./sidebar-header.types";
 
-export function SidebarHeader({ showLogo = true }: SidebarHeaderProps) {
+export function SidebarHeader() {
+  const { theme, mode } = useTheme();
   const { state, actions } = useSidebar();
-  const { theme } = useTheme();
-  const collapsed = state.mode === "collapsed";
-
-  if (state.mode === "hidden") return null;
+  const expanded = state.mode === "expanded";
+  const wordmark = mode === "light" ? lightLogo : darkLogo;
+  const icon = theme.mode === "dark" ? lightSidebarIcon : darkSidebarIcon;
 
   return (
-    <header className="zb-sidebar-header" style={sidebarHeaderStyles.root}>
-      {showLogo ? (
-        collapsed ? (
-          <button
-            type="button"
-            className="zb-sidebar-brand-toggle"
-            aria-label="Expand sidebar"
-            title="Expand sidebar"
-            onClick={actions.expand}
-          >
-            <img src={sidebarLogo} alt="Open ZooBusiness navigation" />
-            <ArrowRightToLine className="zb-sidebar-expand-indicator" size={15} aria-hidden="true" />
-          </button>
-        ) : (
+    <header
+      className="zb-sidebar-header"
+      aria-label="ZooBusiness"
+      style={sidebarHeaderStyles.root}
+    >
+      {expanded ? (
+        <>
           <div className="zb-sidebar-brand">
-            <BrandLogo size={theme.iconSizes.avatar * 4} />
+            <img
+              className="zb-sidebar-brand-icon"
+              src={icon}
+              alt=""
+              width={40}
+              height={40}
+              style={{ width: 40, height: 40, flexShrink: 0 }}
+              draggable={false}
+            />
+            <img
+              className="zb-sidebar-brand-wordmark"
+              src={wordmark}
+              alt="ZooBusiness"
+              draggable={false}
+            />
           </div>
-        )
-      ) : null}
-      {!collapsed ? (
+          <button
+            className="zb-sidebar-collapse-button"
+            type="button"
+            aria-label="Collapse sidebar"
+            title="Collapse sidebar"
+            onClick={actions.collapse}
+          >
+            <PanelLeftClose size={19} aria-hidden="true" />
+          </button>
+        </>
+      ) : (
         <button
+          className="zb-sidebar-brand-toggle"
           type="button"
-          className="zb-sidebar-collapse-button"
-          aria-label="Collapse sidebar"
-          title="Collapse sidebar"
-          onClick={() => {
-            if (window.matchMedia("(max-width: 767px)").matches) {
-              actions.hide();
-            } else {
-              actions.collapse();
-            }
-          }}
+          aria-label="Expand sidebar"
+          title="Expand sidebar"
+          onClick={actions.expand}
         >
-          <ArrowLeftToLine size={17} aria-hidden="true" />
+          <img
+            className="zb-sidebar-brand-icon"
+            src={icon}
+            alt=""
+            width={40}
+            height={40}
+            style={{ width: 40, height: 40, flexShrink: 0 }}
+            draggable={false}
+          />
+          <PanelLeftOpen
+            className="zb-sidebar-expand-indicator"
+            size={17}
+            aria-hidden="true"
+          />
         </button>
-      ) : null}
+      )}
     </header>
   );
 }

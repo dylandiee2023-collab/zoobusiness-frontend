@@ -310,3 +310,928 @@
   .dashboard-layout-root .zb-mobile-brand { max-width: 128px !important; }
   .dashboard-layout-root .zb-mobile-brand img { max-width: 128px !important; height: 40px !important; max-height: 42px !important; }
 }
+
+
+/* Workspace identity and settings pinned to the bottom of the sidebar. */
+.zb-sidebar-workspace-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--zb-colors-border);
+  background: var(--zb-colors-surface);
+}
+.zb-sidebar-settings-link,
+.zb-sidebar-workspace-link {
+  display: flex;
+  min-width: 0;
+  min-height: 42px;
+  align-items: center;
+  gap: 11px;
+  padding: 7px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--zb-radius-lg, 12px);
+  background: transparent;
+  color: var(--zb-colors-textSecondary);
+  text-decoration: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.zb-sidebar-settings-link:hover,
+.zb-sidebar-workspace-link:hover {
+  border-color: var(--zb-colors-border);
+  background: var(--zb-colors-surfaceSecondary);
+  color: var(--zb-colors-text);
+}
+.zb-sidebar-settings-link svg { flex: 0 0 auto; color: var(--zb-colors-textMuted); }
+.zb-sidebar-workspace-link { border-color: var(--zb-colors-border); background: var(--zb-colors-background); }
+.zb-sidebar-workspace-avatar {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  place-items: center;
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--zb-colors-primary) 15%, var(--zb-colors-surface));
+  color: var(--zb-colors-primary);
+  font-size: 11px;
+  font-weight: 850;
+}
+.zb-sidebar-workspace-copy { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 3px; }
+.zb-sidebar-workspace-copy strong { overflow: hidden; color: var(--zb-colors-text); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.zb-sidebar-workspace-copy small { color: var(--zb-colors-textMuted); font-size: 10px; }
+.zb-sidebar-workspace-store { flex: 0 0 auto; color: var(--zb-colors-textMuted); }
+.zb-sidebar-group-toggle svg { transition: transform 150ms ease; }
+.zb-sidebar-group-toggle svg.is-collapsed { transform: rotate(-90deg); }
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .zb-sidebar-nav { gap: 12px; padding-right: 8px; padding-left: 8px; }
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .zb-sidebar-items { gap: 7px; }
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .zb-sidebar-link { justify-content: center; gap: 0; padding: 0; }
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .zb-sidebar-workspace-footer { align-items: center; padding: 10px 6px; }
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .zb-sidebar-settings-link,
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .zb-sidebar-workspace-link { justify-content: center; width: 48px; padding: 6px; }
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .zb-sidebar-workspace-link { border-color: transparent; background: transparent; }
+.zb-topbar-location { display: flex; min-width: 0; flex-direction: column; justify-content: center; gap: 3px; padding-right: 12px; }
+.zb-topbar-location span { color: var(--zb-colors-textMuted); font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.zb-topbar-location strong { overflow: hidden; color: var(--zb-colors-text); font-size: 14px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+.zb-mobile-back-button { display: none; }
+@media (max-width: 767px) {
+  .zb-mobile-back-button {
+    display: inline-flex;
+    width: 36px;
+    height: 40px;
+    flex: 0 0 36px;
+    align-items: center;
+    justify-content: center;
+    margin-right: 6px;
+    border: 1px solid var(--zb-colors-border);
+    border-radius: 11px;
+    background: var(--zb-colors-surface);
+    color: var(--zb-colors-text);
+    cursor: pointer;
+  }
+  .dashboard-layout-root .zb-topbar-start { gap: 5px !important; }
+  .dashboard-layout-root .zb-mobile-brand { max-width: 135px !important; }
+  .dashboard-layout-root .zb-mobile-brand img { max-width: 135px !important; }
+  .dashboard-layout-root .zb-sidebar-workspace-footer { display: none; }
+}
+
+
+.zb-mobile-menu-button { display: none; }
+@media (max-width: 767px) {
+  .zb-mobile-menu-button {
+    display: inline-flex;
+    width: 38px;
+    height: 40px;
+    flex: 0 0 38px;
+    align-items: center;
+    justify-content: center;
+    margin-left: 2px;
+    border: 1px solid var(--zb-colors-border);
+    border-radius: 11px;
+    background: var(--zb-colors-surface);
+    color: var(--zb-colors-text);
+    cursor: pointer;
+  }
+  .dashboard-layout-root[data-sidebar-mode="expanded"] aside[aria-label="Application sidebar"] {
+    display: flex !important;
+    width: min(286px, calc(100vw - 54px)) !important;
+    z-index: 80 !important;
+    box-shadow: var(--zb-shadows-lg, 0 24px 80px rgba(0,0,0,.3));
+  }
+  .dashboard-layout-root[data-sidebar-mode="expanded"] .dashboard-layout-backdrop {
+    display: block !important;
+    z-index: 70 !important;
+  }
+}
+
+
+/* Mobile uses the bottom navigation as its only primary navigation. */
+@media (max-width: 767px) {
+  .dashboard-layout-root aside[aria-label="Application sidebar"],
+  .dashboard-layout-root .dashboard-layout-backdrop,
+  .dashboard-layout-root[data-sidebar-mode="expanded"] aside[aria-label="Application sidebar"],
+  .dashboard-layout-root[data-sidebar-mode="expanded"] .dashboard-layout-backdrop {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+  .dashboard-layout-root .dashboard-topbar {
+    display: flex !important;
+    min-height: 64px !important;
+    height: 64px !important;
+    padding: 0 12px !important;
+    gap: 8px !important;
+  }
+  .dashboard-layout-root .zb-topbar-start {
+    display: flex !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+  .zb-mobile-page-identity {
+    display: flex;
+    min-width: 0;
+    max-width: min(48vw, 180px);
+    flex: 0 1 auto;
+    align-items: center;
+    overflow: hidden;
+  }
+  .zb-mobile-page-title {
+    display: block;
+    overflow: hidden;
+    color: var(--zb-colors-text);
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .dashboard-layout-root .zb-mobile-brand { max-width: 158px !important; flex: 0 1 auto !important; }
+  .dashboard-layout-root .zb-mobile-brand img { max-width: 158px !important; max-height: 44px !important; }
+  .dashboard-layout-root .zb-topbar-search-trigger {
+    display: inline-flex !important;
+    position: static !important;
+    flex: 0 0 40px !important;
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 40px !important;
+    margin-left: auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    border: 1px solid var(--zb-colors-border) !important;
+    border-radius: 12px !important;
+    background: var(--zb-colors-background) !important;
+    color: var(--zb-colors-text) !important;
+  }
+  .dashboard-layout-root .zb-topbar-actions {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    gap: 4px !important;
+  }
+  .dashboard-layout-root .zb-topbar-actions .zb-notification-button,
+  .dashboard-layout-root .zb-topbar-actions .zb-mobile-more-button {
+    display: inline-flex !important;
+    width: 38px !important;
+    min-width: 38px !important;
+    height: 40px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    border: 1px solid var(--zb-colors-border) !important;
+    border-radius: 12px !important;
+    background: var(--zb-colors-surface) !important;
+    color: var(--zb-colors-text) !important;
+  }
+  .dashboard-layout-root main > div {
+    padding-top: 64px !important;
+    padding-bottom: calc(88px + env(safe-area-inset-bottom)) !important;
+  }
+  .zb-mobile-bottom-nav {
+    display: flex !important;
+    justify-content: space-around;
+    gap: 4px;
+  }
+  .zb-mobile-bottom-nav > a {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .zb-mobile-bottom-nav .zb-pos-bottom-link { display: none !important; }
+  .zb-floating-support {
+    right: 14px !important;
+    bottom: max(82px, calc(env(safe-area-inset-bottom) + 76px)) !important;
+    gap: 10px !important;
+  }
+  .zb-floating-support a {
+    display: inline-flex !important;
+    width: 50px !important;
+    min-width: 50px !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    gap: 0 !important;
+  }
+  .zb-floating-support a span:not(.zb-floating-pos-icon) { display: none !important; }
+  .zb-floating-support .zb-floating-pos-icon {
+    position: relative;
+    display: inline-flex;
+    width: 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+  }
+  .zb-floating-support .zb-floating-pos-icon svg:last-child {
+    position: absolute;
+    top: -5px;
+    right: -6px;
+    width: 13px;
+    height: 13px;
+    stroke-width: 3;
+    border-radius: 50%;
+    background: var(--zb-colors-primary);
+  }
+}
+.zb-mobile-actions-backdrop { display: none; }
+.zb-mobile-actions-menu { display: none; }
+@media (max-width: 767px) {
+  .zb-mobile-actions-backdrop {
+    position: fixed;
+    inset: 64px 0 0;
+    z-index: 100;
+    display: block;
+    background: rgba(15, 23, 42, .12);
+  }
+  .zb-mobile-actions-menu {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    display: flex;
+    width: min(250px, calc(100vw - 24px));
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px;
+    border: 1px solid var(--zb-colors-border);
+    border-radius: 16px;
+    background: var(--zb-colors-surface);
+    box-shadow: var(--zb-shadows-lg, 0 18px 50px rgba(0,0,0,.2));
+  }
+  .zb-mobile-actions-menu a,
+  .zb-mobile-actions-menu button {
+    display: flex;
+    width: 100%;
+    min-height: 44px;
+    align-items: center;
+    gap: 10px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--zb-colors-text);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 650;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .zb-mobile-actions-menu a:hover,
+  .zb-mobile-actions-menu button:hover {
+    background: var(--zb-colors-surfaceSecondary);
+  }
+}
+
+
+/* WhatsApp-inspired dashboard chrome: seamless, charcoal and green. */
+.dashboard-layout-root,
+.dashboard-layout-root main {
+  background: var(--zb-colors-background);
+}
+.dashboard-layout-root aside[aria-label="Application sidebar"] {
+  background: var(--zb-colors-background);
+  border: 0;
+  box-shadow: none;
+}
+.dashboard-layout-root .zb-sidebar-header {
+  border: 0;
+  min-height: 76px;
+}
+.dashboard-layout-root .zb-sidebar-brand-toggle,
+.dashboard-layout-root .zb-sidebar-collapse-button {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.dashboard-layout-root .zb-sidebar-nav {
+  padding: 14px 10px 22px;
+  gap: 14px;
+}
+.dashboard-layout-root .zb-sidebar-link {
+  justify-content: flex-start;
+  min-height: 48px;
+  border-radius: 13px;
+}
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .zb-sidebar-link {
+  justify-content: center;
+  padding: 0;
+}
+.dashboard-layout-root .zb-sidebar-link.is-active {
+  background: color-mix(in srgb, var(--zb-colors-primary) 19%, transparent);
+}
+.dashboard-layout-root .zb-sidebar-workspace-footer {
+  border: 0;
+}
+.dashboard-layout-root .dashboard-topbar {
+  background: var(--zb-colors-surface) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.dashboard-layout-root .zb-topbar-search-trigger {
+  border: 0;
+  border-radius: 18px;
+  background: var(--zb-colors-surface);
+  box-shadow: none;
+}
+.dashboard-layout-root .zb-topbar-search-trigger kbd {
+  background: color-mix(in srgb, var(--zb-colors-primary) 18%, transparent);
+  color: var(--zb-colors-primary);
+}
+.dashboard-layout-root .zb-topbar-actions button,
+.dashboard-layout-root .zb-topbar-actions a {
+  border-color: transparent;
+  box-shadow: none;
+}
+.dashboard-layout-root .zb-floating-support a {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+}
+@media (max-width: 767px) {
+  .dashboard-layout-root .dashboard-topbar {
+    background: var(--zb-colors-surface) !important;
+    border: 0 !important;
+  }
+}
+
+
+/* Header-first frame: desktop sidebar begins below the full-width topbar. */
+@media (min-width: 768px) {
+.dashboard-layout-root aside[aria-label="Application sidebar"] { top:72px!important;height:calc(100dvh - 72px)!important;width:72px!important;min-width:72px!important;z-index:40!important; }
+.dashboard-layout-root .dashboard-topbar { top:0!important;left:0!important;right:0!important;width:100%!important;height:72px!important;min-height:72px!important;z-index:60!important;padding:0 24px!important; }
+.dashboard-layout-root main { margin-left:72px!important; }
+.dashboard-layout-root main > div { padding-top:80px!important; }
+.dashboard-layout-root .zb-topbar-start { flex:1 1 0!important;position:relative; }
+.dashboard-layout-root .zb-topbar-brand { display:flex;align-items:center;width:150px;max-width:150px; }
+.dashboard-layout-root .zb-topbar-brand img { height:32px!important;max-height:32px!important;width:auto!important;max-width:150px!important;object-fit:contain; }
+.dashboard-layout-root .zb-topbar-search-trigger { position:absolute!important;left:50%!important;transform:translateX(-50%)!important; }
+}
+.zb-topbar-page-context { display:flex;min-width:0;align-items:center;gap:12px; }
+.zb-topbar-back-button { display:inline-flex;width:38px;height:38px;flex:0 0 38px;align-items:center;justify-content:center;border:0;border-radius:12px;background:var(--zb-colors-surface);color:var(--zb-colors-text);cursor:pointer; }
+.zb-topbar-page-copy { display:flex;min-width:0;flex-direction:column;gap:3px; }
+.zb-topbar-page-copy span { color:var(--zb-colors-textMuted);font-size:10px;font-weight:750;letter-spacing:.1em; }
+.zb-topbar-page-copy strong { overflow:hidden;color:var(--zb-colors-text);font-size:15px;font-weight:750;line-height:1.2;text-overflow:ellipsis;white-space:nowrap; }
+@media (max-width:767px) {
+.dashboard-layout-root .dashboard-topbar { left:0!important;width:100%!important;height:64px!important;min-height:64px!important;padding:0 10px!important;gap:6px!important; }
+.dashboard-layout-root .zb-topbar-start { flex:1 1 auto!important;min-width:0!important;gap:8px!important; }
+.dashboard-layout-root .zb-topbar-brand { width:132px!important;max-width:132px!important;flex:0 1 132px!important; }
+.dashboard-layout-root .zb-topbar-brand img { width:auto!important;max-width:132px!important;height:32px!important;max-height:32px!important; }
+.dashboard-layout-root .zb-topbar-page-context { gap:6px;min-width:0;max-width:46vw; }
+.dashboard-layout-root .zb-topbar-back-button { width:32px;height:36px;flex-basis:32px;background:transparent; }
+.dashboard-layout-root .zb-topbar-page-copy span { font-size:9px; }
+.dashboard-layout-root .zb-topbar-page-copy strong { max-width:34vw;font-size:14px; }
+.dashboard-layout-root .zb-topbar-search-trigger { position:static!important;transform:none!important;flex:0 0 36px!important;width:36px!important;min-width:36px!important;height:36px!important;margin-left:auto!important;padding:0!important;justify-content:center!important; }
+.dashboard-layout-root .zb-topbar-actions { gap:2px!important; }
+.dashboard-layout-root .zb-topbar-actions .zb-notification-button,.dashboard-layout-root .zb-topbar-actions .zb-mobile-more-button { width:34px!important;min-width:34px!important;height:36px!important;padding:0!important; }
+}
+@media (max-width:380px) {
+.dashboard-layout-root .zb-topbar-brand { width:108px!important;max-width:108px!important;flex-basis:108px!important; }
+.dashboard-layout-root .zb-topbar-brand img { max-width:108px!important;height:28px!important;max-height:28px!important; }
+.dashboard-layout-root .zb-topbar-page-context { max-width:42vw; }
+.dashboard-layout-root .zb-topbar-page-copy strong { max-width:28vw; }
+}
+
+
+/* Final desktop shell correction: sidebar owns column one; topbar and page
+   content share column two. Mobile keeps its existing header/navigation rules. */
+@media (min-width: 768px) {
+  .dashboard-layout-root {
+    display: grid !important;
+    grid-template-columns: 72px minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .dashboard-layout-root[data-sidebar-mode="expanded"] {
+    grid-template-columns: 280px minmax(0, 1fr);
+  }
+
+  .dashboard-layout-root[data-sidebar-mode="collapsed"] {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+
+  .dashboard-layout-root[data-sidebar-mode="hidden"] {
+    grid-template-columns: 0 minmax(0, 1fr);
+  }
+
+  .dashboard-layout-root > aside[aria-label="Application sidebar"] {
+    position: relative !important;
+    inset: auto !important;
+    grid-column: 1;
+    grid-row: 1;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 100% !important;
+    z-index: 1 !important;
+    border: 0;
+  }
+
+  .dashboard-layout-root > main {
+    grid-column: 2;
+    grid-row: 1;
+    width: auto !important;
+    min-width: 0;
+    height: 100dvh;
+    margin-left: 0 !important;
+    overflow-y: auto;
+  }
+
+  .dashboard-layout-root .dashboard-topbar {
+    position: sticky !important;
+    inset: auto !important;
+    top: 0 !important;
+    width: 100% !important;
+    min-width: 0;
+    height: 72px !important;
+    min-height: 72px !important;
+    flex: 0 0 auto;
+    z-index: 50 !important;
+  }
+
+  .dashboard-layout-root main > div {
+    padding-top: 0 !important;
+  }
+
+  .dashboard-layout-root .zb-sidebar-header {
+    justify-content: center !important;
+    padding-inline: 0 !important;
+    border: 0 !important;
+  }
+
+  .dashboard-layout-root .zb-sidebar-brand-icon {
+    display: block;
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    object-fit: contain;
+  }
+
+  .dashboard-layout-root[data-sidebar-mode="expanded"] .zb-sidebar-header {
+    justify-content: flex-start !important;
+    padding-inline: 24px !important;
+  }
+}
+
+
+/* Viewport-pinned topbar and vertical-only page scrolling. */
+.dashboard-layout-root {
+  width: 100%;
+  max-width: 100%;
+  height: 100dvh;
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+.dashboard-layout-root > main {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overscroll-behavior-x: none;
+  overscroll-behavior-y: contain;
+  scrollbar-gutter: stable;
+}
+.dashboard-layout-root .dashboard-topbar {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: 280px !important;
+  width: calc(100% - 280px) !important;
+  max-width: calc(100% - 280px) !important;
+  box-sizing: border-box !important;
+  z-index: 90 !important;
+  background: var(--zb-colors-background) !important;
+  transform: none !important;
+}
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .dashboard-topbar {
+  left: 72px !important;
+  width: calc(100% - 72px) !important;
+  max-width: calc(100% - 72px) !important;
+}
+.dashboard-layout-root[data-sidebar-mode="hidden"] .dashboard-topbar {
+  left: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.dashboard-layout-root > main > div {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: clip;
+}
+@media (min-width: 768px) {
+  .dashboard-layout-root > main > div {
+    padding-top: 72px !important;
+  }
+}
+@media (max-width: 767px) {
+  .dashboard-layout-root .dashboard-topbar {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 64px !important;
+    min-height: 64px !important;
+    z-index: 90 !important;
+    background: var(--zb-colors-background) !important;
+  }
+  .dashboard-layout-root > main {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+  .dashboard-layout-root > main > div {
+    padding-top: 64px !important;
+  }
+}
+
+/* Match the topbar to the sidebar surface and remove the seam between them. */
+.dashboard-layout-root aside[aria-label="Application sidebar"] {
+  background: var(--zb-colors-surface) !important;
+  border-right: 0 !important;
+  box-shadow: none !important;
+}
+.dashboard-layout-root .dashboard-topbar {
+  background: var(--zb-colors-surface) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+@media (max-width: 767px) {
+  .dashboard-layout-root .dashboard-topbar {
+    background: var(--zb-colors-surface) !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+}
+
+
+/* Sidebar collapse/expand affordance — the brand stays the primary control. */
+.zb-sidebar-header .zb-sidebar-brand {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+.zb-sidebar-header .zb-sidebar-brand-wordmark {
+  display: block;
+  width: 100%;
+  max-width: 166px;
+  max-height: 42px;
+  height: auto;
+  object-fit: contain;
+  object-position: left center;
+}
+.zb-sidebar-header .zb-sidebar-collapse-button {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+}
+.zb-sidebar-header .zb-sidebar-collapse-button:hover,
+.zb-sidebar-header .zb-sidebar-collapse-button:focus-visible {
+  color: var(--zb-colors-primary);
+  background: var(--zb-colors-surfaceSecondary);
+  outline: 2px solid color-mix(in srgb, var(--zb-colors-primary) 40%, transparent);
+  outline-offset: 1px;
+}
+.zb-sidebar-header .zb-sidebar-brand-toggle {
+  overflow: visible;
+  background: transparent;
+  color: var(--zb-colors-primary);
+  transition: background-color 150ms ease;
+}
+.zb-sidebar-header .zb-sidebar-brand-toggle img {
+  opacity: 1;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+.zb-sidebar-header .zb-sidebar-brand-toggle .zb-sidebar-expand-indicator {
+  opacity: 0;
+  transform: scale(.78);
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+.zb-sidebar-header .zb-sidebar-brand-toggle:hover,
+.zb-sidebar-header .zb-sidebar-brand-toggle:focus-visible {
+  background: color-mix(in srgb, var(--zb-colors-primary) 12%, transparent);
+  outline: 2px solid color-mix(in srgb, var(--zb-colors-primary) 40%, transparent);
+  outline-offset: 1px;
+}
+.zb-sidebar-header .zb-sidebar-brand-toggle:hover img,
+.zb-sidebar-header .zb-sidebar-brand-toggle:focus-visible img {
+  opacity: .2;
+  transform: scale(.86);
+}
+.zb-sidebar-header .zb-sidebar-brand-toggle:hover .zb-sidebar-expand-indicator,
+.zb-sidebar-header .zb-sidebar-brand-toggle:focus-visible .zb-sidebar-expand-indicator {
+  opacity: 1;
+  transform: scale(1);
+}
+
+
+/* Single brand location: keep the logo in the sidebar, not the global top bar. */
+.zb-topbar-home-spacer {
+  display: block;
+  width: 1px;
+  min-width: 1px;
+  height: 1px;
+  flex: 0 0 1px;
+}
+.zb-sidebar-brand {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+}
+.zb-sidebar-brand .zb-sidebar-brand-icon {
+  display: block;
+  width: 25px;
+  height: 25px;
+  flex: 0 0 25px;
+  object-fit: contain;
+}
+.zb-sidebar-brand .zb-sidebar-brand-wordmark {
+  display: block;
+  width: auto;
+  max-width: min(150px, 100%);
+  max-height: 38px;
+  height: auto !important;
+  object-fit: contain;
+  object-position: left center;
+}
+.zb-sidebar-brand-toggle .zb-sidebar-brand-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+
+/* Final sidebar polish: brand scale, toggle alignment, surface and outline. */
+.dashboard-layout-root aside[aria-label="Application sidebar"] {
+  background: color-mix(in srgb, var(--zb-colors-surface) 94%, var(--zb-colors-primary) 6%) !important;
+  border: 1px solid var(--zb-colors-border) !important;
+  border-right-width: 1px !important;
+  box-sizing: border-box;
+}
+.zb-sidebar-header {
+  padding: 0 16px !important;
+  gap: 12px;
+}
+.zb-sidebar-brand {
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 9px;
+}
+.zb-sidebar-brand .zb-sidebar-brand-icon {
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+  object-fit: contain;
+}
+.zb-sidebar-brand .zb-sidebar-brand-wordmark {
+  width: auto;
+  max-width: min(154px, 100%);
+  max-height: 40px;
+  height: auto !important;
+  object-fit: contain;
+  object-position: left center;
+}
+.zb-sidebar-collapse-button {
+  width: 34px;
+  height: 34px;
+  margin-left: 4px;
+  transform: translateX(3px);
+  border: 0 !important;
+  border-radius: 8px;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.zb-sidebar-collapse-button:hover,
+.zb-sidebar-collapse-button:focus-visible {
+  color: var(--zb-colors-primary);
+  background: color-mix(in srgb, var(--zb-colors-primary) 10%, transparent) !important;
+  outline: 2px solid color-mix(in srgb, var(--zb-colors-primary) 35%, transparent);
+  outline-offset: 1px;
+}
+.zb-sidebar-brand-toggle {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+
+/* Sidebar refinement from visual QA: keep the brand mark aligned to menu icons. */
+.dashboard-layout-root aside[aria-label="Application sidebar"] {
+  background: color-mix(in srgb, var(--zb-colors-surface) 91%, var(--zb-colors-primary) 9%) !important;
+  border: 0 !important;
+  border-right: 1px solid var(--zb-colors-border) !important;
+}
+.zb-sidebar-header {
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  padding: 0 14px !important;
+}
+.zb-sidebar-brand {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+.zb-sidebar-brand .zb-sidebar-brand-icon {
+  display: block !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  max-width: 24px !important;
+  max-height: 24px !important;
+  object-fit: contain !important;
+}
+.zb-sidebar-brand .zb-sidebar-brand-wordmark {
+  display: block !important;
+  width: auto !important;
+  max-width: 138px !important;
+  height: auto !important;
+  max-height: 36px !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+}
+.zb-sidebar-collapse-button {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  margin-left: auto !important;
+  padding: 0 !important;
+  transform: translateX(2px) !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.zb-sidebar-collapse-button:hover,
+.zb-sidebar-collapse-button:focus-visible {
+  color: var(--zb-colors-primary) !important;
+  background: color-mix(in srgb, var(--zb-colors-primary) 10%, transparent) !important;
+  outline: 2px solid color-mix(in srgb, var(--zb-colors-primary) 35%, transparent);
+  outline-offset: 1px;
+}
+.zb-sidebar-brand-toggle {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  padding: 4px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.zb-sidebar-brand-toggle .zb-sidebar-brand-icon {
+  width: 24px !important;
+  height: 24px !important;
+  object-fit: contain !important;
+}
+.zb-sidebar-brand-toggle:hover,
+.zb-sidebar-brand-toggle:focus-visible {
+  background: color-mix(in srgb, var(--zb-colors-primary) 10%, transparent) !important;
+  outline: 2px solid color-mix(in srgb, var(--zb-colors-primary) 35%, transparent);
+  outline-offset: 1px;
+}
+.zb-sidebar-expand-indicator {
+  right: -5px !important;
+  bottom: -3px !important;
+}
+
+
+/* Visual QA correction: one continuous sidebar surface; restore menu icon scale. */
+.dashboard-layout-root aside[aria-label="Application sidebar"] {
+  background: var(--zb-colors-surface) !important;
+  border: 0 !important;
+  border-right: 1px solid var(--zb-colors-border) !important;
+  box-shadow: none !important;
+}
+.dashboard-layout-root aside[aria-label="Application sidebar"] > *,
+.dashboard-layout-root aside[aria-label="Application sidebar"] .zb-sidebar-header,
+.dashboard-layout-root aside[aria-label="Application sidebar"] .zb-sidebar-nav,
+.dashboard-layout-root aside[aria-label="Application sidebar"] .zb-sidebar-workspace-footer {
+  background-color: transparent !important;
+}
+.zb-sidebar-header {
+  box-sizing: border-box !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  padding: 0 16px !important;
+}
+.zb-sidebar-header .zb-sidebar-brand {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  gap: 8px !important;
+  overflow: hidden !important;
+}
+.zb-sidebar-header .zb-sidebar-brand-icon {
+  display: block !important;
+  width: 27px !important;
+  height: 27px !important;
+  min-width: 27px !important;
+  max-width: 27px !important;
+  flex: 0 0 27px !important;
+  object-fit: contain !important;
+}
+.zb-sidebar-header .zb-sidebar-brand-wordmark {
+  display: block !important;
+  width: auto !important;
+  max-width: 138px !important;
+  max-height: 38px !important;
+  height: auto !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+}
+.zb-sidebar-header .zb-sidebar-collapse-button {
+  display: inline-flex !important;
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  flex: 0 0 34px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-left: auto !important;
+  padding: 0 !important;
+  transform: translateX(2px) !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.zb-sidebar-header .zb-sidebar-collapse-button:hover,
+.zb-sidebar-header .zb-sidebar-collapse-button:focus-visible {
+  color: var(--zb-colors-primary) !important;
+  background: color-mix(in srgb, var(--zb-colors-primary) 10%, transparent) !important;
+  outline: 2px solid color-mix(in srgb, var(--zb-colors-primary) 35%, transparent);
+  outline-offset: 1px;
+}
+.zb-sidebar-header .zb-sidebar-brand-toggle {
+  position: relative !important;
+  display: inline-flex !important;
+  width: 46px !important;
+  height: 46px !important;
+  min-width: 46px !important;
+  flex: 0 0 46px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 5px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.zb-sidebar-header .zb-sidebar-brand-toggle .zb-sidebar-brand-icon {
+  width: 27px !important;
+  height: 27px !important;
+  min-width: 27px !important;
+  max-width: 27px !important;
+  flex: 0 0 27px !important;
+}
+.zb-sidebar-header .zb-sidebar-brand-toggle:hover,
+.zb-sidebar-header .zb-sidebar-brand-toggle:focus-visible {
+  background: color-mix(in srgb, var(--zb-colors-primary) 10%, transparent) !important;
+  outline: 2px solid color-mix(in srgb, var(--zb-colors-primary) 35%, transparent);
+  outline-offset: 1px;
+}
+.zb-sidebar-header .zb-sidebar-expand-indicator {
+  right: -5px !important;
+  bottom: -3px !important;
+}
+.dashboard-layout-root .zb-sidebar-link > svg {
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  flex: 0 0 24px !important;
+}
+.dashboard-layout-root[data-sidebar-mode="collapsed"] .zb-sidebar-link > svg {
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  flex: 0 0 24px !important;
+}

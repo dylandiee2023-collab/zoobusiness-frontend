@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 
 import { DashboardLayout } from "@/layouts/dashboard";
+import { useLanguage } from "@/app/language";
+import { resolvePublicCopy } from "@/app/language/public-copy";
 import { usePlatform } from "@/platform/providers/use-platform";
 import { useWorkspace } from "@/workspace/providers/workspace-provider";
 import {
@@ -93,6 +95,8 @@ function SummaryLoading() {
 }
 
 export function DashboardPage() {
+  const { language } = useLanguage();
+  const t = (key: Parameters<typeof resolvePublicCopy>[1]) => resolvePublicCopy(language, key);
   const platform = usePlatform();
   const { workspace, loading: workspaceLoading } = useWorkspace();
   const navigate = useNavigate();
@@ -179,8 +183,8 @@ export function DashboardPage() {
             >
               <div className="dashboard-sales-top">
                 <div>
-                  <p className="dashboard-section-kicker">TODAY</p>
-                  <h2 id="dashboard-sales-title">Total sales</h2>
+                  <p className="dashboard-section-kicker">{t("today")}</p>
+                  <h2 id="dashboard-sales-title">{t("totalSales")}</h2>
                   <p className="dashboard-sales-total">
                     {formatMoney(summary.sales.today, currency)}
                   </p>
@@ -194,7 +198,7 @@ export function DashboardPage() {
               <div
                 className="dashboard-chart"
                 role="img"
-                aria-label="Sales trend for the last seven days"
+                aria-label={t("salesTrendAria")}
               >
                 {summary.sales.trend.map((point) => {
                   const day = new Date(
@@ -222,15 +226,15 @@ export function DashboardPage() {
             </section>
             <section className="dashboard-health-card" aria-labelledby="dashboard-health-title">
               <div className="dashboard-health-copy">
-                <p className="dashboard-section-kicker">BUSINESS HEALTH</p>
-                <h2 id="dashboard-health-title">Stock availability</h2>
+                <p className="dashboard-section-kicker">{t("businessHealth")}</p>
+                <h2 id="dashboard-health-title">{t("stockAvailability")}</h2>
                 <p>Share of tracked items not currently flagged as low stock.</p>
               </div>
               <div className="dashboard-health-visual">
                 <div className="dashboard-health-ring" style={{ "--health-score": `${stockAvailability ?? 0}%` } as CSSProperties}>
                   <div><strong>{stockAvailability === null ? "—" : `${stockAvailability}%`}</strong><span>not low-stock</span></div>
                 </div>
-                <div className="dashboard-health-legend"><span><i className="health-good" />Not flagged low-stock</span><span><i className="health-watch" />Low-stock items</span></div>
+                <div className="dashboard-health-legend"><span><i className="health-good" />{t("notLowStock")}</span><span><i className="health-watch" />{t("lowStock")}</span></div>
               </div>
             </section>
             </div>
@@ -251,19 +255,19 @@ export function DashboardPage() {
                     <Boxes size={20} />
                   </span>
                   <div>
-                    <h2>Inventory health</h2>
-                    <p>Current stock snapshot</p>
+                    <h2>{t("inventoryHealth")}</h2>
+                    <p>{t("currentStockSnapshot")}</p>
                   </div>
                 </div>
                 <div className="dashboard-stock-stats">
                   <div>
-                    <span>Tracked items</span>
+                    <span>{t("trackedItems")}</span>
                     <strong>
                       {formatNumber(summary.inventory.trackedItems)}
                     </strong>
                   </div>
                   <div>
-                    <span>Available units</span>
+                    <span>{t("availableUnits")}</span>
                     <strong>
                       {formatNumber(summary.inventory.availableUnits)}
                     </strong>
@@ -273,7 +277,7 @@ export function DashboardPage() {
                       summary.inventory.lowStockItems > 0 ? "is-warning" : ""
                     }
                   >
-                    <span>Low-stock items</span>
+                    <span>{t("lowStock")}</span>
                     <strong>
                       {formatNumber(summary.inventory.lowStockItems)}
                     </strong>
@@ -286,8 +290,8 @@ export function DashboardPage() {
                     <CircleDollarSign size={20} />
                   </span>
                   <div>
-                    <h2>Expense snapshot</h2>
-                    <p>Active expenses recorded today</p>
+                    <h2>{t("expenseSnapshot")}</h2>
+                    <p>{t("activeExpensesToday")}</p>
                   </div>
                 </div>
                 <strong className="dashboard-detail-total">
@@ -312,24 +316,24 @@ export function DashboardPage() {
             <section className="dashboard-sales-panel dashboard-shell-sales">
               <div className="dashboard-sales-top">
                 <div>
-                  <p className="dashboard-section-kicker">TODAY</p>
-                  <h2>Total sales</h2>
+                  <p className="dashboard-section-kicker">{t("today")}</p>
+                  <h2>{t("totalSales")}</h2>
                   <p className="dashboard-sales-total">—</p>
-                  <p className="dashboard-shell-note">Business figures will appear here when the summary API is connected.</p>
+                  <p className="dashboard-shell-note">{t("summaryUnavailable")}</p>
                 </div>
-                <div className="dashboard-period-chip"><BarChart3 size={16} />Last 7 days</div>
+                <div className="dashboard-period-chip"><BarChart3 size={16} />{t("last7Days")}</div>
               </div>
-              <p className="dashboard-shell-note">Sales trend is unavailable until AutoBots returns summary data.</p>
+              <p className="dashboard-shell-note">{t("salesTrendUnavailable")}</p>
             </section>
             <section className="dashboard-health-card" aria-labelledby="dashboard-health-title">
               <div className="dashboard-health-copy">
-                <p className="dashboard-section-kicker">BUSINESS HEALTH</p>
-                <h2 id="dashboard-health-title">Stock availability</h2>
-                <p>Health indicators will populate when summary data is available.</p>
+                <p className="dashboard-section-kicker">{t("businessHealth")}</p>
+                <h2 id="dashboard-health-title">{t("stockAvailability")}</h2>
+                <p>{t("healthUnavailable")}</p>
               </div>
               <div className="dashboard-health-visual">
                 <div className="dashboard-health-ring dashboard-health-ring-empty"><div><strong>—</strong><span>awaiting data</span></div></div>
-                <div className="dashboard-health-legend"><span><i className="health-good" />Not flagged low-stock</span><span><i className="health-watch" />Low-stock items</span></div>
+                <div className="dashboard-health-legend"><span><i className="health-good" />{t("notLowStock")}</span><span><i className="health-watch" />{t("lowStock")}</span></div>
               </div>
             </section>
             </div>
@@ -345,23 +349,23 @@ export function DashboardPage() {
           </section>
         )}
 <section className="dashboard-quick-actions">
-          <div className="dashboard-quick-actions-heading"><h2>Quick actions</h2><span>See all</span></div>
+          <div className="dashboard-quick-actions-heading"><h2>{t("quickActions")}</h2><span>{t("seeAll")}</span></div>
           <div className="dashboard-quick-actions-grid">
-            <button type="button" onClick={() => navigate("/products")}><Package size={26} /><strong>Add product</strong><span>Manage your catalogue</span></button>
-            <button type="button" onClick={() => navigate("/ai-assistant")}><Bot size={26} /><strong>AI assistant</strong><span>Get business insights</span></button>
-            <button type="button" onClick={() => navigate("/pos")}><ShoppingCart size={26} /><strong>New sale</strong><span>Open point of sale</span></button>
-            <button type="button" onClick={() => navigate("/customers")}><Users size={26} /><strong>Customers</strong><span>Manage customer records</span></button>
-            <button type="button" onClick={() => navigate("/orders")}><ClipboardList size={26} /><strong>Orders</strong><span>Review and fulfil orders</span></button>
-            <button type="button" onClick={() => navigate("/reports")}><BarChart3 size={26} /><strong>Reports</strong><span>Review business activity</span></button>
+            <button type="button" onClick={() => navigate("/products")}><Package size={26} /><strong>{t("addProduct")}</strong><span>{t("manageCatalogue")}</span></button>
+            <button type="button" onClick={() => navigate("/ai-assistant")}><Bot size={26} /><strong>{t("aiAssistant")}</strong><span>{t("businessInsights")}</span></button>
+            <button type="button" onClick={() => navigate("/pos")}><ShoppingCart size={26} /><strong>{t("newSale")}</strong><span>{t("openPointOfSale")}</span></button>
+            <button type="button" onClick={() => navigate("/customers")}><Users size={26} /><strong>{t("customers")}</strong><span>{t("manageCustomerRecords")}</span></button>
+            <button type="button" onClick={() => navigate("/orders")}><ClipboardList size={26} /><strong>{t("pageOrders")}</strong><span>{t("reviewFulfilOrders")}</span></button>
+            <button type="button" onClick={() => navigate("/reports")}><BarChart3 size={26} /><strong>{t("pageReports")}</strong><span>{t("reviewBusinessActivity")}</span></button>
           </div>
         </section>
         <section className="dashboard-detail-card dashboard-recent-activity">
-          <div className="dashboard-detail-heading"><span className="dashboard-detail-icon"><RefreshCw size={20} /></span><div><h2>Recent activity</h2><p>Latest business events will appear here</p></div></div>
-          <p className="dashboard-placeholder-copy">Activity feed will be connected when the AutoBots activity endpoint is available.</p>
+          <div className="dashboard-detail-heading"><span className="dashboard-detail-icon"><RefreshCw size={20} /></span><div><h2>{t("recentActivity")}</h2><p>{t("latestBusinessEvents")}</p></div></div>
+          <p className="dashboard-placeholder-copy">{t("activityFeedUnavailable")}</p>
         </section>
         <section className="dashboard-detail-card dashboard-analytics-placeholder">
-          <div className="dashboard-detail-heading"><span className="dashboard-detail-icon"><BarChart3 size={20} /></span><div><h2>Business analytics</h2><p>Sales, customer and inventory insights</p></div></div>
-          <p className="dashboard-placeholder-copy">Additional analytics will appear here when their data services are connected.</p>
+          <div className="dashboard-detail-heading"><span className="dashboard-detail-icon"><BarChart3 size={20} /></span><div><h2>{t("businessAnalytics")}</h2><p>{t("salesCustomerInventoryInsights")}</p></div></div>
+          <p className="dashboard-placeholder-copy">{t("additionalAnalytics")}</p>
         </section>
       </div>
     </DashboardLayout>

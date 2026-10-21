@@ -120,8 +120,12 @@ function DashboardWorkspaceLayoutContent() {
       <ContentShellViewport
         shell1={<Sidebar />}
         shell1Width={sidebarWidth}
-        onBackToShell1={isMobile ? returnToDashboard : undefined}
-        onCloseShell2={isMobile ? returnToDashboard : undefined}
+        {...(isMobile
+          ? {
+              onBackToShell1: returnToDashboard,
+              onCloseShell2: returnToDashboard,
+            }
+          : {})}
         renderShell2={() => renderWorkspace()}
         renderShell3={() => renderWorkspace()}
       />

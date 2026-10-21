@@ -10,7 +10,6 @@ import {
   Users,
 } from "lucide-react";
 
-import { DashboardLayout } from "@/layouts/dashboard";
 import { useLanguage } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
 import { BrandLogo } from "@/components/brand/components/brand-logo/brand-logo";
@@ -58,8 +57,7 @@ export function WorkspaceSettingsPage() {
   const shopName = workspace?.name || "Your shop";
 
   return (
-    <DashboardLayout>
-      <div className="zb-settings-page">
+    <div className="zb-settings-page">
         <header className="zb-settings-hero">
           <div className="zb-settings-brand-row">
             <div className="zb-settings-shop-avatar" aria-label={`${shopName} shop avatar`}>
@@ -105,6 +103,5 @@ export function WorkspaceSettingsPage() {
           ))}
         </div>
       </div>
-    </DashboardLayout>
   );
 }

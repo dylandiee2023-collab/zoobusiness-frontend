@@ -7,6 +7,8 @@ import { useResponsive } from "@/responsive";
 import { useTheme } from "@/theme/hooks";
 import { BottomNavigation } from "@/layouts/app-shell/components/bottom-navigation/BottomNavigation";
 
+import "@/layouts/dashboard/dashboard-layout.css";
+
 const routeTitles: Readonly<Record<string, string>> = {
   "/dashboard": "Home",
   "/pos": "Point of Sale",
@@ -85,7 +87,7 @@ function DashboardWorkspaceLayoutContent() {
           minWidth: 0,
           minHeight: 0,
           overflow: "auto",
-          padding: theme.spacing.card,
+          padding: 0,
         }}
       >
         <Outlet />

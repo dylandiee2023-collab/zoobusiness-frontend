@@ -888,3 +888,63 @@
     box-shadow: none !important;
   }
 }
+
+
+/* Sidebar collapse/expand affordance — the brand stays the primary control. */
+.zb-sidebar-header .zb-sidebar-brand {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+.zb-sidebar-header .zb-sidebar-brand-wordmark {
+  display: block;
+  width: 100%;
+  max-width: 166px;
+  max-height: 42px;
+  height: auto;
+  object-fit: contain;
+  object-position: left center;
+}
+.zb-sidebar-header .zb-sidebar-collapse-button {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+}
+.zb-sidebar-header .zb-sidebar-collapse-button:hover,
+.zb-sidebar-header .zb-sidebar-collapse-button:focus-visible {
+  color: var(--zb-colors-primary);
+  background: var(--zb-colors-surfaceSecondary);
+  outline: 2px solid color-mix(in srgb, var(--zb-colors-primary) 40%, transparent);
+  outline-offset: 1px;
+}
+.zb-sidebar-header .zb-sidebar-brand-toggle {
+  overflow: visible;
+  background: transparent;
+  color: var(--zb-colors-primary);
+  transition: background-color 150ms ease;
+}
+.zb-sidebar-header .zb-sidebar-brand-toggle img {
+  opacity: 1;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+.zb-sidebar-header .zb-sidebar-brand-toggle .zb-sidebar-expand-indicator {
+  opacity: 0;
+  transform: scale(.78);
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+.zb-sidebar-header .zb-sidebar-brand-toggle:hover,
+.zb-sidebar-header .zb-sidebar-brand-toggle:focus-visible {
+  background: color-mix(in srgb, var(--zb-colors-primary) 12%, transparent);
+  outline: 2px solid color-mix(in srgb, var(--zb-colors-primary) 40%, transparent);
+  outline-offset: 1px;
+}
+.zb-sidebar-header .zb-sidebar-brand-toggle:hover img,
+.zb-sidebar-header .zb-sidebar-brand-toggle:focus-visible img {
+  opacity: .2;
+  transform: scale(.86);
+}
+.zb-sidebar-header .zb-sidebar-brand-toggle:hover .zb-sidebar-expand-indicator,
+.zb-sidebar-header .zb-sidebar-brand-toggle:focus-visible .zb-sidebar-expand-indicator {
+  opacity: 1;
+  transform: scale(1);
+}

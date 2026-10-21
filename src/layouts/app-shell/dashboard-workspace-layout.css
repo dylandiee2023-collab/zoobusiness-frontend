@@ -1,10 +1,13 @@
 .zb-dashboard-layout-root aside[aria-label="Application sidebar"] {
-  position: relative;
-  inset: auto;
-  z-index: auto;
-  height: 100%;
+  position: relative !important;
+  inset: auto !important;
+  top: auto !important;
+  left: auto !important;
+  z-index: auto !important;
+  width: 100% !important;
+  height: 100% !important;
   max-height: 100%;
-  padding-bottom: 0;
+  padding-bottom: 0 !important;
 }
 
 .zb-dashboard-layout-root aside[data-sidebar-mode="collapsed"] .zb-sidebar-header {

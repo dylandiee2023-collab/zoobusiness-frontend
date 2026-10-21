@@ -1,34 +1,25 @@
 import { navigationConfig } from "@/dashboard/navigation/navigation.config";
+import type { NavigationItem } from "@/dashboard/navigation/navigation.types";
 import type { MenuGroup, MenuItem } from "./menu.types";
 
-
-function toSidebarItem(item: (typeof navigationConfig)[number]): MenuItem {
-  if (!item.route) {
-    throw new Error(
-      `Sidebar navigation item "${item.id}" must define a route.`,
-    );
-  }
-
+function toSidebarItem(item: NavigationItem): MenuItem {
   return {
     id: item.id,
     title: item.label,
     icon: item.icon,
-    route: item.route,
-    ...(item.permission !== undefined
-      ? { permissions: [item.permission] }
-      : {}),
+    ...(item.route ? { route: item.route } : {}),
+    ...(item.permission ? { permissions: [item.permission] } : {}),
+    ...(item.children ? { children: item.children.map(toSidebarItem) } : {}),
   };
 }
-
 
 const dailyNavigation = navigationConfig
   .filter((item) => item.placement === "sidebar")
   .map(toSidebarItem);
 
-
 /**
- * The sidebar is a compact projection of the canonical navigation tree.
- * Nested Shell 1 destinations live in navigationConfig.children.
+ * Sidebar navigation is derived from the canonical navigation tree.
+ * Route-less parents are valid: they group destinations and toggle nested menus.
  */
 export const MENU_REGISTRY: readonly MenuGroup[] = [
   {

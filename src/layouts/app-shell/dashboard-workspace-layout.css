@@ -1,0 +1,58 @@
+.zb-dashboard-layout-root aside[aria-label="Application sidebar"] {
+  position: relative;
+  inset: auto;
+  z-index: auto;
+  height: 100%;
+  max-height: 100%;
+  padding-bottom: 0;
+}
+
+.zb-dashboard-layout-root aside[data-sidebar-mode="collapsed"] .zb-sidebar-header {
+  gap: 4px;
+  padding-inline: 6px !important;
+}
+
+.zb-dashboard-layout-root .zb-sidebar-item-row {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+}
+
+.zb-dashboard-layout-root .zb-sidebar-item-row > .zb-sidebar-link {
+  flex: 1;
+  min-width: 0;
+}
+
+.zb-dashboard-layout-root .zb-sidebar-parent-toggle {
+  flex: 0 0 auto;
+  width: 36px;
+  justify-content: center;
+  padding-inline: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.zb-dashboard-layout-root .zb-sidebar-submenu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 4px 0 4px 14px;
+  padding-left: 8px;
+  border-left: 1px solid var(--zb-colors-border);
+}
+
+.zb-dashboard-layout-root .zb-sidebar-submenu .zb-sidebar-link {
+  min-height: 38px;
+  padding-inline: 10px;
+  font-size: 13px;
+}
+
+.zb-dashboard-layout-root .zb-sidebar-link.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.zb-dashboard-layout-root .zb-sidebar-link .is-collapsed {
+  transform: rotate(-90deg);
+}

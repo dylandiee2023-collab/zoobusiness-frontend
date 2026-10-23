@@ -69,7 +69,15 @@ export function ProductsWorkspaceRebuild() {
 
   useEffect(() => {
     if (shell.shell2?.id !== "products.create") return;
-    const dirty = form.name.trim() !== "" || form.sku.trim() !== "" || form.description.trim() !== "";
+    const dirty =
+      form.name.trim() !== "" ||
+      form.slug.trim() !== "" ||
+      form.sku.trim() !== "" ||
+      form.description.trim() !== "" ||
+      form.categoryId !== "" ||
+      form.unitId !== "" ||
+      form.productType !== EMPTY.productType ||
+      form.status !== EMPTY.status;
     shell.updateShellDirty(2, dirty);
   }, [form, shell.shell2?.id, shell.updateShellDirty]);
 
@@ -127,8 +135,8 @@ export function ProductsWorkspaceRebuild() {
     try {
       await service.create(workspace.id, payload);
       shell.updateShellDirty(2, false);
-      shell.closeShell3();
-      shell.closeShell2();
+      shell.closeShell3(() => true);
+      shell.closeShell2(() => true);
       setForm(EMPTY);
       setFormError("");
       setNotice("Product created. Add purchase details separately when you are ready to receive stock.");

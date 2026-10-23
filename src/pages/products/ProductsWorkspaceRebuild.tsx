@@ -5,6 +5,7 @@ import { DashboardLayout } from "@/layouts/dashboard";
 import { usePlatform } from "@/platform/providers/use-platform";
 import { useWorkspace } from "@/workspace/providers/workspace-provider";
 import { ProductService, type CreateProductPayload, type ProductOption, type ProductRecord, type ProductStatus, type ProductType } from "@/products/services/product-service";
+import "./ProductsWorkspaceRebuild.css";
 
 type FormState = {
   name: string; slug: string; sku: string; description: string;
@@ -112,9 +113,9 @@ export function ProductsWorkspaceRebuild() {
 
   return (
     <DashboardLayout>
-      <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-6 pb-24">
+      <main className="zb-products-page mx-auto flex w-full max-w-[1600px] flex-col gap-6 pb-24">
         {!workspaceOpen ? <>
-          <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+          <header className="zb-products-header flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div className="space-y-2">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-green-700">CATALOGUE</p>
               <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Products</h1>
@@ -126,7 +127,7 @@ export function ProductsWorkspaceRebuild() {
           {notice ? <Alert variant="success" title="Product saved">{notice}</Alert> : null}
           {error ? <Alert variant="danger" title="Could not load products"><div className="flex flex-wrap items-center justify-between gap-3"><span>{error}</span><Button type="button" variant="outline" onClick={() => setReload((value) => value + 1)}>Try again</Button></div></Alert> : null}
 
-          <section aria-label="Product summary" className="grid grid-cols-1 gap-3 sm:grid-cols-3 xl:grid-cols-6">
+          <section aria-label="Product summary" className="zb-products-summary grid grid-cols-1 gap-3 sm:grid-cols-3 xl:grid-cols-6">
             <SummaryCard label="Total products" value={products.length} detail="In this workspace" icon={<Package size={18} />} />
             <SummaryCard label="Active products" value={activeCount} detail="Available in catalogue" />
             <SummaryCard label="Inactive products" value={inactiveCount} detail="Not currently active" />
@@ -136,7 +137,7 @@ export function ProductsWorkspaceRebuild() {
           </section>
 
           <section className="flex flex-col gap-4">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="zb-products-toolbar flex flex-col gap-3 sm:flex-row sm:items-center">
               <div className="relative min-w-0 flex-1">
                 <Search size={18} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 opacity-50" />
                 <Input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search product name, SKU or slug…" aria-label="Search products" fullWidth />
@@ -147,16 +148,16 @@ export function ProductsWorkspaceRebuild() {
               <Button type="button" variant="outline" onClick={() => setReload((value) => value + 1)}>Refresh</Button>
             </div>
 
-            {loading ? <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4" role="status">{Array.from({ length: 8 }, (_, index) => <div key={index} className="h-64 animate-pulse rounded-2xl border border-[var(--color-border)] bg-[var(--zb-colors-surface,#f7f8f7)]" />)}</div> :
+            {loading ? <div className="zb-products-grid grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4" role="status">{Array.from({ length: 8 }, (_, index) => <div key={index} className="h-64 animate-pulse rounded-2xl border border-[var(--color-border)] bg-[var(--zb-colors-surface,#f7f8f7)]" />)}</div> :
               visibleProducts.length === 0 ? <Card padding="lg"><EmptyState icon={<Package size={28} />} heading={search || statusFilter !== "ALL" ? "No matching products" : "Your catalogue starts here"} description={search || statusFilter !== "ALL" ? "Try a different search or status filter." : "Add your first product to build your business catalogue."} /></Card> :
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
-                {visibleProducts.map((product) => <article key={product.id} className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--zb-colors-surface,#fff)] transition-shadow hover:shadow-md">
-                  <div className="relative flex aspect-[4/3] items-center justify-center bg-[var(--zb-colors-background-subtle,#f3f5f3)]">
+              <div className="zb-products-grid grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
+                {visibleProducts.map((product) => <article key={product.id} className="zb-product-card group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--zb-colors-surface,#fff)] transition-shadow hover:shadow-md">
+                  <div className="zb-product-image relative flex aspect-[4/3] items-center justify-center bg-[var(--zb-colors-background-subtle,#f3f5f3)]">
                     <Package size={38} strokeWidth={1.3} className="opacity-25" />
                     <span className={"absolute left-2 top-2 rounded-full px-2 py-1 text-[10px] font-semibold " + (product.status === "ACTIVE" ? "bg-green-100 text-green-800" : "bg-[var(--zb-colors-surface,#fff)] opacity-70")}>{product.status.toLowerCase()}</span>
                     <button type="button" aria-label={"Add " + product.name + " to cart"} title="Add to cart" className="absolute bottom-2 right-2 flex h-9 w-9 items-center justify-center rounded-full bg-green-700 text-white shadow-sm transition hover:bg-green-800" onClick={() => setNotice("Cart actions will be available when product pricing and sales workflows are connected.")}><ShoppingCart size={16} /></button>
                   </div>
-                  <div className="flex flex-1 flex-col gap-2 p-3 sm:p-4">
+                  <div className="zb-product-card-body flex flex-1 flex-col gap-2 p-3 sm:p-4">
                     <h2 className="line-clamp-2 text-sm font-semibold sm:text-base">{product.name}</h2>
                     <p className="truncate text-xs opacity-60">{product.sku || product.slug}</p>
                     <div className="mt-auto flex items-center justify-between gap-2 pt-2">
@@ -226,7 +227,7 @@ export function ProductsWorkspaceRebuild() {
 }
 
 function SummaryCard({ label, value, detail, icon }: { label: string; value: string | number; detail: string; icon?: ReactNode }) {
-  return <Card padding="md"><div className="flex items-start justify-between gap-2"><p className="text-xs font-medium opacity-65">{label}</p>{icon ? <span className="text-green-700">{icon}</span> : null}</div><p className="mt-3 text-2xl font-bold tracking-tight">{value}</p><p className="mt-1 text-xs opacity-60">{detail}</p></Card>;
+  return <Card className="zb-summary-card" padding="md"><div className="flex items-start justify-between gap-2"><p className="text-xs font-medium opacity-65">{label}</p>{icon ? <span className="text-green-700">{icon}</span> : null}</div><p className="mt-3 text-2xl font-bold tracking-tight">{value}</p><p className="mt-1 text-xs opacity-60">{detail}</p></Card>;
 }
 
 function Field({ label, required, children }: { label: string; required?: boolean; children: ReactNode }) {

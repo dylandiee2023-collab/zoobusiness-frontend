@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
-import { ArrowLeft, ArrowUpRight, Bot, ImagePlus, Package, Plus, Search, ShoppingCart, X } from "lucide-react";
+import { ArrowUpRight, Bot, ImagePlus, Package, Plus, Search, ShoppingCart } from "lucide-react";
 import { Alert, Button, Card, EmptyState, Input, Select, Textarea } from "@/design-system/components";
 import { Container } from "@/design-system/layout";
 import { ContentShellViewport, useContentShell } from "@/content-shell-engine";
@@ -146,10 +146,10 @@ export function ProductsWorkspaceRebuild() {
           {error ? <Alert variant="danger" title="Could not load products"><div className="flex flex-wrap items-center justify-between gap-3"><span>{error}</span><Button type="button" variant="outline" onClick={() => setReload((value) => value + 1)}>Try again</Button></div></Alert> : null}
 
           <section aria-label="Product summary" className="zb-products-summary grid grid-cols-1 gap-3 sm:grid-cols-3 xl:grid-cols-6">
-            <SummaryCard label="Total products" value={products.length} detail="In this workspace" icon={<Package size={18} />} />
-            <SummaryCard label="Active products" value={activeCount} detail="Available in catalogue" />
-            <SummaryCard label="Inactive products" value={inactiveCount} detail="Not currently active" />
-            <SummaryCard label="Archived products" value={archivedCount} detail="Kept for records" />
+            <SummaryCard label="Total products" value={error ? "—" : products.length} detail={error ? "Unable to load catalogue" : "In this workspace"} icon={<Package size={18} />} />
+            <SummaryCard label="Active products" value={error ? "—" : activeCount} detail="Available in catalogue" />
+            <SummaryCard label="Inactive products" value={error ? "—" : inactiveCount} detail="Not currently active" />
+            <SummaryCard label="Archived products" value={error ? "—" : archivedCount} detail="Kept for records" />
             <SummaryCard label="Stock cost value" value="—" detail="Available from inventory data" />
             <SummaryCard label="Retail value" value="—" detail="Available from price data" />
           </section>

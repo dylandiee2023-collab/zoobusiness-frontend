@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "re
 import { ArrowLeft, ArrowUpRight, Bot, ImagePlus, Package, Plus, Search, ShoppingCart, X } from "lucide-react";
 import { Alert, Button, Card, EmptyState, Input, Select, Textarea } from "@/design-system/components";
 import { Container } from "@/design-system/layout";
+import { ContentShellViewport, useContentShell } from "@/content-shell-engine";
+import { useResponsive } from "@/responsive";
 import { DashboardLayout } from "@/layouts/dashboard";
 import { usePlatform } from "@/platform/providers/use-platform";
 import { useWorkspace } from "@/workspace/providers/workspace-provider";
@@ -21,6 +23,8 @@ const messageOf = (error: unknown) => error instanceof Error ? error.message : "
 export function ProductsWorkspaceRebuild() {
   const platform = usePlatform();
   const { workspace, loading: workspaceLoading } = useWorkspace();
+  const shell = useContentShell();
+  const { isMobile } = useResponsive();
   const service = useMemo(() => new ProductService(platform.api), [platform.api]);
   const [products, setProducts] = useState<ProductRecord[]>([]);
   const [categories, setCategories] = useState<ProductOption[]>([]);
@@ -31,7 +35,7 @@ export function ProductsWorkspaceRebuild() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
-  const [workspaceOpen, setWorkspaceOpen] = useState(false);
+  const workspaceOpen = shell.shell2?.id === "products.create";
   const [form, setForm] = useState<FormState>(EMPTY);
   const [formError, setFormError] = useState("");
   const [reload, setReload] = useState(0);
@@ -63,6 +67,12 @@ export function ProductsWorkspaceRebuild() {
     return () => { active = false; };
   }, [service, workspace?.id, workspaceLoading, reload]);
 
+  useEffect(() => {
+    if (shell.shell2?.id !== "products.create") return;
+    const dirty = form.name.trim() !== "" || form.sku.trim() !== "" || form.description.trim() !== "";
+    shell.updateShellDirty(2, dirty);
+  }, [form, shell.shell2?.id]);
+
   const visibleProducts = useMemo(() => products.filter((product) => {
     const query = search.trim().toLowerCase();
     const matchesSearch = !query || [product.name, product.slug, product.sku ?? ""].some((value) => value.toLowerCase().includes(query));
@@ -72,11 +82,20 @@ export function ProductsWorkspaceRebuild() {
   const inactiveCount = products.filter((product) => product.status === "INACTIVE").length;
   const archivedCount = products.filter((product) => product.status === "ARCHIVED").length;
 
-  function closeWorkspace() {
-    if (saving) return;
-    setWorkspaceOpen(false);
+  function openWorkspace() {
     setForm(EMPTY);
     setFormError("");
+    shell.openShell2({ id: "products.create", title: "Add product" });
+    if (!isMobile) shell.openShell3({ id: "products.preview", title: "Live preview" });
+  }
+
+  function closeWorkspace() {
+    if (saving) return;
+    shell.closeShell3();
+    if (shell.closeShell2()) {
+      setForm(EMPTY);
+      setFormError("");
+    }
   }
 
   async function submitProduct(event: FormEvent<HTMLFormElement>) {
@@ -98,8 +117,11 @@ export function ProductsWorkspaceRebuild() {
     setNotice("");
     try {
       await service.create(workspace.id, payload);
-      setWorkspaceOpen(false);
+      shell.updateShellDirty(2, false);
+      shell.closeShell3();
+      shell.closeShell2();
       setForm(EMPTY);
+      setFormError("");
       setNotice("Product created. Add purchase details separately when you are ready to receive stock.");
       setReload((value) => value + 1);
     } catch (caught) {
@@ -109,20 +131,15 @@ export function ProductsWorkspaceRebuild() {
     }
   }
 
-  if (workspaceLoading) return <DashboardLayout><div className="flex min-h-64 items-center justify-center" role="status">Loading product workspace…</div></DashboardLayout>;
-  if (!workspace?.id) return <DashboardLayout><Alert variant="danger" title="Workspace unavailable">Complete business setup or refresh the page before managing products.</Alert></DashboardLayout>;
-
-  return (
-    <DashboardLayout>
-      <Container className="zb-products-container" maxWidth="1600px" padding="0"><div className="zb-products-page">
-        {!workspaceOpen ? <>
-          <header className="zb-products-header flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+  const catalogueContent = (
+    <div className="zb-products-page">
+<header className="zb-products-header flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div className="space-y-2">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-green-700">CATALOGUE</p>
               <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Products</h1>
               <p className="max-w-2xl text-sm opacity-70 sm:text-base">Manage your product catalogue, product types and availability in one workspace.</p>
             </div>
-            <Button type="button" onClick={() => { setForm(EMPTY); setFormError(""); setWorkspaceOpen(true); }} leftIcon={<Plus size={18} />}>Add product</Button>
+            <Button type="button" onClick={openWorkspace} leftIcon={<Plus size={18} />}>Add product</Button>
           </header>
 
           {notice ? <Alert variant="success" title="Product saved">{notice}</Alert> : null}
@@ -169,8 +186,12 @@ export function ProductsWorkspaceRebuild() {
                 </article>)}
               </div>}
           </section>
-        </> : <>
-          <header className="zb-product-entry-header flex items-center justify-between gap-3 border-b border-[var(--color-border)] pb-4">
+      {!workspaceOpen ? <div className="zb-products-floating-actions"><button type="button" aria-label="AI product assistant" title="AI assistant" className="zb-products-ai-fab" onClick={() => setNotice("AI assistant is a visual entry point; connect the AI product service to enable generation.")}><Bot size={20} /></button><button type="button" aria-label="Add product" title="Add product" className="zb-products-add-fab" onClick={openWorkspace}><Plus size={25} /></button></div> : null}
+    </div>
+  );
+  const productFormContent = (
+    <div className="zb-product-form-shell">
+<header className="zb-product-entry-header flex items-center justify-between gap-3 border-b border-[var(--color-border)] pb-4">
             <div className="flex items-center gap-3">
               <Button type="button" variant="ghost" onClick={closeWorkspace} leftIcon={<ArrowLeft size={18} />}>Back</Button>
               <div><p className="text-xs font-bold uppercase tracking-wider text-green-700">PRODUCT WORKSPACE</p><h1 className="text-2xl font-bold">Add product</h1></div>
@@ -205,7 +226,13 @@ export function ProductsWorkspaceRebuild() {
               </div>
             </form>
 
-            <aside className="zb-product-preview space-y-4 xl:sticky xl:top-6">
+
+          </div>
+    </div>
+  );
+  const productPreviewContent = (
+    <div className="zb-product-preview-shell">
+<aside className="zb-product-preview space-y-4 xl:sticky xl:top-6">
               <Card padding="none">
                 <div className="zb-product-preview-image flex aspect-[4/3] items-center justify-center bg-[var(--zb-colors-background-subtle,#f3f5f3)]"><ImagePlus size={52} strokeWidth={1.2} className="opacity-30" /></div>
                 <div className="zb-product-preview-body space-y-3 p-5">
@@ -219,10 +246,26 @@ export function ProductsWorkspaceRebuild() {
               </Card>
               <div className="flex items-start gap-3 rounded-xl border border-[var(--color-border)] p-4"><Bot size={20} className="mt-0.5 text-green-700" /><div><p className="font-semibold">AI product assistant</p><p className="mt-1 text-sm opacity-70">Use AI assistance for descriptions and product setup when that service is connected.</p></div><ArrowUpRight size={16} className="ml-auto opacity-50" /></div>
             </aside>
-          </div>
-        </>}
-        {!workspaceOpen ? <div className="fixed bottom-5 right-5 z-30 flex flex-col gap-3"><button type="button" aria-label="AI product assistant" title="AI assistant" className="flex h-12 w-12 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--zb-colors-surface,#fff)] shadow-lg" onClick={() => setNotice("AI assistant is a visual entry point; connect the AI product service to enable generation.")}><Bot size={20} /></button><button type="button" aria-label="Add product" title="Add product" className="flex h-14 w-14 items-center justify-center rounded-full bg-green-700 text-white shadow-lg hover:bg-green-800" onClick={() => { setForm(EMPTY); setFormError(""); setWorkspaceOpen(true); }}><Plus size={25} /></button></div> : null}
-      </div></Container>
+    </div>
+  );
+  if (workspaceLoading) return <DashboardLayout><div className="flex min-h-64 items-center justify-center" role="status">Loading product workspace…</div></DashboardLayout>;
+  if (!workspace?.id) return <DashboardLayout><Alert variant="danger" title="Workspace unavailable">Complete business setup or refresh the page before managing products.</Alert></DashboardLayout>;
+
+  return (
+    <DashboardLayout>
+      <Container className="zb-products-container" maxWidth="1600px" padding="0">
+        <ContentShellViewport
+          className="zb-products-shell-viewport"
+          shell1={catalogueContent}
+          renderShell2={(entry) => entry.id === "products.create" ? (
+            <>
+              {productFormContent}
+              {isMobile ? productPreviewContent : null}
+            </>
+          ) : null}
+          renderShell3={(entry) => entry.id === "products.preview" ? productPreviewContent : null}
+        />
+      </Container>
     </DashboardLayout>
   );
 }

@@ -24,7 +24,8 @@ export function ProductsWorkspaceRebuild() {
   const platform = usePlatform();
   const { workspace, loading: workspaceLoading } = useWorkspace();
   const shell = useContentShell();
-  const { isMobile } = useResponsive();
+  const { isMobile, width } = useResponsive();
+  const isNarrowShell = isMobile || width <= 1000;
   const service = useMemo(() => new ProductService(platform.api), [platform.api]);
   const [products, setProducts] = useState<ProductRecord[]>([]);
   const [categories, setCategories] = useState<ProductOption[]>([]);
@@ -83,14 +84,14 @@ export function ProductsWorkspaceRebuild() {
 
   useEffect(() => {
     if (shell.shell2?.id !== "products.create") return;
-    if (isMobile) {
+    if (isNarrowShell) {
       if (shell.shell3) shell.closeShell3();
       return;
     }
     if (shell.shell3?.id !== "products.preview") {
       shell.openShell3({ id: "products.preview", title: "Live preview" });
     }
-  }, [isMobile, shell.shell2?.id, shell.shell3?.id, shell.closeShell3, shell.openShell3]);
+  }, [isNarrowShell, shell.shell2?.id, shell.shell3?.id, shell.closeShell3, shell.openShell3]);
 
   const visibleProducts = useMemo(() => products.filter((product) => {
     const query = search.trim().toLowerCase();
@@ -271,7 +272,7 @@ export function ProductsWorkspaceRebuild() {
           renderShell2={(entry) => entry.id === "products.create" ? (
             <>
               {productFormContent}
-              {isMobile ? productPreviewContent : null}
+              {isNarrowShell ? productPreviewContent : null}
             </>
           ) : null}
           renderShell3={(entry) => entry.id === "products.preview" ? productPreviewContent : null}

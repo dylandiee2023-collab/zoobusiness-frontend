@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { ArrowLeft, ArrowUpRight, Bot, ImagePlus, Package, Plus, Search, ShoppingCart, X } from "lucide-react";
 import { Alert, Button, Card, EmptyState, Input, Select, Textarea } from "@/design-system/components";
 import { DashboardLayout } from "@/layouts/dashboard";
@@ -225,10 +225,10 @@ export function ProductsWorkspaceRebuild() {
   );
 }
 
-function SummaryCard({ label, value, detail, icon }: { label: string; value: string | number; detail: string; icon?: React.ReactNode }) {
+function SummaryCard({ label, value, detail, icon }: { label: string; value: string | number; detail: string; icon?: ReactNode }) {
   return <Card padding="md"><div className="flex items-start justify-between gap-2"><p className="text-xs font-medium opacity-65">{label}</p>{icon ? <span className="text-green-700">{icon}</span> : null}</div><p className="mt-3 text-2xl font-bold tracking-tight">{value}</p><p className="mt-1 text-xs opacity-60">{detail}</p></Card>;
 }
 
-function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
+function Field({ label, required, children }: { label: string; required?: boolean; children: ReactNode }) {
   return <label className="flex min-w-0 flex-col gap-2 text-sm font-medium">{label}{required ? <span className="text-green-700">*</span> : null}{children}</label>;
 }

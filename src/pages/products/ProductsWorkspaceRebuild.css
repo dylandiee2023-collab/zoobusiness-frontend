@@ -1,0 +1,186 @@
+/* Product catalogue layout. Scoped to this page so the dashboard shell and other pages are untouched. */
+.zb-products-page {
+  width: 100%;
+  max-width: 1600px;
+  margin-inline: auto;
+  padding: 24px 28px 104px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  color: var(--zb-colors-text, inherit);
+}
+
+.zb-products-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.zb-products-summary {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.zb-summary-card {
+  min-width: 0;
+  min-height: 132px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.zb-summary-card > div {
+  flex: 1;
+}
+
+.zb-products-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.zb-products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  width: 100%;
+}
+
+.zb-product-card {
+  min-width: 0;
+  min-height: 280px;
+  border-color: var(--zb-colors-border, var(--color-border, rgba(128, 128, 128, .24)));
+  background: var(--zb-colors-surface, transparent);
+  border-radius: 16px;
+}
+
+.zb-product-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--zb-colors-background-subtle, rgba(128, 128, 128, .08));
+}
+
+.zb-product-card-body {
+  min-width: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+}
+
+.zb-products-page input,
+.zb-products-page textarea,
+.zb-products-page select {
+  max-width: 100%;
+}
+
+.zb-products-page form {
+  min-width: 0;
+}
+
+.zb-products-page form section {
+  min-width: 0;
+}
+
+.zb-products-page aside {
+  min-width: 0;
+}
+
+@media (max-width: 1279px) {
+  .zb-products-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .zb-products-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .zb-products-page {
+    padding: 18px 14px 100px;
+    gap: 18px;
+  }
+
+  .zb-products-header {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .zb-products-header > button {
+    align-self: flex-start;
+  }
+
+  .zb-products-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .zb-summary-card {
+    min-height: 116px;
+    padding: 12px !important;
+    gap: 8px;
+  }
+
+  .zb-summary-card:nth-child(2),
+  .zb-summary-card:nth-child(3),
+  .zb-summary-card:nth-child(4) {
+    display: none;
+  }
+
+  .zb-summary-card p:first-child {
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .zb-summary-card p:nth-child(2) {
+    font-size: 21px;
+    line-height: 1.2;
+  }
+
+  .zb-summary-card p:last-child {
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
+  .zb-products-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .zb-products-toolbar > * {
+    width: 100%;
+  }
+
+  .zb-products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .zb-product-card {
+    min-height: 0;
+    border-radius: 13px;
+  }
+
+  .zb-product-card-body {
+    padding: 11px;
+    gap: 6px;
+  }
+
+  .zb-products-page > header + div {
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zb-product-card {
+    transition: none;
+  }
+}

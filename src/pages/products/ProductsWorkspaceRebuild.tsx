@@ -191,13 +191,7 @@ export function ProductsWorkspaceRebuild() {
   );
   const productFormContent = (
     <div className="zb-product-form-shell">
-<header className="zb-product-entry-header flex items-center justify-between gap-3 border-b border-[var(--color-border)] pb-4">
-            <div className="flex items-center gap-3">
-              <Button type="button" variant="ghost" onClick={closeWorkspace} leftIcon={<ArrowLeft size={18} />}>Back</Button>
-              <div><p className="text-xs font-bold uppercase tracking-wider text-green-700">PRODUCT WORKSPACE</p><h1 className="text-2xl font-bold">Add product</h1></div>
-            </div>
-            <Button type="button" variant="ghost" aria-label="Close product workspace" onClick={closeWorkspace}><X size={18} /></Button>
-          </header>
+
           <div className="zb-product-entry-grid grid grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
             <form className="zb-product-form flex flex-col gap-5 rounded-2xl border border-[var(--color-border)] p-4 sm:p-6" onSubmit={(event) => void submitProduct(event)}>
               {formError ? <Alert variant="danger" title="Product could not be saved">{formError}</Alert> : null}

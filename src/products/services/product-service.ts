@@ -84,13 +84,13 @@ export class ProductService {
 
   categories(workspaceId: string): Promise<ProductOption[]> {
     return this.api.get<ProductOption[]>(
-      `/api/workspaces/${encodeURIComponent(workspaceId)}/product-options/categories`,
+      `/api/workspaces/${encodeURIComponent(workspaceId)}/catalog-categories`,
     );
   }
 
   units(workspaceId: string): Promise<ProductOption[]> {
     return this.api.get<ProductOption[]>(
-      `/api/workspaces/${encodeURIComponent(workspaceId)}/product-options/units`,
+      `/api/workspaces/${encodeURIComponent(workspaceId)}/units`,
     );
   }
 

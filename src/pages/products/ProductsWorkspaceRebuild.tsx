@@ -71,7 +71,18 @@ export function ProductsWorkspaceRebuild() {
     if (shell.shell2?.id !== "products.create") return;
     const dirty = form.name.trim() !== "" || form.sku.trim() !== "" || form.description.trim() !== "";
     shell.updateShellDirty(2, dirty);
-  }, [form, shell.shell2?.id]);
+  }, [form, shell.shell2?.id, shell.updateShellDirty]);
+
+  useEffect(() => {
+    if (shell.shell2?.id !== "products.create") return;
+    if (isMobile) {
+      if (shell.shell3) shell.closeShell3();
+      return;
+    }
+    if (shell.shell3?.id !== "products.preview") {
+      shell.openShell3({ id: "products.preview", title: "Live preview" });
+    }
+  }, [isMobile, shell.shell2?.id, shell.shell3?.id, shell.closeShell3, shell.openShell3]);
 
   const visibleProducts = useMemo(() => products.filter((product) => {
     const query = search.trim().toLowerCase();
@@ -86,12 +97,10 @@ export function ProductsWorkspaceRebuild() {
     setForm(EMPTY);
     setFormError("");
     shell.openShell2({ id: "products.create", title: "Add product" });
-    if (!isMobile) shell.openShell3({ id: "products.preview", title: "Live preview" });
   }
 
   function closeWorkspace() {
     if (saving) return;
-    shell.closeShell3();
     if (shell.closeShell2()) {
       setForm(EMPTY);
       setFormError("");

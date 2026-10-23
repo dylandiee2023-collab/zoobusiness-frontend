@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { ArrowLeft, ArrowUpRight, Bot, ImagePlus, Package, Plus, Search, ShoppingCart, X } from "lucide-react";
 import { Alert, Button, Card, EmptyState, Input, Select, Textarea } from "@/design-system/components";
+import { Container } from "@/design-system/layout";
 import { DashboardLayout } from "@/layouts/dashboard";
 import { usePlatform } from "@/platform/providers/use-platform";
 import { useWorkspace } from "@/workspace/providers/workspace-provider";
@@ -113,7 +114,7 @@ export function ProductsWorkspaceRebuild() {
 
   return (
     <DashboardLayout>
-      <main className="zb-products-page mx-auto flex w-full max-w-[1600px] flex-col gap-6 pb-24">
+      <Container className="zb-products-container" maxWidth="1600px" padding="0"><div className="zb-products-page">
         {!workspaceOpen ? <>
           <header className="zb-products-header flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div className="space-y-2">
@@ -169,22 +170,22 @@ export function ProductsWorkspaceRebuild() {
               </div>}
           </section>
         </> : <>
-          <header className="flex items-center justify-between gap-3 border-b border-[var(--color-border)] pb-4">
+          <header className="zb-product-entry-header flex items-center justify-between gap-3 border-b border-[var(--color-border)] pb-4">
             <div className="flex items-center gap-3">
               <Button type="button" variant="ghost" onClick={closeWorkspace} leftIcon={<ArrowLeft size={18} />}>Back</Button>
               <div><p className="text-xs font-bold uppercase tracking-wider text-green-700">PRODUCT WORKSPACE</p><h1 className="text-2xl font-bold">Add product</h1></div>
             </div>
             <Button type="button" variant="ghost" aria-label="Close product workspace" onClick={closeWorkspace}><X size={18} /></Button>
           </header>
-          <div className="grid grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
-            <form className="flex flex-col gap-5 rounded-2xl border border-[var(--color-border)] p-4 sm:p-6" onSubmit={(event) => void submitProduct(event)}>
+          <div className="zb-product-entry-grid grid grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
+            <form className="zb-product-form flex flex-col gap-5 rounded-2xl border border-[var(--color-border)] p-4 sm:p-6" onSubmit={(event) => void submitProduct(event)}>
               {formError ? <Alert variant="danger" title="Product could not be saved">{formError}</Alert> : null}
-              <section className="space-y-4">
+              <section className="zb-product-form-section space-y-4">
                 <h2 className="text-lg font-semibold">Basic information</h2>
                 <Field label="Product name" required><Input autoFocus required maxLength={255} value={form.name} onChange={(event) => setForm((old) => ({ ...old, name: event.target.value, slug: old.slug || slugify(event.target.value) }))} placeholder="e.g. Organic cocoa beans" fullWidth /></Field>
                 <Field label="Product slug" required><Input required pattern="[a-z0-9]+(-[a-z0-9]+)*" value={form.slug} onChange={(event) => setForm((old) => ({ ...old, slug: slugify(event.target.value) }))} placeholder="organic-cocoa-beans" fullWidth /></Field>
                 <Field label="SKU"><Input maxLength={100} value={form.sku} onChange={(event) => setForm((old) => ({ ...old, sku: event.target.value }))} placeholder="Internal product code" fullWidth /></Field>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="zb-product-field-grid grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <Field label="Category"><Select value={form.categoryId} options={[{ value: "", label: "Select category" }, ...categories.map((item) => ({ value: item.id, label: item.name }))]} onChange={(event) => setForm((old) => ({ ...old, categoryId: event.target.value }))} /></Field>
                   <Field label="Unit"><Select value={form.unitId} options={[{ value: "", label: "Select unit" }, ...units.map((item) => ({ value: item.id, label: item.code ? item.name + " (" + item.code + ")" : item.name }))]} onChange={(event) => setForm((old) => ({ ...old, unitId: event.target.value }))} /></Field>
                 </div>
@@ -194,20 +195,20 @@ export function ProductsWorkspaceRebuild() {
                 </div>
                 <Field label="Description"><Textarea value={form.description} onChange={(event) => setForm((old) => ({ ...old, description: event.target.value }))} placeholder="Product details, specifications and notes…" /></Field>
               </section>
-              <div className="rounded-xl bg-[var(--zb-colors-background-subtle,#f3f5f3)] p-4 text-sm">
+              <div className="zb-product-note rounded-xl bg-[var(--zb-colors-background-subtle,#f3f5f3)] p-4 text-sm">
                 <p className="font-semibold">Stock and prices are separate workflows</p>
                 <p className="mt-1 opacity-70">Saving a product creates its catalogue record only. Use Purchase Orders and Receive Stock to record buying price, destination and received quantity; pricing is managed through the price service.</p>
               </div>
-              <div className="flex flex-col-reverse gap-2 border-t border-[var(--color-border)] pt-4 sm:flex-row sm:justify-end">
+              <div className="zb-product-form-actions flex flex-col-reverse gap-2 border-t border-[var(--color-border)] pt-4 sm:flex-row sm:justify-end">
                 <Button type="button" variant="outline" disabled={saving} onClick={closeWorkspace}>Cancel</Button>
                 <Button type="submit" loading={saving} disabled={saving}>Save product</Button>
               </div>
             </form>
 
-            <aside className="space-y-4 xl:sticky xl:top-6">
+            <aside className="zb-product-preview space-y-4 xl:sticky xl:top-6">
               <Card padding="none">
-                <div className="flex aspect-[4/3] items-center justify-center bg-[var(--zb-colors-background-subtle,#f3f5f3)]"><ImagePlus size={52} strokeWidth={1.2} className="opacity-30" /></div>
-                <div className="space-y-3 p-5">
+                <div className="zb-product-preview-image flex aspect-[4/3] items-center justify-center bg-[var(--zb-colors-background-subtle,#f3f5f3)]"><ImagePlus size={52} strokeWidth={1.2} className="opacity-30" /></div>
+                <div className="zb-product-preview-body space-y-3 p-5">
                   <p className="text-xs font-bold uppercase tracking-wider text-green-700">LIVE PREVIEW</p>
                   <h2 className="text-xl font-bold">{form.name.trim() || "Your product name"}</h2>
                   <p className="text-sm opacity-60">{form.sku.trim() || form.slug || "SKU / product slug"}</p>
@@ -221,7 +222,7 @@ export function ProductsWorkspaceRebuild() {
           </div>
         </>}
         {!workspaceOpen ? <div className="fixed bottom-5 right-5 z-30 flex flex-col gap-3"><button type="button" aria-label="AI product assistant" title="AI assistant" className="flex h-12 w-12 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--zb-colors-surface,#fff)] shadow-lg" onClick={() => setNotice("AI assistant is a visual entry point; connect the AI product service to enable generation.")}><Bot size={20} /></button><button type="button" aria-label="Add product" title="Add product" className="flex h-14 w-14 items-center justify-center rounded-full bg-green-700 text-white shadow-lg hover:bg-green-800" onClick={() => { setForm(EMPTY); setFormError(""); setWorkspaceOpen(true); }}><Plus size={25} /></button></div> : null}
-      </main>
+      </div></Container>
     </DashboardLayout>
   );
 }
@@ -231,5 +232,5 @@ function SummaryCard({ label, value, detail, icon }: { label: string; value: str
 }
 
 function Field({ label, required, children }: { label: string; required?: boolean; children: ReactNode }) {
-  return <label className="flex min-w-0 flex-col gap-2 text-sm font-medium">{label}{required ? <span className="text-green-700">*</span> : null}{children}</label>;
+  return <label className="zb-product-field flex min-w-0 flex-col gap-2 text-sm font-medium">{label}{required ? <span className="text-green-700">*</span> : null}{children}</label>;
 }

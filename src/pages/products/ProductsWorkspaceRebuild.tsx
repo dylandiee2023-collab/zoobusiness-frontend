@@ -23,9 +23,8 @@ const messageOf = (error: unknown) => error instanceof Error ? error.message : "
 export function ProductsWorkspaceRebuild() {
   const platform = usePlatform();
   const { workspace, loading: workspaceLoading } = useWorkspace();
-  const shell = useContentShell();
   const { isMobile, width } = useResponsive();
-  // Tablet and mobile use the form only; Live Preview is desktop-only.
+  // Product creation replaces the catalogue workspace; preview is desktop-only.
   const isNarrowShell = isMobile || width <= 1023;
   const service = useMemo(() => new ProductService(platform.api), [platform.api]);
   const [products, setProducts] = useState<ProductRecord[]>([]);
@@ -37,7 +36,8 @@ export function ProductsWorkspaceRebuild() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
-  const workspaceOpen = shell.shell2?.id === "products.create";
+  const [workspaceOpen, setWorkspaceOpen] = useState(false);
+  const [showPreview, setShowPreview] = useState(true);
   const [form, setForm] = useState<FormState>(EMPTY);
   const [formError, setFormError] = useState("");
   const [reload, setReload] = useState(0);
@@ -70,25 +70,8 @@ export function ProductsWorkspaceRebuild() {
   }, [service, workspace?.id, workspaceLoading, reload]);
 
   useEffect(() => {
-    if (shell.shell2?.id !== "products.create") return;
-    const dirty =
-      form.name.trim() !== "" ||
-      form.slug.trim() !== "" ||
-      form.sku.trim() !== "" ||
-      form.description.trim() !== "" ||
-      form.categoryId !== "" ||
-      form.unitId !== "" ||
-      form.productType !== EMPTY.productType ||
-      form.status !== EMPTY.status;
-    shell.updateShellDirty(2, dirty);
-  }, [form, shell.shell2?.id, shell.updateShellDirty]);
-
-  useEffect(() => {
-    // Product preview is opt-in on desktop and never shown on tablet/mobile.
-    if (isNarrowShell && shell.shell3?.id === "products.preview") {
-      shell.closeShell3();
-    }
-  }, [isNarrowShell, shell.shell3?.id, shell.closeShell3]);
+    if (isNarrowShell) setShowPreview(false);
+  }, [isNarrowShell]);
 
   const visibleProducts = useMemo(() => products.filter((product) => {
     const query = search.trim().toLowerCase();
@@ -100,20 +83,17 @@ export function ProductsWorkspaceRebuild() {
   const archivedCount = products.filter((product) => product.status === "ARCHIVED").length;
 
   function openWorkspace() {
-    // Creating a product should own the workspace: close any previous preview
-    // so Shell 1 remains behind Shell 2 and the form gets the available width.
-    shell.closeShell3(() => true);
     setForm(EMPTY);
     setFormError("");
-    shell.openShell2({ id: "products.create", title: "Add product" });
+    setShowPreview(!isNarrowShell);
+    setWorkspaceOpen(true);
   }
 
   function closeWorkspace() {
     if (saving) return;
-    if (shell.closeShell2()) {
-      setForm(EMPTY);
-      setFormError("");
-    }
+    setWorkspaceOpen(false);
+    setForm(EMPTY);
+    setFormError("");
   }
 
   async function submitProduct(event: FormEvent<HTMLFormElement>) {
@@ -135,9 +115,7 @@ export function ProductsWorkspaceRebuild() {
     setNotice("");
     try {
       await service.create(workspace.id, payload);
-      shell.updateShellDirty(2, false);
-      shell.closeShell3(() => true);
-      shell.closeShell2(() => true);
+      setWorkspaceOpen(false);
       setForm(EMPTY);
       setFormError("");
       setNotice("Product created. Add purchase details separately when you are ready to receive stock.");
@@ -209,19 +187,7 @@ export function ProductsWorkspaceRebuild() {
   );
   const productFormContent = (
     <div className="zb-product-form-shell">
-          {!isNarrowShell ? (
-            <div className="mb-4 flex justify-end">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => shell.openShell3({ id: "products.preview", title: "Live preview" })}
-              >
-                Show live preview
-              </Button>
-            </div>
-          ) : null}
-
-          <div className="zb-product-entry-grid grid grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
+          <div className="zb-product-entry-grid grid grid-cols-1 items-start gap-6">
             <form className="zb-product-form flex flex-col gap-5 rounded-2xl border border-[var(--color-border)] p-4 sm:p-6" onSubmit={(event) => void submitProduct(event)}>
               {formError ? <Alert variant="danger" title="Product could not be saved">{formError}</Alert> : null}
               <section className="zb-product-form-section space-y-4">
@@ -271,6 +237,29 @@ export function ProductsWorkspaceRebuild() {
             </aside>
     </div>
   );
+  const createWorkspaceContent = (
+    <div className="zb-products-page zb-products-create-workspace flex h-full min-h-0 flex-col gap-4 p-4 sm:p-6">
+      <header className="flex items-center justify-between gap-3 border-b border-[var(--color-border)] pb-4">
+        <div className="flex min-w-0 items-center gap-3">
+          <Button type="button" variant="outline" disabled={saving} onClick={closeWorkspace}>Back to products</Button>
+          <div className="min-w-0">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-green-700">PRODUCT CATALOGUE</p>
+            <h1 className="text-2xl font-bold tracking-tight">Add product</h1>
+          </div>
+        </div>
+        {!isNarrowShell ? (
+          <Button type="button" variant="outline" onClick={() => setShowPreview((visible) => !visible)}>
+            {showPreview ? "Hide preview" : "Show preview"}
+          </Button>
+        ) : null}
+      </header>
+      <div className={showPreview && !isNarrowShell ? "grid min-h-0 flex-1 grid-cols-1 gap-6 overflow-auto xl:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]" : "min-h-0 flex-1 overflow-auto"}>
+        <div className="min-w-0">{productFormContent}</div>
+        {showPreview && !isNarrowShell ? <div className="min-w-0">{productPreviewContent}</div> : null}
+      </div>
+    </div>
+  );
+
   if (workspaceLoading) return <DashboardLayout><div className="flex min-h-64 items-center justify-center" role="status">Loading product workspace…</div></DashboardLayout>;
   if (!workspace?.id) return <DashboardLayout><Alert variant="danger" title="Workspace unavailable">Complete business setup or refresh the page before managing products.</Alert></DashboardLayout>;
 
@@ -279,9 +268,9 @@ export function ProductsWorkspaceRebuild() {
       <Container className="zb-products-container" maxWidth="1600px" padding="0">
         <ContentShellViewport
           className="zb-products-shell-viewport"
-          shell1={catalogueContent}
-          renderShell2={(entry) => entry.id === "products.create" ? productFormContent : null}
-          renderShell3={(entry) => entry.id === "products.preview" ? productPreviewContent : null}
+          shell1={workspaceOpen ? createWorkspaceContent : catalogueContent}
+          renderShell2={() => null}
+          renderShell3={() => null}
         />
       </Container>
     </DashboardLayout>

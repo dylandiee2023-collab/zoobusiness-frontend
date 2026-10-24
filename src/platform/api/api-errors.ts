@@ -17,8 +17,8 @@ export class UnauthorizedError extends ApiError {
 }
 
 export class ForbiddenError extends ApiError {
-  constructor() {
-    super("Forbidden", 403);
+  constructor(message = "Forbidden") {
+    super(message, 403);
   }
 }
 

@@ -84,15 +84,11 @@ export function ProductsWorkspaceRebuild() {
   }, [form, shell.shell2?.id, shell.updateShellDirty]);
 
   useEffect(() => {
-    if (shell.shell2?.id !== "products.create") return;
-    if (isNarrowShell) {
-      if (shell.shell3) shell.closeShell3();
-      return;
+    // Product preview is opt-in on desktop and never shown on tablet/mobile.
+    if (isNarrowShell && shell.shell3?.id === "products.preview") {
+      shell.closeShell3();
     }
-    if (shell.shell3?.id !== "products.preview") {
-      shell.openShell3({ id: "products.preview", title: "Live preview" });
-    }
-  }, [isNarrowShell, shell.shell2?.id, shell.shell3?.id, shell.closeShell3, shell.openShell3]);
+  }, [isNarrowShell, shell.shell3?.id, shell.closeShell3]);
 
   const visibleProducts = useMemo(() => products.filter((product) => {
     const query = search.trim().toLowerCase();
@@ -210,6 +206,17 @@ export function ProductsWorkspaceRebuild() {
   );
   const productFormContent = (
     <div className="zb-product-form-shell">
+          {!isNarrowShell ? (
+            <div className="mb-4 flex justify-end">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => shell.openShell3({ id: "products.preview", title: "Live preview" })}
+              >
+                Show live preview
+              </Button>
+            </div>
+          ) : null}
 
           <div className="zb-product-entry-grid grid grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
             <form className="zb-product-form flex flex-col gap-5 rounded-2xl border border-[var(--color-border)] p-4 sm:p-6" onSubmit={(event) => void submitProduct(event)}>

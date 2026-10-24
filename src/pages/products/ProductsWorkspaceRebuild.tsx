@@ -100,6 +100,9 @@ export function ProductsWorkspaceRebuild() {
   const archivedCount = products.filter((product) => product.status === "ARCHIVED").length;
 
   function openWorkspace() {
+    // Creating a product should own the workspace: close any previous preview
+    // so Shell 1 remains behind Shell 2 and the form gets the available width.
+    shell.closeShell3(() => true);
     setForm(EMPTY);
     setFormError("");
     shell.openShell2({ id: "products.create", title: "Add product" });

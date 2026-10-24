@@ -510,3 +510,32 @@
     font-size: 16px;
   }
 }
+
+
+/* Final layout guard: grid tracks follow the space available inside Shell 1,
+   rather than assuming a fixed viewport width. */
+.zb-products-page .zb-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+}
+
+.zb-products-page .zb-product-card {
+  width: 100%;
+  min-width: 0;
+}
+
+.zb-products-shell-viewport,
+.zb-products-shell-viewport > *,
+.zb-products-shell-viewport section {
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 767px) {
+  .zb-products-page .zb-products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

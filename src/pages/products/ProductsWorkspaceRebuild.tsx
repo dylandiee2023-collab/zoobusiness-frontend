@@ -25,7 +25,8 @@ export function ProductsWorkspaceRebuild() {
   const { workspace, loading: workspaceLoading } = useWorkspace();
   const shell = useContentShell();
   const { isMobile, width } = useResponsive();
-  const isNarrowShell = isMobile || width <= 1000;
+  // Tablet and mobile use the form only; Live Preview is desktop-only.
+  const isNarrowShell = isMobile || width <= 1023;
   const service = useMemo(() => new ProductService(platform.api), [platform.api]);
   const [products, setProducts] = useState<ProductRecord[]>([]);
   const [categories, setCategories] = useState<ProductOption[]>([]);
@@ -269,12 +270,7 @@ export function ProductsWorkspaceRebuild() {
         <ContentShellViewport
           className="zb-products-shell-viewport"
           shell1={catalogueContent}
-          renderShell2={(entry) => entry.id === "products.create" ? (
-            <>
-              {productFormContent}
-              {isNarrowShell ? productPreviewContent : null}
-            </>
-          ) : null}
+          renderShell2={(entry) => entry.id === "products.create" ? productFormContent : null}
           renderShell3={(entry) => entry.id === "products.preview" ? productPreviewContent : null}
         />
       </Container>

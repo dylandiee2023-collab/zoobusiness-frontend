@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "re
 import { ArrowUpRight, Bot, ImagePlus, Package, Plus, Search, ShoppingCart } from "lucide-react";
 import { Alert, Button, Card, EmptyState, Input, Select, Textarea } from "@/design-system/components";
 import { Container } from "@/design-system/layout";
-import { ContentShellViewport, useContentShell } from "@/content-shell-engine";
+import { ContentShellViewport } from "@/content-shell-engine";
 import { useResponsive } from "@/responsive";
 import { DashboardLayout } from "@/layouts/dashboard";
 import { usePlatform } from "@/platform/providers/use-platform";

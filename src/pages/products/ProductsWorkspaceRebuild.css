@@ -429,3 +429,84 @@
   .zb-product-form-shell .zb-product-field-grid { grid-template-columns: minmax(0, 1fr); }
   .zb-product-preview-shell .zb-product-preview-image { min-height: 160px; }
 }
+
+
+/* Keep native form controls aligned with the active ZooBusiness theme. */
+.zb-products-page .zb-product-field select,
+.zb-products-page .zb-product-field textarea,
+.zb-products-page .zb-product-field input:not([type="checkbox"]):not([type="radio"]) {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  color: var(--zb-colors-text);
+  background-color: var(--zb-colors-surface);
+  border: 1px solid var(--zb-colors-border);
+  border-radius: var(--zb-radius-md, 10px);
+  font-family: var(--zb-typography-fontFamily-sans, inherit);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.zb-products-page .zb-product-field select,
+.zb-products-page .zb-product-field input:not([type="checkbox"]):not([type="radio"]) {
+  min-height: 44px;
+  padding: 10px 12px;
+}
+
+.zb-products-page .zb-product-field textarea {
+  min-height: 120px;
+  padding: 12px 14px;
+}
+
+.zb-products-page .zb-product-field select option {
+  color: var(--zb-colors-text);
+  background-color: var(--zb-colors-surface);
+}
+
+.zb-products-page .zb-products-header {
+  flex-wrap: wrap;
+}
+
+.zb-products-page .zb-products-header > button,
+.zb-products-page .zb-products-header > [role="button"] {
+  flex: 0 0 auto;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.zb-products-page .zb-products-summary,
+.zb-products-page .zb-products-grid {
+  width: 100%;
+  min-width: 0;
+}
+
+.zb-product-form-shell .zb-product-form {
+  max-width: min(860px, 100%);
+}
+
+.zb-product-form-shell .zb-product-form-actions {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1399px) {
+  .zb-products-page .zb-products-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .zb-products-page .zb-products-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .zb-products-page .zb-products-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .zb-products-page .zb-products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .zb-products-page .zb-product-field select,
+  .zb-products-page .zb-product-field textarea,
+  .zb-products-page .zb-product-field input:not([type="checkbox"]):not([type="radio"]) {
+    font-size: 16px;
+  }
+}

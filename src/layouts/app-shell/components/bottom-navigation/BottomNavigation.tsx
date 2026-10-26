@@ -98,7 +98,7 @@ const menuItems = useMemo(
                   <Link
                     key={item.id}
                     to={item.route}
-                    className={isActive(item.route) ? "is-active" : ""}
+                    className={`flex min-h-12 min-w-0 items-center gap-3 rounded-xl px-3 text-sm text-[var(--zb-colors-textSecondary)] ${isActive(item.route) ? "bg-[var(--zb-colors-surfaceSecondary)] font-semibold text-[var(--zb-colors-primary)]" : ""}`}
                     aria-current={isActive(item.route) ? "page" : undefined}
                     onClick={() => setMoreOpen(false)}
                   >
@@ -120,7 +120,7 @@ const menuItems = useMemo(
             <Link
               key={item.id}
               to={item.route}
-              className={active ? "is-active" : ""}
+              className={`flex min-h-12 min-w-0 flex-col items-center justify-center gap-1 rounded-lg px-1 text-[10px] font-semibold leading-tight text-[var(--zb-colors-textSecondary)] ${active ? "bg-[var(--zb-colors-surfaceSecondary)] text-[var(--zb-colors-primary)]" : ""}`}
               aria-current={active ? "page" : undefined}
               onClick={() => setMoreOpen(false)}
             >
@@ -131,7 +131,7 @@ const menuItems = useMemo(
         })}
         <button
           type="button"
-          className={moreOpen || moreItems.some((item) => isActive(item.route)) ? "is-active" : ""}
+          className={`flex min-h-12 min-w-0 flex-col items-center justify-center gap-1 rounded-lg px-1 text-[10px] font-semibold leading-tight text-[var(--zb-colors-textSecondary)] ${moreOpen || moreItems.some((item) => isActive(item.route)) ? "bg-[var(--zb-colors-surfaceSecondary)] text-[var(--zb-colors-primary)]" : ""}`}
           aria-expanded={moreOpen}
           aria-controls="max-h-[70dvh] w-full max-w-[480px] overflow-auto rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] text-[var(--zb-colors-text)] shadow-2xl"
           onClick={() => setMoreOpen((current) => !current)}

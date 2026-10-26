@@ -25,13 +25,13 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
 
   return (
     <div
-      className="dashboard-layout-root"
+      className="min-h-screen w-full overflow-hidden"
       data-sidebar-mode={state.mode}
       style={{ ...dashboardLayoutStyles.root }}
     >
       {!isMobile && state.mode !== "hidden" ? (
         <button
-          className="dashboard-layout-backdrop"
+          className="fixed inset-0 z-[65] border-0 bg-black/40"
           type="button"
           aria-label="Close navigation"
           onClick={() => undefined}

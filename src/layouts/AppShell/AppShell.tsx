@@ -1,7 +1,12 @@
 import type { PropsWithChildren } from "react";
 
-import styles from "./AppShell.module.css";
-
 export function AppShell({ children }: PropsWithChildren) {
-  return <div className={styles.shell}>{children}</div>;
+  return (
+    <div
+      className="flex min-h-screen flex-col"
+      style={{ background: "var(--zb-colors-background)", color: "var(--zb-colors-text)" }}
+    >
+      {children}
+    </div>
+  );
 }

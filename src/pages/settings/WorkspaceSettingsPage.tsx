@@ -63,12 +63,12 @@ export function WorkspaceSettingsPage() {
           <div className="relative z-10 flex min-w-0 items-center gap-4 sm:gap-5">
             <div className="relative grid h-16 w-16 shrink-0 place-items-center rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-background)] text-xl font-extrabold text-[var(--zb-colors-primary)] sm:h-[84px] sm:w-[84px]" aria-label={`${shopName} shop avatar`}>
               <span>{shopInitials(shopName)}</span>
-              <i aria-hidden="true">✦</i>
+              <i aria-hidden="true" className="absolute -right-1 -top-1 grid h-6 w-6 place-items-center rounded-full bg-[var(--zb-colors-primary)] text-white not-italic">✦</i>
             </div>
             <div className="min-w-0">
               <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[var(--zb-colors-primary)]">{t("settingsHeroTitle")}</span>
-              <h1>{shopName}</h1>
-              <p>{t("settingsHeroDescription")}</p>
+              <h1 className="my-2 text-2xl font-bold leading-tight tracking-tight sm:text-3xl">{shopName}</h1>
+              <p className="max-w-xl text-sm leading-relaxed text-[var(--zb-colors-textSecondary)]">{t("settingsHeroDescription")}</p>
             </div>
           </div>
           <div className="relative z-10 hidden opacity-90 sm:block"><BrandLogo size={132} /></div>
@@ -80,8 +80,8 @@ export function WorkspaceSettingsPage() {
             <section className="min-w-0" key={group.titleKey}>
               <div className="mb-3">
                 <div>
-                  <h2>{t(group.titleKey)}</h2>
-                  <p>{t(group.descriptionKey)}</p>
+                  <h2 className="text-base font-extrabold tracking-tight">{t(group.titleKey)}</h2>
+                  <p className="mt-1 text-xs leading-relaxed text-[var(--zb-colors-textSecondary)]">{t(group.descriptionKey)}</p>
                 </div>
               </div>
               <div className="grid gap-3">
@@ -92,8 +92,8 @@ export function WorkspaceSettingsPage() {
                       <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[var(--zb-colors-surfaceSecondary)] text-[var(--zb-colors-primary)]"><Icon size={20} aria-hidden="true" /></span>
                       <span className="grid min-w-0 flex-1 gap-1">
                         <strong>{t(item.titleKey)}</strong>
-                        <small>{t(item.descriptionKey)}</small>
-                        <em>{t("settingsComingSoon")}</em>
+                        <small className="text-xs leading-relaxed text-[var(--zb-colors-textSecondary)]">{t(item.descriptionKey)}</small>
+                        <em className="mt-1 w-fit rounded-full bg-[var(--zb-colors-surfaceSecondary)] px-2 py-1 text-[10px] not-italic font-bold text-[var(--zb-colors-textSecondary)]">{t("settingsComingSoon")}</em>
                       </span>
                       <ArrowRight size={18} className="shrink-0 text-[var(--zb-colors-textSecondary)] opacity-50" aria-hidden="true" />
                     </button>

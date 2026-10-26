@@ -58,44 +58,44 @@ export function WorkspaceSettingsPage() {
 
   return (
     <DashboardLayout>
-      <div className="zb-settings-page">
-        <header className="zb-settings-hero">
-          <div className="zb-settings-brand-row">
-            <div className="zb-settings-shop-avatar" aria-label={`${shopName} shop avatar`}>
+      <div className="mx-auto w-full max-w-[1440px] min-w-0 p-4 text-[var(--zb-colors-text)] sm:p-6">
+        <header className="relative flex min-h-[190px] items-center justify-between gap-6 overflow-hidden rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-5 sm:p-8">
+          <div className="relative z-10 flex min-w-0 items-center gap-4 sm:gap-5">
+            <div className="relative grid h-16 w-16 shrink-0 place-items-center rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-background)] text-xl font-extrabold text-[var(--zb-colors-primary)] sm:h-[84px] sm:w-[84px]" aria-label={`${shopName} shop avatar`}>
               <span>{shopInitials(shopName)}</span>
               <i aria-hidden="true">✦</i>
             </div>
-            <div className="zb-settings-shop-copy">
-              <span className="zb-settings-eyebrow">{t("settingsHeroTitle")}</span>
+            <div className="min-w-0">
+              <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[var(--zb-colors-primary)]">{t("settingsHeroTitle")}</span>
               <h1>{shopName}</h1>
               <p>{t("settingsHeroDescription")}</p>
             </div>
           </div>
-          <div className="zb-settings-brand-mark"><BrandLogo size={132} /></div>
-          <div className="zb-settings-hero-decoration" aria-hidden="true" />
+          <div className="relative z-10 hidden opacity-90 sm:block"><BrandLogo size={132} /></div>
+          <div className="pointer-events-none absolute -right-8 -top-24 h-64 w-64 rounded-full border border-[var(--zb-colors-border)] opacity-40" aria-hidden="true" />
         </header>
 
-        <div className="zb-settings-groups">
+        <div className="mt-6 grid grid-cols-1 items-start gap-5 lg:grid-cols-2">
           {settingsGroups.map((group) => (
-            <section className="zb-settings-group" key={group.titleKey}>
-              <div className="zb-settings-group-heading">
+            <section className="min-w-0" key={group.titleKey}>
+              <div className="mb-3">
                 <div>
                   <h2>{t(group.titleKey)}</h2>
                   <p>{t(group.descriptionKey)}</p>
                 </div>
               </div>
-              <div className="zb-settings-options">
+              <div className="grid gap-3">
                 {group.items.map((item) => {
                   const Icon = item.icon;
                   return (
-                    <button className="zb-settings-option" type="button" key={item.titleKey} disabled>
-                      <span className="zb-settings-option-icon"><Icon size={20} aria-hidden="true" /></span>
-                      <span className="zb-settings-option-copy">
+                    <button className="flex w-full min-w-0 items-center gap-3 rounded-xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-4 text-left text-[var(--zb-colors-text)] opacity-80 disabled:cursor-not-allowed" type="button" key={item.titleKey} disabled>
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[var(--zb-colors-surfaceSecondary)] text-[var(--zb-colors-primary)]"><Icon size={20} aria-hidden="true" /></span>
+                      <span className="grid min-w-0 flex-1 gap-1">
                         <strong>{t(item.titleKey)}</strong>
                         <small>{t(item.descriptionKey)}</small>
                         <em>{t("settingsComingSoon")}</em>
                       </span>
-                      <ArrowRight size={18} className="zb-settings-option-arrow" aria-hidden="true" />
+                      <ArrowRight size={18} className="shrink-0 text-[var(--zb-colors-textSecondary)] opacity-50" aria-hidden="true" />
                     </button>
                   );
                 })}

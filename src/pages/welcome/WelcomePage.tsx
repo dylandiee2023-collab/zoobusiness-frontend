@@ -9,7 +9,6 @@ import { PublicShell } from "@/shells/PublicShell";
 import { PricingSection } from "@/pages/pricing/PricingSection";
 import { Footer } from "./components/Footer";
 import { useTheme } from "@/theme/hooks";
-import "./WelcomePage.css";
 import darkLogo from "@/assets/brand/zoobusiness.dark.png.png";
 import lightLogo from "@/assets/brand/zoobusiness.light.png.png";
 import aiSalesAgent from "@/assets/images/ai-sales-agent.webp";

@@ -16,7 +16,6 @@ import { resolvePublicCopy } from "@/app/language/public-copy";
 import { BrandLogo } from "@/components/brand/components/brand-logo/brand-logo";
 import { useWorkspace } from "@/workspace/providers/workspace-provider";
 
-import "./WorkspaceSettingsPage.css";
 
 const settingsGroups = [
   {

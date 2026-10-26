@@ -22,7 +22,6 @@ import { Link, useLocation } from "react-router-dom";
 import { filterMenu, MENU_REGISTRY } from "@/components/layout/sidebar/menu";
 import { useWorkspaceAccess } from "@/workspace/providers/workspace-access-provider";
 
-import "./BottomNavigation.css";
 
 const iconMap: Record<string, LucideIcon> = {
   "layout-dashboard": Home,

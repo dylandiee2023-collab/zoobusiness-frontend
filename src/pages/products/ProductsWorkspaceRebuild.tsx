@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "re
 import { ArrowUpRight, Bot, ImagePlus, Package, Plus, Search, ShoppingCart } from "lucide-react";
 import { Alert, Button, Card, EmptyState, Input, Select, Textarea } from "@/design-system/components";
 import { Container } from "@/design-system/layout";
-import { ContentShellViewport } from "@/content-shell-engine";
+import { ContentShellViewport, useContentShell } from "@/content-shell-engine";
 import { useResponsive } from "@/responsive";
 import { DashboardLayout } from "@/layouts/dashboard";
 import { usePlatform } from "@/platform/providers/use-platform";
@@ -23,6 +23,7 @@ const messageOf = (error: unknown) => error instanceof Error ? error.message : "
 export function ProductsWorkspaceRebuild() {
   const platform = usePlatform();
   const { workspace, loading: workspaceLoading } = useWorkspace();
+  const shell = useContentShell();
   const { isMobile, width } = useResponsive();
   // Product creation replaces the catalogue workspace; preview is desktop-only.
   const isNarrowShell = isMobile || width <= 1023;
@@ -70,8 +71,11 @@ export function ProductsWorkspaceRebuild() {
   }, [service, workspace?.id, workspaceLoading, reload]);
 
   useEffect(() => {
-    if (isNarrowShell) setShowPreview(false);
-  }, [isNarrowShell]);
+    if (isNarrowShell && shell.shell2?.id === "products.preview") {
+      shell.closeShell2(() => true);
+      setShowPreview(false);
+    }
+  }, [isNarrowShell, shell.shell2?.id, shell.closeShell2]);
 
   const visibleProducts = useMemo(() => products.filter((product) => {
     const query = search.trim().toLowerCase();
@@ -83,14 +87,19 @@ export function ProductsWorkspaceRebuild() {
   const archivedCount = products.filter((product) => product.status === "ARCHIVED").length;
 
   function openWorkspace() {
+    shell.closeShell2(() => true);
+    shell.closeShell3(() => true);
     setForm(EMPTY);
     setFormError("");
     setShowPreview(!isNarrowShell);
     setWorkspaceOpen(true);
+    if (!isNarrowShell) shell.openShell2({ id: "products.preview", title: "Live preview" });
   }
 
   function closeWorkspace() {
     if (saving) return;
+    shell.closeShell2(() => true);
+    shell.closeShell3(() => true);
     setWorkspaceOpen(false);
     setForm(EMPTY);
     setFormError("");
@@ -115,6 +124,7 @@ export function ProductsWorkspaceRebuild() {
     setNotice("");
     try {
       await service.create(workspace.id, payload);
+      shell.closeShell2(() => true);
       setWorkspaceOpen(false);
       setForm(EMPTY);
       setFormError("");
@@ -248,14 +258,21 @@ export function ProductsWorkspaceRebuild() {
           </div>
         </div>
         {!isNarrowShell ? (
-          <Button type="button" variant="outline" onClick={() => setShowPreview((visible) => !visible)}>
+          <Button type="button" variant="outline" onClick={() => {
+            if (showPreview) {
+              shell.closeShell2(() => true);
+              setShowPreview(false);
+            } else {
+              shell.openShell2({ id: "products.preview", title: "Live preview" });
+              setShowPreview(true);
+            }
+          }}>
             {showPreview ? "Hide preview" : "Show preview"}
           </Button>
         ) : null}
       </header>
-      <div className={showPreview && !isNarrowShell ? "grid min-h-0 flex-1 grid-cols-1 gap-6 overflow-auto xl:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]" : "min-h-0 flex-1 overflow-auto"}>
+      <div className="min-h-0 flex-1 overflow-auto">
         <div className="min-w-0">{productFormContent}</div>
-        {showPreview && !isNarrowShell ? <div className="min-w-0">{productPreviewContent}</div> : null}
       </div>
     </div>
   );
@@ -269,7 +286,7 @@ export function ProductsWorkspaceRebuild() {
         <ContentShellViewport
           className="zb-products-shell-viewport"
           shell1={workspaceOpen ? createWorkspaceContent : catalogueContent}
-          renderShell2={() => null}
+          renderShell2={(entry) => entry.id === "products.preview" ? productPreviewContent : null}
           renderShell3={() => null}
         />
       </Container>

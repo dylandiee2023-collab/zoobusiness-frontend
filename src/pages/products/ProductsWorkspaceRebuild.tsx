@@ -8,7 +8,6 @@ import { DashboardLayout } from "@/layouts/dashboard";
 import { usePlatform } from "@/platform/providers/use-platform";
 import { useWorkspace } from "@/workspace/providers/workspace-provider";
 import { ProductService, type CreateProductPayload, type ProductOption, type ProductRecord, type ProductStatus, type ProductType } from "@/products/services/product-service";
-import "./ProductsWorkspaceRebuild.css";
 
 type FormState = {
   name: string; slug: string; sku: string; description: string;

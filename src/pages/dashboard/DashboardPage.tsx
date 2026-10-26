@@ -25,7 +25,6 @@ import {
   type DashboardSummary,
 } from "@/dashboard/services/dashboard-service";
 
-import "./DashboardPage.css";
 
 function formatMoney(value: number, currency: string): string {
   return new Intl.NumberFormat("en-TZ", {

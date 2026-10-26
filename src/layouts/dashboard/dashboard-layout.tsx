@@ -27,7 +27,7 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
     <div
       className="min-h-screen w-full overflow-hidden"
       data-sidebar-mode={state.mode}
-      style={{ ...dashboardLayoutStyles.root }}
+      style={{ ...dashboardLayoutStyles.root, background: "var(--zb-colors-background)", color: "var(--zb-colors-text)" }}
     >
       {!isMobile && state.mode !== "hidden" ? (
         <button
@@ -42,11 +42,11 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
       <main
         style={{
           ...dashboardLayoutStyles.content,
-          marginLeft: sidebarWidth,
+          marginLeft: isMobile ? 0 : sidebarWidth,
         }}
       >
         <TopBar />
-        <div style={dashboardLayoutStyles.main}>{children}</div>
+        <div style={{ ...dashboardLayoutStyles.main, paddingTop: isMobile ? 60 : 72, paddingBottom: isMobile ? 96 : 24 }}>{children}</div>
       </main>
 
       <BottomNavigation />

@@ -9,7 +9,6 @@ import { useResponsive } from "@/responsive";
 import { BottomNavigation } from "@/layouts/app-shell/components/bottom-navigation/BottomNavigation";
 
 import type { DashboardLayoutProps } from "./dashboard-layout.types";
-import "./dashboard-layout.css";
 import { dashboardLayoutStyles } from "./dashboard-layout.styles";
 
 function DashboardLayoutContent({ children }: DashboardLayoutProps) {

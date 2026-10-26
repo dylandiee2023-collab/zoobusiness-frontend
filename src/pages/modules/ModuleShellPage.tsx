@@ -36,14 +36,14 @@ export function ModuleShellPage() {
         <div className="flex items-center justify-between gap-4 rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-5 sm:p-7">
           <div>
             <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[var(--zb-colors-primary)]">{t(groupKeys[module.group] ?? "groupWorkspace")}</p>
-            <h1>{t(titleKeys[location.pathname] ?? "pageWorkspace")}</h1>
-            <p>{module.description}</p>
+            <h1 className="text-2xl font-extrabold tracking-tight text-[var(--zb-colors-text)] sm:text-3xl">{t(titleKeys[location.pathname] ?? "pageWorkspace")}</h1>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[var(--zb-colors-textSecondary)]">{module.description}</p>
           </div>
           <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[var(--zb-colors-surfaceSecondary)] text-[var(--zb-colors-primary)]"><Construction size={22} aria-hidden="true" /></span>
         </div>
         <section className="flex items-start gap-3 rounded-xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-4">
           <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[var(--zb-colors-surfaceSecondary)] text-[var(--zb-colors-primary)]"><Construction size={18} aria-hidden="true" /></span>
-          <div><strong>{t("moduleShellReady")}</strong><p>{t("moduleShellBody")}</p></div>
+          <div className="min-w-0"><strong className="font-bold text-[var(--zb-colors-text)]">{t("moduleShellReady")}</strong><p className="mt-1 text-sm leading-relaxed text-[var(--zb-colors-textSecondary)]">{t("moduleShellBody")}</p></div>
         </section>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {module.tasks.map((task, index) => (
@@ -51,8 +51,8 @@ export function ModuleShellPage() {
               <span className="text-xs font-bold tracking-widest text-[var(--zb-colors-primary)]">0{index + 1}</span>
               <div className="h-3 w-full rounded bg-[var(--zb-colors-surfaceSecondary)]" />
               <div className="h-3 w-2/3 rounded bg-[var(--zb-colors-surfaceSecondary)]" />
-              <strong>{task}</strong>
-              <small>Placeholder — implementation not started</small>
+              <strong className="font-semibold text-[var(--zb-colors-text)]">{task}</strong>
+              <small className="text-xs text-[var(--zb-colors-textSecondary)]">Placeholder — implementation not started</small>
             </article>
           ))}
         </div>

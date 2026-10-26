@@ -76,7 +76,7 @@ function MetricCard({
 }) {
   return (
     <article className="flex min-w-0 flex-col gap-2 rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-4">
-      <div className={`grid h-10 w-10 place-items-center rounded-xl bg-[var(--zb-colors-surfaceSecondary)] text-[var(--zb-colors-primary)] tone-${tone}`}>{icon}</div>
+      <div className="grid h-10 w-10 place-items-center rounded-xl bg-[var(--zb-colors-surfaceSecondary)] text-[var(--zb-colors-primary)]">{icon}</div>
       <p className="text-xs font-medium text-[var(--zb-colors-textSecondary)]">{title}</p>
       <p className="text-2xl font-bold tracking-tight text-[var(--zb-colors-text)]">{value}</p>
       {change !== undefined ? <MetricChange value={change} /> : null}

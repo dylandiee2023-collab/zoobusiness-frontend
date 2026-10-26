@@ -69,19 +69,19 @@ const menuItems = useMemo(
     <>
       {moreOpen ? (
         <div
-          className="zb-mobile-more-backdrop"
+          className="fixed inset-0 z-[950] flex items-end justify-center bg-black/40 p-3 pb-20 sm:items-center sm:p-4"
           role="presentation"
           onClick={() => setMoreOpen(false)}
         >
           <section
-            id="zb-mobile-more-sheet"
-            className="zb-mobile-more-sheet"
+            id="max-h-[70dvh] w-full max-w-[480px] overflow-auto rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] text-[var(--zb-colors-text)] shadow-2xl"
+            className="max-h-[70dvh] w-full max-w-[480px] overflow-auto rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] text-[var(--zb-colors-text)] shadow-2xl"
             role="dialog"
             aria-modal="true"
             aria-label="More navigation"
             onClick={(event) => event.stopPropagation()}
           >
-            <header className="zb-mobile-more-header">
+            <header className="sticky top-0 flex min-h-14 items-center justify-between border-b border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] px-4">
               <strong>More</strong>
               <button
                 type="button"
@@ -91,7 +91,7 @@ const menuItems = useMemo(
                 <X size={20} aria-hidden="true" />
               </button>
             </header>
-            <nav className="zb-mobile-more-links" aria-label="More destinations">
+            <nav className="grid gap-1 p-2" aria-label="More destinations">
               {moreItems.map((item) => {
                 const Icon = iconMap[item.icon] ?? ClipboardList;
                 return (
@@ -112,7 +112,7 @@ const menuItems = useMemo(
         </div>
       ) : null}
 
-      <nav className="zb-mobile-bottom-nav" aria-label="Main navigation">
+      <nav className="fixed inset-x-0 bottom-0 z-[900] grid grid-cols-6 gap-0.5 border-t border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] px-2 pt-2 pb-[calc(8px+env(safe-area-inset-bottom))] text-[var(--zb-colors-textSecondary)] md:hidden" aria-label="Main navigation">
         {primaryItems.map((item) => {
           const Icon = iconMap[item.icon] ?? ClipboardList;
           const active = isActive(item.route);
@@ -133,7 +133,7 @@ const menuItems = useMemo(
           type="button"
           className={moreOpen || moreItems.some((item) => isActive(item.route)) ? "is-active" : ""}
           aria-expanded={moreOpen}
-          aria-controls="zb-mobile-more-sheet"
+          aria-controls="max-h-[70dvh] w-full max-w-[480px] overflow-auto rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] text-[var(--zb-colors-text)] shadow-2xl"
           onClick={() => setMoreOpen((current) => !current)}
         >
           {moreOpen ? <X size={21} aria-hidden="true" /> : <Menu size={21} aria-hidden="true" />}

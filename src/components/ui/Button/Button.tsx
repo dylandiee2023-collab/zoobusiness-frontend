@@ -1,4 +1,4 @@
-import styles from "./Button.module.css";
+import { Button as DesignSystemButton } from "@/design-system/buttons";
 import type { ButtonProps } from "./Button.types";
 
 export function Button({
@@ -8,15 +8,13 @@ export function Button({
   className,
   ...props
 }: ButtonProps) {
-  const classes = [
-    styles.button,
-    styles[variant],
-    styles[size],
-    fullWidth ? styles.fullWidth : "",
-    className ?? "",
-  ]
-    .filter(Boolean)
-    .join(" ");
-
-  return <button className={classes} {...props} />;
+  return (
+    <DesignSystemButton
+      variant={variant}
+      size={size}
+      fullWidth={fullWidth}
+      className={className}
+      {...props}
+    />
+  );
 }

@@ -25,7 +25,6 @@ import {
   type DashboardSummary,
 } from "@/dashboard/services/dashboard-service";
 
-import "./DashboardPage.css";
 
 function formatMoney(value: number, currency: string): string {
   return new Intl.NumberFormat("en-TZ", {
@@ -53,11 +52,11 @@ function MetricChange({ value }: { value: number | null }) {
 
   return (
     <span
-      className={`dashboard-change ${positive ? "is-positive" : "is-negative"}`}
+      className={`inline-flex items-center gap-1 text-xs font-semibold ${positive ? "text-emerald-600" : "text-rose-600"}`}
     >
       <Icon size={16} aria-hidden="true" />
       {formatChange(value)}
-      <span className="dashboard-change-caption">vs yesterday</span>
+      <span className="text-xs text-[var(--zb-colors-textSecondary)]">vs yesterday</span>
     </span>
   );
 }
@@ -67,7 +66,6 @@ function MetricCard({
   value,
   change,
   icon,
-  tone,
 }: {
   title: string;
   value: string;
@@ -76,10 +74,10 @@ function MetricCard({
   tone: "green" | "blue" | "orange" | "purple";
 }) {
   return (
-    <article className="dashboard-metric-card">
-      <div className={`dashboard-metric-icon tone-${tone}`}>{icon}</div>
-      <p className="dashboard-metric-title">{title}</p>
-      <p className="dashboard-metric-value">{value}</p>
+    <article className="flex min-w-0 flex-col gap-2 rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-4">
+      <div className="grid h-10 w-10 place-items-center rounded-xl bg-[var(--zb-colors-surfaceSecondary)] text-[var(--zb-colors-primary)]">{icon}</div>
+      <p className="text-xs font-medium text-[var(--zb-colors-textSecondary)]">{title}</p>
+      <p className="text-2xl font-bold tracking-tight text-[var(--zb-colors-text)]">{value}</p>
       {change !== undefined ? <MetricChange value={change} /> : null}
     </article>
   );
@@ -87,8 +85,8 @@ function MetricCard({
 
 function SummaryLoading() {
   return (
-    <div className="dashboard-state" role="status">
-      <LoaderCircle className="dashboard-spinner" size={24} />
+    <div className="flex min-h-64 flex-col items-center justify-center gap-3 text-center text-sm text-[var(--zb-colors-textSecondary)]" role="status">
+      <LoaderCircle className="animate-spin text-[var(--zb-colors-primary)]" size={24} />
       <span>Loading your business summary…</span>
     </div>
   );
@@ -164,7 +162,7 @@ export function DashboardPage() {
   ) {
     return (
       <DashboardLayout>
-        <div className="dashboard-page">
+        <div className="mx-auto flex w-full max-w-[1600px] min-w-0 flex-col gap-6 p-4 text-[var(--zb-colors-text)] sm:p-6">
           <SummaryLoading />
         </div>
       </DashboardLayout>
@@ -173,30 +171,30 @@ export function DashboardPage() {
 
   return (
     <DashboardLayout>
-      <div className="dashboard-page">
+      <div className="mx-auto flex w-full max-w-[1600px] min-w-0 flex-col gap-6 p-4 text-[var(--zb-colors-text)] sm:p-6">
 {summary ? (
           <>
-            <div className="dashboard-insights-grid">
+            <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
             <section
-              className="dashboard-sales-panel"
+              className="min-w-0 rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-5"
               aria-labelledby="dashboard-sales-title"
             >
-              <div className="dashboard-sales-top">
+              <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <p className="dashboard-section-kicker">{t("today")}</p>
+                  <p className="text-xs font-bold uppercase tracking-wider text-[var(--zb-colors-primary)]">{t("today")}</p>
                   <h2 id="dashboard-sales-title">{t("totalSales")}</h2>
-                  <p className="dashboard-sales-total">
+                  <p className="my-2 text-3xl font-extrabold tracking-tight">
                     {formatMoney(summary.sales.today, currency)}
                   </p>
                   <MetricChange value={summary.sales.changePercent} />
                 </div>
-                <div className="dashboard-period-chip">
+                <div className="inline-flex items-center gap-2 rounded-full bg-[var(--zb-colors-surfaceSecondary)] px-3 py-2 text-xs font-semibold text-[var(--zb-colors-textSecondary)]">
                   <BarChart3 size={16} />
                   Last 7 days
                 </div>
               </div>
               <div
-                className="dashboard-chart"
+                className="mt-5 grid h-44 grid-cols-7 items-end gap-2 sm:gap-4"
                 role="img"
                 aria-label={t("salesTrendAria")}
               >
@@ -208,15 +206,15 @@ export function DashboardPage() {
                   const height = Math.max(5, (point.amount / maxTrend) * 100);
 
                   return (
-                    <div className="dashboard-chart-column" key={point.date}>
-                      <div className="dashboard-chart-bar-wrap">
+                    <div className="flex h-full min-w-0 flex-col items-center justify-end gap-2" key={point.date}>
+                      <div className="flex h-full w-full items-end justify-center">
                         <div
-                          className={`dashboard-chart-bar ${isToday ? "is-today" : ""}`}
+                          className={`w-full max-w-8 rounded-t-md bg-[var(--zb-colors-primary)] ${isToday ? "opacity-100" : "opacity-50"}`}
                           style={{ height: `${height}%` }}
                           title={`${point.date}: ${formatMoney(point.amount, currency)}`}
                         />
                       </div>
-                      <span className={isToday ? "is-today-label" : ""}>
+                      <span className={`text-[10px] ${isToday ? "font-bold text-[var(--zb-colors-primary)]" : "text-[var(--zb-colors-textSecondary)]"}`}>
                         {isToday ? "Today" : day}
                       </span>
                     </div>
@@ -224,22 +222,22 @@ export function DashboardPage() {
                 })}
 </div>
             </section>
-            <section className="dashboard-health-card" aria-labelledby="dashboard-health-title">
-              <div className="dashboard-health-copy">
-                <p className="dashboard-section-kicker">{t("businessHealth")}</p>
+            <section className="grid min-w-0 grid-cols-1 gap-4 rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-5 sm:grid-cols-2" aria-labelledby="dashboard-health-title">
+              <div className="min-w-0">
+                <p className="text-xs font-bold uppercase tracking-wider text-[var(--zb-colors-primary)]">{t("businessHealth")}</p>
                 <h2 id="dashboard-health-title">{t("stockAvailability")}</h2>
                 <p>Share of tracked items not currently flagged as low stock.</p>
               </div>
-              <div className="dashboard-health-visual">
-                <div className="dashboard-health-ring" style={{ "--health-score": `${stockAvailability ?? 0}%` } as CSSProperties}>
+              <div className="flex min-w-0 flex-col items-center justify-center gap-4">
+                <div className="grid h-32 w-32 place-items-center rounded-full border-[12px] border-[var(--zb-colors-primary)] bg-[var(--zb-colors-surface)] text-center" style={{ "--health-score": `${stockAvailability ?? 0}%` } as CSSProperties}>
                   <div><strong>{stockAvailability === null ? "—" : `${stockAvailability}%`}</strong><span>not low-stock</span></div>
                 </div>
-                <div className="dashboard-health-legend"><span><i className="health-good" />{t("notLowStock")}</span><span><i className="health-watch" />{t("lowStock")}</span></div>
+                <div className="flex flex-wrap justify-center gap-3 text-xs text-[var(--zb-colors-textSecondary)]"><span><i className="mr-1 inline-block h-2 w-2 rounded-full bg-[var(--zb-colors-primary)]" />{t("notLowStock")}</span><span><i className="mr-1 inline-block h-2 w-2 rounded-full bg-amber-500" />{t("lowStock")}</span></div>
               </div>
             </section>
             </div>
 
-            <section className="dashboard-metrics-grid" aria-label="Business metrics">
+            <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3" aria-label="Business metrics">
               <MetricCard title="Total sales" value={summary ? formatMoney(summary.sales.today, currency) : "—"} change={summary?.sales.changePercent} icon={<CircleDollarSign size={23} />} tone="green" />
               <MetricCard title="Orders today" value={summary ? formatNumber(summary.orders.today) : "—"} icon={<ShoppingCart size={23} />} tone="blue" />
               <MetricCard title="Total products" value={summary ? formatNumber(summary.inventory.products) : "—"} icon={<Package size={23} />} tone="orange" />
@@ -248,10 +246,10 @@ export function DashboardPage() {
               <MetricCard title="Expenses" value={summary ? formatMoney(summary.expenses.today, currency) : "—"} change={summary?.expenses.changePercent} icon={<ClipboardList size={23} />} tone="purple" />
             </section>
 
-            <section className="dashboard-detail-grid">
-              <article className="dashboard-detail-card">
-                <div className="dashboard-detail-heading">
-                  <span className="dashboard-detail-icon">
+            <section className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+              <article className="min-w-0 rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-5">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[var(--zb-colors-surfaceSecondary)] text-[var(--zb-colors-primary)]">
                     <Boxes size={20} />
                   </span>
                   <div>
@@ -259,7 +257,7 @@ export function DashboardPage() {
                     <p>{t("currentStockSnapshot")}</p>
                   </div>
                 </div>
-                <div className="dashboard-stock-stats">
+                <div className="grid grid-cols-2 gap-3">
                   <div>
                     <span>{t("trackedItems")}</span>
                     <strong>
@@ -284,9 +282,9 @@ export function DashboardPage() {
                   </div>
                 </div>
               </article>
-              <article className="dashboard-detail-card dashboard-expense-card">
-                <div className="dashboard-detail-heading">
-                  <span className="dashboard-detail-icon">
+              <article className="min-w-0 rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-5">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[var(--zb-colors-surfaceSecondary)] text-[var(--zb-colors-primary)]">
                     <CircleDollarSign size={20} />
                   </span>
                   <div>
@@ -294,13 +292,13 @@ export function DashboardPage() {
                     <p>{t("activeExpensesToday")}</p>
                   </div>
                 </div>
-                <strong className="dashboard-detail-total">
+                <strong className="text-2xl font-bold">
                   {formatMoney(summary.expenses.today, currency)}
                 </strong>
                 <MetricChange value={summary.expenses.changePercent} />
               </article>
             </section>
-            <p className="dashboard-data-note">
+            <p className="mt-4 rounded-lg bg-[var(--zb-colors-surfaceSecondary)] p-3 text-xs leading-relaxed text-[var(--zb-colors-textSecondary)]">
               Data from AutoBots · Updated{" "}
               {new Date(summary.generatedAt).toLocaleTimeString("en-TZ", {
                 hour: "2-digit",
@@ -311,33 +309,33 @@ export function DashboardPage() {
         ) : loading ? (
           <SummaryLoading />
         ) : (
-          <section className="dashboard-summary-shell" aria-label="Dashboard summary layout">
-            <div className="dashboard-insights-grid">
-            <section className="dashboard-sales-panel dashboard-shell-sales">
-              <div className="dashboard-sales-top">
+          <section className="mx-auto flex w-full max-w-[1600px] min-w-0 flex-col gap-5 p-4 sm:p-6" aria-label="Dashboard summary layout">
+            <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+            <section className="min-w-0 min-h-48 rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-5">
+              <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <p className="dashboard-section-kicker">{t("today")}</p>
+                  <p className="text-xs font-bold uppercase tracking-wider text-[var(--zb-colors-primary)]">{t("today")}</p>
                   <h2>{t("totalSales")}</h2>
-                  <p className="dashboard-sales-total">—</p>
-                  <p className="dashboard-shell-note">{t("summaryUnavailable")}</p>
+                  <p className="my-2 text-3xl font-extrabold tracking-tight">—</p>
+                  <p className="mt-3 text-sm text-[var(--zb-colors-textSecondary)]">{t("summaryUnavailable")}</p>
                 </div>
-                <div className="dashboard-period-chip"><BarChart3 size={16} />{t("last7Days")}</div>
+                <div className="inline-flex items-center gap-2 rounded-full bg-[var(--zb-colors-surfaceSecondary)] px-3 py-2 text-xs font-semibold text-[var(--zb-colors-textSecondary)]"><BarChart3 size={16} />{t("last7Days")}</div>
               </div>
-              <p className="dashboard-shell-note">{t("salesTrendUnavailable")}</p>
+              <p className="mt-3 text-sm text-[var(--zb-colors-textSecondary)]">{t("salesTrendUnavailable")}</p>
             </section>
-            <section className="dashboard-health-card" aria-labelledby="dashboard-health-title">
-              <div className="dashboard-health-copy">
-                <p className="dashboard-section-kicker">{t("businessHealth")}</p>
+            <section className="grid min-w-0 grid-cols-1 gap-4 rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-5 sm:grid-cols-2" aria-labelledby="dashboard-health-title">
+              <div className="min-w-0">
+                <p className="text-xs font-bold uppercase tracking-wider text-[var(--zb-colors-primary)]">{t("businessHealth")}</p>
                 <h2 id="dashboard-health-title">{t("stockAvailability")}</h2>
                 <p>{t("healthUnavailable")}</p>
               </div>
-              <div className="dashboard-health-visual">
-                <div className="dashboard-health-ring dashboard-health-ring-empty"><div><strong>—</strong><span>awaiting data</span></div></div>
-                <div className="dashboard-health-legend"><span><i className="health-good" />{t("notLowStock")}</span><span><i className="health-watch" />{t("lowStock")}</span></div>
+              <div className="flex min-w-0 flex-col items-center justify-center gap-4">
+                <div className="grid h-32 w-32 place-items-center rounded-full border-[12px] border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] text-center"><div><strong>—</strong><span>awaiting data</span></div></div>
+                <div className="flex flex-wrap justify-center gap-3 text-xs text-[var(--zb-colors-textSecondary)]"><span><i className="mr-1 inline-block h-2 w-2 rounded-full bg-[var(--zb-colors-primary)]" />{t("notLowStock")}</span><span><i className="mr-1 inline-block h-2 w-2 rounded-full bg-amber-500" />{t("lowStock")}</span></div>
               </div>
             </section>
             </div>
-            <section className="dashboard-metrics-grid" aria-label="Business metrics">
+            <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3" aria-label="Business metrics">
               <MetricCard title="Total sales" value="—" icon={<CircleDollarSign size={23} />} tone="green" />
               <MetricCard title="Available sales" value="—" icon={<ShoppingCart size={23} />} tone="blue" />
               <MetricCard title="Total products" value="—" icon={<Package size={23} />} tone="orange" />
@@ -348,9 +346,9 @@ export function DashboardPage() {
             
           </section>
         )}
-<section className="dashboard-quick-actions">
-          <div className="dashboard-quick-actions-heading"><h2>{t("quickActions")}</h2><span>{t("seeAll")}</span></div>
-          <div className="dashboard-quick-actions-grid">
+<section className="rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-5">
+          <div className="mb-4 flex items-center justify-between gap-3"><h2>{t("quickActions")}</h2><span>{t("seeAll")}</span></div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
             <button type="button" onClick={() => navigate("/products")}><Package size={26} /><strong>{t("addProduct")}</strong><span>{t("manageCatalogue")}</span></button>
             <button type="button" onClick={() => navigate("/ai-assistant")}><Bot size={26} /><strong>{t("aiAssistant")}</strong><span>{t("businessInsights")}</span></button>
             <button type="button" onClick={() => navigate("/pos")}><ShoppingCart size={26} /><strong>{t("newSale")}</strong><span>{t("openPointOfSale")}</span></button>
@@ -359,13 +357,13 @@ export function DashboardPage() {
             <button type="button" onClick={() => navigate("/reports")}><BarChart3 size={26} /><strong>{t("pageReports")}</strong><span>{t("reviewBusinessActivity")}</span></button>
           </div>
         </section>
-        <section className="dashboard-detail-card dashboard-recent-activity">
-          <div className="dashboard-detail-heading"><span className="dashboard-detail-icon"><RefreshCw size={20} /></span><div><h2>{t("recentActivity")}</h2><p>{t("latestBusinessEvents")}</p></div></div>
-          <p className="dashboard-placeholder-copy">{t("activityFeedUnavailable")}</p>
+        <section className="min-h-36 min-w-0 rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-5">
+          <div className="mb-4 flex items-center gap-3"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[var(--zb-colors-surfaceSecondary)] text-[var(--zb-colors-primary)]"><RefreshCw size={20} /></span><div><h2>{t("recentActivity")}</h2><p>{t("latestBusinessEvents")}</p></div></div>
+          <p className="mt-3 text-sm leading-relaxed text-[var(--zb-colors-textSecondary)]">{t("activityFeedUnavailable")}</p>
         </section>
-        <section className="dashboard-detail-card dashboard-analytics-placeholder">
-          <div className="dashboard-detail-heading"><span className="dashboard-detail-icon"><BarChart3 size={20} /></span><div><h2>{t("businessAnalytics")}</h2><p>{t("salesCustomerInventoryInsights")}</p></div></div>
-          <p className="dashboard-placeholder-copy">{t("additionalAnalytics")}</p>
+        <section className="min-h-36 min-w-0 rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-5">
+          <div className="mb-4 flex items-center gap-3"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[var(--zb-colors-surfaceSecondary)] text-[var(--zb-colors-primary)]"><BarChart3 size={20} /></span><div><h2>{t("businessAnalytics")}</h2><p>{t("salesCustomerInventoryInsights")}</p></div></div>
+          <p className="mt-3 text-sm leading-relaxed text-[var(--zb-colors-textSecondary)]">{t("additionalAnalytics")}</p>
         </section>
       </div>
     </DashboardLayout>

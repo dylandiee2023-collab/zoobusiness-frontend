@@ -5,7 +5,6 @@ import { DashboardLayout } from "@/layouts/dashboard";
 import { useLanguage } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
 
-import "./ModuleShellPage.css";
 
 const MODULES: Record<string, { title: string; group: string; description: string; tasks: string[] }> = {
   "/inventory": { title: "Inventory", group: "Main", description: "Track stock, stock movements, low-stock alerts and stock health.", tasks: ["Stock overview", "Stock movements", "Low-stock monitoring"] },
@@ -33,31 +32,31 @@ export function ModuleShellPage() {
 
   return (
     <DashboardLayout>
-      <div className="zb-module-shell-page">
-        <div className="zb-module-shell-heading">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-6 p-4 sm:p-6">
+        <div className="flex items-center justify-between gap-4 rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-5 sm:p-7">
           <div>
-            <p className="zb-module-shell-eyebrow">{t(groupKeys[module.group] ?? "groupWorkspace")}</p>
-            <h1>{t(titleKeys[location.pathname] ?? "pageWorkspace")}</h1>
-            <p>{module.description}</p>
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[var(--zb-colors-primary)]">{t(groupKeys[module.group] ?? "groupWorkspace")}</p>
+            <h1 className="text-2xl font-extrabold tracking-tight text-[var(--zb-colors-text)] sm:text-3xl">{t(titleKeys[location.pathname] ?? "pageWorkspace")}</h1>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[var(--zb-colors-textSecondary)]">{module.description}</p>
           </div>
-          <span className="zb-module-shell-mark"><Construction size={22} aria-hidden="true" /></span>
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[var(--zb-colors-surfaceSecondary)] text-[var(--zb-colors-primary)]"><Construction size={22} aria-hidden="true" /></span>
         </div>
-        <section className="zb-module-shell-notice">
-          <span className="zb-module-shell-notice-icon"><Construction size={18} aria-hidden="true" /></span>
-          <div><strong>{t("moduleShellReady")}</strong><p>{t("moduleShellBody")}</p></div>
+        <section className="flex items-start gap-3 rounded-xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-4">
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[var(--zb-colors-surfaceSecondary)] text-[var(--zb-colors-primary)]"><Construction size={18} aria-hidden="true" /></span>
+          <div className="min-w-0"><strong className="font-bold text-[var(--zb-colors-text)]">{t("moduleShellReady")}</strong><p className="mt-1 text-sm leading-relaxed text-[var(--zb-colors-textSecondary)]">{t("moduleShellBody")}</p></div>
         </section>
-        <div className="zb-module-shell-grid">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {module.tasks.map((task, index) => (
-            <article className="zb-module-shell-card" key={task}>
-              <span className="zb-module-shell-card-number">0{index + 1}</span>
-              <div className="zb-module-shell-skeleton wide" />
-              <div className="zb-module-shell-skeleton" />
-              <strong>{task}</strong>
-              <small>Placeholder — implementation not started</small>
+            <article className="flex min-w-0 flex-col gap-3 rounded-xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-5" key={task}>
+              <span className="text-xs font-bold tracking-widest text-[var(--zb-colors-primary)]">0{index + 1}</span>
+              <div className="h-3 w-full rounded bg-[var(--zb-colors-surfaceSecondary)]" />
+              <div className="h-3 w-2/3 rounded bg-[var(--zb-colors-surfaceSecondary)]" />
+              <strong className="font-semibold text-[var(--zb-colors-text)]">{task}</strong>
+              <small className="text-xs text-[var(--zb-colors-textSecondary)]">Placeholder — implementation not started</small>
             </article>
           ))}
         </div>
-        <Link className="zb-module-shell-back" to="/dashboard">{t("returnDashboard")} <ArrowUpRight size={16} /></Link>
+        <Link className="inline-flex w-fit items-center gap-2 rounded-lg border border-[var(--zb-colors-border)] px-4 py-2 text-sm font-semibold text-[var(--zb-colors-primary)] hover:bg-[var(--zb-colors-surfaceSecondary)]" to="/dashboard">{t("returnDashboard")} <ArrowUpRight size={16} /></Link>
       </div>
     </DashboardLayout>
   );

@@ -9,7 +9,6 @@ import { useResponsive } from "@/responsive";
 import { BottomNavigation } from "@/layouts/app-shell/components/bottom-navigation/BottomNavigation";
 
 import type { DashboardLayoutProps } from "./dashboard-layout.types";
-import "./dashboard-layout.css";
 import { dashboardLayoutStyles } from "./dashboard-layout.styles";
 
 function DashboardLayoutContent({ children }: DashboardLayoutProps) {
@@ -26,13 +25,13 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
 
   return (
     <div
-      className="dashboard-layout-root"
+      className="min-h-screen w-full overflow-hidden"
       data-sidebar-mode={state.mode}
-      style={{ ...dashboardLayoutStyles.root }}
+      style={{ ...dashboardLayoutStyles.root, background: "var(--zb-colors-background)", color: "var(--zb-colors-text)" }}
     >
       {!isMobile && state.mode !== "hidden" ? (
         <button
-          className="dashboard-layout-backdrop"
+          className="fixed inset-0 z-[65] border-0 bg-black/40"
           type="button"
           aria-label="Close navigation"
           onClick={() => undefined}
@@ -43,11 +42,11 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
       <main
         style={{
           ...dashboardLayoutStyles.content,
-          marginLeft: sidebarWidth,
+          marginLeft: isMobile ? 0 : sidebarWidth,
         }}
       >
         <TopBar />
-        <div style={dashboardLayoutStyles.main}>{children}</div>
+        <div style={{ ...dashboardLayoutStyles.main, paddingTop: isMobile ? 60 : 72, paddingBottom: isMobile ? 96 : 24 }}>{children}</div>
       </main>
 
       <BottomNavigation />

@@ -194,7 +194,7 @@ export class ApiClient implements ApiClientContract {
     }
 
     if (status === 403) {
-      return new ForbiddenError();
+      return new ForbiddenError(this.extractErrorMessage(data));
     }
 
     if (status === 404) {

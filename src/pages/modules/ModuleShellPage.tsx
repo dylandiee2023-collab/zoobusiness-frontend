@@ -5,7 +5,6 @@ import { DashboardLayout } from "@/layouts/dashboard";
 import { useLanguage } from "@/app/language";
 import { resolvePublicCopy } from "@/app/language/public-copy";
 
-import "./ModuleShellPage.css";
 
 const MODULES: Record<string, { title: string; group: string; description: string; tasks: string[] }> = {
   "/inventory": { title: "Inventory", group: "Main", description: "Track stock, stock movements, low-stock alerts and stock health.", tasks: ["Stock overview", "Stock movements", "Low-stock monitoring"] },

@@ -66,7 +66,6 @@ function MetricCard({
   value,
   change,
   icon,
-  tone,
 }: {
   title: string;
   value: string;

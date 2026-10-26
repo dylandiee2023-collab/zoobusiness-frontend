@@ -137,7 +137,7 @@ export function ProductsWorkspaceRebuild() {
   }
 
   const catalogueContent = (
-    <div className="zb-products-page">
+    <div className="flex w-full min-w-0 flex-col gap-5 overflow-x-hidden p-4 text-[var(--zb-colors-text)] sm:p-6">
 <header className="zb-products-header flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div className="space-y-2">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-green-700">CATALOGUE</p>
@@ -174,13 +174,13 @@ export function ProductsWorkspaceRebuild() {
             {loading ? <div className="zb-products-grid grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4" role="status">{Array.from({ length: 8 }, (_, index) => <div key={index} className="h-64 animate-pulse rounded-2xl border border-[var(--color-border)] bg-[var(--zb-colors-surface,#f7f8f7)]" />)}</div> :
               visibleProducts.length === 0 ? <Card padding="lg"><EmptyState icon={<Package size={28} />} heading={search || statusFilter !== "ALL" ? "No matching products" : "Your catalogue starts here"} description={search || statusFilter !== "ALL" ? "Try a different search or status filter." : "Add your first product to build your business catalogue."} /></Card> :
               <div className="zb-products-grid grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
-                {visibleProducts.map((product) => <article key={product.id} className="zb-product-card group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--zb-colors-surface,#fff)] transition-shadow hover:shadow-md">
-                  <div className="zb-product-image relative flex aspect-[4/3] items-center justify-center bg-[var(--zb-colors-background-subtle,#f3f5f3)]">
+                {visibleProducts.map((product) => <article key={product.id} className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] transition-shadow hover:shadow-md group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--zb-colors-surface,#fff)] transition-shadow hover:shadow-md">
+                  <div className="relative flex aspect-[4/3] items-center justify-center bg-[var(--zb-colors-surfaceSecondary)] relative flex aspect-[4/3] items-center justify-center bg-[var(--zb-colors-background-subtle,#f3f5f3)]">
                     <Package size={38} strokeWidth={1.3} className="opacity-25" />
                     <span className={"absolute left-2 top-2 rounded-full px-2 py-1 text-[10px] font-semibold " + (product.status === "ACTIVE" ? "bg-green-100 text-green-800" : "bg-[var(--zb-colors-surface,#fff)] opacity-70")}>{product.status.toLowerCase()}</span>
                     <button type="button" aria-label={"Add " + product.name + " to cart"} title="Add to cart" className="absolute bottom-2 right-2 flex h-9 w-9 items-center justify-center rounded-full bg-green-700 text-white shadow-sm transition hover:bg-green-800" onClick={() => setNotice("Cart actions will be available when product pricing and sales workflows are connected.")}><ShoppingCart size={16} /></button>
                   </div>
-                  <div className="zb-product-card-body flex flex-1 flex-col gap-2 p-3 sm:p-4">
+                  <div className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] transition-shadow hover:shadow-md-body flex flex-1 flex-col gap-2 p-3 sm:p-4">
                     <h2 className="line-clamp-2 text-sm font-semibold sm:text-base">{product.name}</h2>
                     <p className="truncate text-xs opacity-60">{product.sku || product.slug}</p>
                     <div className="mt-auto flex items-center justify-between gap-2 pt-2">
@@ -191,20 +191,20 @@ export function ProductsWorkspaceRebuild() {
                 </article>)}
               </div>}
           </section>
-      {!workspaceOpen ? <div className="zb-products-floating-actions"><button type="button" aria-label="AI product assistant" title="AI assistant" className="zb-products-ai-fab" onClick={() => setNotice("AI assistant is a visual entry point; connect the AI product service to enable generation.")}><Bot size={20} /></button><button type="button" aria-label="Add product" title="Add product" className="zb-products-add-fab" onClick={openWorkspace}><Plus size={25} /></button></div> : null}
+      {!workspaceOpen ? <div className="fixed bottom-24 right-4 z-30 flex flex-col items-center gap-3 sm:bottom-7 sm:right-6"><button type="button" aria-label="AI product assistant" title="AI assistant" className="inline-flex h-[46px] w-[46px] items-center justify-center rounded-full border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] text-[var(--zb-colors-text)] shadow-lg" onClick={() => setNotice("AI assistant is a visual entry point; connect the AI product service to enable generation.")}><Bot size={20} /></button><button type="button" aria-label="Add product" title="Add product" className="inline-flex h-[54px] w-[54px] items-center justify-center rounded-full border border-[var(--zb-colors-primary)] bg-[var(--zb-colors-primary)] text-white shadow-lg" onClick={openWorkspace}><Plus size={25} /></button></div> : null}
     </div>
   );
   const productFormContent = (
-    <div className="zb-product-form-shell">
-          <div className="zb-product-entry-grid grid grid-cols-1 items-start gap-6">
-            <form className="zb-product-form flex flex-col gap-5 rounded-2xl border border-[var(--color-border)] p-4 sm:p-6" onSubmit={(event) => void submitProduct(event)}>
+    <div className="min-w-0 p-3 sm:p-5">
+          <div className="grid min-w-0 grid-cols-1 items-start gap-6 grid grid-cols-1 items-start gap-6">
+            <form className="flex min-w-0 flex-col gap-5 rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-4 sm:p-6 flex flex-col gap-5 rounded-2xl border border-[var(--color-border)] p-4 sm:p-6" onSubmit={(event) => void submitProduct(event)}>
               {formError ? <Alert variant="danger" title="Product could not be saved">{formError}</Alert> : null}
-              <section className="zb-product-form-section space-y-4">
+              <section className="flex min-w-0 flex-col gap-5 rounded-2xl border border-[var(--zb-colors-border)] bg-[var(--zb-colors-surface)] p-4 sm:p-6-section space-y-4">
                 <h2 className="text-lg font-semibold">Basic information</h2>
                 <Field label="Product name" required><Input autoFocus required maxLength={255} value={form.name} onChange={(event) => setForm((old) => ({ ...old, name: event.target.value, slug: old.slug || slugify(event.target.value) }))} placeholder="e.g. Organic cocoa beans" fullWidth /></Field>
                 <Field label="Product slug" required><Input required pattern="[a-z0-9]+(-[a-z0-9]+)*" value={form.slug} onChange={(event) => setForm((old) => ({ ...old, slug: slugify(event.target.value) }))} placeholder="organic-cocoa-beans" fullWidth /></Field>
                 <Field label="SKU"><Input maxLength={100} value={form.sku} onChange={(event) => setForm((old) => ({ ...old, sku: event.target.value }))} placeholder="Internal product code" fullWidth /></Field>
-                <div className="zb-product-field-grid grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="flex min-w-0 flex-col gap-2 text-sm font-medium-grid grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <Field label="Category"><Select value={form.categoryId} options={[{ value: "", label: "Select category" }, ...categories.map((item) => ({ value: item.id, label: item.name }))]} onChange={(event) => setForm((old) => ({ ...old, categoryId: event.target.value }))} /></Field>
                   <Field label="Unit"><Select value={form.unitId} options={[{ value: "", label: "Select unit" }, ...units.map((item) => ({ value: item.id, label: item.code ? item.name + " (" + item.code + ")" : item.name }))]} onChange={(event) => setForm((old) => ({ ...old, unitId: event.target.value }))} /></Field>
                 </div>
@@ -214,11 +214,11 @@ export function ProductsWorkspaceRebuild() {
                 </div>
                 <Field label="Description"><Textarea value={form.description} onChange={(event) => setForm((old) => ({ ...old, description: event.target.value }))} placeholder="Product details, specifications and notes…" /></Field>
               </section>
-              <div className="zb-product-note rounded-xl bg-[var(--zb-colors-background-subtle,#f3f5f3)] p-4 text-sm">
+              <div className="rounded-xl bg-[var(--zb-colors-surfaceSecondary)] p-4 text-sm rounded-xl bg-[var(--zb-colors-background-subtle,#f3f5f3)] p-4 text-sm">
                 <p className="font-semibold">Stock and prices are separate workflows</p>
                 <p className="mt-1 opacity-70">Saving a product creates its catalogue record only. Use Purchase Orders and Receive Stock to record buying price, destination and received quantity; pricing is managed through the price service.</p>
               </div>
-              <div className="zb-product-form-actions flex flex-col-reverse gap-2 border-t border-[var(--color-border)] pt-4 sm:flex-row sm:justify-end">
+              <div className="flex flex-col-reverse gap-2 border-t border-[var(--zb-colors-border)] pt-4 sm:flex-row sm:justify-end flex flex-col-reverse gap-2 border-t border-[var(--color-border)] pt-4 sm:flex-row sm:justify-end">
                 <Button type="button" variant="outline" disabled={saving} onClick={closeWorkspace}>Cancel</Button>
                 <Button type="submit" loading={saving} disabled={saving}>Save product</Button>
               </div>
@@ -229,11 +229,11 @@ export function ProductsWorkspaceRebuild() {
     </div>
   );
   const productPreviewContent = (
-    <div className="zb-product-preview-shell">
-<aside className="zb-product-preview space-y-4 xl:sticky xl:top-6">
+    <div className="min-w-0 p-3 sm:p-5">
+<aside className="min-w-0 space-y-4 space-y-4 xl:sticky xl:top-6">
               <Card padding="none">
-                <div className="zb-product-preview-image flex aspect-[4/3] items-center justify-center bg-[var(--zb-colors-background-subtle,#f3f5f3)]"><ImagePlus size={52} strokeWidth={1.2} className="opacity-30" /></div>
-                <div className="zb-product-preview-body space-y-3 p-5">
+                <div className="min-w-0 space-y-4-image flex aspect-[4/3] items-center justify-center bg-[var(--zb-colors-background-subtle,#f3f5f3)]"><ImagePlus size={52} strokeWidth={1.2} className="opacity-30" /></div>
+                <div className="min-w-0 space-y-4-body space-y-3 p-5">
                   <p className="text-xs font-bold uppercase tracking-wider text-green-700">LIVE PREVIEW</p>
                   <h2 className="text-xl font-bold">{form.name.trim() || "Your product name"}</h2>
                   <p className="text-sm opacity-60">{form.sku.trim() || form.slug || "SKU / product slug"}</p>
@@ -247,7 +247,7 @@ export function ProductsWorkspaceRebuild() {
     </div>
   );
   const createWorkspaceContent = (
-    <div className="zb-products-page zb-products-create-workspace flex h-full min-h-0 flex-col gap-4 p-4 sm:p-6">
+    <div className="flex w-full min-w-0 flex-col gap-5 overflow-x-hidden p-4 text-[var(--zb-colors-text)] sm:p-6 flex h-full min-h-0 flex-col gap-4 p-4 sm:p-6 flex h-full min-h-0 flex-col gap-4 p-4 sm:p-6">
       <header className="flex items-center justify-between gap-3 border-b border-[var(--color-border)] pb-4">
         <div className="flex min-w-0 items-center gap-3">
           <Button type="button" variant="outline" disabled={saving} onClick={closeWorkspace}>Back to products</Button>
@@ -281,9 +281,9 @@ export function ProductsWorkspaceRebuild() {
 
   return (
     <DashboardLayout>
-      <Container className="zb-products-container" maxWidth="1600px" padding="0">
+      <Container className="w-full min-w-0" maxWidth="1600px" padding="0">
         <ContentShellViewport
-          className="zb-products-shell-viewport"
+          className="w-full min-w-0"
           shell1={workspaceOpen ? createWorkspaceContent : catalogueContent}
           renderShell2={(entry) => entry.id === "products.preview" ? productPreviewContent : null}
           renderShell3={() => null}
@@ -294,9 +294,9 @@ export function ProductsWorkspaceRebuild() {
 }
 
 function SummaryCard({ label, value, detail, icon }: { label: string; value: string | number; detail: string; icon?: ReactNode }) {
-  return <Card className="zb-summary-card" padding="md"><div className="flex items-start justify-between gap-2"><p className="text-xs font-medium opacity-65">{label}</p>{icon ? <span className="text-green-700">{icon}</span> : null}</div><p className="mt-3 text-2xl font-bold tracking-tight">{value}</p><p className="mt-1 text-xs opacity-60">{detail}</p></Card>;
+  return <Card className="h-full min-w-0" padding="md"><div className="flex items-start justify-between gap-2"><p className="text-xs font-medium opacity-65">{label}</p>{icon ? <span className="text-green-700">{icon}</span> : null}</div><p className="mt-3 text-2xl font-bold tracking-tight">{value}</p><p className="mt-1 text-xs opacity-60">{detail}</p></Card>;
 }
 
 function Field({ label, required, children }: { label: string; required?: boolean; children: ReactNode }) {
-  return <label className="zb-product-field flex min-w-0 flex-col gap-2 text-sm font-medium">{label}{required ? <span className="text-green-700">*</span> : null}{children}</label>;
+  return <label className="flex min-w-0 flex-col gap-2 text-sm font-medium flex min-w-0 flex-col gap-2 text-sm font-medium">{label}{required ? <span className="text-green-700">*</span> : null}{children}</label>;
 }
